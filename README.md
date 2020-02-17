@@ -13,10 +13,10 @@ around living documentation.
 |:-------------------------------------:|:-------------------------------:|:-----------------------------------:|:---------------------------------------------:|
 | [![i1][userdocs-image]][userdocs]<br>Learn more about using 7Facette | [![i2][getstarted-image]][get-started]<br> Getting started with 7Facette | [![i3][examples-image]][examples]<br>Some 7Facettee Examples | [![i4][contributing-image]][contributing]<br>How can you contribute to 7Facette? |
 
-[userdocs-image]:https://d3i6fms1cm1j0i.cloudfront.net/github/images/techdocs.png
-[getstarted-image]:https://d3i6fms1cm1j0i.cloudfront.net/github/images/setup.png
-[examples-image]:https://d3i6fms1cm1j0i.cloudfront.net/github/images/roadmap.png
-[contributing-image]:https://d3i6fms1cm1j0i.cloudfront.net/github/images/contributing.png
+[userdocs-image]:/misc/images/docs.png
+[getstarted-image]:/misc/images/setup.png
+[examples-image]:/misc/images/roadmap.png
+[contributing-image]:/misc/images/contributing.png
 
 [userdocs]:https://github.com/p7s1-ctf/SevenFacette/wiki
 [get-started]:https://github.com/p7s1-ctf/SevenFacette/wiki/Setup
@@ -24,7 +24,6 @@ around living documentation.
 [contributing]:CONTRIBUTING.md
 
 ## Questions or need help?
-----
 
 ### Troubleshooting
 
@@ -44,7 +43,42 @@ Please see below for the best place to ask a query:
 --- 
 ## Download
 
-## Maven Central
+### Repository
 
-## JFRog Bintray
+You can download 7Facette packages from JFRog Bintray or Maven Central
 
+#### JFrog Bintray
+
+```kotlin
+repositories {
+    JFRog bintray()... 
+}
+```
+
+#### Maven Central
+
+```kotlin
+repositories {
+    mavencentral() 
+}
+```
+
+### Packages
+
+#### Core
+
+```kotlin
+implementation("de.p7s1.qa:sevenfacette:core:0.1.0")
+```
+
+#### JVM
+
+```kotlin
+implementation("de.p7s1.qa:sevenfacette:core-jvm:0.1.0")
+```
+
+#### JS
+
+```kotlin
+implementation("de.p7s1.qa:sevenfacette:core-js:0.1.0")
+```
