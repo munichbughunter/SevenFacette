@@ -40,7 +40,6 @@ Please see below for the best place to ask a query:
 - Why do you? -- [7Facette Telegram Channel](https://t.me/SevenFacette)
 - When will you? -- [7Facette Telegram Channel](https://t.me/SevenFacette)
 
---- 
 ## Download
 
 ### Repository
