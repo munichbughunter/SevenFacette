@@ -1,0 +1,61 @@
+plugins {
+    id("kotlin-multiplatform")
+}
+repositories {
+    mavenCentral()
+    jcenter()
+    maven {url "https://dl.bintray.com/aakira/maven"}
+    maven {url "https://jitpack.io"}
+}
+
+kotlin {
+    targets {
+        fromPreset(presets.jvm, 'jvm')
+        fromPreset(presets.js, 'js')
+    }
+
+    sourceSets {
+        all {
+            languageSettings.useExperimentalAnnotation("kotlin.Experimental")
+        }
+        commonMain {
+            dependencies {
+
+                implementation 'org.jetbrains.kotlin:kotlin-stdlib-common'
+                implementation 'com.willowtreeapps.opentest4k:opentest4k:1.1.4'
+                implementation 'io.github.microutils:kotlin-logging-common:1.7.8'
+            }
+        }
+        jvmMain {
+            dependencies {
+                implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
+                implementation 'com.jayway.jsonpath:json-path:2.4.0'
+                implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.8'
+                implementation 'org.skyscreamer:jsonassert:1.5.0'
+                implementation 'io.github.microutils:kotlin-logging:1.7.8'
+            }
+        }
+
+        jsMain {
+            dependencies {
+                implementation 'org.jetbrains.kotlin:kotlin-stdlib-js'
+                api "com.willowtreeapps.opentest4k:opentest4k-js:1.1.4"
+                api "io.github.microutils:kotlin-logging-js:1.7.8"
+            }
+
+            compileKotlinJs {
+                kotlinOptions.metaInfo = true
+                kotlinOptions.sourceMap = true
+                kotlinOptions.suppressWarnings = true
+                kotlinOptions.verbose = true
+                kotlinOptions.main = "call"
+                kotlinOptions.moduleKind = "umd"
+            }
+        }
+    }
+}
+
+// workaround for https://youtrack.jetbrains.com/issue/KT-27170
+configurations {
+    compileClasspath
+}
