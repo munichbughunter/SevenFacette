@@ -8,3 +8,4 @@ gen/
 *.iml
 *.idea
 build/kotlin/compileKotlinMetadata/
+/buildSrc/.gradle/
