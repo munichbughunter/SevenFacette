@@ -6,9 +6,7 @@ The following is a set of guidelines for contributing to 7Facette and its packag
 
 #### Table Of Contents
 
-- [Contributing to 7Facette](#contributing-to-7facette)
-      - [Table Of Contents](#table-of-contents)
-  - [Code of Conduct](#code-of-conduct)
+- [Code of Conduct](#code-of-conduct)
   - [I don't want to read this whole thing I just have a question!!!](#i-dont-want-to-read-this-whole-thing-i-just-have-a-question)
   - [What should I know before I get started?](#what-should-i-know-before-i-get-started)
     - [7Facette and Modules](#7facette-and-modules)
