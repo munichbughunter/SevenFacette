@@ -6,7 +6,9 @@ The following is a set of guidelines for contributing to 7Facette and its packag
 
 #### Table Of Contents
 
-- [Code of Conduct](#code-of-conduct)
+- [Contributing to 7Facette](#contributing-to-7facette)
+      - [Table Of Contents](#table-of-contents)
+  - [Code of Conduct](#code-of-conduct)
   - [I don't want to read this whole thing I just have a question!!!](#i-dont-want-to-read-this-whole-thing-i-just-have-a-question)
   - [What should I know before I get started?](#what-should-i-know-before-i-get-started)
     - [7Facette and Modules](#7facette-and-modules)
@@ -63,7 +65,7 @@ There are a few conventions that have developed over time around modules:
 
 ### Design Decisions
 
-When we make a significant decision in how we maintain the project and what we can or cannot support, we will document it on [Discuss, the official 7Facette message board](https://discuss.7Facette.io). If you have a question around how we do things, check to see if it is documented there. If it is *not* documented there, please open a new discussion on the board and ask your question.
+When we make a significant decision in how we maintain the project and what we can or cannot support, we will document it on [Spectrum, the official 7Facette message board](https://spectrum.chat/7facette?tab=posts). If you have a question around how we do things, check to see if it is documented there. If it is *not* documented there, please open a new discussion on the board and ask your question.
 
 ## How Can I Contribute?
 
@@ -78,7 +80,7 @@ Before creating bug reports, please check [this list](#before-submitting-a-bug-r
 #### Before Submitting A Bug Report
 
 * **Check the [debugging guide](https://7Facette/debugging/ NOTWENDIG?).** You might be able to find the cause of the problem and fix things yourself. Most importantly, check if you can reproduce the problem [in the latest version of 7Facette](), if the problem happens when you run 7Facette, and if you can get the desired behavior by changing [7Facette packages or config settings]().
-* **Check the [FAQs on the forum](https://discuss.7Facette.io/c/faq)** for a list of common questions and problems.
+* **Check the [FAQs on the forum](https://spectrum.chat/7facette?tab=posts)** for a list of common questions and problems.
 * **Determine [which module the problem should be reported in](#7Facette-and-packages)**.
 * **Perform a [cursory search]()** to see if the problem has already been reported. If it has **and the issue is still open**, add a comment to the existing issue instead of opening a new one.
 
