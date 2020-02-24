@@ -13,3 +13,6 @@ build/kotlin/compileKotlinMetadata/
 common/*
 /buildSrc/.gradle/
 /.settings/
+/core-j/bin/
+/core-js/bin/
+/selenium-j/bin/
