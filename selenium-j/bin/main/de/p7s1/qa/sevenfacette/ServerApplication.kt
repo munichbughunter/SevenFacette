@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 class ServerApplication
 
 fun main(args: Array<String>) {
+    println(commonSharedCode(getPlatform()))
     val statement = DbStatements()
     statement.add("Hallo")
     statement.add("Flo")

@@ -1,13 +1,16 @@
 package de.p7s1.qa.sevenfacette
 
+import de.p7s1.qa.sevenfacette.db.DatabaseFactory
+import de.p7s1.qa.sevenfacette.kafka.KConsumer
+import de.p7s1.qa.sevenfacette.kafka.KProducer
 import de.p7s1.qa.sevenfacette.veritas.all
 import de.p7s1.qa.sevenfacette.veritas.verification.contains
-import de.p7s1.qa.sevenfacette.veritas.verification.containsExactly
+
 import de.p7s1.qa.sevenfacette.veritas.verification.hasLength
 import de.p7s1.qa.sevenfacette.veritas.verification.hasSize
 import de.p7s1.qa.sevenfacette.veritas.verification.isBoolean
 import de.p7s1.qa.sevenfacette.veritas.verification.isEqualTo
-import de.p7s1.qa.sevenfacette.veritas.verification.isEqualToIgnoringGivenProperties
+
 import de.p7s1.qa.sevenfacette.veritas.verification.isInt
 import de.p7s1.qa.sevenfacette.veritas.verification.isLessThan
 import de.p7s1.qa.sevenfacette.veritas.verification.isNullLiteral
@@ -20,10 +23,9 @@ import de.p7s1.qa.sevenfacette.veritas.verification.jsonNodeOf
 import de.p7s1.qa.sevenfacette.veritas.verification.jsonPath
 import de.p7s1.qa.sevenfacette.veritas.verification.startsWith
 import de.p7s1.qa.sevenfacette.veritas.verifyThat
-import org.apache.log4j.lf5.Log4JLogRecord
+
 import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.SpringBootApplication
-import kotlin.reflect.KProperty1
 
 @SpringBootApplication
 class ServerApplication
@@ -31,14 +33,26 @@ class ServerApplication
 fun main(args: Array<String>) {
     val logger = LoggerFactory.getLogger(ServerApplication::class.java)
 
+    // Start Database handling
+    val statements = DbStatements()
+    statements.add("SELECT * FROM role")
 
-    println(commonSharedCode(getPlatform()))
-    val statement = DbStatements()
-    statement.add("Hallo")
-    statement.add("Flo")
+    val ccDB = DatabaseFactory().init("org.postgresql.Driver","jdbc:postgresql://localhost:5432/test_cc", "ucp_cc", "cc4all")
 
-    println(statement.statements)
+    val result: List<Map<String, Any>>
+    result = DatabaseFactory().runStatements(statements, ccDB)
 
+    val pvvStatements = DbStatements()
+    pvvStatements.add("execute procedure disable_trigger('ton', 1);")
+    pvvStatements.add("Insert into ton (id, bezeichnung, kuerzel) VALUES (get_next_id('ton'),'SG UCP QA SIT Audio CREATE','S');")
+    pvvStatements.add("UPDATE ap_user_kst_log SET zugriffs_recht = zugriffs_recht;")
+
+    val pvvDB = DatabaseFactory().init("com.informix.jdbc.IfxDriver","jdbc:informix-sqli://pspmddbixstar01x:1528/pvv:INFORMIXSERVER=stargate1", "stargate", "3edc4rfv")
+
+    val resultPVV = DatabaseFactory().runStatements(pvvStatements, pvvDB)
+    // End Database Handling
+
+    // Start Assertion Handling
     verifyThat("Test").all {
         startsWith("T")
         hasLength(4)
@@ -92,4 +106,28 @@ fun main(args: Array<String>) {
         }
         jsonPath("$.corge.waldo").isString().isEqualTo("fff")
     }
+
+    // End Assertion Handling
+
+    // Start Kafka Handling
+
+    val kafka = KConsumer("BootstrapServer")
+    val topic = "kt-topic"
+
+    val consumer = KConsumer(topic)
+    Runtime.getRuntime().addShutdownHook(Thread(Runnable {
+        consumer.stop()
+    }))
+    consumer.consume {
+        println("got $it")
+    }
+
+    val producer = KProducer(topic)
+    (1..10).forEach {
+        val msg = "test message"
+        producer.send(msg)
+    }
+    producer.flush()
+
+    // End Kafka Handling
 }

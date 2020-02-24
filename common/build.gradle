@@ -20,19 +20,25 @@ kotlin {
         }
         commonMain {
             dependencies {
-
                 implementation 'org.jetbrains.kotlin:kotlin-stdlib-common'
-                implementation 'com.willowtreeapps.opentest4k:opentest4k:1.1.4'
+                api 'org.jetbrains.exposed:exposed-core:0.18.1'
+                api 'org.jetbrains.exposed:exposed-jdbc:0.18.1'
+                implementation 'com.willowtreeapps.opentest4k:opentest4k-common:1.1.0'
                 implementation 'io.github.microutils:kotlin-logging-common:1.7.8'
+                implementation 'org.postgresql:postgresql:42.2.5'
             }
         }
         jvmMain {
             dependencies {
+                api 'org.jetbrains.exposed:exposed-core:0.18.1'
+                api 'org.jetbrains.exposed:exposed-jdbc:0.18.1'
                 implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
                 implementation 'com.jayway.jsonpath:json-path:2.4.0'
                 implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.8'
                 implementation 'org.skyscreamer:jsonassert:1.5.0'
                 implementation 'io.github.microutils:kotlin-logging:1.7.8'
+                implementation 'com.willowtreeapps.opentest4k:opentest4k-jvm:1.1.4'
+                implementation 'org.apache.kafka:kafka-clients:2.0.0'
             }
         }
 

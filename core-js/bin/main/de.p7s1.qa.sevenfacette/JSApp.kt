@@ -12,7 +12,7 @@ fun main() {
     val logger = KotlinLogging.logger {  }
 
     logger.info { "Hello World!" }
-
+    println(commonSharedCode(getPlatform()))
     val statementForExecution = DbStatements()
     statementForExecution.add("statement")
     println(statementForExecution.statements)

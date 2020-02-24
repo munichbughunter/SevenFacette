@@ -5,7 +5,6 @@ buildscript {
         mavenCentral()
         jcenter()
         maven("https://plugins.gradle.org/m2/")
-
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${Versions.springBoot}")
@@ -28,12 +27,13 @@ version = "0.0.1"
 
 dependencies {
     api(project(":common"))
-
+    api(fileTree("lib/ifxjdbc.jar"))
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Versions.kotlin}")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("com.bugsnag:bugsnag-spring:${Versions.bugsnagJvm}")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+
 
     // Kafka
     implementation("org.apache.kafka:kafka-clients:2.0.0")
@@ -58,5 +58,5 @@ tasks.withType<Test> {
 tasks.withType(KotlinCompile::class.java).all {
     kotlinOptions.jvmTarget = "1.8"
     kotlinOptions.freeCompilerArgs =
-        listOf(*kotlinOptions.freeCompilerArgs.toTypedArray(), "-Xjsr305=strict")
+            listOf(*kotlinOptions.freeCompilerArgs.toTypedArray(), "-Xjsr305=strict")
 }

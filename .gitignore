@@ -1,4 +1,5 @@
 .gradle
+*.project
 /local.properties
 .DS_Store
 /build
@@ -8,4 +9,7 @@ gen/
 *.iml
 *.idea
 build/kotlin/compileKotlinMetadata/
+/common/build/
+common/*
 /buildSrc/.gradle/
+/.settings/
