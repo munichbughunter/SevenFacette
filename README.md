@@ -72,10 +72,10 @@ Context specific **Troubleshooting** guide is available in relevant pages of the
 
 ### Talk with us
 
-If the Wiki doesn't help, please see below for the best place to ask questions about 7Facette. Please don't file an issue to ask a question. You'll get faster answers by using the appropriate resource (see below).
+Please don't file an issue to ask a question, you'll get faster answers by using the appropriate resource (see below).
 
-- I got this error and I'm sure it's a bug -- create an [issue](https://github.com/p7s1-ctf/SevenFacette/issues)
 - I need help -- [7Facette help channel @ Spektrum.chat](https://spectrum.chat/7facette/help?tab=posts)
+- I got this error and I'm sure it's a bug -- create an [issue](https://github.com/p7s1-ctf/SevenFacette/issues)
 - I have an idea/request -- create an [issue](https://github.com/p7s1-ctf/SevenFacette/issues) using our [template](https://github.com/p7s1-ctf/SevenFacette/blob/documentation/create_readme/misc/templates/ISSUE_TEMPLATE/Feature_Request.md)
 - Why do you? -- [7Facette Spectrum.chat](https://spectrum.chat/7facette)
 - When will you? -- [7Facette Spectrum.chat](https://spectrum.chat/7facette)
