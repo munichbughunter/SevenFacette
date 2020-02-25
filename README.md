@@ -18,7 +18,7 @@ around living documentation.
 [contributing-image]:/misc/images/contributing.png
 
 [userdocs]:https://github.com/p7s1-ctf/SevenFacette/wiki
-[get-started]:https://github.com/p7s1-ctf/SevenFacette/wiki/Setup
+[get-started]:https://github.com/p7s1-ctf/SevenFacette/wiki/Getting-Started
 [examples]:https://github.com/p7s1-ctf/SevenFacette/wiki/Examples
 [contributing]:CONTRIBUTING.md
 
@@ -74,9 +74,8 @@ Context specific **Troubleshooting** guide is available in relevant pages of the
 
 Please see below for the best place to ask a query:
 
-- How do I? -- [7Facette Telegram Channel](https://t.me/SevenFacette)
-- I got this error, why? -- [7Facette Telegram Channel](https://t.me/SevenFacette)
 - I got this error and I'm sure it's a bug -- create an [issue](https://github.com/p7s1-ctf/SevenFacette/issues)
-- I have an idea/request -- create an [issue](https://github.com/p7s1-ctf/SevenFacette/issues)
-- Why do you? -- [7Facette Telegram Channel](https://t.me/SevenFacette)
-- When will you? -- [7Facette Telegram Channel](https://t.me/SevenFacette)
+- I need help -- [7Facette help channel @ Spektrum.chat](https://spectrum.chat/7facette/help?tab=posts)
+- I have an idea/request -- create an [issue](https://github.com/p7s1-ctf/SevenFacette/issues) using our [template](https://github.com/p7s1-ctf/SevenFacette/blob/documentation/create_readme/misc/templates/ISSUE_TEMPLATE/Feature_Request.md)
+- Why do you? -- [7Facette Spectrum.chat](https://spectrum.chat/7facette)
+- When will you? -- [7Facette Spectrum.chat](https://spectrum.chat/7facette)
