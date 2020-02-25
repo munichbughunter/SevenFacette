@@ -19,7 +19,7 @@ around living documentation.
 
 [userdocs]:https://github.com/p7s1-ctf/SevenFacette/wiki
 [get-started]:https://github.com/p7s1-ctf/SevenFacette/wiki/Getting-Started
-[examples]:https://github.com/p7s1-ctf/SevenFacette/wiki/Examples
+[examples]:https://github.com/p7s1-ctf/SevenFacette/wiki
 [contributing]:CONTRIBUTING.md
 
 ## Download
