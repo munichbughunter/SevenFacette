@@ -16,6 +16,6 @@ pluginManagement {
 
 include(
         ":core",
-        ":core-js",
-        ":core-j"
+        ":example-js",
+        ":example-jvm"
 )
