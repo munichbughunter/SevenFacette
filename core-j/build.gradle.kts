@@ -26,7 +26,7 @@ group = "de.p7s1.qa.sevenfacette"
 version = "0.0.1"
 
 dependencies {
-    api(project(":common"))
+    api(project(":core"))
     api(fileTree("lib/ifxjdbc.jar"))
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Versions.kotlin}")
     implementation("org.jetbrains.kotlin:kotlin-reflect")

@@ -15,8 +15,7 @@ pluginManagement {
 }
 
 include(
-        ":common",
+        ":core",
         ":core-js",
-        ":core-j",
-        ":selenium-j"
+        ":core-j"
 )
