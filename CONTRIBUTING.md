@@ -39,10 +39,6 @@ The following is a set of guidelines for contributing to 7Facette and its packag
 
 This project and everyone participating in it is governed by the [7Facette Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. 
 
-## I don't want to read this whole thing I just have a question!!!
-
-> **Note:** Please don't file an issue to ask a question. You'll get faster results by using the resources below.
-
 ## What should I know before I get started?
 
 ### 7Facette and Modules
