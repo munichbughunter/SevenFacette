@@ -37,7 +37,7 @@ fun main(args: Array<String>) {
     val statements = DbStatements()
     statements.add("SELECT * FROM role")
 
-    val ccDB = DatabaseFactory().init("org.postgresql.Driver","jdbc:postgresql://localhost:5432/test_cc", "ucp_cc", "cc4all")
+    val ccDB = DatabaseFactory().init("org.postgresql.Driver","jdbc:postgresql://localhost:5432/test_db", "user", "pw")
 
     val result: List<Map<String, Any>>
     result = DatabaseFactory().runStatements(statements, ccDB)
@@ -47,7 +47,7 @@ fun main(args: Array<String>) {
     pvvStatements.add("Insert into ton (id, bezeichnung, kuerzel) VALUES (get_next_id('ton'),'SG UCP QA SIT Audio CREATE','S');")
     pvvStatements.add("UPDATE ap_user_kst_log SET zugriffs_recht = zugriffs_recht;")
 
-    val pvvDB = DatabaseFactory().init("com.informix.jdbc.IfxDriver","jdbc:informix-sqli://pspmddbixstar01x:1528/pvv:INFORMIXSERVER=stargate1", "stargate", "3edc4rfv")
+    val pvvDB = DatabaseFactory().init("com.informix.jdbc.IfxDriver","url", "user", "pw")
 
     val resultPVV = DatabaseFactory().runStatements(pvvStatements, pvvDB)
     // End Database Handling
