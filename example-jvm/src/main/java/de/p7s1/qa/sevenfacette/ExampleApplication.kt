@@ -143,12 +143,7 @@ fun main(args: Array<String>) {
         println("got $it")
     }
 
-
-
-
     consumer.stop()
-
-
 
     // End Kafka Handling
 }
