@@ -1,7 +1,7 @@
 # Welcome to 7Facette
 
 
-7Facette is an open-source multiplatform test automation library for Kotlin with support for Kotlin Native, JVM and JS. It is designed to provide a structure
+7Facette is an open-source multiplatform test automation library written in Kotlin with support for Kotlin Native, JVM and JS. It is designed to provide a structure
 for developing higher quality automated acceptance and regression tests easier, faster and of course with more fun. So your team can hit the ground running 
 and not have to waste time needlessly building and maintaining their own framework. It`s ideal for agile software delivery teams who want to collaborate
 around living documentation. 
@@ -18,8 +18,8 @@ around living documentation.
 [contributing-image]:/misc/images/contributing.png
 
 [userdocs]:https://github.com/p7s1-ctf/SevenFacette/wiki
-[get-started]:https://github.com/p7s1-ctf/SevenFacette/wiki/Setup
-[examples]:https://github.com/p7s1-ctf/SevenFacette/wiki/Examples
+[get-started]:https://github.com/p7s1-ctf/SevenFacette/wiki/Getting-Started
+[examples]:https://github.com/p7s1-ctf/SevenFacette/wiki
 [contributing]:CONTRIBUTING.md
 
 ## Download
@@ -72,11 +72,10 @@ Context specific **Troubleshooting** guide is available in relevant pages of the
 
 ### Talk with us
 
-Please see below for the best place to ask a query:
+Please don't file an issue to ask a question, you'll get faster answers by using the appropriate resource (see below).
 
-- How do I? -- [7Facette Telegram Channel](https://t.me/SevenFacette)
-- I got this error, why? -- [7Facette Telegram Channel](https://t.me/SevenFacette)
+- I need help -- [7Facette help channel @ Spektrum.chat](https://spectrum.chat/7facette/help?tab=posts)
 - I got this error and I'm sure it's a bug -- create an [issue](https://github.com/p7s1-ctf/SevenFacette/issues)
-- I have an idea/request -- create an [issue](https://github.com/p7s1-ctf/SevenFacette/issues)
-- Why do you? -- [7Facette Telegram Channel](https://t.me/SevenFacette)
-- When will you? -- [7Facette Telegram Channel](https://t.me/SevenFacette)
+- I have an idea/request -- create an [issue](https://github.com/p7s1-ctf/SevenFacette/issues) using our [template](https://github.com/p7s1-ctf/SevenFacette/blob/documentation/create_readme/misc/templates/ISSUE_TEMPLATE/Feature_Request.md)
+- Why do you? -- [7Facette Spectrum.chat](https://spectrum.chat/7facette)
+- When will you? -- [7Facette Spectrum.chat](https://spectrum.chat/7facette)

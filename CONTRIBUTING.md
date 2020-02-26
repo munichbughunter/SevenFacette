@@ -39,10 +39,6 @@ The following is a set of guidelines for contributing to 7Facette and its packag
 
 This project and everyone participating in it is governed by the [7Facette Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. 
 
-## I don't want to read this whole thing I just have a question!!!
-
-> **Note:** Please don't file an issue to ask a question. You'll get faster results by using the resources below.
-
 ## What should I know before I get started?
 
 ### 7Facette and Modules
@@ -182,59 +178,29 @@ While the prerequisites above must be satisfied prior to having your pull reques
 * Reference issues and pull requests liberally after the first line
 * When only changing documentation, include `[ci skip]` in the commit title
 * Consider starting the commit message with an applicable emoji:
-    * :art: `:art:` when improving the format/structure of the code
-    * :racehorse: `:racehorse:` when improving performance
-    * :non-potable_water: `:non-potable_water:` when plugging memory leaks
-    * :memo: `:memo:` when writing docs
-    * :bug: `:bug:` when fixing a bug
-    * :fire: `:fire:` when removing code or files
-    * :green_heart: `:green_heart:` when fixing the CI build
-    * :white_check_mark: `:white_check_mark:` when adding tests
-    * :arrow_up: `:arrow_up:` when upgrading dependencies
-    * :arrow_down: `:arrow_down:` when downgrading dependencies
-    * :shirt: `:shirt:` when removing warnings
+    * :art: `:art:` code structure
+    * :racehorse: `:racehorse:` performance
+    * :non-potable_water: `:non-potable_water:` memory leaks
+    * :memo: `:memo:` docs
+    * :bug: `:bug:` bugs
+    * :fire: `:fire:` remove
+    * :green_heart: `:green_heart:` fix CI build
+    * :white_check_mark: `:white_check_mark:` tests
+    * :arrow_up: `:arrow_up:` upgrading dependencies
+    * :arrow_down: `:arrow_down:` downgrading dependencies
+    * :shirt: `:shirt:` removing warnings
 
 ### Kotlin Styleguide
 
-All Java code must adhere to [Google Java Style Guide](https://google.github.io/styleguide/javaguide.html).
+todo / not decided 
 
 ### Test Styleguide
 
-- Include thoughtfully-worded, well-structured [JUnit](https://junit.org/) tests in the `./test` folder.
-
-#### Example
-
-```coffee
-describe 'a dog', ->
- it 'barks', ->
- # spec here
- describe 'when the dog is happy', ->
-  it 'wags its tail', ->
-  # spec here
-```
+todo / not decided as of yet
 
 ### Documentation Styleguide
 
-* Use [Java Doc](https://daringfireball.net/projects/markdown).
-* Reference methods and classes in markdown with the custom `{}` notation:
-    * Reference classes with `{ClassName}`
-    * Reference instance methods with `{ClassName::methodName}`
-    * Reference class methods with `{ClassName.methodName}`
-
-#### Example
-
-```coffee
-# Public: Disable the package with the given name.
-#
-# * `name`    The {String} name of the package to disable.
-# * `options` (optional) The {Object} with disable options (default: {}):
-#   * `trackTime`     A {Boolean}, `true` to track the amount of time taken.
-#   * `ignoreErrors`  A {Boolean}, `true` to catch and ignore errors thrown.
-# * `callback` The {Function} to call after the package has been disabled.
-#
-# Returns `undefined`.
-disablePackage: (name, options, callback) ->
-```
+todo / not decided as of yet
 
 ## Additional Notes
 

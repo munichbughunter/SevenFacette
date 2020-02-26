@@ -1,23 +1,15 @@
 package de.p7s1.qa.sevenfacette.http;
 
-public class httpClient extends GenericHttpClient {
+public class OffsetClient extends GenericHttpClient {
   private String basePath = "http://www.google.de";
 
-  public void get() {
-    httpClient.get(basePath);
+  public OffsetClient() {
+    super();
   }
 
-  public OffsetClient(RestServiceAuth auth) {
-    super(auth);
+  public void executeGet() {
+    get(this.basePath);
   }
-
-  private String basePath = "https://offsetreset-generic.sg.pke.fhm.de/api/v1/";
-
-  public void get() {
-    this.get(basePath);
-    this.suspendedGet(basePath);
-  }
-
 }
 
 

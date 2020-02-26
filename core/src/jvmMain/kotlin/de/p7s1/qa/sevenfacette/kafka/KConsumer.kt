@@ -20,12 +20,43 @@ class KConsumer (topic: String) {
     @Volatile
     var keepGoing = true
 
+    var username = "f79z35t6"
+    var password = "TVJN359WjKNeL32KDGGc0c9MT77ng0FF"
+    var jaasTemplate = "org.apache.kafka.common.security.scram.ScramLoginModule required username=\"%s\" password=\"%s\";"
+    var jaasCfg = String.format(jaasTemplate, username, password)
+    // KAFKA_SASL_USERNAME=sg.qa.dev
+    //KAFKA_SASL_PASSWORD=YAQWcPPhlyfeIhTKYoDnhkGubSYkMnIDABikoSDxpBGevUeyCcDKSWGsfNbRpauI
+// this.topic = username + "-default";
+//
+//        String jaasTemplate = "org.apache.kafka.common.security.scram.ScramLoginModule required username=\"%s\" password=\"%s\";";
+//        String jaasCfg = String.format(jaasTemplate, username, password);
+//
+//        String serializer = StringSerializer.class.getName();
+//        String deserializer = StringDeserializer.class.getName();
+//        props = new Properties();
+//        props.put("bootstrap.servers", brokers);
+//        props.put("group.id", username + "-consumer");
+//        props.put("enable.auto.commit", "true");
+//        props.put("auto.commit.interval.ms", "1000");
+//        props.put("auto.offset.reset", "earliest");
+//        props.put("session.timeout.ms", "30000");
+//        props.put("key.deserializer", deserializer);
+//        props.put("value.deserializer", deserializer);
+//        props.put("key.serializer", serializer);
+//        props.put("value.serializer", serializer);
+//        props.put("security.protocol", "SASL_SSL");
+//        props.put("sasl.mechanism", "SCRAM-SHA-256");
+//        props.put("sasl.jaas.config", jaasCfg);
     init {
         val config = Properties()
-        config[ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG] = "kafka.bootstrapServers"
+        config[ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG] = "moped-01.srvs.cloudkafka.com:9094"
         config[ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG] = StringDeserializer::class.java
         config[ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG] = StringDeserializer::class.java
-        config[ConsumerConfig.GROUP_ID_CONFIG] = UUID.randomUUID().toString()
+        config[ConsumerConfig.GROUP_ID_CONFIG] = "$username-consumer"
+        config["security.protocol"] = "SASL_SSL"
+        config["sasl.mechanism"] = "SCRAM-SHA-256"
+        config["sasl.jaas.config"] = jaasCfg
+
         kConsumer = KafkaConsumer<String, String>(config).apply {
             subscribe(listOf(topic))
         }
