@@ -14,13 +14,13 @@ expect open class GenericHttpClient() {
     fun auth(auth: RestServiceAuth): GenericHttpClient
     fun url(url: Url): GenericHttpClient
 
-    fun post(path: String, content: String, headers: httpHeader): httpResponse
-    fun postByteArray(path: String, content: ByteArray, headers: httpHeader): httpResponse
+    fun post(path: String, content: String, headers: HttpHeader): HttpResponse
+    fun postByteArray(path: String, content: ByteArray, headers: HttpHeader): HttpResponse
 
-    fun put(path: String, content: String, headers: httpHeader): httpResponse
-    fun putByteArray(path: String, content: ByteArray, headers: httpHeader): httpResponse
+    fun put(path: String, content: String, headers: HttpHeader): HttpResponse
+    fun putByteArray(path: String, content: ByteArray, headers: HttpHeader): HttpResponse
 
-    fun get(path: String, headers: httpHeader): httpResponse
+    fun get(path: String, headers: HttpHeader): HttpResponse
 
-    fun delete(path: String, headers: httpHeader): httpResponse
+    fun delete(path: String, headers: HttpHeader): HttpResponse
 }

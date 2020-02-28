@@ -5,7 +5,7 @@ import io.ktor.client.statement.readText
 import io.ktor.util.toMap
 import kotlinx.coroutines.runBlocking
 
-actual class httpResponse actual constructor(response: HttpResponse) {
+actual class HttpResponse actual constructor(response: HttpResponse) {
     actual val body: String
     actual val status: Int
     actual val headers: Map<String, List<String>>

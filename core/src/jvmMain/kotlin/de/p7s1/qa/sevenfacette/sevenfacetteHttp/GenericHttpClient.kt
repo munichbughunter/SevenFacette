@@ -27,37 +27,37 @@ actual open class GenericHttpClient actual constructor() {
         return this
     }
 
-    actual fun post(path: String, content: String, headers: httpHeader): httpResponse {
+    actual fun post(path: String, content: String, headers: HttpHeader): HttpResponse {
         return this.executeRequest(HttpMethod.Post, path, content, headers)
     }
 
-    actual fun postByteArray(path: String, content: ByteArray, headers: httpHeader): httpResponse {
+    actual fun postByteArray(path: String, content: ByteArray, headers: HttpHeader): HttpResponse {
         TODO()
     }
 
-    actual fun put(path: String, content: String, headers: httpHeader): httpResponse {
+    actual fun put(path: String, content: String, headers: HttpHeader): HttpResponse {
         TODO()
     }
 
-    actual fun putByteArray(path: String, content: ByteArray, headers: httpHeader): httpResponse {
+    actual fun putByteArray(path: String, content: ByteArray, headers: HttpHeader): HttpResponse {
         TODO()
     }
 
-    actual fun delete(path: String, headers: httpHeader): httpResponse {
+    actual fun delete(path: String, headers: HttpHeader): HttpResponse {
         return this.executeRequest<Unit>(HttpMethod.Delete, path, null, headers)
     }
 
-    actual fun get(path: String, headers: httpHeader): httpResponse {
+    actual fun get(path: String, headers: HttpHeader): HttpResponse {
         return this.executeRequest<Unit>(HttpMethod.Get, path, null, headers)
     }
 
-    private inline fun <reified T> executeRequest(useMethod: HttpMethod, usePath: String, useContent: T?, useHeaders: httpHeader): httpResponse {
-        val facetteResponses = mutableListOf<httpResponse>()
+    private inline fun <reified T> executeRequest(useMethod: HttpMethod, usePath: String, useContent: T?, useHeaders: HttpHeader): HttpResponse {
+        val facetteResponses = mutableListOf<HttpResponse>()
         val fullPath = this.url.path(usePath).create()
 
         runBlocking {
             launch {
-                facetteResponses.add(httpResponse(client.request{
+                facetteResponses.add(HttpResponse(client.request{
                     url(fullPath)
 
                     method = useMethod

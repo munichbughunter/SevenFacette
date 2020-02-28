@@ -21,27 +21,27 @@ actual open class GenericHttpClient {
         TODO("not implemented")
     }
 
-    actual fun post(path: String, content: String, headers: httpHeader): httpResponse {
+    actual fun post(path: String, content: String, headers: HttpHeader): HttpResponse {
         TODO("not implemented")
     }
 
-    actual fun postByteArray(path: String, content: ByteArray, headers: httpHeader): httpResponse {
+    actual fun postByteArray(path: String, content: ByteArray, headers: HttpHeader): HttpResponse {
         TODO("not implemented")
     }
 
-    actual fun put(path: String, content: String, headers: httpHeader): httpResponse {
+    actual fun put(path: String, content: String, headers: HttpHeader): HttpResponse {
         TODO("not implemented")
     }
 
-    actual fun putByteArray(path: String, content: ByteArray, headers: httpHeader): httpResponse {
+    actual fun putByteArray(path: String, content: ByteArray, headers: HttpHeader): HttpResponse {
         TODO("not implemented")
     }
 
-    actual fun get(path: String, headers: httpHeader): httpResponse {
+    actual fun get(path: String, headers: HttpHeader): HttpResponse {
         TODO("not implemented")
     }
 
-    actual fun delete(path: String, headers: httpHeader): httpResponse {
+    actual fun delete(path: String, headers: HttpHeader): HttpResponse {
         TODO("not implemented")
     }
 }
