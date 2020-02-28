@@ -1,16 +1,13 @@
 package de.p7s1.qa.sevenfacette.db
 
 import de.p7s1.qa.sevenfacette.DbStatements
+import de.p7s1.qa.sevenfacette.config.RestServiceAuth
 import de.p7s1.qa.sevenfacette.helper.FileLoader
-import java.io.BufferedReader
-import java.io.IOException
-import java.io.UncheckedIOException
-import java.util.*
+import de.p7s1.qa.sevenfacette.sevenfacetteHttp.GenericHttpClient
+import de.p7s1.qa.sevenfacette.utils.Files
 
-class ScriptReader(sqlScript: String) {
-    private lateinit var scriptPath: String
-    private var fileLoader: FileLoader? = null
-    private var scriptParser = ScriptParser()
+
+class ScriptReader() {
     private val COMMENT_LINE_CODE = "//"
     private val COMMENT_LINE_SQL = "--"
     private val COMMENT_BLOCK_START = "/*"
@@ -20,26 +17,26 @@ class ScriptReader(sqlScript: String) {
 
     private var blockCommentActive = false
 
-    fun getStatements(): DbStatements? {
-        val fileContent = ScriptReader::class.java.getResource("/database/cc/test.sql").readText()
-
-        return parseScript(fileContent)
+    fun getStatements(sqlScript: String): DbStatements? {
+        val statementList = Files().getResourceStream(sqlScript)
+        return parseScript(statementList)
     }
 
-    fun parseScript(fileContent: String): DbStatements? {
+    private fun parseScript(statementList: List<String>): DbStatements? {
         val statements = DbStatements()
         var command = StringBuilder()
-        val trimmedStatement = trimStatement(fileContent)
-        if (trimmedStatement.length > 0) {
-            command.append(trimmedStatement)
-            if (trimmedStatement.endsWith(DELIMITER)) {
-                statements.add(command.toString())
-                command = StringBuilder()
-            } else {
-                command.append(" ")
+        statementList.forEach {
+            val trimmedStatement = trimStatement(it)
+            if (trimmedStatement.length > 0) {
+                command.append(trimmedStatement)
+                if (trimmedStatement.endsWith(DELIMITER)) {
+                    statements.add(command.toString())
+                    command = StringBuilder()
+                } else {
+                    command.append(" ")
+                }
             }
         }
-        
         return statements
     }
 
