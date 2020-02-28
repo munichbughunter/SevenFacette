@@ -31,32 +31,19 @@ class ServerApplication
 fun main(args: Array<String>) {
     val logger = LoggerFactory.getLogger(ServerApplication::class.java)
 
-//    val fileContent = ServerApplication::class.java.getResource("/database/cc/selectAudio.sql").readText()
-    //this.pvvReader = ScriptReader(dbConfig.getPVV_Scripts())
     val reader:ScriptReader = ScriptReader("/database/cc/test.sql")
     val content = reader.getStatements()
 
-    //val loadedStatement = loader.getResourceFiles("./resources/database/cc/", "selectAudio.sql")
-    //println(loadedStatement)
+
 
 
     // Start Database handling
-    val statements = DbStatements()
-    statements.add("SELECT * FROM role")
 
-    val ccDB = DatabaseFactory().init("org.postgresql.Driver","jdbc:postgresql://localhost:5432/testdb", "user", "pw")
+    val postGresDB = DatabaseFactory().init("org.postgresql.Driver","jdbc:postgresql://localhost:5432/testdb", "user", "pw")
 
-    val result: List<Map<String, Any>>
-    result = DatabaseFactory().runStatements(statements, ccDB)
+    val informixDB = DatabaseFactory().init("com.informix.jdbc.IfxDriver","db", "user", "pw")
 
-    val pvvStatements = DbStatements()
-    pvvStatements.add("execute procedure disable_trigger('ton', 1);")
-    pvvStatements.add("Insert into ton (id, bezeichnung, kuerzel) VALUES (get_next_id('ton'),'SG UCP QA SIT Audio CREATE','S');")
-    pvvStatements.add("UPDATE ap_user_kst_log SET zugriffs_recht = zugriffs_recht;")
-
-    val pvvDB = DatabaseFactory().init("com.informix.jdbc.IfxDriver","db", "user", "pw")
-
-    val resultPVV = DatabaseFactory().runStatements(pvvStatements, pvvDB)
+    //val resultPVV = DatabaseFactory().runStatements(statements, informixDB)
     // End Database Handling
 
     // Start Assertion Handling
