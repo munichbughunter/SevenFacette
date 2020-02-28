@@ -1,18 +1,15 @@
 package de.p7s1.qa.sevenfacette
 
 import de.p7s1.qa.sevenfacette.db.DatabaseFactory
-import de.p7s1.qa.sevenfacette.helper.FileLoader
-import de.p7s1.qa.sevenfacette.http.OffsetClient
+import de.p7s1.qa.sevenfacette.db.ScriptReader
 import de.p7s1.qa.sevenfacette.kafka.KConsumer
 import de.p7s1.qa.sevenfacette.kafka.KProducer
 import de.p7s1.qa.sevenfacette.veritas.all
 import de.p7s1.qa.sevenfacette.veritas.verification.contains
-
 import de.p7s1.qa.sevenfacette.veritas.verification.hasLength
 import de.p7s1.qa.sevenfacette.veritas.verification.hasSize
 import de.p7s1.qa.sevenfacette.veritas.verification.isBoolean
 import de.p7s1.qa.sevenfacette.veritas.verification.isEqualTo
-
 import de.p7s1.qa.sevenfacette.veritas.verification.isInt
 import de.p7s1.qa.sevenfacette.veritas.verification.isLessThan
 import de.p7s1.qa.sevenfacette.veritas.verification.isNullLiteral
@@ -25,10 +22,8 @@ import de.p7s1.qa.sevenfacette.veritas.verification.jsonNodeOf
 import de.p7s1.qa.sevenfacette.veritas.verification.jsonPath
 import de.p7s1.qa.sevenfacette.veritas.verification.startsWith
 import de.p7s1.qa.sevenfacette.veritas.verifyThat
-
 import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.SpringBootApplication
-import java.io.File
 
 @SpringBootApplication
 class ServerApplication
@@ -36,11 +31,10 @@ class ServerApplication
 fun main(args: Array<String>) {
     val logger = LoggerFactory.getLogger(ServerApplication::class.java)
 
-    val client: OffsetClient = OffsetClient()
-    client.executeGet()
-
-
-
+//    val fileContent = ServerApplication::class.java.getResource("/database/cc/selectAudio.sql").readText()
+    //this.pvvReader = ScriptReader(dbConfig.getPVV_Scripts())
+    val reader:ScriptReader = ScriptReader("/database/cc/test.sql")
+    val content = reader.getStatements()
 
     //val loadedStatement = loader.getResourceFiles("./resources/database/cc/", "selectAudio.sql")
     //println(loadedStatement)
