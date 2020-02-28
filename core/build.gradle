@@ -23,8 +23,8 @@ kotlin {
                 implementation 'org.jetbrains.kotlin:kotlin-stdlib'
                 implementation 'org.jetbrains.kotlin:kotlin-stdlib-common'
 
-                api 'org.jetbrains.exposed:exposed-core:0.18.1'
-                api 'org.jetbrains.exposed:exposed-jdbc:0.18.1'
+                implementation 'org.jetbrains.exposed:exposed-core:0.20.1'
+                implementation 'org.jetbrains.exposed:exposed-jdbc:0.20.1'
 
                 implementation 'com.willowtreeapps.opentest4k:opentest4k-common:1.1.0'
 
