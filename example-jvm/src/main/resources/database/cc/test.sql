@@ -1,14 +1,14 @@
-execute procedure disable_trigger('aufn_absp_form', 1);
-INSERT INTO aufn_absp_form(
+execute procedure disable_trigger('table', 1);
+INSERT INTO table(
 id,
 bezeichnung,
-verhaeltnis,
+description,
 sdonly,
 widescreen)
 VALUES(
-6000010,
-'SG UCP QA SIT CREATE AspectRatio',
-42.1,
+123456,
+'Table Bezeichnung',
+'That is my cool description',
 1,
 0);
 UPDATE ap_user_kst_log SET zugriffs_recht = zugriffs_recht;
