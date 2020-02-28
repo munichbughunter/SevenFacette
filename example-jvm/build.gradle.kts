@@ -37,14 +37,17 @@ dependencies {
     implementation("io.confluent:kafka-avro-serializer:${Versions.kafkaAvro}")
 
     // Testing
-    testCompile("org.junit.jupiter:junit-jupiter-api:5.6.0")
-    testCompile("org.junit.jupiter:junit-jupiter-engine:5.6.0")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.0")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.6.0")
+
 }
 
-//tasks.withType<Test> {
-//    useJUnitPlatform()
-//}
-
+tasks.test {
+    useJUnitPlatform()
+    testLogging {
+        events("passed", "skipped", "failed")
+    }
+}
 
 //tasks.withType(KotlinCompile::class.java).all {
 //    kotlinOptions.jvmTarget = "1.8"
