@@ -1,0 +1,13 @@
+services:
+  - name: "testService"
+    baseUrl: ""
+    auth:
+      type: BASIC
+      username: ""
+      password: ""
+  - name: "testService 2"
+    baseUrl: ""
+    auth:
+      type: BASIC
+      username: ""
+      password: ""

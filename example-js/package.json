@@ -1,0 +1,8 @@
+{
+  "name": "js-app",
+  "version": "0.0.1",
+  "description": "Example of using NodeJS in Kotlin",
+  "dependencies": {
+    "kotlin": "^1.3.61"
+  }
+}
