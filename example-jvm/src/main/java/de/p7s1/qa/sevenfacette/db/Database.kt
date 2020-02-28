@@ -1,6 +1,5 @@
 package de.p7s1.qa.sevenfacette.db
 
-import de.p7s1.qa.sevenfacette.DbStatements
 import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.SQLException

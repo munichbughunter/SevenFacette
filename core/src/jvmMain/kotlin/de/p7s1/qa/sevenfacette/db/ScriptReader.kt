@@ -1,9 +1,5 @@
 package de.p7s1.qa.sevenfacette.db
 
-import de.p7s1.qa.sevenfacette.DbStatements
-import de.p7s1.qa.sevenfacette.config.RestServiceAuth
-import de.p7s1.qa.sevenfacette.helper.FileLoader
-import de.p7s1.qa.sevenfacette.sevenfacetteHttp.GenericHttpClient
 import de.p7s1.qa.sevenfacette.utils.Files
 
 

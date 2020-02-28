@@ -1,4 +1,4 @@
-package de.p7s1.qa.sevenfacette
+package de.p7s1.qa.sevenfacette.db
 
 import org.slf4j.LoggerFactory
 

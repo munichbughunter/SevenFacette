@@ -1,4 +1,4 @@
-package de.p7s1.qa.sevenfacette
+package de.p7s1.qa.sevenfacette.db
 
 actual class DbStatements {
     actual val statements: MutableList<String> = mutableListOf()
