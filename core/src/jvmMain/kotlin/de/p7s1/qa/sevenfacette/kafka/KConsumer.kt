@@ -20,7 +20,6 @@ class KConsumer (topic: String) {
     @Volatile
     var keepGoing = true
 
-
     init {
         val config = Properties()
 
@@ -38,11 +37,16 @@ class KConsumer (topic: String) {
         kConsumer.use { kc ->
             while (keepGoing) {
                 kc.poll(Duration.ofSeconds(60))?.forEach {
-                    handler(it?.value() ?: "???")
+                    //handler(it?.value() ?: "???")
+                    collectMessage(it.value())
                 }
             }
         }
     }).start()
+
+    fun stop() {
+        keepGoing = false
+    }
 
     fun configure(expectedMessageCount: Int,
                   pattern: String?,
@@ -60,6 +64,23 @@ class KConsumer (topic: String) {
                 .stream()
                 .filter { message: String -> message.contains(streamIndex) }
                 .forEach { message: String? -> collectMessage(message!!) }
+    }
+
+    private fun collectMessage(message: String) {
+        if (pattern.isEmpty()) {
+            intermediateList.add(message)
+            // ToDo Add logging
+            return
+        }
+        if (latch.count == 0L) {
+            stop()
+            return
+        }
+        if (message.contains(pattern) || pattern == "*") {
+            messageList.add(message)
+            // ToDo Add logging
+            latch.countDown()
+        }
     }
 
     fun getAllMessages(): List<String?>? {
@@ -88,25 +109,5 @@ class KConsumer (topic: String) {
         }
         // ToDo: Add Logging
         return messageList.isNotEmpty()
-    }
-
-    private fun collectMessage(message: String) {
-        if (pattern.isEmpty()) {
-            intermediateList.add(message)
-            // ToDo Add logging
-            return
-        }
-        if (latch.count == 0L) {
-            return
-        }
-        if (message.contains(pattern) || pattern == "*") {
-            messageList.add(message)
-            // ToDo Add logging
-            latch.countDown()
-        }
-    }
-
-    fun stop() {
-        keepGoing = false
     }
 }
