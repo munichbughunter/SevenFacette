@@ -22,8 +22,11 @@ import de.p7s1.qa.sevenfacette.veritas.verification.jsonNodeOf
 import de.p7s1.qa.sevenfacette.veritas.verification.jsonPath
 import de.p7s1.qa.sevenfacette.veritas.verification.startsWith
 import de.p7s1.qa.sevenfacette.veritas.verifyThat
+import org.apache.kafka.clients.producer.ProducerConfig
+import org.apache.kafka.common.serialization.StringSerializer
 import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import java.util.*
 
 @SpringBootApplication
 class ServerApplication
@@ -103,7 +106,11 @@ fun main(args: Array<String>) {
     // Start Kafka Handling
     val topic = "f79z35t6-default"
 
-    val producer = KProducer(topic)
+    val config = Properties()
+    config[ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG] = StringSerializer::class.java
+    config[ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG] = StringSerializer::class.java
+
+    val producer = KProducer(topic, config)
     (1..10).forEach {
         val msg = "test message"
         producer.send(msg)
