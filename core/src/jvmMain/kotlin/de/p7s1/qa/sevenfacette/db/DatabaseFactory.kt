@@ -1,6 +1,5 @@
 package de.p7s1.qa.sevenfacette.db
 
-import de.p7s1.qa.sevenfacette.DbStatements
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.transactions.TransactionManager
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -10,8 +9,10 @@ import java.util.concurrent.atomic.*
 
 
 class DatabaseFactory {
+    private val select = "select"
+    private val emptyValue = "NULL"
 
-    fun init(driver: String, url: String, user: String, pw: String) : Database{
+    fun init(driver: String, url: String, user: String, pw: String) : Database {
         return Database.connect(url, driver, user, pw)
     }
 
@@ -20,7 +21,7 @@ class DatabaseFactory {
         transaction(db) {
             val entryCounter = AtomicInteger(1)
             dbStatements.list.forEach {
-                if (it.toLowerCase().startsWith("select")) {
+                if (it.toLowerCase().startsWith(select)) {
                     TransactionManager.current().exec(it) { rs ->
                         result = convertResultSetToList(rs)
                     }
@@ -41,7 +42,7 @@ class DatabaseFactory {
                 val row: MutableMap<String, Any> = HashMap(columns)
                 for (i in 1..columns) {
                     if (rs.getObject(i) == null) {
-                        row[md.getColumnName(i)] = "NULL"
+                        row[md.getColumnName(i)] = emptyValue
                     } else {
                         row[md.getColumnName(i)] = rs.getObject(i)
                     }

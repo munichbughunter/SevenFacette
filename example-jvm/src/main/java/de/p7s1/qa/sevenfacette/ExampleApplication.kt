@@ -31,11 +31,8 @@ class ServerApplication
 fun main(args: Array<String>) {
     val logger = LoggerFactory.getLogger(ServerApplication::class.java)
 
-    val reader:ScriptReader = ScriptReader("/database/cc/test.sql")
-    val content = reader.getStatements()
-
-
-
+    // Reading SQL-Scripts from Resources
+    val content = ScriptReader().getStatements("/database/cc/test.sql")
 
     // Start Database handling
 
