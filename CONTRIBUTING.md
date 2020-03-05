@@ -48,7 +48,6 @@ This project and everyone participating in it is governed by the [7Facette Code 
 7Facette is intentionally very modular. Here's a list of our actual modules:
 
 * [7Facette/core](https://github.com/7Facette/core) - 7Facette Core! The core component is responsible for . 
-* [7Facette/web](https://github.com/7Facette/) - the web testing package with selenium.
 
 This list should be a good starting point. For more information on how to work with 7Facette's official packages, see [Contributing to 7Facette Packages][contributing-to-official-7Facette-packages].
 
