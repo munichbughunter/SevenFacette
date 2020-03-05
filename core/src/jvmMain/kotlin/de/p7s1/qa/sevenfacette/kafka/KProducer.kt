@@ -1,32 +1,19 @@
 package de.p7s1.qa.sevenfacette.kafka
 
-import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.producer.KafkaProducer
-import org.apache.kafka.clients.producer.ProducerConfig
 import org.apache.kafka.clients.producer.ProducerRecord
-import org.apache.kafka.common.serialization.StringDeserializer
-import org.apache.kafka.common.serialization.StringSerializer
 import java.util.Properties
 
-
-class KProducer (private val topic: String) {
-    private val kProducer: KafkaProducer<String, String>
-
-
-
-    init {
-        val config = Properties()
-
-        config[ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG] = StringSerializer::class.java
-        config[ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG] = StringSerializer::class.java
-
-
-        kProducer = KafkaProducer(config)
-    }
+// ToDo: Think about again....? Make this sense?
+class KProducer constructor(private var topic: String, private var config: Properties) {
+    private val kProducer: KafkaProducer<String, String> = KafkaProducer(config)
 
     fun send(msg: String) {
-        kProducer.send(ProducerRecord(topic, msg))
+        // ToDo: Add logging
+        kProducer.send(ProducerRecord(this.topic, msg))
     }
 
     fun flush() = kProducer.flush()
+
+    fun getTopic(): String = this.topic
 }
