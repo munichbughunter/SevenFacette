@@ -1,93 +1,57 @@
 package de.p7s1.qa.sevenfacette.kafka
 
+import de.p7s1.qa.sevenfacette.kafka.SaslSecurityProtocol.SSL
+import org.apache.kafka.clients.consumer.Consumer
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.consumer.KafkaConsumer
 import org.apache.kafka.common.serialization.StringDeserializer
 import java.time.Duration
-import java.util.*
-import java.util.concurrent.*
+import java.util.Properties
+import java.util.UUID
+import java.util.concurrent.CountDownLatch
 
-class KConsumer (topic: String) {
-    private val kConsumer: KafkaConsumer<String, String>
+class KConsumer (private val topic: String, expectedMessageCount: Int,
+                 private var pattern: String,
+                 private val latchWaitTime: Int)
+{
+    private val consumer = createConsumer()
     private val intermediateList: MutableList<String> = mutableListOf()
     private val messageList: MutableList<String> = mutableListOf()
-    private var pattern: String = ""
-    private var latch = CountDownLatch(1)
-    private var latchWaitTime = 0
-    private var expectedMessageCount = 1
-
+    private var latch = CountDownLatch(expectedMessageCount)
 
     @Volatile
     var keepGoing = true
 
-
-    init {
-        val config = Properties()
-
-
+    private fun createConsumer() : Consumer<String, String> {
+        var config = Properties()
+        // ToDo: That should come from the config
+        config[ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG] = System.getenv("BOOT_STRAP_SERVER")
+        config[ConsumerConfig.GROUP_ID_CONFIG] = UUID.randomUUID().toString()
         config[ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG] = StringDeserializer::class.java
         config[ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG] = StringDeserializer::class.java
-
-        kConsumer = KafkaConsumer<String, String>(config).apply {
-            subscribe(listOf(topic))
-        }
+        // ToDo: That should come from the config
+        config[ConsumerConfig.AUTO_OFFSET_RESET_CONFIG] = System.getenv("AUTO_OFFSET")
+        // ToDo: THE SSL should also come from the config
+        config = SaslConfiguration.addSaslProperties(config, SSL)
+        return KafkaConsumer<String, String>(config)
     }
 
-    fun consume(handler: (value: String) -> Unit) = Thread(Runnable {
-        keepGoing = true
-        kConsumer.use { kc ->
+    fun consume() {
+        consumer.subscribe(listOf(topic))
+        println("Consuming and processing data")
+
+        consumer.use { kc ->
             while (keepGoing) {
-                kc.poll(Duration.ofSeconds(60))?.forEach {
-                    handler(it?.value() ?: "???")
+                kc.poll(Duration.ofSeconds(latchWaitTime.toLong())).forEach {
+                    collectMessage(it.value())
                 }
+                stop()
             }
         }
-    }).start()
-
-    fun configure(expectedMessageCount: Int,
-                  pattern: String?,
-                  streamIndex: String,
-                  latchWaitTime: Int) {
-        this.latchWaitTime = latchWaitTime
-        this.expectedMessageCount = expectedMessageCount
-        if ("" != streamIndex) {
-            this.pattern = streamIndex
-        } else {
-            this.pattern = pattern!!
-        }
-        latch = CountDownLatch(expectedMessageCount)
-        intermediateList
-                .stream()
-                .filter { message: String -> message.contains(streamIndex) }
-                .forEach { message: String? -> collectMessage(message!!) }
     }
 
-    fun getAllMessages(): List<String?>? {
-        try {
-            latch.await(latchWaitTime.toLong(), TimeUnit.MILLISECONDS)
-        } catch (e: InterruptedException) {
-            throw RuntimeException(e)
-        }
-        return messageList
-    }
-
-    fun getLastMessage(): String? {
-        try {
-            latch.await(latchWaitTime.toLong(), TimeUnit.MILLISECONDS)
-        } catch (e: InterruptedException) {
-            throw RuntimeException(e)
-        }
-        return messageList[messageList.size - 1]
-    }
-
-    fun hasMessage(): Boolean {
-        try {
-            latch.await(latchWaitTime.toLong(), TimeUnit.MILLISECONDS)
-        } catch (e: InterruptedException) {
-            throw RuntimeException(e)
-        }
-        // ToDo: Add Logging
-        return messageList.isNotEmpty()
+    fun stop() {
+        keepGoing = false
     }
 
     private fun collectMessage(message: String) {
@@ -97,16 +61,36 @@ class KConsumer (topic: String) {
             return
         }
         if (latch.count == 0L) {
-            return
+            return stop()
         }
+        // ToDo: Validate that
         if (message.contains(pattern) || pattern == "*") {
             messageList.add(message)
             // ToDo Add logging
             latch.countDown()
+            checkLatch()
         }
     }
 
-    fun stop() {
-        keepGoing = false
+    private fun checkLatch() {
+        if (latch.count == 0L) {
+            stop()
+        }
+    }
+
+    fun getMessageCount() : Int {
+        return messageList.size
+    }
+
+    fun getAllMessages(): List<String?>? {
+        return messageList
+    }
+
+    fun getLastMessage(): String? {
+        return messageList[messageList.size - 1]
+    }
+
+    fun hasMessage(): Boolean {
+        return messageList.isNotEmpty()
     }
 }

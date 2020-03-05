@@ -103,32 +103,16 @@ fun main(args: Array<String>) {
 
     // End Assertion Handling
 
-    // Start Kafka Handling
-    val topic = "f79z35t6-default"
+    // Start Kafka Handling Producer
+    val topic = "MyCoolKafkaTopic"
+    val kafkaProducer = KProducer(topic)
+    // Get Producer topic
+    println(kafkaProducer.getTopic())
 
-    val config = Properties()
-    config[ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG] = StringSerializer::class.java
-    config[ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG] = StringSerializer::class.java
-
-    val producer = KProducer(topic, config)
-    (1..10).forEach {
-        val msg = "test message"
-        producer.send(msg)
-    }
-    producer.flush()
-
-    val kafka = KConsumer("f79z35t6-default")
-
-
-    val consumer = KConsumer(topic)
-    Runtime.getRuntime().addShutdownHook(Thread(Runnable {
-        consumer.stop()
-    }))
-    consumer.consume {
-        println("got $it")
-    }
-
-    consumer.stop()
-
+    // Start Kafka Handling Consumer
+    val kafkaConsumer = KConsumer(topic, 10, "*", 30)
+    kafkaConsumer.consume()
+    println(kafkaConsumer.getMessageCount())
+    println(kafkaConsumer.getAllMessages())
     // End Kafka Handling
 }
