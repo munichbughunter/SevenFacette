@@ -22,8 +22,11 @@ import de.p7s1.qa.sevenfacette.veritas.verification.jsonNodeOf
 import de.p7s1.qa.sevenfacette.veritas.verification.jsonPath
 import de.p7s1.qa.sevenfacette.veritas.verification.startsWith
 import de.p7s1.qa.sevenfacette.veritas.verifyThat
+import org.apache.kafka.clients.producer.ProducerConfig
+import org.apache.kafka.common.serialization.StringSerializer
 import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import java.util.*
 
 @SpringBootApplication
 class ServerApplication
@@ -105,13 +108,6 @@ fun main(args: Array<String>) {
     val kafkaProducer = KProducer(topic)
     // Get Producer topic
     println(kafkaProducer.getTopic())
-    /*
-    (1..10).forEach { it ->
-        val msg = "test"
-        producer.send(msg)
-    }
-    producer.flush()
-     */
 
     // Start Kafka Handling Consumer
     val kafkaConsumer = KConsumer(topic, 10, "*", 30)
