@@ -44,4 +44,12 @@ actual open class GenericHttpClient {
     actual fun delete(path: String, headers: HttpHeader): HttpResponse {
         TODO("not implemented")
     }
+
+    actual fun postMultiPart(path: String, content: MultipartBody, header: HttpHeader): HttpResponse {
+        TODO("not implemented")
+    }
+
+    actual fun putMultiPart(path: String, content: MultipartBody, headers: HttpHeader): HttpResponse {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }
