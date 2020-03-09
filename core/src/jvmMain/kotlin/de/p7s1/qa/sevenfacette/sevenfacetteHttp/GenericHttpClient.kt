@@ -91,7 +91,7 @@ actual open class GenericHttpClient actual constructor() {
         return when(T::class) {
             String::class, Unit::class -> TextContent(content as String, ContentType.Application.Json)
             ByteArray::class -> ByteArrayContent(content as ByteArray)
-            MultipartBody::class -> MultipartBody.create()
+            MultipartBody::class -> MultipartBody().create()
             else -> throw Error("Content not supported")
         }
     }
