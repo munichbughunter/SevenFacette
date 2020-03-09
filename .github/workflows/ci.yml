@@ -24,7 +24,7 @@ jobs:
     - name: Publish 7Facette artifacts
       env:
         USERNAME: ${{ github.actor }}
-        PASSWORD: $ {{ secrets.GITHUB_TOKEN }}
+        PASSWORD: $ {{ secrets.Deploy_ACTOR }}
       # The GITHUB_REF tag comes in the format 'refs/tags/xxx'.
       # So if we split on '/' and take the 3rd value, we can get the release name.
       run: |
