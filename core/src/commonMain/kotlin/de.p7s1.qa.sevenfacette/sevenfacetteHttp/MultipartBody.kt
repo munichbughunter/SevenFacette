@@ -5,22 +5,24 @@ import io.ktor.http.content.PartData
 import kotlin.jvm.JvmStatic
 
 class MultipartBody {
-    companion object {
-        val multipartData = mutableListOf<MultiPartData<*>>()
+    val multipartData = mutableListOf<MultiPartData<*>>()
 
-        @JvmStatic
-        inline fun <reified T> add(name: String, content: T) {
-            multipartData.add(MultiPartData(name, content))
-        }
+    fun addStringPart(name: String, content: String): MultipartBody {
+        multipartData.add(MultiPartData(name, content))
+        return this
+    }
 
-        @JvmStatic
-        fun create(): List<PartData> = formData {
-            multipartData.forEach {
-                when(it.value!!::class) {
-                    String::class ->  append(it.name, it.value as String)
-                    ByteArray::class -> append(it.name, it.value as ByteArray)
-                    else -> println("Contenttype ${it.value::class} currently not implemented")
-                }
+    fun addByteArrayPart(name: String, content: ByteArray): MultipartBody {
+        multipartData.add(MultiPartData(name, content))
+        return this
+    }
+
+    fun create(): List<PartData> = formData {
+        multipartData.forEach {
+            when(it.value!!::class) {
+                String::class ->  append(it.name, it.value as String)
+                ByteArray::class -> append(it.name, it.value as ByteArray)
+                else -> println("Contenttype ${it.value::class} currently not implemented")
             }
         }
     }
