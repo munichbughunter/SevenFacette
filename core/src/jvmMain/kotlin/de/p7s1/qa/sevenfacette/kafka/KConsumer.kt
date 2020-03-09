@@ -1,6 +1,7 @@
 package de.p7s1.qa.sevenfacette.kafka
 
 import de.p7s1.qa.sevenfacette.kafka.SaslSecurityProtocol.SSL
+import kotlinx.coroutines.withTimeoutOrNull
 import org.apache.kafka.clients.consumer.Consumer
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.consumer.KafkaConsumer
@@ -11,8 +12,8 @@ import java.util.UUID
 import java.util.concurrent.CountDownLatch
 
 class KConsumer (private val topic: String, expectedMessageCount: Int,
-                 private var pattern: String,
-                 private val latchWaitTime: Int)
+                  private var pattern: String,
+                  private val latchWaitTime: Int)
 {
     private val consumer = createConsumer()
     private val intermediateList: MutableList<String> = mutableListOf()
@@ -36,7 +37,10 @@ class KConsumer (private val topic: String, expectedMessageCount: Int,
         return KafkaConsumer<String, String>(config)
     }
 
+
+
     fun consume() {
+
         consumer.subscribe(listOf(topic))
         println("Consuming and processing data")
 
