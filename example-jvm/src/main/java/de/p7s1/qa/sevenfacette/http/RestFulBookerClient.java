@@ -1,9 +1,6 @@
 package de.p7s1.qa.sevenfacette.http;
 
-import de.p7s1.qa.sevenfacette.sevenfacetteHttp.GenericHttpClient;
-import de.p7s1.qa.sevenfacette.sevenfacetteHttp.Url;
-import de.p7s1.qa.sevenfacette.sevenfacetteHttp.HttpHeader;
-import de.p7s1.qa.sevenfacette.sevenfacetteHttp.HttpResponse;
+import de.p7s1.qa.sevenfacette.sevenfacetteHttp.*;
 
 public class RestFulBookerClient extends GenericHttpClient {
   public RestFulBookerClient() {
@@ -24,6 +21,10 @@ public class RestFulBookerClient extends GenericHttpClient {
 
   public HttpResponse deleteBooking(String bookingId, HttpHeader headers) {
     return this.delete("/booking/" + bookingId, headers);
+  }
+
+  public HttpResponse sendMultipartData(String path, MultipartBody body, HttpHeader headers) {
+    return this.postMultiPart(path, body, headers);
   }
 
   public HttpResponse auth() {
