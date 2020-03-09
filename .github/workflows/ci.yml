@@ -32,4 +32,4 @@ jobs:
         echo "New version: ${NEW_VERSION}"
         echo "Github username: ${GITHUB_ACTOR}"
         ./gradlew -Pversion=${NEW_VERSION} publish
-      #run: ./gradlew uploadArchives
+      #run: ./gradlew publishJvmPublicationToGitHubPackagesRepository
