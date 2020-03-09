@@ -25,4 +25,4 @@ jobs:
       uses: actions/upload-artifact@v1
       with: 
         name: core-jvm-0.0.1-SNAPSHOT.jar
-        path: ./build/libs/
+        path: /build/libs/
