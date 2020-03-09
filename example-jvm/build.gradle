@@ -2,19 +2,19 @@ plugins {
     id 'java'
 }
 
-group 'org.example'
-version '1.0-SNAPSHOT'
-
-sourceCompatibility = 1.8
+group = "de.p7s1.qa.sevenfacette"
+version = "0.1.0"
 
 repositories {
-    mavenLocal()
     mavenCentral()
-    jcenter()
 }
 
 dependencies {
     implementation ("de.p7s1.qa.sevenfacette:core-jvm:0.0.3")
+
+    // Kafka
+    implementation("org.apache.kafka:kafka-clients:2.0.0")
+    implementation("io.confluent:kafka-avro-serializer:5.0.0")
 
     // Testing
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.0")
@@ -23,4 +23,7 @@ dependencies {
 
 test {
     useJUnitPlatform()
+    testLogging {
+        events("passed", "skipped", "failed")
+    }
 }
