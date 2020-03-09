@@ -12,6 +12,7 @@ buildscript {
 }
 
 allprojects {
+
     repositories {
         google()
         mavenCentral()
@@ -20,6 +21,10 @@ allprojects {
         maven("https://dl.bintray.com/kotlin/kotlin-js-wrappers")
         maven("https://kotlin.bintray.com/kotlinx")
         maven("https://packages.confluent.io/maven/")
+    }
+
+    apply {
+        plugin("maven-publish")
     }
 
     // TODO remove once https://github.com/Kotlin/kotlin-frontend-plugin/issues/141 is fixed

@@ -1,5 +1,6 @@
 plugins {
     id("kotlin-multiplatform")
+    id("maven-publish")
 }
 repositories {
     mavenCentral()
@@ -58,6 +59,7 @@ kotlin {
                 implementation 'io.ktor:ktor-client-core-jvm:1.3.0'
                 implementation 'io.ktor:ktor-client-apache:1.3.0'
                 implementation 'io.ktor:ktor-client-auth-jvm:1.3.0'
+                implementation 'org.springframework.kafka:spring-kafka:2.4.3.RELEASE'
             }
         }
 
@@ -89,4 +91,22 @@ kotlin {
 // workaround for https://youtrack.jetbrains.com/issue/KT-27170
 configurations {
     compileClasspath
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/p7s1-ctf/SevenFacette")
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
+    publications {
+        gpr(MavenPublication) {
+            artifactId('core-jvm')
+        }
+    }
 }

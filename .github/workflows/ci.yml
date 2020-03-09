@@ -3,25 +3,35 @@
 name: 7Facette CI
 
 on:
-  pull_request:
-    branches:
-      - master
   push:
     branches:
       - master
-
+    tags:
+      - '*'
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Set up JDK
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
     - name: print Java version
       run: java -version
-    - name: Grant execute permission for gradle
-      run: chmod +x gradle 
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
     - name: Build with Gradle
-      run: gradle clean build
+      run: ./gradlew build
+    - name: Publish 7Facette artifacts
+      env:
+        USERNAME: ${{ github.actor }}
+        PASSWORD: $ {{ secrets.GITHUB_TOKEN }}
+      # The GITHUB_REF tag comes in the format 'refs/tags/xxx'.
+      # So if we split on '/' and take the 3rd value, we can get the release name.
+      run: |
+        NEW_VERSION=$(echo "${GITHUB_REF}" | cut -d "/" -f3)
+        echo "New version: ${NEW_VERSION}"
+        echo "Github username: ${GITHUB_ACTOR}"
+        ./gradlew -Pversion=${NEW_VERSION} publish
+      #run: ./gradlew uploadArchives
