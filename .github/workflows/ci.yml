@@ -21,15 +21,8 @@ jobs:
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew build
-    - name: Publish 7Facette artifacts
+    - name: Upload the artifacts
+      uses: skx/github-action-publish-binaries@release-1.3
       env:
-        USERNAME: ${{ github.actor }}
-        PASSWORD: $ {{ secrets.Deploy_ACTOR }}
-      # The GITHUB_REF tag comes in the format 'refs/tags/xxx'.
-      # So if we split on '/' and take the 3rd value, we can get the release name.
-      run: |
-        NEW_VERSION=$(echo "${GITHUB_REF}" | cut -d "/" -f3)
-        echo "New version: ${NEW_VERSION}"
-        echo "Github username: ${GITHUB_ACTOR}"
-        ./gradlew -Pversion=${NEW_VERSION} publish
-      #run: ./gradlew publishJvmPublicationToGitHubPackagesRepository
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    
