@@ -2,12 +2,13 @@ package de.p7s1.qa.sevenfacette.sevenfacetteHttp
 
 import de.p7s1.qa.sevenfacette.config.RestServiceAuth
 import io.ktor.client.HttpClient
-import io.ktor.client.request.*
-import io.ktor.client.request.forms.MultiPartFormDataContent
+import io.ktor.client.engine.apache.Apache
+import io.ktor.client.request.request
+import io.ktor.client.request.url
 import io.ktor.http.ContentType
 import io.ktor.http.HttpMethod
-import io.ktor.http.cio.parseMultipart
 import io.ktor.http.content.ByteArrayContent
+import io.ktor.http.content.PartData
 import io.ktor.http.content.TextContent
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -15,7 +16,7 @@ import kotlinx.coroutines.runBlocking
 
 actual open class GenericHttpClient actual constructor() {
 
-    actual val client = HttpClient()
+    actual val client = HttpClient(Apache)
     actual var url = Url()
     actual var auth: RestServiceAuth? = null
 
@@ -91,7 +92,7 @@ actual open class GenericHttpClient actual constructor() {
         return when(T::class) {
             String::class, Unit::class -> TextContent(content as String, ContentType.Application.Json)
             ByteArray::class -> ByteArrayContent(content as ByteArray)
-            MultipartBody::class -> MultipartBody().create()
+            MultipartBody::class -> mutableListOf<PartData>()
             else -> throw Error("Content not supported")
         }
     }
