@@ -7,8 +7,7 @@ import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.consumer.KafkaConsumer
 import org.apache.kafka.common.serialization.StringDeserializer
 import java.time.Duration
-import java.util.Properties
-import java.util.UUID
+import java.util.*
 import java.util.concurrent.CountDownLatch
 
 class KConsumer (private val topic: String, expectedMessageCount: Int,
