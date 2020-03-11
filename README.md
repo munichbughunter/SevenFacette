@@ -47,6 +47,14 @@ repositories {
 }
 ```
 
+#### Mave  Local
+To create and use local builds run taks publishToMavenLocal.
+```kotlin
+repositories {
+    mavenlocal() 
+}
+```
+
 ### Packages
 
 #### Core
