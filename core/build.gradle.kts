@@ -1,28 +1,38 @@
+import org.gradle.jvm.tasks.Jar
+
 plugins {
-    id("kotlin-multiplatform")
-    id ("org.jetbrains.kotlin.plugin.serialization") version "1.3.61"
+    id ("maven-publish")
+    kotlin ("multiplatform") version "1.3.70"
+    id ("org.jetbrains.kotlin.plugin.serialization") version "1.3.70"
+    id ("org.jetbrains.dokka") version "0.10.0"
 }
+
+group = "de.p7s1.sevenfacette"
+version = "0.0.1-SNAPSHOT"
 
 val kotlin_version = "1.3.70"
 val ktor_version = "1.3.0"
 val serialization_version = "0.14.0"
-val exposed_version = "0.18.1"
+val exposed_version = "0.21.1"
 
 repositories {
     mavenCentral()
     jcenter()
-    maven  ("https://dl.bintray.com/aakira/maven")
     maven ("https://jitpack.io")
 }
 
 kotlin {
-    jvm() {
-        compilations["main"].kotlinOptions{
-            jvmTarget = "1.8"
+    jvm {
+        compilations.all {
+            kotlinOptions{
+                jvmTarget = "1.8"
+            }
+            compileKotlinTask
+            output
         }
     }
 
-    js() {
+    js {
         nodejs()
         compilations["main"].kotlinOptions{
             outputFile = "${rootDir}/build/js/common.js"
@@ -81,7 +91,6 @@ kotlin {
                 implementation ("io.github.microutils:kotlin-logging:1.7.8")
                 implementation ("com.willowtreeapps.opentest4k:opentest4k-jvm:1.1.4")
                 implementation ("org.apache.kafka:kafka-clients:2.0.0")
-                implementation ("io.confluent:kafka-avro-serializer:5.0.0")
                 implementation ("io.ktor:ktor-client-json-jvm:$ktor_version")
                 implementation ("io.ktor:ktor-client-core-jvm:$ktor_version")
                 implementation ("io.ktor:ktor-client-apache:$ktor_version")
@@ -115,3 +124,33 @@ kotlin {
         }
     }
 }
+
+tasks.dokka {
+    outputFormat = "html"
+    outputDirectory = "$buildDir/javadoc"
+}
+
+val dokkaJar by tasks.creating(Jar::class) {
+    group = JavaBasePlugin.DOCUMENTATION_GROUP
+    description = "Assembles Kotlin docs with Dokka"
+    from(tasks.dokka)
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("mavenJava") {
+            artifact(dokkaJar)
+            pom {
+                name.set("SevenFacette")
+                description.set("A framework for testing")
+                url.set("https://github.com/p7s1-ctf/SevenFacette")
+            }
+        }
+    }
+    repositories {
+        maven {
+            url = uri("${System.getProperty( "user.dir" )}/.m2/repository")
+        }
+    }
+}
+
