@@ -9,48 +9,41 @@ on:
     tags:
       - '*'
 
-    runs-on: ubuntu-latest
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    steps:
-      - uses: rymndhng/release-on-push-action@master
-        with:
-          strategy: minor
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up JDK
-      uses: actions/setup-java@v1
-      with:
-        java-version: 1.8
-    - name: print Java version
-      run: java -version
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
-    - name: Build with Gradle
-      run: ./gradlew build
-    - name: Create Release
-      uses:  rymndhng/release-on-push-action@master
-      with:
-        strategy: minor
-    - name: Publish 7Facette artifacts to JFrog Bintray
-      env:
-        USERNAME: $ {{ secrets.JFROG_ACTOR }}
-        PASSWORD: $ {{ secrets.JFROG_TOKEN }}
-      # The GITHUB_REF tag comes in the format 'refs/tags/xxx'.
-      # So if we split on '/' and take the 3rd value, we can get the release name.
-      run: |
-        #NEW_VERSION=$(echo "${GITHUB_REF}" | cut -d "/" -f3)
-        NEW_VERSION=0.5
-        echo "New version: ${NEW_VERSION}"
-        ./gradlew -PLIBRARY_VERSION_NAME=${NEW_VERSION} bintrayUpload
-    - uses: actions/setup-node@v1.1.0
-      with:
-        node-version: 12
-        registry-url: https://registry.npmjs.org/
-    - run: npm --prefix ./core install
-    - run: npm --prefix ./core publish
-      env:
-        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - uses: actions/checkout@v2
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+      - name: print Java version
+        run: java -version
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: Build with Gradle
+        run: ./gradlew build
+      - name: Create Release
+        uses:  rymndhng/release-on-push-action@master
+        with:
+          strategy: minor
+      - name: Publish 7Facette artifacts to JFrog Bintray
+        env:
+          USERNAME: $ {{ secrets.JFROG_ACTOR }}
+          PASSWORD: $ {{ secrets.JFROG_TOKEN }}
+        # The GITHUB_REF tag comes in the format 'refs/tags/xxx'.
+        # So if we split on '/' and take the 3rd value, we can get the release name.
+        run: |
+          #NEW_VERSION=$(echo "${GITHUB_REF}" | cut -d "/" -f3)
+          NEW_VERSION=0.5
+          echo "New version: ${NEW_VERSION}"
+          ./gradlew -PLIBRARY_VERSION_NAME=${NEW_VERSION} bintrayUpload
+      - uses: actions/setup-node@v1.1.0
+        with:
+          node-version: 12
+          registry-url: https://registry.npmjs.org/
+      - run: npm --prefix ./core install
+      - run: npm --prefix ./core publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
