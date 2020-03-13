@@ -3,12 +3,14 @@ plugins {
     id("maven-publish")
     id ("base")
     id ("com.jfrog.bintray") version "1.8.4"
+    id("com.moowork.node") version "1.3.1"
 }
 repositories {
     mavenCentral()
     jcenter()
     maven {url "https://dl.bintray.com/aakira/maven"}
     maven {url "https://jitpack.io"}
+
 }
 
 kotlin {
@@ -78,6 +80,8 @@ kotlin {
 
             }
 
+
+
             compileKotlinJs {
                 kotlinOptions.metaInfo = true
                 kotlinOptions.sourceMap = true
@@ -85,10 +89,24 @@ kotlin {
                 kotlinOptions.verbose = true
                 kotlinOptions.main = "call"
                 kotlinOptions.moduleKind = "umd"
+                kotlinOptions.outputFile = "${projectDir}/build/js/core.js"
             }
         }
     }
 }
+
+
+
+node {
+    version = '6.11.3'
+    download = true
+}
+
+assemble
+npmInstall.dependsOn assemble
+
+//assemble.dependsOn assembleJs
+npmInstall.dependsOn assemble
 
 // workaround for https://youtrack.jetbrains.com/issue/KT-27170
 configurations {
@@ -96,7 +114,7 @@ configurations {
 }
 
 def GROUP_ID="de.p7s1.qa.sevenfacette" // Your orginization in reverse domain notation. For example:  def GROUP_ID="com.fudge"
-def ARTIFACT_ID="core-jvm" // The name you gave your package in bintray. In our example it would be:  def ARTIFACT_ID="kotlin-awesome-printer"
+def ARTIFACT_ID="core" // The name you gave your package in bintray. In our example it would be:  def ARTIFACT_ID="kotlin-awesome-printer"
 
 def BINTRAY_REPOSITORY="sevenfacette-jvm" // What you named your repository in bintray. In our example it would be "myrepository"
 //def BINTRAY_ORGINIZATION="guide" //  Your public facing Bintray name. You can see your Bintray name on the top right corner in Bintray. I named it "guide" for our example.
@@ -104,10 +122,10 @@ def BINTRAY_REPOSITORY="sevenfacette-jvm" // What you named your repository in b
 //def ISSUE_URL="https://github.com/natanfudge/KotlinAwesomePrinter/issues" // A link to an issue tracker for the library, in our example: "https://github.com/natanfudge/KotlinAwesomePrinter/issues"
 //def SITE_URL="https://github.com/natanfudge/KotlinAwesomePrinter" // A link to the library's site. In our example: "https://github.com/natanfudge/KotlinAwesomePrinter"
 //def VCS_URL="https://github.com/natanfudge/KotlinAwesomePrinter.git" // A link to the version control system (where the code is stored). In our example: "https://github.com/natanfudge/KotlinAwesomePrinter.git"
-def LIBRARY_VERSION_NAME=0.2 // The current version of your library. You will need to update this value whenever you upload a new release. For example: 1.0
+def LIBRARY_VERSION_NAME=0.3 // The current version of your library. You will need to update this value whenever you upload a new release. For example: 1.0
 
 group GROUP_ID
-version = "0.0.2"
+version = "0.0.3"
 
 afterEvaluate {
     project.publishing.publications.all {
@@ -139,6 +157,8 @@ bintray {
     // so if it is written in property in the home directory, it will be useful for other projects as well.
     //user = getBintrayUserProperty()
     //key = getBintrayApiKeyProperty()
+    user = System.getenv("JFROG_ACTOR")
+    key = System.getenv("JFROG_TOKEN")
 
     //f you set publish to true, the new version will be published the moment you upload to bintray. If false, it will not be published unless you press the publish button on the bintray web.
     // It is recommended that you make it false because it can prevent an accident that you accidentally release the latest version.
@@ -147,7 +167,6 @@ bintray {
     pkg {
         repo = BINTRAY_REPOSITORY
         name = ARTIFACT_ID
-
         licenses = ['MIT']
         //vcsUrl = VCS_URL
         //websiteUrl = SITE_URL
@@ -177,4 +196,3 @@ bintrayUpload.doFirst {
 //The task of bintrayUpload depends on publishToMavenLocal set in the previous section.
 // This will create maven artifacts when running bintrayUplaod's task.
 bintrayUpload.dependsOn publishToMavenLocal
-

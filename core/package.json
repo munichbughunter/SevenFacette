@@ -1,0 +1,19 @@
+{
+  "name": "sevenfacette-core",
+  "version": "0.0.1-INSTABLE",
+  "description": "SevenFacette core JS library",
+  "dependencies": {
+    "kotlin": "^1.3.61",
+    "@kotlin2js/ktor-ktor-client-js": "^1.2.3",
+    "@kotlin2js/ktor-ktor-client-core": "^1.2.3",
+    "@kotlin2js/ktor-ktor-http": "^1.2.3",
+    "@kotlin2js/ktor-ktor-utils": "^1.2.3",
+    "kotlinx-coroutines-core": "^1.0.1",
+    "kotlinx-coroutines-io-js": "^1.0.1",
+    "@kotlin2js/kotlinx-io": "^0.1.12",
+    "@kotlin2js/kotlin-test-nodejs-runner": "^1.3.41",
+    "kotlin-test": "^1.3.61",
+    "kotlinx-atomicfu": "^0.11.12",
+    "kotlinx-serialization-kotlinx-serialization-runtime": "^0.14.0"
+  }
+}
