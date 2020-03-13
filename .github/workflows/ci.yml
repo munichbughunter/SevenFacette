@@ -25,16 +25,15 @@ jobs:
       run: ./gradlew build
     - name: Publish 7Facette artifacts to JFrog Bintray
       env:
-        USERNAME: ${{ secrets.JFROG_ACTOR }}
+        USERNAME: $ {{ secrets.JFROG_ACTOR }}
         PASSWORD: $ {{ secrets.JFROG_TOKEN }}
       # The GITHUB_REF tag comes in the format 'refs/tags/xxx'.
       # So if we split on '/' and take the 3rd value, we can get the release name.
       run: |
         #NEW_VERSION=$(echo "${GITHUB_REF}" | cut -d "/" -f3)
-        NEW_VERSION=0.4
+        NEW_VERSION=0.5
         echo "New version: ${NEW_VERSION}"
-        echo "Github username: ${ secrets.JFROG_ACTOR }"
-        ./gradlew -Pversion=${NEW_VERSION} bintrayUpload
+        ./gradlew -PLIBRARY_VERSION_NAME=${NEW_VERSION} bintrayUpload
     - uses: actions/setup-node@v1.1.0
       with:
         node-version: 12
