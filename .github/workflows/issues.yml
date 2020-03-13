@@ -14,20 +14,19 @@ jobs:
           labels: '["help-wanted"]'
 
       - name: Label issues with bug
-          uses: Naturalclar/issue-action@v1.0.0
-          with:
-            keywords: '["bug", "error"]'
-            labels: '["bug"]'
+        uses: Naturalclar/issue-action@v1.0.0
+        with:
+          keywords: '["bug", "error"]'
+          labels: '["bug"]'
 
       - name: Label issues with documentation
-          uses: Naturalclar/issue-action@v1.0.0
-          with:
-            keywords: '["document", "docu", "documentation"]'
-            labels: '["documentation"]'
+        uses: Naturalclar/issue-action@v1.0.0
+        with:
+          keywords: '["document", "docu", "documentation"]'
+          labels: '["documentation"]'
 
       - name: Label issues with enhancement
-          uses: Naturalclar/issue-action@v1.0.0
-          with:
-            keywords: '["new feature", "feature"]'
-            labels: '["enhancement"]'
-            
+        uses: Naturalclar/issue-action@v1.0.0
+        with:
+          keywords: '["new feature", "feature"]'
+          labels: '["enhancement"]'
