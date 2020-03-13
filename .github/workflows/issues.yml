@@ -1,0 +1,33 @@
+name: "Set Issue Label"
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Label issues with help-wanted
+        uses: Naturalclar/issue-action@v1.0.0
+        with:
+          keywords: '["help", "wanted"]'
+          labels: '["help-wanted"]'
+
+      - name: Label issues with bug
+          uses: Naturalclar/issue-action@v1.0.0
+          with:
+            keywords: '["bug", "error"]'
+            labels: '["bug"]'
+
+      - name: Label issues with documentation
+          uses: Naturalclar/issue-action@v1.0.0
+          with:
+            keywords: '["document", "docu", "documentation"]'
+            labels: '["documentation"]'
+
+      - name: Label issues with enhancement
+          uses: Naturalclar/issue-action@v1.0.0
+          with:
+            keywords: '["new feature", "feature"]'
+            labels: '["enhancement"]'
+            
