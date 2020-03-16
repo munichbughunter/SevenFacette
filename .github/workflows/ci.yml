@@ -21,15 +21,15 @@ jobs:
       - name: print Java version
         run: java -version
       - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
+        run: chmod 0755 gradlew && git add gradlew
    #   - name: Create Release
    #     uses:  rymndhng/release-on-push-action@master
    #     with:
    #       strategy: minor
       - name: Publish 7Facette artifacts to JFrog Bintray
         env:
-          USERNAME: $ {{ secrets.JFROG_ACTOR }}
-          PASSWORD: $ {{ secrets.JFROG_TOKEN }}
+          JFROG_ACTOR: $ {{ secrets.JFROG_ACTOR }}
+          JFROG_TOKEN: $ {{ secrets.JFROG_TOKEN }}
         # The GITHUB_REF tag comes in the format 'refs/tags/xxx'.
         # So if we split on '/' and take the 3rd value, we can get the release name.
         run: |
