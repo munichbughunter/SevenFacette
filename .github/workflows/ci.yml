@@ -39,12 +39,12 @@ jobs:
           
           echo  ${JFROG_ACTOR}
           
-          ./gradlew -PLIBRARY_VERSION_NAME=${NEW_VERSION} bintrayUpload
+          #./gradlew -PLIBRARY_VERSION_NAME=${NEW_VERSION} bintrayUpload
       - uses: actions/setup-node@v1.1.0
         with:
           node-version: 12
           registry-url: https://registry.npmjs.org/
-      - run: npm --prefix ./core install
-      - run: npm --prefix ./core publish
+      - run: cd core && npm install
+      - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
