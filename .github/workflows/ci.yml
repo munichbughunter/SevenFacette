@@ -34,7 +34,7 @@ jobs:
         # So if we split on '/' and take the 3rd value, we can get the release name.
         run: |
           #NEW_VERSION=$(echo "${GITHUB_REF}" | cut -d "/" -f3)
-          NEW_VERSION=0.5
+          NEW_VERSION=The rock
           echo "New version: ${NEW_VERSION}"
           
           echo  ${JFROG_ACTOR}
