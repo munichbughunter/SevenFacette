@@ -37,7 +37,7 @@ jobs:
           NEW_VERSION=0.5
           echo "New version: ${NEW_VERSION}"
           
-          echo  ${JFROG_ACTOR}
+          echo  ${env.JFROG_ACTOR}
           
           #./gradlew -PLIBRARY_VERSION_NAME=${NEW_VERSION} -Puser=${secrets.JFROG_ACTOR} -Pkey=${secrets.JFROG_TOKEN} bintrayUpload
       - uses: actions/setup-node@v1.1.0
