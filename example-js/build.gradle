@@ -6,7 +6,6 @@ plugins {
 dependencies {
     compile("org.jetbrains.kotlin:kotlin-stdlib-js:$Versions.kotlin")
     compile project(':core')
-    //compile("com.willowtreeapps.assertk:assertk-js:0.21")
 }
 
 compileKotlin2Js {

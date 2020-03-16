@@ -1,12 +1,16 @@
 plugins {
     id("kotlin-multiplatform")
     id("maven-publish")
+    id ("base")
+    id ("com.jfrog.bintray") version "1.8.4"
+    id("com.moowork.node") version "1.3.1"
 }
 repositories {
     mavenCentral()
     jcenter()
     maven {url "https://dl.bintray.com/aakira/maven"}
     maven {url "https://jitpack.io"}
+
 }
 
 kotlin {
@@ -76,6 +80,8 @@ kotlin {
 
             }
 
+
+
             compileKotlinJs {
                 kotlinOptions.metaInfo = true
                 kotlinOptions.sourceMap = true
@@ -83,30 +89,110 @@ kotlin {
                 kotlinOptions.verbose = true
                 kotlinOptions.main = "call"
                 kotlinOptions.moduleKind = "umd"
+                kotlinOptions.outputFile = "${projectDir}/build/js/core.js"
             }
         }
     }
 }
+
+
+
+node {
+    version = '6.11.3'
+    download = true
+}
+
+assemble
+npmInstall.dependsOn assemble
+
+//assemble.dependsOn assembleJs
+npmInstall.dependsOn assemble
 
 // workaround for https://youtrack.jetbrains.com/issue/KT-27170
 configurations {
     compileClasspath
 }
 
-publishing {
-    repositories {
-        maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/p7s1-ctf/SevenFacette")
-            credentials {
-                username = System.getenv("GITHUB_ACTOR")
-                password = System.getenv("GITHUB_TOKEN")
-            }
-        }
-    }
-    publications {
-        gpr(MavenPublication) {
-            artifactId('core-jvm')
+def GROUP_ID="de.p7s1.qa.sevenfacette" // Your orginization in reverse domain notation. For example:  def GROUP_ID="com.fudge"
+def ARTIFACT_ID="core" // The name you gave your package in bintray. In our example it would be:  def ARTIFACT_ID="kotlin-awesome-printer"
+
+def BINTRAY_REPOSITORY="sevenfacette-jvm" // What you named your repository in bintray. In our example it would be "myrepository"
+//def BINTRAY_ORGINIZATION="guide" //  Your public facing Bintray name. You can see your Bintray name on the top right corner in Bintray. I named it "guide" for our example.
+
+//def ISSUE_URL="https://github.com/natanfudge/KotlinAwesomePrinter/issues" // A link to an issue tracker for the library, in our example: "https://github.com/natanfudge/KotlinAwesomePrinter/issues"
+//def SITE_URL="https://github.com/natanfudge/KotlinAwesomePrinter" // A link to the library's site. In our example: "https://github.com/natanfudge/KotlinAwesomePrinter"
+//def VCS_URL="https://github.com/natanfudge/KotlinAwesomePrinter.git" // A link to the version control system (where the code is stored). In our example: "https://github.com/natanfudge/KotlinAwesomePrinter.git"
+def LIBRARY_VERSION_NAME=0.3 // The current version of your library. You will need to update this value whenever you upload a new release. For example: 1.0
+
+group GROUP_ID
+version = "0.0.3"
+
+afterEvaluate {
+    project.publishing.publications.all {
+        // rename artifacts
+        groupId = GROUP_ID
+        if (it.name.contains('metadata')) {
+            artifactId = "$ARTIFACT_ID"
+        } else {
+            artifactId = "$ARTIFACT_ID-$name"
         }
     }
 }
+/*
+def getBintrayUserProperty() {
+    return hasProperty('bintrayUser') ? project.property('bintrayUser') : System.getenv('BINTRAY_USER')
+}
+
+def getBintrayApiKeyProperty() {
+    return hasProperty('bintrayApiKey') ? project.property('bintrayApiKey') : System.getenv('BINTRAY_API_KEY')
+}
+
+ */
+
+bintray {
+    //print(getBintrayApiKeyProperty())
+    //A user name of bintray to A, and API key of Bintray to B.I do not want to include API Key in git,
+    // so I am gradle.properties writing locally.
+    // Gradle's property file is read in the order of gradle in the home directory> gradle in the project directory,
+    // so if it is written in property in the home directory, it will be useful for other projects as well.
+    //user = getBintrayUserProperty()
+    //key = getBintrayApiKeyProperty()
+    user = System.getenv("JFROG_ACTOR")
+    key = System.getenv("JFROG_TOKEN")
+
+    //f you set publish to true, the new version will be published the moment you upload to bintray. If false, it will not be published unless you press the publish button on the bintray web.
+    // It is recommended that you make it false because it can prevent an accident that you accidentally release the latest version.
+    publish = false
+
+    pkg {
+        repo = BINTRAY_REPOSITORY
+        name = ARTIFACT_ID
+        licenses = ['MIT']
+        //vcsUrl = VCS_URL
+        //websiteUrl = SITE_URL
+        //issueTrackerUrl = ISSUE_URL
+
+        version {
+            name = LIBRARY_VERSION_NAME
+            vcsTag = version
+            released = new Date()
+        }
+    }
+}
+
+// This specifies the publications to upload to bintray before doing the bintrayUpload gradle task.
+//In the mpp configuration of one module after 1.3,
+// it is not uploaded unless you explicitly specify artifacts in publications like this.
+// It is not necessary to have the findAll part,
+// [project name]-kotlinMultiplatformbut a directory containing only pom files will be uploaded, so it is better to exclude it.
+bintrayUpload.doFirst {
+    publications = publishing.publications.collect {
+        it.name
+    }.findAll {
+        it != "sevenfacette-jvm"
+    }
+}
+
+//The task of bintrayUpload depends on publishToMavenLocal set in the previous section.
+// This will create maven artifacts when running bintrayUplaod's task.
+bintrayUpload.dependsOn publishToMavenLocal
