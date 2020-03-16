@@ -24,10 +24,10 @@ jobs:
         run: chmod +x gradlew
       - name: Build with Gradle
         run: ./gradlew build
-      - name: Create Release
-        uses:  rymndhng/release-on-push-action@master
-        with:
-          strategy: minor
+   #   - name: Create Release
+   #     uses:  rymndhng/release-on-push-action@master
+   #     with:
+   #       strategy: minor
       - name: Publish 7Facette artifacts to JFrog Bintray
         env:
           USERNAME: $ {{ secrets.JFROG_ACTOR }}
