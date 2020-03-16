@@ -38,7 +38,10 @@ jobs:
           #NEW_VERSION=$(echo "${GITHUB_REF}" | cut -d "/" -f3)
           NEW_VERSION=0.5
           echo "New version: ${NEW_VERSION}"
-          ./gradlew -PLIBRARY_VERSION_NAME=${NEW_VERSION} -Puser=${secrets.JFROG_ACTOR} -Pkey=${secrets.JFROG_TOKEN} bintrayUpload
+          
+          echo ${USERNAME}
+          
+          #./gradlew -PLIBRARY_VERSION_NAME=${NEW_VERSION} -Puser=${secrets.JFROG_ACTOR} -Pkey=${secrets.JFROG_TOKEN} bintrayUpload
       - uses: actions/setup-node@v1.1.0
         with:
           node-version: 12
