@@ -30,45 +30,45 @@ actual open class GenericHttpClient actual constructor() {
         return this
     }
 
-    actual fun post(path: String, content: String, headers: HttpHeader): HttpResponse {
+    actual fun post(path: String, content: String, headers: HttpHeader): HttpResponse? {
         return this.executeRequest(HttpMethod.Post, path, content, headers)
     }
 
-    actual fun postByteArray(path: String, content: ByteArray, headers: HttpHeader): HttpResponse {
+    actual fun postByteArray(path: String, content: ByteArray, headers: HttpHeader): HttpResponse? {
         return this.executeRequest(HttpMethod.Post, path, content, headers)
     }
 
-    actual fun postMultiPart(path: String, content: MultipartBody, header: HttpHeader): HttpResponse {
+    actual fun postMultiPart(path: String, content: MultipartBody, header: HttpHeader): HttpResponse? {
         return this.executeRequest(HttpMethod.Post, path, content, header)
     }
 
-    actual fun put(path: String, content: String, headers: HttpHeader): HttpResponse {
+    actual fun put(path: String, content: String, headers: HttpHeader): HttpResponse? {
         return this.executeRequest(HttpMethod.Put, path, content, headers)
     }
 
-    actual fun putByteArray(path: String, content: ByteArray, headers: HttpHeader): HttpResponse {
+    actual fun putByteArray(path: String, content: ByteArray, headers: HttpHeader): HttpResponse? {
         return this.executeRequest(HttpMethod.Put, path, content, headers)
     }
 
-    actual fun putMultiPart(path: String, content: MultipartBody, headers: HttpHeader): HttpResponse {
+    actual fun putMultiPart(path: String, content: MultipartBody, headers: HttpHeader): HttpResponse? {
         return this.executeRequest(HttpMethod.Put, path, content, headers)
     }
 
-    actual fun delete(path: String, headers: HttpHeader): HttpResponse {
+    actual fun delete(path: String, headers: HttpHeader): HttpResponse? {
         return this.executeRequest<Unit>(HttpMethod.Delete, path, null, headers)
     }
 
-    actual fun get(path: String, headers: HttpHeader): HttpResponse {
+    actual fun get(path: String, headers: HttpHeader): HttpResponse? {
         return this.executeRequest<Unit>(HttpMethod.Get, path, null, headers)
     }
 
-    private inline fun <reified T> executeRequest(useMethod: HttpMethod, usePath: String, useContent: T?, useHeaders: HttpHeader): HttpResponse {
-        val facetteResponses = mutableListOf<HttpResponse>()
+    private inline fun <reified T> executeRequest(useMethod: HttpMethod, usePath: String, useContent: T?, useHeaders: HttpHeader): HttpResponse? {
+        var facetteResponses: HttpResponse? = null
         val fullPath = this.url.path(usePath).create()
 
         runBlocking {
             launch {
-                facetteResponses.add(HttpResponse(client.request{
+                facetteResponses = HttpResponse(client.request{
                     url(fullPath)
 
                     method = useMethod
@@ -80,12 +80,12 @@ actual open class GenericHttpClient actual constructor() {
                     useHeaders.header.forEach {
                         headers.append(it.first, it.second)
                     }
-                }))
+                })
             }.join()
         }
 
-        require(facetteResponses.size == 1, { println("No result found") })
-        return facetteResponses[0]
+        if(facetteResponses == null) throw Exception("No result found")
+        return facetteResponses
     }
 
     private inline fun <reified T> getBody(content: T): Any {

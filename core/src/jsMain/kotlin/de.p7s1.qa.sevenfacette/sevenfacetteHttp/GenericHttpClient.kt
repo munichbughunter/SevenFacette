@@ -21,35 +21,35 @@ actual open class GenericHttpClient {
         TODO("not implemented")
     }
 
-    actual fun post(path: String, content: String, headers: HttpHeader): HttpResponse {
+    actual fun post(path: String, content: String, headers: HttpHeader): HttpResponse? {
         TODO("not implemented")
     }
 
-    actual fun postByteArray(path: String, content: ByteArray, headers: HttpHeader): HttpResponse {
+    actual fun postByteArray(path: String, content: ByteArray, headers: HttpHeader): HttpResponse? {
         TODO("not implemented")
     }
 
-    actual fun put(path: String, content: String, headers: HttpHeader): HttpResponse {
+    actual fun put(path: String, content: String, headers: HttpHeader): HttpResponse? {
         TODO("not implemented")
     }
 
-    actual fun putByteArray(path: String, content: ByteArray, headers: HttpHeader): HttpResponse {
+    actual fun putByteArray(path: String, content: ByteArray, headers: HttpHeader): HttpResponse? {
         TODO("not implemented")
     }
 
-    actual fun get(path: String, headers: HttpHeader): HttpResponse {
+    actual fun get(path: String, headers: HttpHeader): HttpResponse? {
         TODO("not implemented")
     }
 
-    actual fun delete(path: String, headers: HttpHeader): HttpResponse {
+    actual fun delete(path: String, headers: HttpHeader): HttpResponse? {
         TODO("not implemented")
     }
 
-    actual fun postMultiPart(path: String, content: MultipartBody, header: HttpHeader): HttpResponse {
+    actual fun postMultiPart(path: String, content: MultipartBody, header: HttpHeader): HttpResponse? {
         TODO("not implemented")
     }
 
-    actual fun putMultiPart(path: String, content: MultipartBody, headers: HttpHeader): HttpResponse {
+    actual fun putMultiPart(path: String, content: MultipartBody, headers: HttpHeader): HttpResponse? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
