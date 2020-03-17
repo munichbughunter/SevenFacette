@@ -1,9 +1,9 @@
 package de.p7s1.qa.sevenfacette.http;
 
 import de.p7s1.qa.sevenfacette.sevenfacetteHttp.GenericHttpClient;
-import de.p7s1.qa.sevenfacette.sevenfacetteHttp.Url;
 import de.p7s1.qa.sevenfacette.sevenfacetteHttp.HttpHeader;
 import de.p7s1.qa.sevenfacette.sevenfacetteHttp.HttpResponse;
+import de.p7s1.qa.sevenfacette.sevenfacetteHttp.Url;
 
 public class RestFulBookerClient extends GenericHttpClient {
   public RestFulBookerClient() {

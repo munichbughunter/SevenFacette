@@ -20,3 +20,5 @@ include(
         ":example-js",
         ":example-jvm"
 )
+
+enableFeaturePreview("GRADLE_METADATA")
