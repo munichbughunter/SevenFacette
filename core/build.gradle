@@ -45,10 +45,15 @@ kotlin {
                 implementation 'io.ktor:ktor-client-auth:1.3.0'
                 implementation 'io.ktor:ktor-client-apache:1.3.0'
                 implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core-common:1.0.1'
-
-
             }
         }
+        commonTest {
+            dependencies {
+                kotlin('test-common')
+                kotlin('test-annotations-common')
+            }
+        }
+
         jvmMain {
             dependencies {
                 api 'org.jetbrains.exposed:exposed-core:0.18.1'
@@ -67,6 +72,13 @@ kotlin {
                 implementation 'io.ktor:ktor-client-auth-jvm:1.3.0'
                 implementation 'org.springframework.kafka:spring-kafka:2.4.3.RELEASE'
             }
+        }
+        jvmTest {
+            dependencies {
+                implementation kotlin('test')
+                implementation kotlin('test-junit')
+            }
+
         }
 
         jsMain {
@@ -96,8 +108,6 @@ kotlin {
         }
     }
 }
-
-
 
 node {
     version = '6.11.3'
