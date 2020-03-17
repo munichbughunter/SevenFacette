@@ -4,6 +4,7 @@ plugins {
     id ("base")
     id ("com.jfrog.bintray") version "1.8.4"
     id("com.moowork.node") version "1.3.1"
+    id 'org.jetbrains.dokka' version '0.10.1'
 }
 repositories {
     mavenCentral()
@@ -58,7 +59,6 @@ kotlin {
                 implementation 'io.github.microutils:kotlin-logging:1.7.8'
                 implementation 'com.willowtreeapps.opentest4k:opentest4k-jvm:1.1.4'
                 implementation 'org.apache.kafka:kafka-clients:2.0.0'
-                implementation("io.confluent:kafka-avro-serializer:5.0.0")
                 implementation 'io.ktor:ktor-client-json-jvm:1.3.0'
                 implementation 'io.ktor:ktor-client-core-jvm:1.3.0'
                 implementation 'io.ktor:ktor-client-apache:1.3.0'
@@ -196,3 +196,25 @@ bintrayUpload.doFirst {
 //The task of bintrayUpload depends on publishToMavenLocal set in the previous section.
 // This will create maven artifacts when running bintrayUplaod's task.
 bintrayUpload.dependsOn publishToMavenLocal
+
+dokka {
+    outputDirectory = "$buildDir/dokka"
+    outputFormat = "html"
+
+    multiplatform {
+        customName { // The same name as in Kotlin Multiplatform plugin, so the sources are fetched automatically
+            includes = ['packages.md', 'extra.md']
+        }
+
+        differentName { // Different name, so source roots, classpath and platform must be passed explicitly.
+            targets = ["JVM"]
+            platform = "jvm"
+            sourceRoot {
+                path = kotlin.sourceSets.jvmMain.kotlin.srcDirs[0]
+            }
+            sourceRoot {
+                path = kotlin.sourceSets.commonMain.kotlin.srcDirs[0]
+            }
+        }
+    }
+}
