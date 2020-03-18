@@ -17,3 +17,5 @@ common/*
 /core-js/bin/
 /selenium-j/bin/
 
+/node_modules/
+/core/node_modules/
