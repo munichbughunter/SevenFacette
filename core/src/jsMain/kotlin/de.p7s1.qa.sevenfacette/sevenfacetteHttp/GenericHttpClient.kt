@@ -52,4 +52,12 @@ actual open class GenericHttpClient {
     actual fun putMultiPart(path: String, content: MultipartBody, headers: HttpHeader): HttpResponse? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
+
+    actual fun postGraphQl(path: String, content: GraphQlContent, headers: HttpHeader, contentIsJson: Boolean): HttpResponse? {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    actual fun putGraphQl(path: String, content: GraphQlContent, headers: HttpHeader, contentIsJson: Boolean): HttpResponse? {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }

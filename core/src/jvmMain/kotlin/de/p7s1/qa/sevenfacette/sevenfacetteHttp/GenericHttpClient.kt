@@ -13,7 +13,6 @@ import io.ktor.http.content.TextContent
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
-
 actual open class GenericHttpClient actual constructor() {
 
     actual val client = HttpClient(Apache)
@@ -62,30 +61,43 @@ actual open class GenericHttpClient actual constructor() {
         return this.executeRequest<Unit>(HttpMethod.Get, path, null, headers)
     }
 
+    actual fun postGraphQl(path: String, content: GraphQlContent, headers: HttpHeader, contentIsJson: Boolean): HttpResponse? {
+        return this.executeRequest(HttpMethod.Post, path, content, headers)
+    }
+
+    actual fun putGraphQl(path: String, content: GraphQlContent, headers: HttpHeader, contentIsJson: Boolean): HttpResponse? {
+        return this.executeRequest(HttpMethod.Put, path, content, headers)
+    }
+
     private inline fun <reified T> executeRequest(useMethod: HttpMethod, usePath: String, useContent: T?, useHeaders: HttpHeader): HttpResponse? {
-        var facetteResponses: HttpResponse? = null
+        var facetteResponse: HttpResponse? = null
         val fullPath = this.url.path(usePath).create()
 
+        println("Sending a ${useMethod.value} request to $fullPath")
         runBlocking {
             launch {
-                facetteResponses = HttpResponse(client.request{
+                val request = client.request<io.ktor.client.statement.HttpResponse> {
                     url(fullPath)
+                    println(fullPath)
 
                     method = useMethod
+                    println(useMethod)
 
                     if(useContent != null) {
                         body = getBody(useContent)
                     }
 
+
                     useHeaders.header.forEach {
                         headers.append(it.first, it.second)
                     }
-                })
+                }
+                facetteResponse = HttpResponse(request)
             }.join()
         }
 
-        if(facetteResponses == null) throw Exception("No result found")
-        return facetteResponses
+        if(facetteResponse == null) throw Exception("No response received")
+        return facetteResponse
     }
 
     private inline fun <reified T> getBody(content: T): Any {
@@ -93,9 +105,8 @@ actual open class GenericHttpClient actual constructor() {
             String::class, Unit::class -> TextContent(content as String, ContentType.Application.Json)
             ByteArray::class -> ByteArrayContent(content as ByteArray)
             MultipartBody::class -> mutableListOf<PartData>()
+            GraphQlContent::class -> TextContent((content as GraphQlContent).query, ContentType.Application.GraphQl)
             else -> throw Error("Content not supported")
         }
     }
-
-
 }
