@@ -6,13 +6,12 @@ import org.apache.kafka.clients.producer.Producer
 import org.apache.kafka.clients.producer.ProducerConfig
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.apache.kafka.common.serialization.StringSerializer
-import java.util.Properties
 
 class KProducer (private val topic: String) {
     private val producer = createProducer()
 
     private fun createProducer() : Producer<String, String> {
-        var config = Properties()
+        var config : MutableMap<String, Any> = mutableMapOf()
         // ToDo: That should come from the config
         config[ProducerConfig.BOOTSTRAP_SERVERS_CONFIG] = System.getenv("BOOT_STRAP_SERVER")
         config[ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG] = StringSerializer::class.java

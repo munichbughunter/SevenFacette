@@ -64,6 +64,7 @@ kotlin {
                 implementation 'io.ktor:ktor-client-apache:1.3.0'
                 implementation 'io.ktor:ktor-client-auth-jvm:1.3.0'
                 implementation 'org.springframework.kafka:spring-kafka:2.4.3.RELEASE'
+                implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.0.1'
             }
         }
 
@@ -173,7 +174,7 @@ bintray {
         //issueTrackerUrl = ISSUE_URL
 
         version {
-            name = LIBRARY_VERSION_NAME
+            //name = LIBRARY_VERSION_NAME
             vcsTag = version
             released = new Date()
         }
