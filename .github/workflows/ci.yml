@@ -39,7 +39,7 @@ jobs:
           
           echo  ${JFROG_ACTOR}
           
-          ./gradlew -PLIBRARY_VERSION_NAME=${NEW_VERSION} bintrayUpload
+          ./gradlew -PLIBRARY_VERSION_NAME=${NEW_VERSION} bintrayUpload -x test
       - uses: actions/setup-node@v1.1.0
         with:
           node-version: 12
