@@ -17,13 +17,14 @@ import kotlin.coroutines.CoroutineContext
 
 class KConsumer(
         private val topic: String,
-        expectedMessageCount: Int,
+        private var expectedMessageCount: Int,
         private var pattern: String,
-        private val latchWaitTime: Int
+        private var latchWaitTime: Int
 ) : CoroutineScope by CoroutineScope(Dispatchers.Default){
     private val job = Job()
+    private var messageCount = expectedMessageCount
     private val intermediateList: MutableList<String> = mutableListOf()
-    private var latch = CountDownLatch(expectedMessageCount)
+    private var latch = CountDownLatch(messageCount)
     private var keepGoing = true
     private val messageList: MutableList<String> = mutableListOf()
     private val consumer = createConsumer()
@@ -40,6 +41,23 @@ class KConsumer(
         // ToDo: THE SSL should also come from the config
         config = SaslConfiguration.addSaslProperties(config, SSL)
         return KafkaConsumer<String, String>(config)
+    }
+
+    fun reConfigure(expectedMessageCount: Int,
+                    pattern: String,
+                    latchWaitTime: Int,
+                    streamIndex: String) {
+        this.latchWaitTime = latchWaitTime
+        this.messageCount = expectedMessageCount
+        if (!"".equals(streamIndex)) {
+            this.pattern = streamIndex
+        } else {
+            this.pattern = pattern
+        }
+        latch = CountDownLatch(this.messageCount)
+        intermediateList
+                .filter { msg -> msg.contains(streamIndex) }
+                .forEach(this::collectMessage)
     }
 
     override val coroutineContext: CoroutineContext
