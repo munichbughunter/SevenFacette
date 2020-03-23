@@ -3,6 +3,11 @@ package de.p7s1.qa.sevenfacette.sevenfacetteHttp
 import de.p7s1.qa.sevenfacette.config.RestServiceAuth
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.apache.Apache
+import io.ktor.client.features.auth.Auth
+import io.ktor.client.features.cookies.AcceptAllCookiesStorage
+import io.ktor.client.features.cookies.HttpCookies
+import io.ktor.client.features.json.JacksonSerializer
+import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.request.request
 import io.ktor.client.request.url
 import io.ktor.http.ContentType
@@ -10,12 +15,41 @@ import io.ktor.http.HttpMethod
 import io.ktor.http.content.ByteArrayContent
 import io.ktor.http.content.PartData
 import io.ktor.http.content.TextContent
+import io.ktor.http.userAgent
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import org.apache.http.conn.ssl.NoopHostnameVerifier
+import org.apache.http.conn.ssl.TrustAllStrategy
+import org.apache.http.ssl.SSLContextBuilder
 
 actual open class GenericHttpClient actual constructor() {
 
-    actual val client = HttpClient(Apache)
+    actual val client = HttpClient(Apache) {
+        expectSuccess = false
+        install(Auth) {
+        }
+        install(HttpCookies) {
+            storage = AcceptAllCookiesStorage()
+        }
+
+        // Trust own certificates
+        engine {
+            customizeClient {
+                setSSLContext(
+                        SSLContextBuilder
+                                .create()
+                                .loadTrustMaterial(TrustAllStrategy())
+                                .build()
+                )
+                setSSLHostnameVerifier(NoopHostnameVerifier())
+            }
+        }
+
+        install(JsonFeature) {
+            serializer = JacksonSerializer()
+        }
+    }
+
     actual var url = Url()
     actual var auth: RestServiceAuth? = null
 
@@ -74,25 +108,34 @@ actual open class GenericHttpClient actual constructor() {
         val fullPath = this.url.path(usePath).create()
 
         println("Sending a ${useMethod.value} request to $fullPath")
+
+
+        SSLContextBuilder.create()
+
+
+
         runBlocking {
             launch {
-                val request = client.request<io.ktor.client.statement.HttpResponse> {
-                    url(fullPath)
-                    println(fullPath)
+                try {
+                    facetteResponse = HttpResponse(client.request {
+                        url(fullPath)
+                        println(fullPath)
 
-                    method = useMethod
-                    println(useMethod)
+                        method = useMethod
+                        println(useMethod)
 
-                    if(useContent != null) {
-                        body = getBody(useContent)
-                    }
+                        if(useContent != null) {
+                            body = getBody(useContent)
+                        }
+                        userAgent("SevenFacette")
 
-
-                    useHeaders.header.forEach {
-                        headers.append(it.first, it.second)
-                    }
+                        useHeaders.header.forEach {
+                            headers.append(it.first, it.second)
+                        }
+                    })
+                } catch (e: Exception) {
+                    println(e.message)
                 }
-                facetteResponse = HttpResponse(request)
             }.join()
         }
 
