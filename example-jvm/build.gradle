@@ -14,6 +14,8 @@ repositories {
 dependencies {
     implementation ("de.p7s1.qa.sevenfacette:core-jvm:0.0.3")
 
+    implementation ("commons-io:commons-io:2.6")
+
     // Kafka
     implementation("org.apache.kafka:kafka-clients:2.0.0")
     implementation("io.confluent:kafka-avro-serializer:5.0.0")
