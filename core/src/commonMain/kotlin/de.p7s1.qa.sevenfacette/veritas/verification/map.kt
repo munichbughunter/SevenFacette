@@ -84,7 +84,9 @@ fun <K, V> Verify<Map<K, V>>.containsAll(vararg elements: Pair<K, V>) = given { 
     }
 
     val notFound = elements.filterNot { (k, v) -> actual[k] == v }
-    expected("to contain all:${show(elements.toMap())} but was:${show(actual)}\n elements not found:${show(notFound.toMap())}")
+    expected("to contain all:${show(elements.toMap())} " +
+            "but was:${show(actual)}\n " +
+            "elements not found:${show(notFound.toMap())}")
 }
 
 /**
@@ -113,7 +115,9 @@ fun <K, V> Verify<Map<K, V>>.doesNotContain(element: Pair<K, V>) {
 fun <K, V> Verify<Map<K, V>>.containsNone(vararg elements: Pair<K, V>) = given { actual ->
     if (elements.all { (k, v) -> actual[k] != v }) return
     val notExpected = elements.filter { (k, v) -> actual[k] == v }
-    expected("to contain none of:${show(elements.toMap())} but was:${show(actual)}\n elements not expected:${show(notExpected.toMap())}")
+    expected("to contain none of:${show(elements.toMap())} " +
+            "but was:${show(actual)}\n " +
+            "elements not expected:${show(notExpected.toMap())}")
 }
 
 /**

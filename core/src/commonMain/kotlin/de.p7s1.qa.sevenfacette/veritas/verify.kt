@@ -121,7 +121,8 @@ fun <T> Verify<Result<T>>.doesNotThrowAnyException() {
 typealias AssertBlock<T> = Verify<Result<T>>
 
 @Suppress("DEPRECATION")
-@Deprecated(message = "Temporary replacement for kotlin.Result until https://youtrack.jetbrains.com/issue/KT-32450 is fixed.")
+@Deprecated(message = "Temporary replacement for kotlin.Result until " +
+        "https://youtrack.jetbrains.com/issue/KT-32450 is fixed.")
 sealed class Result<out T> {
     companion object {
         fun <T> success(value: T): Result<T> = Success(value)
@@ -164,7 +165,9 @@ sealed class Result<out T> {
 /**
  * Calls platform specific function so that it is possible to show stacktrace if able
  *
- * TODO: use @OptionalExpectation (https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-optional-expectation/index.html) here once available and call default implementation of [show] for JS
+ * TODO: use @OptionalExpectation
+ * (https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-optional-expectation/index.html)
+ * here once available and call default implementation of show for JS
  */
 internal expect fun showError(e: Throwable): String
 
@@ -256,7 +259,8 @@ internal fun <T> Verify<T>.all(
 }
 
 /**
- * Asserts on the given block returning an `Assert<Result<T>>`. You can test that it returns a value or throws an exception.
+ * Asserts on the given block returning an `Assert<Result<T>>`.
+ * You can test that it returns a value or throws an exception.
  *
  * ```
  * verifyThat { 1 + 1 }.isSuccess().isPositive()

@@ -19,3 +19,4 @@ common/*
 
 /core/node_modules/
 /node_modules/
+/core/detekt/

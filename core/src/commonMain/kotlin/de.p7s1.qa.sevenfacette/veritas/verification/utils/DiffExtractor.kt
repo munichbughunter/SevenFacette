@@ -1,6 +1,10 @@
 package de.p7s1.qa.sevenfacette.veritas.verification.utils
 
-// ToDo: Check if we need more context length
+/**
+ *
+ * TODO: Check if we need more context length
+ *
+ */
 private const val MAX_CONTEXT_LENGTH = 20
 
 internal class DiffExtractor(val expected: String, val actual: String) {

@@ -109,7 +109,9 @@ fun Verify<Array<*>>.containsNone(vararg elements: Any?) = given { actual ->
     }
 
     val notExpected = elements.filter { it in actual }
-    expected("to contain none of:${show(elements)} but was:${show(actual)}\n elements not expected:${show(notExpected)}")
+    expected("to contain none of:${show(elements)} " +
+            "but was:${show(actual)}\n " +
+            "elements not expected:${show(notExpected)}")
 }
 
 /**

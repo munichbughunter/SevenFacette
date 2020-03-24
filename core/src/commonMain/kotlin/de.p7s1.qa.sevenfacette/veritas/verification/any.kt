@@ -111,7 +111,8 @@ fun Verify<Any?>.isNull() = given { actual ->
 }
 
 /**
- * Verifies the value is not null. You can pass in an optional lambda to run additional assertions on the non-null value.
+ * Verifies the value is not null.
+ * You can pass in an optional lambda to run additional assertions on the non-null value.
  *
  * ```
  * val name: String? = ...
@@ -135,7 +136,8 @@ fun <T, P> Verify<T>.prop(name: String, extract: (T) -> P): Verify<P> =
         transform("${if (this.name != null) this.name + "." else ""}$name", extract)
 
 /**
- * Verifies the value has the expected kotlin class. This is an exact match, so `verifyThat("test").hasClass(String::class)`
+ * Verifies the value has the expected kotlin class. This is an exact match,
+ * so `verifyThat("test").hasClass(String::class)`
  * is successful but `verifyThat("test").hasClass(Any::class)` fails.
  * @see [doesNotHaveClass]
  * @see [isInstanceOf]
@@ -147,8 +149,8 @@ fun <T : Any> Verify<T>.hasClass(kclass: KClass<out T>) = given { actual ->
 
 /**
  * Verifies the value does not have the expected kotlin class. This is an exact match, so
- * `assertThat("test").doesNotHaveClass(String::class)` is fails but `assertThat("test").doesNotHaveClass(Any::class)` is
- * successful.
+ * `assertThat("test").doesNotHaveClass(String::class)`
+ * is fails but `assertThat("test").doesNotHaveClass(Any::class)` is successful.
  * @see [hasClass]
  * @see [isNotInstanceOf]
  */
@@ -159,7 +161,8 @@ fun <T : Any> Verify<T>.doesNotHaveClass(kclass: KClass<out T>) = given { actual
 
 /**
  * Asserts the value is not an instance of the expected kotlin class. Both
- * `assertThat("test").isNotInstanceOf(String::class)` and `assertThat("test").isNotInstanceOf(Any::class)` fails.
+ * `assertThat("test").isNotInstanceOf(String::class)`
+ * and `assertThat("test").isNotInstanceOf(Any::class)` fails.
  * @see [isInstanceOf]
  * @see [doesNotHaveClass]
  */
@@ -169,7 +172,8 @@ fun <T : Any> Verify<T>.isNotInstanceOf(kclass: KClass<out T>) = given { actual 
 }
 
 /**
- * Asserts the value is an instance of the expected kotlin class. Both `assertThat("test").isInstanceOf(String::class)` and
+ * Asserts the value is an instance of the expected kotlin class.
+ * Both `assertThat("test").isInstanceOf(String::class)` and
  * `assertThat("test").isInstanceOf(Any::class)` is successful.
  * @see [isNotInstanceOf]
  * @see [hasClass]

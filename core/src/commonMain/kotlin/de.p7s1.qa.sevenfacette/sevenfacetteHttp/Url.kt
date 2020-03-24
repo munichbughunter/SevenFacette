@@ -1,7 +1,10 @@
 package de.p7s1.qa.sevenfacette.sevenfacetteHttp
 
-// ToDo: documentation and constants
-
+/**
+ *
+ * TODO: documentation and constants
+ *
+ */
 class Url {
     var protocol: String = "http"
         private set
@@ -18,7 +21,9 @@ class Url {
     fun baseUrl(baseUrl: String) = apply { this.baseUrl = baseUrl }
     fun path(path: String) = apply { this.path = path }
     fun port (port: Int) = apply {
-        // ToDo: Add logging
+        /**
+         * TODO: Add logging
+         */
         require(port >= 0 && port <=65535, { println("Port is outside of range")})
         this.port = port
     }

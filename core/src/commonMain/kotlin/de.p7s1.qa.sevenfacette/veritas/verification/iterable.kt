@@ -32,7 +32,9 @@ fun Verify<Iterable<*>>.containsNone(vararg elements: Any?) = given { actual ->
     if (notExpected.isEmpty()) {
         return
     }
-    expected("to contain none of:${show(elements)} but was:${show(actual)}\n elements not expected:${show(notExpected)}")
+    expected("to contain none of:${show(elements)} " +
+            "but was:${show(actual)}\n " +
+            "elements not expected:${show(notExpected)}")
 }
 
 /**
