@@ -6,7 +6,7 @@ import java.util.Properties
 class SaslConfiguration {
     companion object {
         @JvmStatic
-        fun addSaslProperties(properties: Properties, protocol: SaslSecurityProtocol): Properties {
+        fun addSaslProperties(properties: MutableMap<String, Any>, protocol: SaslSecurityProtocol): MutableMap<String, Any> {
             properties["security.protocol"] = protocol.protocol
             // ToDo: That should come from the config
             properties[SaslConfigs.SASL_MECHANISM] = System.getenv("SASL_MECHANISM")
