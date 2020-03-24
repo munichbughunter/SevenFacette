@@ -29,25 +29,21 @@ class JKafkaConsumerTest {
     assertTrue(kafkaCommitStreamConsumer.waitForMessage(5000), "Commitstream Consumer has message consumed");
     System.out.println(kafkaCommitStreamConsumer.getMessageCount());
     System.out.println(kafkaCommitStreamConsumer.getLastMessage());
-    //assertEquals(500, kafkaCommitStreamConsumer.getMessageCount());
 
     System.out.println("AUSGABE REPLICATION CONSUMER");
     assertTrue(kafkaReplicationConsumer.waitForMessage(5000));
     System.out.println(kafkaReplicationConsumer.getMessageCount());
     System.out.println(kafkaReplicationConsumer.getLastMessage());
-    //assertEquals(500, kafkaReplicationConsumer.getMessageCount());
 
     System.out.println("AUSGABE PERSIST CONSUMER");
     assertTrue(kafkaPersistConsumer.waitForMessage(5000));
     System.out.println(kafkaPersistConsumer.getMessageCount());
     System.out.println(kafkaPersistConsumer.getLastMessage());
-    //assertEquals(500, kafkaPersistConsumer.getMessageCount());
 
     System.out.println("AUSGABE INGEST CONSUMER");
     assertTrue(kafkaIngestConsumer.waitForMessage(5000));
     System.out.println(kafkaIngestConsumer.getMessageCount());
     System.out.println(kafkaIngestConsumer.getLastMessage());
-    //assertEquals(500, kafkaIngestConsumer.getMessageCount());
   }
 
   @Test
@@ -81,9 +77,8 @@ class JKafkaConsumerTest {
     System.out.println(kafkaReplicationConsumer.getMessageCount());
     System.out.println(kafkaReplicationConsumer.getLastMessage());
 
-    kafkaPersistConsumer.reConfigure(1, "", 5, "42630170000000000");
-    kafkaIngestConsumer.reConfigure(1, "", 5, "42630170000000000");
-
+    kafkaPersistConsumer.reConfigure(1, "", 5, "<MyStreamIndex>");
+    kafkaIngestConsumer.reConfigure(1, "", 5, "<MyStreamIndex>");
 
     System.out.println("AUSGABE PERSIST CONSUMER");
     assertTrue(kafkaPersistConsumer.waitForMessage(5000));

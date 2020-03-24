@@ -49,7 +49,7 @@ class KConsumer(
                     streamIndex: String) {
         this.latchWaitTime = latchWaitTime
         this.messageCount = expectedMessageCount
-        if ("" != streamIndex) {
+        if (!"".equals(streamIndex)) {
             this.pattern = streamIndex
         } else {
             this.pattern = pattern
