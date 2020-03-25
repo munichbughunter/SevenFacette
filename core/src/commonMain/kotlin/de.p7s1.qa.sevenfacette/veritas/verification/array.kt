@@ -109,7 +109,9 @@ fun Verify<Array<*>>.containsNone(vararg elements: Any?) = given { actual ->
     }
 
     val notExpected = elements.filter { it in actual }
-    expected("to contain none of:${show(elements)} but was:${show(actual)}\n elements not expected:${show(notExpected)}")
+    expected("to contain none of:${show(elements)} " +
+            "but was:${show(actual)}\n " +
+            "elements not expected:${show(notExpected)}")
 }
 
 /**
@@ -120,7 +122,9 @@ fun Verify<Array<*>>.containsNone(vararg elements: Any?) = given { actual ->
 fun Verify<Array<*>>.containsAll(vararg elements: Any?) = given { actual ->
     if (elements.all { actual.contains(it) }) return
     val notFound = elements.filterNot { it in actual }
-    expected("to contain all:${show(elements)} but was:${show(actual)}\n elements not found:${show(notFound)}")
+    expected("to contain all:${show(elements)} " +
+            "but was:${show(actual)}\n " +
+            "elements not found:${show(notFound)}")
 }
 
 /**
@@ -135,7 +139,8 @@ fun Verify<Array<*>>.containsOnly(vararg elements: Any?) = given { actual ->
     if (notInExpected.isEmpty() && notInActual.isEmpty()) {
         return
     }
-    expected(StringBuilder("to contain only:${show(elements)} but was:${show(actual)}").apply {
+    expected(StringBuilder("to contain only:${show(elements)} " +
+            "but was:${show(actual)}").apply {
         if (notInActual.isNotEmpty()) {
             append("\n elements not found:${show(notInActual)}")
         }
@@ -190,7 +195,7 @@ fun <T> Verify<Array<T>>.each(f: (Verify<T>) -> Unit) = given { actual ->
 }
 
 /**
- * Extracts a value of from each item in the array, allowing you to assert on a list of those values.
+ * Extracts a value of from each item in the array, allowing you to assert on a list of those values
  *
  * ```
  * assertThat(people)
@@ -203,7 +208,8 @@ fun <E, R> Verify<Array<E>>.extracting(f1: (E) -> R): Verify<List<R>> = transfor
 }
 
 /**
- * Extracts two values of from each item in the array, allowing you to assert on a list of paris of those values.
+ * Extracts two values of from each item in the array, allowing you to assert on a list of
+ * paris of those values.
  *
  * ```
  * assertThat(people)
@@ -217,7 +223,8 @@ fun <E, R1, R2> Verify<Array<E>>.extracting(f1: (E) -> R1, f2: (E) -> R2): Verif
         }
 
 /**
- * Extracts three values from each item in the array, allowing you to assert on a list of triples of those values.
+ * Extracts three values from each item in the array, allowing you to assert on a list of
+ * triples of those values.
  *
  * ```
  * assertThat(people)

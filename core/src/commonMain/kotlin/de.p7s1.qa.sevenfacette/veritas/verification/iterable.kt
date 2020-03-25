@@ -32,7 +32,9 @@ fun Verify<Iterable<*>>.containsNone(vararg elements: Any?) = given { actual ->
     if (notExpected.isEmpty()) {
         return
     }
-    expected("to contain none of:${show(elements)} but was:${show(actual)}\n elements not expected:${show(notExpected)}")
+    expected("to contain none of:${show(elements)} " +
+            "but was:${show(actual)}\n " +
+            "elements not expected:${show(notExpected)}")
 }
 
 /**
@@ -90,7 +92,8 @@ fun <E> Verify<Iterable<E>>.each(f: (Verify<E>) -> Unit) = given { actual ->
 }
 
 /**
- * Extracts a value of from each item in the iterable, allowing you to assert on a list of those values.
+ * Extracts a value of from each item in the iterable, allowing you to assert on a list
+ * of those values.
  *
  * ```
  * assertThat(people)
@@ -103,7 +106,8 @@ fun <E, R> Verify<Iterable<E>>.extracting(f1: (E) -> R): Verify<List<R>> = trans
 }
 
 /**
- * Extracts two values of from each item in the iterable, allowing you to assert on a list of paris of those values.
+ * Extracts two values of from each item in the iterable, allowing you to assert on a list of
+ * paris of those values.
  *
  * ```
  * assertThat(people)
@@ -117,7 +121,8 @@ fun <E, R1, R2> Verify<Iterable<E>>.extracting(f1: (E) -> R1, f2: (E) -> R2): Ve
         }
 
 /**
- * Extracts three values from each item in the iterable, allowing you to assert on a list of triples of those values.
+ * Extracts three values from each item in the iterable, allowing you to assert on a list of
+ * triples of those values.
  *
  * ```
  * assertThat(people)
