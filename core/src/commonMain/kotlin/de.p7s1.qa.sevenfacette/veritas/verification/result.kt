@@ -8,7 +8,8 @@ import de.p7s1.qa.sevenfacette.veritas.verification.utils.expected
 import de.p7s1.qa.sevenfacette.veritas.verification.utils.show
 
 /**
- * Asserts the given [veritas.Result] successful returned a value, returning it's result if it did or failing if it didn't.
+ * Asserts the given [veritas.Result] successful returned a value,
+ * returning it's result if it did or failing if it didn't.
  *
  * ```
  * assertThat { 1 + 1 }.isSuccess().isEqualTo(2)
@@ -24,7 +25,8 @@ fun <T> Verify<de.p7s1.qa.sevenfacette.veritas.Result<T>>.isSuccess(): Verify<T>
 }
 
 /**
- * Asserts the given [veritas.Result] threw an exception, returning that exception if it was or failing it if didn't.
+ * Asserts the given [veritas.Result] threw an exception, returning that exception
+ * if it was or failing it if didn't.
  *
  * ```
  * assertThat { throw Exception("error") }.isFailure().hasMessage("error")

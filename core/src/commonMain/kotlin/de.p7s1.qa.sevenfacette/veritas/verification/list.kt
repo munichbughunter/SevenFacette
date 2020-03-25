@@ -42,7 +42,8 @@ internal fun listDifferExpected(elements: List<Any?>, actual: List<Any?>): Strin
                 else -> throw IllegalStateException()
             } }
 
-    return diff.joinToString(prefix = "to contain exactly:${show(elements)} but was:${show(actual)}\n", separator = "\n") { edit ->
+    return diff.joinToString(prefix = "to contain exactly:${show(elements)} " +
+            "but was:${show(actual)}\n", separator = "\n") { edit ->
         when (edit) {
             is ListDiffer.Edit.Del -> " at index:${edit.oldIndex} expected:${show(edit.oldValue)}"
             is ListDiffer.Edit.Ins -> " at index:${edit.newIndex} unexpected:${show(edit.newValue)}"
