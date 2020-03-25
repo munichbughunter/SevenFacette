@@ -183,3 +183,56 @@ dokka {
         }
     }
 }
+
+tasks.detekt.jvmTarget = "1.8"
+
+task detektCommonMain(type: io.gitlab.arturbosch.detekt.Detekt) {
+    description = "Runs a failfast detekt build on the commonMain module"
+    ignoreFailures = true
+    setSource(files("$projectDir/src/commonMain/kotlin"))
+    config.setFrom(files("$projectDir/config/detekt/detekt.yml"))
+    reports {
+        html {
+            enabled = true
+            destination = file("$projectDir/detekt/commonMain-analysis.html")
+        }
+    }
+    include '**/*.kt'
+    include '**/*.kts'
+    exclude 'resources/'
+    exclude 'build/'
+}
+
+task detektJVMMain(type: io.gitlab.arturbosch.detekt.Detekt) {
+    description = "Runs a failfast detekt build on the jvmMain module"
+    ignoreFailures = true
+    setSource(files("$projectDir/src/jvmMain/kotlin"))
+    config.setFrom(files("$projectDir/config/detekt/detekt.yml"))
+    reports {
+        html {
+            enabled = true
+            destination = file("$projectDir/detekt/jvmMain-analysis.html")
+        }
+    }
+    include '**/*.kt'
+    include '**/*.kts'
+    exclude 'resources/'
+    exclude 'build/'
+}
+
+task detektJSMain(type: io.gitlab.arturbosch.detekt.Detekt) {
+    description = "Runs a failfast detekt build on the jsMain module"
+    ignoreFailures = true
+    setSource(files("$projectDir/src/jsMain/kotlin"))
+    config.setFrom(files("$projectDir/config/detekt/detekt.yml"))
+    reports {
+        html {
+            enabled = true
+            destination = file("$projectDir/detekt/jsMain-analysis.html")
+        }
+    }
+    include '**/*.kt'
+    include '**/*.kts'
+    exclude 'resources/'
+    exclude 'build/'
+}
