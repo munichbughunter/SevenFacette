@@ -1,0 +1,26 @@
+Banner: true
+---
+Profile: local
+User: ab
+Time: 2001-11-23 15:01:42 -5
+Warning:
+  This is an error message
+  for the log file
+---
+Profile: dev
+User: ed
+Time: 2001-11-23 15:02:31 -5
+Warning:
+  A slightly different error
+  message.
+---
+Profile: test
+User: zu
+Date: 2001-11-23 15:03:17 -5
+Fatal:
+  Unknown variable "bar"
+Stack:
+  - file: TopClass.py
+    line: 23
+  - file: MoreClass.py
+    line: 58

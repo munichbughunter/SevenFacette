@@ -57,6 +57,9 @@ kotlin {
                 implementation 'io.ktor:ktor-client-apache:1.3.0'
                 implementation 'io.ktor:ktor-client-auth-jvm:1.3.0'
                 implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.0.1'
+
+                implementation 'com.sksamuel.hoplite:hoplite-core:1.2.0'
+                implementation 'com.sksamuel.hoplite:hoplite-yaml:1.2.0'
             }
         }
         jsMain {
@@ -182,6 +185,12 @@ dokka {
                 path = kotlin.sourceSets.commonMain.kotlin.srcDirs[0]
             }
         }
+    }
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    kotlinOptions {
+        jvmTarget = "1.8"
     }
 }
 

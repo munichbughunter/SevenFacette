@@ -1,0 +1,98 @@
+package de.p7s1.qa.sevenfacette.config;
+
+import java.net.URI;
+import java.util.Collections;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static java.util.AbstractMap.SimpleEntry;
+
+public abstract class AbstractPropertySource implements ValueSource {
+  @FunctionalInterface
+  private interface Converter<C> {
+    C convert(String value);
+  }
+
+  private static <C> SimpleEntry<Class<C>, Converter<C>> entry(Class<C> cClass, Converter<C> converter) {
+    return new SimpleEntry<>(cClass, converter);
+  }
+
+  private static boolean convertBool(String str) {
+    if (str != null) {
+      str = str.trim().toLowerCase();
+      return str.equals("true") || str.equals("yes") || str.equals("1");
+    }
+    return false;
+  }
+
+  private Map<Class, Converter> converters = Collections.unmodifiableMap(Stream.of(
+    entry(Boolean.class, AbstractPropertySource::convertBool),
+    entry(boolean.class, AbstractPropertySource::convertBool),
+    entry(Byte.class, Byte::valueOf),
+    entry(byte.class, Byte::valueOf),
+    entry(Character.class, value -> value.charAt(0)),
+    entry(char.class, value -> value.charAt(0)),
+    entry(Short.class, Short::valueOf),
+    entry(short.class, Short::valueOf),
+    entry(Integer.class, Integer::valueOf),
+    entry(int.class, Integer::valueOf),
+    entry(Long.class, Long::valueOf),
+    entry(long.class, Long::valueOf),
+    entry(Float.class, Float::valueOf),
+    entry(float.class, Float::valueOf),
+    entry(Double.class, Double::valueOf),
+    entry(double.class, Double::valueOf),
+    entry(String.class, value -> value),
+    entry(URI.class, URI::create)
+  ).collect(Collectors.toMap(SimpleEntry::getKey, SimpleEntry::getValue)));
+
+
+  /**
+   * <p>Gets the string representation of a property whose name is defined by the <code>name</code> argument</p>
+   * <p>This method will be invoked by {@link #get(String, Class)} to transform the String value into
+   * a numeric/char value</p>
+   *
+   * @param name The name of the property to return
+   * @return The property stored for the given name, as a String, <code>null</code> if a property
+   * with such name does not exist or the property source is not available.
+   */
+  protected abstract String get(String name); //TODO: check whether it worths deprecating it and play better with optionals
+
+  /**
+   * <p>Gets the value of the property whose name is defined by the <code>name</code> argument, transforming
+   * it to the type of the class passed as second argument.</p>
+   *
+   * <p>If the requested type cannot be converted, it will throw a {@link ConfigurationException}. Other
+   * exceptions may raise, e.g. {@link NumberFormatException} when trying to convert an alphanumeric property
+   * into an <code>int</code>.</p>
+   *
+   * @param name The name of the property to return
+   * @param type The class object of the property to return
+   * @param <T>  The returned type
+   * @return The property stored for the given name, as an instance of the given type, <code>null</code> if a property
+   * with such name does not exist
+   * @throws ConfigurationException if an invalid type conversion has been intended (for example,
+   *                               trying to return a non-basic, non-String type)
+   * @throws NumberFormatException or trying to convert an alphanumeric property value to a Number
+   */
+  @Override
+  public <T> T get(String name, Class<T> type) {
+    String strVal = get(name);
+    if (strVal == null) {
+      return null;
+    }
+    @SuppressWarnings("unchecked")
+    Converter<T> converter = converters.get(type);
+    if (converter == null) {
+      throw new ConfigurationException("Cannot convert to type: " + type.getName());
+    }
+    return converter.convert(strVal);
+  }
+
+  @Override
+  public String getValue(String name) {
+    String val = get(name);
+    return val; 
+  }
+}
