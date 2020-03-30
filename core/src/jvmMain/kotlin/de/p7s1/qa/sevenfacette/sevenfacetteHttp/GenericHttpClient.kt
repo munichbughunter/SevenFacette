@@ -1,8 +1,8 @@
 package de.p7s1.qa.sevenfacette.sevenfacetteHttp
 
-import de.p7s1.qa.sevenfacette.config.RestServiceAuth
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.apache.Apache
+import io.ktor.client.features.HttpSend
 import io.ktor.client.features.auth.Auth
 import io.ktor.client.features.cookies.AcceptAllCookiesStorage
 import io.ktor.client.features.cookies.HttpCookies
@@ -16,46 +16,76 @@ import io.ktor.http.content.ByteArrayContent
 import io.ktor.http.content.PartData
 import io.ktor.http.content.TextContent
 import io.ktor.http.userAgent
+import io.ktor.util.KtorExperimentalAPI
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.apache.http.conn.ssl.NoopHostnameVerifier
 import org.apache.http.conn.ssl.TrustAllStrategy
 import org.apache.http.ssl.SSLContextBuilder
+import java.net.InetSocketAddress
+import java.net.Proxy
 
 actual open class GenericHttpClient actual constructor() {
 
-    actual val client = HttpClient(Apache) {
-        expectSuccess = false
-        install(Auth) {
-        }
-        install(HttpCookies) {
-            storage = AcceptAllCookiesStorage()
-        }
+    actual var url = Url()
+    private var authentication: Authentication? = null
+    private var httpProxy: Proxy? = null
+    private lateinit var client: HttpClient
 
-        // Trust own certificates
-        engine {
-            customizeClient {
-                setSSLContext(
-                        SSLContextBuilder
-                                .create()
-                                .loadTrustMaterial(TrustAllStrategy())
-                                .build()
-                )
-                setSSLHostnameVerifier(NoopHostnameVerifier())
-            }
-        }
-
-        install(JsonFeature) {
-            serializer = JacksonSerializer()
-        }
+    fun setAuthentication(authentication: Authentication): GenericHttpClient {
+        this.authentication = authentication
+        return this
     }
 
-    actual var url = Url()
-    actual var auth: RestServiceAuth? = null
-
-    actual fun auth(auth: RestServiceAuth): GenericHttpClient {
-        this.auth = auth
+    fun setProxy(host: String, port: Int): GenericHttpClient {
+        this.httpProxy = if (host == null) Proxy(Proxy.Type.HTTP, InetSocketAddress(port)) else Proxy(Proxy.Type.HTTP, InetSocketAddress(host, port))
         return this
+    }
+
+    @KtorExperimentalAPI
+    fun build() {
+        this.client =  HttpClient(Apache) {
+            expectSuccess = false
+
+            install(HttpCookies) {
+                storage = AcceptAllCookiesStorage()
+            }
+
+            install(JsonFeature) {
+                serializer = JacksonSerializer()
+            }
+
+            install(HttpSend){
+                maxSendCount = 2
+            }
+
+            if(authentication != null) {
+                install(Auth){
+                   providers.add(AuthenticationMapper.map(authentication))
+                }
+            }
+
+            engine {
+                socketTimeout = 10_000
+                connectTimeout = 10_000
+                connectionRequestTimeout = 20_000
+
+                customizeClient { // Trust all certificates
+                    setSSLContext(
+                            SSLContextBuilder
+                                    .create()
+                                    .loadTrustMaterial(TrustAllStrategy())
+                                    .build()
+                    )
+                    setSSLHostnameVerifier(NoopHostnameVerifier())
+
+                }
+
+                if(httpProxy != null) {
+                    proxy = httpProxy
+                }
+            }
+        }
     }
 
     actual fun url(url: Url): GenericHttpClient {
@@ -109,15 +139,13 @@ actual open class GenericHttpClient actual constructor() {
 
         println("Sending a ${useMethod.value} request to $fullPath")
 
-
-        SSLContextBuilder.create()
-
-
+        // SSLContextBuilder.create()
 
         runBlocking {
             launch {
                 try {
                     facetteResponse = HttpResponse(client.request {
+
                         url(fullPath)
                         println(fullPath)
 
