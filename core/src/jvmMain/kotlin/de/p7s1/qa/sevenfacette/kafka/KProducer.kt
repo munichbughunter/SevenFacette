@@ -17,7 +17,7 @@ class KProducer (private val topic: String) {
         config[ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG] = StringSerializer::class.java
         config[ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG] = StringSerializer::class.java
         // ToDo: THE SSL should also come from the config
-        config = SaslConfiguration.addSaslProperties(config, SSL)
+        //config = SaslConfiguration.addSaslProperties(config, SSL)
         return KafkaProducer(config)
     }
 

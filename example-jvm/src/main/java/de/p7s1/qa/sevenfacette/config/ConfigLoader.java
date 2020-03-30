@@ -76,4 +76,5 @@ public class ConfigLoader {
   public ObjectMapper getObjectMapper() {
     return objectMapper;
   }
+
 }

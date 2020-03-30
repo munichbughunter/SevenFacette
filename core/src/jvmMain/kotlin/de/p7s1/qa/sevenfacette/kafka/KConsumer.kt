@@ -9,55 +9,37 @@ import kotlinx.coroutines.launch
 import org.apache.kafka.clients.consumer.Consumer
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.consumer.KafkaConsumer
+import org.apache.kafka.common.config.SaslConfigs
 import org.apache.kafka.common.serialization.StringDeserializer
 import java.time.Duration
 import java.util.UUID
+import java.util.concurrent.ConcurrentLinkedQueue
 import java.util.concurrent.CountDownLatch
 import kotlin.coroutines.CoroutineContext
 
-class KConsumer(
-        private val topic: String,
-        private var expectedMessageCount: Int,
-        private var pattern: String,
-        private var latchWaitTime: Int
+class KConsumer (
+        private val consumerConfig: KConfig
 ) : CoroutineScope by CoroutineScope(Dispatchers.Default){
     private val job = Job()
-    private var messageCount = expectedMessageCount
-    private val intermediateList: MutableList<String> = mutableListOf()
-    private var latch = CountDownLatch(messageCount)
+    private val messagequeue = ConcurrentLinkedQueue<String>()
     private var keepGoing = true
-    private val messageList: MutableList<String> = mutableListOf()
     private val consumer = createConsumer()
 
-    private fun createConsumer() : Consumer<String, String> {
+    public fun createConsumer() : Consumer<String, String> {
+        //return KafkaConsumer<String, String>(KConsumerConfig)
         var config : MutableMap<String, Any> = mutableMapOf()
-        // ToDo: That should come from the config
-        config[ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG] = System.getenv("BOOT_STRAP_SERVER")
+        config[ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG] = consumerConfig.bootstrapServer
         config[ConsumerConfig.GROUP_ID_CONFIG] = UUID.randomUUID().toString()
         config[ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG] = StringDeserializer::class.java
         config[ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG] = StringDeserializer::class.java
-        // ToDo: That should come from the config
-        config[ConsumerConfig.AUTO_OFFSET_RESET_CONFIG] = System.getenv("AUTO_OFFSET")
-        // ToDo: THE SSL should also come from the config
-        config = SaslConfiguration.addSaslProperties(config, SSL)
-        return KafkaConsumer<String, String>(config)
-    }
-
-    fun reConfigure(expectedMessageCount: Int,
-                    pattern: String,
-                    latchWaitTime: Int,
-                    streamIndex: String) {
-        this.latchWaitTime = latchWaitTime
-        this.messageCount = expectedMessageCount
-        if (!"".equals(streamIndex)) {
-            this.pattern = streamIndex
-        } else {
-            this.pattern = pattern
+        config[ConsumerConfig.AUTO_OFFSET_RESET_CONFIG] = consumerConfig.autoOffset
+        /**
+         * TODO: Discuss if it makes sense...
+         */
+        if (consumerConfig.saslConfig) {
+            config = SaslConfiguration.addSaslProperties(config, consumerConfig)
         }
-        latch = CountDownLatch(this.messageCount)
-        intermediateList
-                .filter { msg -> msg.contains(streamIndex) }
-                .forEach(this::collectMessage)
+        return KafkaConsumer<String, String>(config)
     }
 
     override val coroutineContext: CoroutineContext
@@ -86,60 +68,36 @@ class KConsumer(
     }
 
     fun consume()  {
-        consumer.subscribe(listOf(topic))
+        consumer.subscribe(listOf(consumerConfig.kafkaTopic))
         GlobalScope.launch {
             println("Consuming and processing data")
             while (keepGoing) {
-                consumer.poll(Duration.ofSeconds(latchWaitTime.toLong())).forEach {
-                    collectMessage(it.value())
+                consumer.poll(Duration.ofSeconds(consumerConfig.maxConsumingTime)).forEach {
+                    messagequeue.add(it.value())
+                    /**
+                     * TODO: Think about using the key
+                     */
                 }
                 stopConsumer()
             }
         }
     }
 
-    private fun collectMessage(message: String) {
-        if (pattern.isEmpty()) {
-            intermediateList.add(message)
-            // ToDo Add logging
-            return
-        }
-        if (latch.count == 0L) {
-            return stopConsumer()
-        }
-        // ToDo: Validate that
-        if (message.contains(pattern) || pattern == "*") {
-            messageList.add(message)
-            // ToDo Add logging
-            latch.countDown()
-            checkLatch()
-        }
-    }
-
-    fun getMessageList(): List<String?>? {
-        return messageList
-    }
-
-    private fun checkLatch() {
-        if (latch.count == 0L) {
-            stopConsumer()
-        }
+    fun getMessages(): ConcurrentLinkedQueue<String> {
+        return messagequeue
     }
 
     fun getMessageCount() : Int {
-        return messageList.size
-    }
-
-    fun getAllMessages(): List<String?>? {
-        return messageList
+        return messagequeue.size
     }
 
     fun getLastMessage(): String? {
-        return messageList[messageList.size - 1]
+        return messagequeue.elementAt(messagequeue.size -1)
+        //return messageList[messageList.size - 1]
     }
 
     private fun hasMessage(): Boolean {
-        return messageList.isNotEmpty()
+        return !messagequeue.isEmpty()
     }
 
     private fun stopConsumer() {

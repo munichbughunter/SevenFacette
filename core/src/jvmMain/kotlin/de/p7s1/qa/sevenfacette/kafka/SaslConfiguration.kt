@@ -6,11 +6,10 @@ import java.util.Properties
 class SaslConfiguration {
     companion object {
         @JvmStatic
-        fun addSaslProperties(properties: MutableMap<String, Any>, protocol: SaslSecurityProtocol): MutableMap<String, Any> {
-            properties["security.protocol"] = protocol.protocol
-            // ToDo: That should come from the config
-            properties[SaslConfigs.SASL_MECHANISM] = System.getenv("SASL_MECHANISM")
-            properties[SaslConfigs.SASL_JAAS_CONFIG] = JaasConfig.create()
+        fun addSaslProperties(properties: MutableMap<String, Any>, consumerConfig: KConfig): MutableMap<String, Any> {
+            properties["security.protocol"] = consumerConfig.kafkaProtocol
+            properties[SaslConfigs.SASL_MECHANISM] = consumerConfig.saslMechanism
+            properties[SaslConfigs.SASL_JAAS_CONFIG] = JaasConfig.create(consumerConfig)
             return properties
         }
     }
