@@ -10,6 +10,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * Example tests for restful booker client to display functionality of GenericHttpClient
+ *
+ * @author Florian Pilz
+ */
+
 public class RestFulBookerClientTest {
 
   @Test
