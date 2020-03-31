@@ -1,10 +1,8 @@
 package de.p7s1.qa.sevenfacette.config;
 
-import de.p7s1.qa.sevenfacette.kafka.KConsumer;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 public class JConfigTest {
