@@ -3,9 +3,13 @@ package de.p7s1.qa.sevenfacette.http;
 import de.p7s1.qa.sevenfacette.sevenfacetteHttp.HttpHeader;
 import de.p7s1.qa.sevenfacette.sevenfacetteHttp.HttpResponse;
 import de.p7s1.qa.sevenfacette.sevenfacetteHttp.MultipartBody;
+import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
 
-// ToDo: Implement assertions
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+
 public class RestFulBookerClientTest {
 
   @Test
@@ -25,12 +29,13 @@ public class RestFulBookerClientTest {
   }
 
   @Test
-  public void createNewBooking() {
+  public void createNewBooking() throws IOException {
+    String resource = "/http/example.json";
+    InputStream input = this.getClass().getResourceAsStream(resource);
+    String content = IOUtils.toString(input, StandardCharsets.UTF_8);
+
     HttpResponse response =
-            new RestFulBookerClient().createNewBooking(
-      "{\"firstname\" : \"Test\",\"lastname\" : \"User\",\"totalprice\" : 111,\"depositpaid\" : true,\"bookingdates\":{\"checkin\" : \"2019-07-15\",\"checkout\" : \"2019-07-26\"},\"additionalneeds\" : \"Breakfast\"}"
-      , new HttpHeader().add("Content-Type", "application/json")
-    );
+            new RestFulBookerClient().createNewBooking(content, new HttpHeader());
     System.out.println(response.getBody());
     System.out.println(response.getStatus());
   }
