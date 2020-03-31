@@ -33,11 +33,6 @@ import java.net.Proxy
 actual open class GenericHttpClient actual constructor() {
 
     /**
-     * JVM specific implementation of URL
-     */
-    actual var url = Url()
-
-    /**
      * Lazy loading of socket timeout for all requests
      * If system environment SOCKET_TIMEOUT is set this will be used. If not default timeout 10_000 will be used
      */
@@ -75,7 +70,13 @@ actual open class GenericHttpClient actual constructor() {
 
     private var authentication: Authentication? = null
     private var httpProxy: Proxy? = null
+    private lateinit var url: Url
     private lateinit var client: HttpClient
+
+    actual fun setUrl(url: Url): GenericHttpClient {
+        this.url = url
+        return this
+    }
 
     /**
      * JVM specific implementation of set authentication
@@ -154,19 +155,6 @@ actual open class GenericHttpClient actual constructor() {
                 }
             }
         }
-    }
-
-    /**
-     * JVM specific implementation of url
-     * Sets URL for requests. Must be provided before function build is executed.
-     *
-     * @param url String base URL for http requests
-     * @see Url
-     * @return this
-     */
-    actual fun url(url: Url): GenericHttpClient {
-        this.url = url
-        return this
     }
 
     /**

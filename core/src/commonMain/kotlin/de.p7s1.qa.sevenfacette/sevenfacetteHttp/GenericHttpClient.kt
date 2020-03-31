@@ -10,11 +10,7 @@ import io.ktor.util.KtorExperimentalAPI
  */
 expect open class GenericHttpClient() {
 
-    var url: Url
-        private set
-
-    fun url(url: Url): GenericHttpClient
-
+    fun setUrl(url: Url): GenericHttpClient
     fun setAuthentication(authentication: Authentication): GenericHttpClient
     fun setProxy(host: String?, port: Int): GenericHttpClient
     fun build()
