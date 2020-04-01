@@ -1,5 +1,8 @@
-package de.p7s1.qa.sevenfacette.sevenfacetteHttp
+package de.p7s1.qa.sevenfacette.http
 
+import de.p7s1.qa.sevenfacette.http.*
+import de.p7s1.qa.sevenfacette.http.GenericHttpClient
+import de.p7s1.qa.sevenfacette.http.HttpResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.apache.Apache
 import io.ktor.client.features.HttpSend
@@ -331,7 +334,7 @@ actual open class GenericHttpClient actual constructor() {
                         method = useMethod
                         println(useMethod)
 
-                        if(useContent != null) {
+                        if (useContent != null) {
                             body = getBody(useContent)
                         }
                         userAgent("SevenFacette")

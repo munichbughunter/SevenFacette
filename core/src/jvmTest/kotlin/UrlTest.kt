@@ -1,5 +1,5 @@
 
-import de.p7s1.qa.sevenfacette.sevenfacetteHttp.Url
+import de.p7s1.qa.sevenfacette.http.Url
 import org.junit.Test
 
 class UrlTest {

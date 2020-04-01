@@ -1,4 +1,8 @@
-package de.p7s1.qa.sevenfacette.sevenfacetteHttp
+package de.p7s1.qa.sevenfacette.http
+
+import de.p7s1.qa.sevenfacette.http.*
+import de.p7s1.qa.sevenfacette.http.GenericHttpClient
+import de.p7s1.qa.sevenfacette.http.HttpResponse
 
 actual open class GenericHttpClient {
 
