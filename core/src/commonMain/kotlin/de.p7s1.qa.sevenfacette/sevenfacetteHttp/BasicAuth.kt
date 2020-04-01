@@ -12,4 +12,7 @@ package de.p7s1.qa.sevenfacette.sevenfacetteHttp
  *
  * @author Florian Pilz
  */
-class BasicAuth(val username: String, val password: String, val realm: String? = null, val sendWithoutRequest: Boolean = true) : Authentication
+class BasicAuth(var username: String, var password: String) : Authentication {
+    var realm: String? = null
+    var sendWithoutRequest: Boolean = true
+}
