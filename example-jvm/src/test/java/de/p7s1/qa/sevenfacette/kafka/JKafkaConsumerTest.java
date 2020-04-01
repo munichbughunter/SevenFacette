@@ -65,30 +65,4 @@ class JKafkaConsumerTest {
     manuellProducer.send("Testmessage die nicht automatisch geflushed wird");
     manuellProducer.flush();
   }
-
-  @Test
-  void consumerConfig() {
-    System.out.println("Hier mache ich mein DB Zeugs....");
-    System.out.println("FERTIG MIT DB ZEUG....");
-
-    System.out.println("KAFKA INGEST CONSUMER....");
-    assertTrue(ingestConsumer.waitForMessage(5000));
-    System.out.println(ingestConsumer.getMessageCount());
-    System.out.println(ingestConsumer.getLastMessage());
-
-    System.out.println("KAFKA PERSIST CONSUMER....");
-    assertTrue(persistConsumer.waitForMessage(5000));
-    System.out.println(persistConsumer.getMessageCount());
-    System.out.println(persistConsumer.getLastMessage());
-
-    System.out.println("KAFKA REPLICATION CONSUMER....");
-    assertTrue(replicationConsumer.waitForMessage(5000));
-    System.out.println(replicationConsumer.getMessageCount());
-    System.out.println(replicationConsumer.getLastMessage());
-
-    System.out.println("KAFKA COMMITSTREAM CONSUMER....");
-    assertTrue(commitstreamConsumer.waitForMessage(5000));
-    System.out.println(commitstreamConsumer.getMessageCount());
-    System.out.println(commitstreamConsumer.getLastMessage());
-  }
 }
