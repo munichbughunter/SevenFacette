@@ -1,7 +1,18 @@
-package de.p7s1.qa.sevenfacette.sevenfacetteHttp
+package de.p7s1.qa.sevenfacette.http
 
 /**
- * TODO: documentation and constants
+ * URL for use with GenericHttpClient
+ * @see GenericHttpClient
+ * If the properties are provided the Url is created like protocol://baseUrl:port/path
+ * If an URL is added it is split into separate parts so protocol, baseUrl, path and port are filled.
+ *
+ * @property protocol used protocol like http or https. Default is "http"
+ * @property baseUrl used base URL for endpoint
+ * @property path used path for endpoint. Default is an empty string
+ * @property port used port for endpoints. Default is -1 which means no port will be added
+ * @property url generated url
+ *
+ * @author Florian Pilz
  */
 class Url {
     var protocol: String = "http"
@@ -15,17 +26,43 @@ class Url {
     var url: String = ""
         private set
 
+    /**
+     * Add protocol to URL
+     *
+     * @param protocol string protocol
+     */
     fun protocol(protocol: String) = apply { this.protocol = protocol }
+
+    /**
+     * Add base URL to URL
+     *
+     * @param baseUrl string base URL
+     */
     fun baseUrl(baseUrl: String) = apply { this.baseUrl = baseUrl }
+
+    /**
+     * Add path to url
+     *
+     * @param path string path
+     */
     fun path(path: String) = apply { this.path = path }
+
+    /**
+     *  Add port to URL
+     *
+     *  @param port used port
+     *  @throws Exception if port is < -1 or > 65535
+     */
     fun port (port: Int) = apply {
-        /**
-         * TODO: Add logging
-         */
-        require(port >= 0 && port <= 65535, { println("Port is outside of range")})
+        if(port < -1 || port > 65535) throw Exception("Port is outside of range")
         this.port = port
     }
 
+    /**
+     * Splits url and fills properties
+     *
+     * @param url string url
+     */
     fun url(url: String) {
         val protocolParts = url.split("://")
         var urlString: String
@@ -46,6 +83,11 @@ class Url {
         }
     }
 
+    /**
+     * Generates URL out of provided properties
+     *
+     * @return computed URL
+     */
     fun create(): String {
         var url = if (this.baseUrl.takeLast(1) == "/") {
             this.baseUrl.dropLast(1)
@@ -54,7 +96,7 @@ class Url {
         }
 
         url = if (url.contains("://")) {
-            this.url
+            url
         } else {
             "${this.protocol}://${url}"
         }

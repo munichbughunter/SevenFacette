@@ -1,4 +1,4 @@
-package de.p7s1.qa.sevenfacette.sevenfacetteHttp
+package de.p7s1.qa.sevenfacette.http
 
 import io.ktor.client.statement.HttpResponse
 
