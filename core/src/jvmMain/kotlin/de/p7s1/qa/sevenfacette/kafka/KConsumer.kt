@@ -1,7 +1,6 @@
 package de.p7s1.qa.sevenfacette.kafka
 
-import de.p7s1.qa.sevenfacette.kafka.config.KConfig
-import de.p7s1.qa.sevenfacette.kafka.config.KTopicConfiguration
+import de.p7s1.qa.sevenfacette.kafka.config.KTableTopicConfig
 import de.p7s1.qa.sevenfacette.kafka.config.SaslConfiguration
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -18,7 +17,7 @@ import java.util.concurrent.ConcurrentLinkedQueue
 import kotlin.coroutines.CoroutineContext
 
 class KConsumer (
-        private val topicConfiguration: KTopicConfiguration
+        private val tableTopicConfig: KTableTopicConfig
 ) : CoroutineScope by CoroutineScope(Dispatchers.Default) {
     private val job = Job()
     private val messagequeue = ConcurrentLinkedQueue<String>()
@@ -28,18 +27,19 @@ class KConsumer (
 
     fun createConsumer() : Consumer<String, String> {
         var config : MutableMap<String, Any> = mutableMapOf()
-        config[ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG] = topicConfiguration.kafkaConfig.bootstrapServer
+        config[ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG] = tableTopicConfig.kafkaConfig.bootstrapServer
         config[ConsumerConfig.GROUP_ID_CONFIG] = UUID.randomUUID().toString()
         config[ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG] = StringDeserializer::class.java
         config[ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG] = StringDeserializer::class.java
-        config[ConsumerConfig.AUTO_OFFSET_RESET_CONFIG] = topicConfiguration.kafkaConfig.autoOffset
+        config[ConsumerConfig.AUTO_OFFSET_RESET_CONFIG] = tableTopicConfig.kafkaConfig.autoOffset
         /**
          * TODO: Discuss if it makes sense...
          */
-        if (topicConfiguration.kafkaConfig.saslConfig) {
-            config = SaslConfiguration.addSaslProperties(config, topicConfiguration)
+        if (tableTopicConfig.kafkaConfig.saslConfig) {
+            config = SaslConfiguration.addSaslProperties(config, tableTopicConfig)
         }
-        return KafkaConsumer<String, String>(config)
+        consumer = KafkaConsumer<String, String>(config)
+        return consumer
     }
 
     override val coroutineContext: CoroutineContext
@@ -68,11 +68,11 @@ class KConsumer (
     }
 
     fun consume()  {
-        consumer.subscribe(listOf(topicConfiguration.kafkaTopic))
+        consumer.subscribe(listOf(tableTopicConfig.kafkaTopic))
         GlobalScope.launch {
             println("Consuming and processing data")
             while (keepGoing) {
-                consumer.poll(Duration.ofSeconds(topicConfiguration.kafkaConfig.maxConsumingTime)).forEach {
+                consumer.poll(Duration.ofSeconds(tableTopicConfig.kafkaConfig.maxConsumingTime)).forEach {
                     messagequeue.add(it.value())
                     /**
                      * TODO: Think about using the key
@@ -83,6 +83,9 @@ class KConsumer (
         }
     }
 
+    /**
+     *
+     */
     fun getMessages(): ConcurrentLinkedQueue<String> {
         return messagequeue
     }

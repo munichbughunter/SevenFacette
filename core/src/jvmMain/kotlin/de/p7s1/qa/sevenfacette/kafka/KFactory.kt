@@ -1,35 +1,25 @@
 package de.p7s1.qa.sevenfacette.kafka
 
-import de.p7s1.qa.sevenfacette.kafka.config.KTopicConfiguration
+import de.p7s1.qa.sevenfacette.kafka.config.KTableTopicConfig
 
 class KFactory {
     companion object {
         @JvmStatic
-        fun createKConsumer(topicConfig: KTopicConfiguration, autoStart: Boolean) : KConsumer {
+        fun createKConsumer(tableTopicConfig: KTableTopicConfig, autoStart: Boolean) : KConsumer {
             return when (autoStart) {
-                true -> KConsumer(topicConfig).apply {
+                true -> KConsumer(tableTopicConfig).apply {
                     createConsumer()
                     consume()
                 }
-                false -> KConsumer(topicConfig).apply {
+                false -> KConsumer(tableTopicConfig).apply {
                     createConsumer()
                 }
             }
         }
 
         @JvmStatic
-        fun createKProducer(topicConfig: KTopicConfiguration, autoStart: Boolean, message: String?) : KProducer {
-            return when (autoStart) {
-                true -> KProducer(topicConfig).apply {
-                    createProducer()
-                    if (message != null) {
-                        send(message)
-                    }
-                }
-                false -> KProducer(topicConfig).apply {
-                    createProducer()
-                }
-            }
+        fun createKProducer(tableTopicConfig: KTableTopicConfig, autoSend: Boolean) : KProducer {
+            return KProducer(tableTopicConfig, autoSend)
         }
     }
 }

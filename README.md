@@ -35,36 +35,21 @@ You can download 7Facette packages from JFRog Bintray or Maven Central
 
 ```kotlin
 repositories {
-    JFRog bintray()... 
-}
-```
-
-#### Maven Central
-
-```kotlin
-repositories {
-    mavencentral() 
+    maven {
+	  url "https://dl.bintray.com/p7s1qa/sevenfacette-jvm"
+	}
 }
 ```
 
 ### Packages
 
-#### Core
-
-```kotlin
-implementation("de.p7s1.qa:sevenfacette:core:0.1.0")
-```
-
 #### JVM
 
-```kotlin
-implementation("de.p7s1.qa:sevenfacette:core-jvm:0.1.0")
-```
-
-#### JS
+Actual we provide a JVM implementation of the 7Facette core module. The JS implementation is planned
+for the next release. 
 
 ```kotlin
-implementation("de.p7s1.qa:sevenfacette:core-js:0.1.0")
+implementation("de.p7s1.qa:sevenfacette-jvm:core:0.1.0")
 ```
 
 ## Questions or need help?
