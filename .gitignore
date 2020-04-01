@@ -16,6 +16,7 @@ common/*
 /core-j/bin/
 /core-js/bin/
 /selenium-j/bin/
+/example-jvm/out
 
 /node_modules/
 /core/node_modules/
