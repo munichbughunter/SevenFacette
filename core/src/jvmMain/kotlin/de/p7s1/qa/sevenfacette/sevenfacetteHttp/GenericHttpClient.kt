@@ -96,7 +96,6 @@ actual open class GenericHttpClient actual constructor() {
      * JVM specific implementation of set proxy
      * Adds proxy to http requests. If no proxy is provided no proxy is added to the requests.
      * Proxy must be added before function build is executed.
-     * @see HttpProxy
      *
      * @param host string host of proxy. Can be null. In this case only the port is used as proxy.
      * @param port string port of proxy
