@@ -7,7 +7,6 @@ import java.sql.ResultSet
 import java.sql.SQLException
 import java.util.concurrent.atomic.*
 
-
 class DatabaseFactory {
     private val select = "select"
     private val emptyValue = "NULL"

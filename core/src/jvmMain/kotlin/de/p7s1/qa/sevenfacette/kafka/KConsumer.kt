@@ -2,6 +2,10 @@ package de.p7s1.qa.sevenfacette.kafka
 
 import de.p7s1.qa.sevenfacette.kafka.config.KTableTopicConfig
 import de.p7s1.qa.sevenfacette.kafka.config.SaslConfiguration
+import java.time.Duration
+import java.util.UUID
+import java.util.concurrent.ConcurrentLinkedQueue
+import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -11,20 +15,26 @@ import org.apache.kafka.clients.consumer.Consumer
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.consumer.KafkaConsumer
 import org.apache.kafka.common.serialization.StringDeserializer
-import java.time.Duration
-import java.util.UUID
-import java.util.concurrent.ConcurrentLinkedQueue
-import kotlin.coroutines.CoroutineContext
 
+/**
+ * JVM specific implementation of the Kafka consumer
+ *
+ * @constructor the constructor receives the [tableTopicConfig]
+ *
+ * @author Patrick Döring
+ */
 class KConsumer (
         private val tableTopicConfig: KTableTopicConfig
 ) : CoroutineScope by CoroutineScope(Dispatchers.Default) {
     private val job = Job()
-    private val messagequeue = ConcurrentLinkedQueue<String>()
+    private val kRecordQueue = ConcurrentLinkedQueue<KRecord>()
     private var keepGoing = true
-    private lateinit var consumer: Consumer<String, String>
+    private lateinit var consumer: KafkaConsumer<String, String>
 
-
+    /**
+     * Create a KafkaConsumer
+     * @return [consumer]
+     */
     fun createConsumer() : Consumer<String, String> {
         var config : MutableMap<String, Any> = mutableMapOf()
         config[ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG] = tableTopicConfig.kafkaConfig.bootstrapServer
@@ -32,10 +42,8 @@ class KConsumer (
         config[ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG] = StringDeserializer::class.java
         config[ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG] = StringDeserializer::class.java
         config[ConsumerConfig.AUTO_OFFSET_RESET_CONFIG] = tableTopicConfig.kafkaConfig.autoOffset
-        /**
-         * TODO: Discuss if it makes sense...
-         */
-        if (tableTopicConfig.kafkaConfig.saslConfig) {
+
+        if (tableTopicConfig.kafkaConfig.useSASL) {
             config = SaslConfiguration.addSaslProperties(config, tableTopicConfig)
         }
         consumer = KafkaConsumer<String, String>(config)
@@ -45,38 +53,49 @@ class KConsumer (
     override val coroutineContext: CoroutineContext
         get() = job
 
+    /**
+     * Stop consuming and close
+     */
     private fun shutdown() {
         job.complete()
         try {
             consumer.close(Duration.ofMillis(5000L))
         } catch (ex: ConcurrentModificationException) {
-            println("Kafka consumer closed")
+            /**
+             * TODO: Log warning message
+             */
         }
     }
 
-    fun waitForMessage(waitingTime: Int): Boolean {
+    /**
+     * Wait for consumed KRecords within a given timespan
+     *
+     * @param [waitingTime]
+     * @return [hasMessage]
+     */
+    fun waitForKRecords(waitingTime: Int): Boolean {
         var waited : Int = 0
         var hasMessage : Boolean = false
 
         do {
             Thread.sleep(500)
             waited += 500
-            hasMessage = hasMessage()
+            hasMessage = hasKRecords()
         } while (!hasMessage && waited <= waitingTime)
         stopConsumer()
         return hasMessage
     }
 
+    /**
+     * Subscribe consumer on table topic, start consuming and add KRecords to kRecordQueue
+     */
     fun consume()  {
         consumer.subscribe(listOf(tableTopicConfig.kafkaTopic))
         GlobalScope.launch {
             println("Consuming and processing data")
             while (keepGoing) {
                 consumer.poll(Duration.ofSeconds(tableTopicConfig.kafkaConfig.maxConsumingTime)).forEach {
-                    messagequeue.add(it.value())
-                    /**
-                     * TODO: Think about using the key
-                     */
+                    kRecordQueue.add(KRecord(it.key(), it.value(), it.offset(), it.partition()))
                 }
                 stopConsumer()
             }
@@ -84,24 +103,44 @@ class KConsumer (
     }
 
     /**
+     * Returns the consumed KRecords
      *
+     * @return [kRecordQueue]
      */
-    fun getMessages(): ConcurrentLinkedQueue<String> {
-        return messagequeue
+    fun getKRecords(): ConcurrentLinkedQueue<KRecord> {
+        return kRecordQueue
     }
 
-    fun getMessageCount() : Int {
-        return messagequeue.size
+    /**
+     * Returns the consumed record count
+     *
+     * @return kRecordQueue.size
+     */
+    fun getKRecordsCount() : Int {
+        return kRecordQueue.size
     }
 
-    fun getLastMessage(): String? {
-        return messagequeue.elementAt(messagequeue.size -1)
+    /**
+     * Returns the last consumed record
+     *
+     * @return kRecordQueue.elementAt(kRecordQueue.size -1)
+     */
+    fun getLastKRecord(): KRecord? {
+        return kRecordQueue.elementAt(kRecordQueue.size -1)
     }
 
-    private fun hasMessage(): Boolean {
-        return !messagequeue.isEmpty()
+    /**
+     * Returns true if messages are consumed
+     *
+     * @return !kRecordQueue.isEmpty()
+     */
+    private fun hasKRecords(): Boolean {
+        return !kRecordQueue.isEmpty()
     }
 
+    /**
+     * Sets the keepGoing flag to false and stops consumer
+     */
     private fun stopConsumer() {
         keepGoing = false
         shutdown()

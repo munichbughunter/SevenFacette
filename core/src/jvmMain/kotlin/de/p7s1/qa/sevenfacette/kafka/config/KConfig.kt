@@ -1,5 +1,10 @@
 package de.p7s1.qa.sevenfacette.kafka.config
 
+/**
+ * Holds the basic Kafka configuration parameter
+ *
+ * @author Patrick Döring
+ */
 class KConfig {
 
     var bootstrapServer: String = ""
@@ -14,7 +19,7 @@ class KConfig {
 
     var maxConsumingTime: Long = 0
 
-    var saslConfig: Boolean = true
+    var useSASL: Boolean = true
 
     var kafkaProtocol: String = ""
 }
