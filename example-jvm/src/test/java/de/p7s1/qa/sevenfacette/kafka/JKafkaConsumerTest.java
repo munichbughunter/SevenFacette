@@ -4,6 +4,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import de.p7s1.qa.sevenfacette.kafka.config.KConfig;
 import de.p7s1.qa.sevenfacette.kafka.config.KTableTopicConfig;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Queue;
+import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -36,21 +42,17 @@ class JKafkaConsumerTest {
   void consumerFactory() {
     KConsumer consumer = ingestConsumerConfig.createKConsumer(true);
 
-    assertTrue(consumer.waitForMessage(5000));
+    assertTrue(consumer.waitForKRecords(5000));
+    System.out.println(consumer.getKRecordsCount());
+    System.out.println(consumer.getLastKRecord());
 
-    System.out.println(consumer.getMessageCount());
-    System.out.println(consumer.getLastMessage());
-    consumer.getMessages();
+    List<KRecord> recordList = consumer.getKRecords()
+      .stream()
+      .filter(kRecord -> Objects.requireNonNull(kRecord.getValue()).contains("42681550000000000"))
+      .collect(Collectors.toList());
 
-    KConsumer ingestConsumer = KFactory.createKConsumer(ingestConsumerConfig, true);
 
-    System.out.println("Hier mache ich mein DB Zeugs....");
-    System.out.println("FERTIG MIT DB ZEUG....");
-
-    assertTrue(ingestConsumer.waitForMessage(5000));
-    System.out.println(ingestConsumer.getMessageCount());
-    System.out.println(ingestConsumer.getLastMessage());
-
+    recordList.forEach(record -> System.out.println(record.getKey() + "\n" + record.getValue() + "\n" + record.getOffset() + "\n" + record.getPartition()));
   }
 
   @Test

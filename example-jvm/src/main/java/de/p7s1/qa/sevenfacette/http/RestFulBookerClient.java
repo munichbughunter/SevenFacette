@@ -1,5 +1,6 @@
 package de.p7s1.qa.sevenfacette.http;
 
+
 /**
  * Example application of generic http client
  * This example uses the RestfulBooker https://restful-booker.herokuapp.com/
@@ -14,6 +15,8 @@ package de.p7s1.qa.sevenfacette.http;
  *
  * @author Florian Pilz
  */
+
+/*
 public class RestFulBookerClient extends GenericHttpClient {
   public RestFulBookerClient() {
     Authentication auth = new BasicAuth("", "");
@@ -47,4 +50,7 @@ public class RestFulBookerClient extends GenericHttpClient {
     String content = "{\"username\":\"admin\",\"password\":\"password123\"}";
     return this.post("auth", content, new HttpHeader());
   }
+
 }
+
+ */

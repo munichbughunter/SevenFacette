@@ -11,6 +11,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import mu.KLogging
+import mu.KotlinLogging
 import org.apache.kafka.clients.consumer.Consumer
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.consumer.KafkaConsumer
@@ -23,6 +25,7 @@ import org.apache.kafka.common.serialization.StringDeserializer
  *
  * @author Patrick Döring
  */
+private val logger = KotlinLogging.logger {}
 class KConsumer (
         private val tableTopicConfig: KTableTopicConfig
 ) : CoroutineScope by CoroutineScope(Dispatchers.Default) {
@@ -36,6 +39,7 @@ class KConsumer (
      * @return [consumer]
      */
     fun createConsumer() : Consumer<String, String> {
+        logger.info("Create KConsumer")
         var config : MutableMap<String, Any> = mutableMapOf()
         config[ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG] = tableTopicConfig.kafkaConfig.bootstrapServer
         config[ConsumerConfig.GROUP_ID_CONFIG] = UUID.randomUUID().toString()
@@ -61,9 +65,7 @@ class KConsumer (
         try {
             consumer.close(Duration.ofMillis(5000L))
         } catch (ex: ConcurrentModificationException) {
-            /**
-             * TODO: Log warning message
-             */
+            logger.warn("KConsumer was ")
         }
     }
 
@@ -75,7 +77,7 @@ class KConsumer (
      */
     fun waitForKRecords(waitingTime: Int): Boolean {
         var waited : Int = 0
-        var hasMessage : Boolean = false
+        var hasMessage: Boolean
 
         do {
             Thread.sleep(500)
