@@ -1,0 +1,214 @@
+2020-04-03 09:59:05 INFO  KConsumer:42 - Create KConsumer
+2020-04-03 09:59:05 INFO  ConsumerConfig:279 - ConsumerConfig values: 
+	auto.commit.interval.ms = 5000
+	auto.offset.reset = earliest
+	bootstrap.servers = [development-kafka-sd.cp.pke.fhm.de:9192]
+	check.crcs = true
+	client.id = 
+	connections.max.idle.ms = 540000
+	default.api.timeout.ms = 60000
+	enable.auto.commit = true
+	exclude.internal.topics = true
+	fetch.max.bytes = 52428800
+	fetch.max.wait.ms = 500
+	fetch.min.bytes = 1
+	group.id = 2e5ef832-30b6-4bfb-ae38-96f604ab7ca9
+	heartbeat.interval.ms = 3000
+	interceptor.classes = []
+	internal.leave.group.on.close = true
+	isolation.level = read_uncommitted
+	key.deserializer = class org.apache.kafka.common.serialization.StringDeserializer
+	max.partition.fetch.bytes = 1048576
+	max.poll.interval.ms = 300000
+	max.poll.records = 500
+	metadata.max.age.ms = 300000
+	metric.reporters = []
+	metrics.num.samples = 2
+	metrics.recording.level = INFO
+	metrics.sample.window.ms = 30000
+	partition.assignment.strategy = [class org.apache.kafka.clients.consumer.RangeAssignor]
+	receive.buffer.bytes = 65536
+	reconnect.backoff.max.ms = 1000
+	reconnect.backoff.ms = 50
+	request.timeout.ms = 30000
+	retry.backoff.ms = 100
+	sasl.client.callback.handler.class = null
+	sasl.jaas.config = [hidden]
+	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+	sasl.kerberos.min.time.before.relogin = 60000
+	sasl.kerberos.service.name = null
+	sasl.kerberos.ticket.renew.jitter = 0.05
+	sasl.kerberos.ticket.renew.window.factor = 0.8
+	sasl.login.callback.handler.class = null
+	sasl.login.class = null
+	sasl.login.refresh.buffer.seconds = 300
+	sasl.login.refresh.min.period.seconds = 60
+	sasl.login.refresh.window.factor = 0.8
+	sasl.login.refresh.window.jitter = 0.05
+	sasl.mechanism = SCRAM-SHA-256
+	security.protocol = SASL_SSL
+	send.buffer.bytes = 131072
+	session.timeout.ms = 10000
+	ssl.cipher.suites = null
+	ssl.enabled.protocols = [TLSv1.2, TLSv1.1, TLSv1]
+	ssl.endpoint.identification.algorithm = https
+	ssl.key.password = null
+	ssl.keymanager.algorithm = SunX509
+	ssl.keystore.location = null
+	ssl.keystore.password = null
+	ssl.keystore.type = JKS
+	ssl.protocol = TLS
+	ssl.provider = null
+	ssl.secure.random.implementation = null
+	ssl.trustmanager.algorithm = PKIX
+	ssl.truststore.location = null
+	ssl.truststore.password = null
+	ssl.truststore.type = JKS
+	value.deserializer = class org.apache.kafka.common.serialization.StringDeserializer
+
+2020-04-03 09:59:05 DEBUG KafkaConsumer:668 - [Consumer clientId=consumer-1, groupId=2e5ef832-30b6-4bfb-ae38-96f604ab7ca9] Initializing the Kafka consumer
+2020-04-03 09:59:05 DEBUG Metadata:278 - Updated cluster metadata version 1 to Cluster(id = null, nodes = [development-kafka-sd.cp.pke.fhm.de:9192 (id: -1 rack: null)], partitions = [], controller = null)
+2020-04-03 09:59:05 INFO  AbstractLogin:61 - Successfully logged in.
+2020-04-03 09:59:05 DEBUG Metrics:414 - Added sensor with name fetch-throttle-time
+2020-04-03 09:59:05 DEBUG Metrics:414 - Added sensor with name connections-closed:
+2020-04-03 09:59:05 DEBUG Metrics:414 - Added sensor with name connections-created:
+2020-04-03 09:59:05 DEBUG Metrics:414 - Added sensor with name successful-authentication:
+2020-04-03 09:59:05 DEBUG Metrics:414 - Added sensor with name failed-authentication:
+2020-04-03 09:59:05 DEBUG Metrics:414 - Added sensor with name bytes-sent-received:
+2020-04-03 09:59:05 DEBUG Metrics:414 - Added sensor with name bytes-sent:
+2020-04-03 09:59:05 DEBUG Metrics:414 - Added sensor with name bytes-received:
+2020-04-03 09:59:05 DEBUG Metrics:414 - Added sensor with name select-time:
+2020-04-03 09:59:05 DEBUG Metrics:414 - Added sensor with name io-time:
+2020-04-03 09:59:05 DEBUG Metrics:414 - Added sensor with name heartbeat-latency
+2020-04-03 09:59:05 DEBUG Metrics:414 - Added sensor with name join-latency
+2020-04-03 09:59:05 DEBUG Metrics:414 - Added sensor with name sync-latency
+2020-04-03 09:59:05 DEBUG Metrics:414 - Added sensor with name commit-latency
+2020-04-03 09:59:05 DEBUG Metrics:414 - Added sensor with name bytes-fetched
+2020-04-03 09:59:05 DEBUG Metrics:414 - Added sensor with name records-fetched
+2020-04-03 09:59:05 DEBUG Metrics:414 - Added sensor with name fetch-latency
+2020-04-03 09:59:05 DEBUG Metrics:414 - Added sensor with name records-lag
+2020-04-03 09:59:05 DEBUG Metrics:414 - Added sensor with name records-lead
+2020-04-03 09:59:05 INFO  AppInfoParser:109 - Kafka version : 2.0.0
+2020-04-03 09:59:05 INFO  AppInfoParser:110 - Kafka commitId : 3402a8361b734732
+2020-04-03 09:59:05 DEBUG KafkaConsumer:793 - [Consumer clientId=consumer-1, groupId=2e5ef832-30b6-4bfb-ae38-96f604ab7ca9] Kafka consumer initialized
+2020-04-03 09:59:05 DEBUG KafkaConsumer:921 - [Consumer clientId=consumer-1, groupId=2e5ef832-30b6-4bfb-ae38-96f604ab7ca9] Subscribed to topic(s): ucp.sg-test-INGEST
+2020-04-03 09:59:05 DEBUG AbstractCoordinator:651 - [Consumer clientId=consumer-1, groupId=2e5ef832-30b6-4bfb-ae38-96f604ab7ca9] Sending FindCoordinator request to broker development-kafka-sd.cp.pke.fhm.de:9192 (id: -1 rack: null)
+2020-04-03 09:59:05 DEBUG NetworkClient:862 - [Consumer clientId=consumer-1, groupId=2e5ef832-30b6-4bfb-ae38-96f604ab7ca9] Initiating connection to node development-kafka-sd.cp.pke.fhm.de:9192 (id: -1 rack: null)
+2020-04-03 09:59:05 DEBUG SaslClientAuthenticator:255 - Set SASL client state to SEND_APIVERSIONS_REQUEST
+2020-04-03 09:59:05 DEBUG SaslClientAuthenticator:149 - Creating SaslClient: client=null;service=kafka;serviceHostname=development-kafka-sd.cp.pke.fhm.de;mechs=[SCRAM-SHA-256]
+2020-04-03 09:59:05 DEBUG ScramSaslClient:185 - Setting SASL/SCRAM_SHA_256 client state to SEND_CLIENT_FIRST_MESSAGE
+2020-04-03 09:59:05 DEBUG Metrics:414 - Added sensor with name node--1.bytes-sent
+2020-04-03 09:59:05 DEBUG Metrics:414 - Added sensor with name node--1.bytes-received
+2020-04-03 09:59:05 DEBUG Metrics:414 - Added sensor with name node--1.latency
+2020-04-03 09:59:05 DEBUG Selector:475 - [Consumer clientId=consumer-1, groupId=2e5ef832-30b6-4bfb-ae38-96f604ab7ca9] Created socket with SO_RCVBUF = 66346, SO_SNDBUF = 131338, SO_TIMEOUT = 0 to node -1
+2020-04-03 09:59:05 DEBUG NetworkClient:824 - [Consumer clientId=consumer-1, groupId=2e5ef832-30b6-4bfb-ae38-96f604ab7ca9] Completed connection to node -1. Fetching API versions.
+2020-04-03 09:59:06 DEBUG SslTransportLayer:415 - [SslTransportLayer channelId=-1 key=sun.nio.ch.SelectionKeyImpl@3a0be053] SSL handshake completed successfully with peerHost 'development-kafka-sd.cp.pke.fhm.de' peerPort 9192 peerPrincipal 'CN=*.cp.pke.fhm.de, OU=Platform Engineering and Operations, O=ProSiebenSat.1 Produktion GmbH, L=Munich, ST=Bavaria, C=DE' cipherSuite 'TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384'
+2020-04-03 09:59:06 DEBUG SaslClientAuthenticator:255 - Set SASL client state to RECEIVE_APIVERSIONS_RESPONSE
+2020-04-03 09:59:06 DEBUG SaslClientAuthenticator:255 - Set SASL client state to SEND_HANDSHAKE_REQUEST
+2020-04-03 09:59:06 DEBUG SaslClientAuthenticator:255 - Set SASL client state to RECEIVE_HANDSHAKE_RESPONSE
+2020-04-03 09:59:06 DEBUG SaslClientAuthenticator:255 - Set SASL client state to INITIAL
+2020-04-03 09:59:06 DEBUG ScramSaslClient:185 - Setting SASL/SCRAM_SHA_256 client state to RECEIVE_SERVER_FIRST_MESSAGE
+2020-04-03 09:59:06 DEBUG SaslClientAuthenticator:255 - Set SASL client state to INTERMEDIATE
+2020-04-03 09:59:06 DEBUG ScramSaslClient:185 - Setting SASL/SCRAM_SHA_256 client state to RECEIVE_SERVER_FINAL_MESSAGE
+2020-04-03 09:59:06 DEBUG ScramSaslClient:185 - Setting SASL/SCRAM_SHA_256 client state to COMPLETE
+2020-04-03 09:59:06 DEBUG SaslClientAuthenticator:255 - Set SASL client state to COMPLETE
+2020-04-03 09:59:06 DEBUG NetworkClient:838 - [Consumer clientId=consumer-1, groupId=2e5ef832-30b6-4bfb-ae38-96f604ab7ca9] Initiating API versions fetch from node -1.
+2020-04-03 09:59:06 DEBUG NetworkClient:792 - [Consumer clientId=consumer-1, groupId=2e5ef832-30b6-4bfb-ae38-96f604ab7ca9] Recorded API versions for node -1: (Produce(0): 0 to 8 [usable: 6], Fetch(1): 0 to 11 [usable: 8], ListOffsets(2): 0 to 5 [usable: 3], Metadata(3): 0 to 9 [usable: 6], LeaderAndIsr(4): 0 to 4 [usable: 1], StopReplica(5): 0 to 2 [usable: 0], UpdateMetadata(6): 0 to 6 [usable: 4], ControlledShutdown(7): 0 to 3 [usable: 1], OffsetCommit(8): 0 to 8 [usable: 4], OffsetFetch(9): 0 to 6 [usable: 4], FindCoordinator(10): 0 to 3 [usable: 2], JoinGroup(11): 0 to 6 [usable: 3], Heartbeat(12): 0 to 4 [usable: 2], LeaveGroup(13): 0 to 4 [usable: 2], SyncGroup(14): 0 to 4 [usable: 2], DescribeGroups(15): 0 to 5 [usable: 2], ListGroups(16): 0 to 3 [usable: 2], SaslHandshake(17): 0 to 1 [usable: 1], ApiVersions(18): 0 to 3 [usable: 2], CreateTopics(19): 0 to 5 [usable: 3], DeleteTopics(20): 0 to 4 [usable: 2], DeleteRecords(21): 0 to 1 [usable: 1], InitProducerId(22): 0 to 2 [usable: 1], OffsetForLeaderEpoch(23): 0 to 3 [usable: 1], AddPartitionsToTxn(24): 0 to 1 [usable: 1], AddOffsetsToTxn(25): 0 to 1 [usable: 1], EndTxn(26): 0 to 1 [usable: 1], WriteTxnMarkers(27): 0 [usable: 0], TxnOffsetCommit(28): 0 to 2 [usable: 1], DescribeAcls(29): 0 to 1 [usable: 1], CreateAcls(30): 0 to 1 [usable: 1], DeleteAcls(31): 0 to 1 [usable: 1], DescribeConfigs(32): 0 to 2 [usable: 2], AlterConfigs(33): 0 to 1 [usable: 1], AlterReplicaLogDirs(34): 0 to 1 [usable: 1], DescribeLogDirs(35): 0 to 1 [usable: 1], SaslAuthenticate(36): 0 to 1 [usable: 0], CreatePartitions(37): 0 to 1 [usable: 1], CreateDelegationToken(38): 0 to 2 [usable: 1], RenewDelegationToken(39): 0 to 1 [usable: 1], ExpireDelegationToken(40): 0 to 1 [usable: 1], DescribeDelegationToken(41): 0 to 1 [usable: 1], DeleteGroups(42): 0 to 2 [usable: 1], UNKNOWN(43): 0 to 2, UNKNOWN(44): 0 to 1, UNKNOWN(45): 0, UNKNOWN(46): 0, UNKNOWN(47): 0)
+2020-04-03 09:59:06 DEBUG NetworkClient:1018 - [Consumer clientId=consumer-1, groupId=2e5ef832-30b6-4bfb-ae38-96f604ab7ca9] Sending metadata request (type=MetadataRequest, topics=ucp.sg-test-INGEST) to node development-kafka-sd.cp.pke.fhm.de:9192 (id: -1 rack: null)
+2020-04-03 09:59:06 INFO  Metadata:273 - Cluster ID: Ry71oj4bRO-PgGTk4mO6SQ
+2020-04-03 09:59:06 DEBUG Metadata:278 - Updated cluster metadata version 2 to Cluster(id = Ry71oj4bRO-PgGTk4mO6SQ, nodes = [development-kafka-3.cp.pke.fhm.de:9192 (id: 3 rack: null), development-kafka-0.cp.pke.fhm.de:9192 (id: 0 rack: null), development-kafka-4.cp.pke.fhm.de:9192 (id: 4 rack: null), development-kafka-1.cp.pke.fhm.de:9192 (id: 1 rack: null), development-kafka-2.cp.pke.fhm.de:9192 (id: 2 rack: null)], partitions = [Partition(topic = ucp.sg-test-INGEST, partition = 0, leader = 2, replicas = [2,4,1], isr = [4,2,1], offlineReplicas = [])], controller = development-kafka-4.cp.pke.fhm.de:9192 (id: 4 rack: null))
+2020-04-03 09:59:06 DEBUG AbstractCoordinator:662 - [Consumer clientId=consumer-1, groupId=2e5ef832-30b6-4bfb-ae38-96f604ab7ca9] Received FindCoordinator response ClientResponse(receivedTimeMs=1585900746383, latencyMs=448, disconnected=false, requestHeader=RequestHeader(apiKey=FIND_COORDINATOR, apiVersion=2, clientId=consumer-1, correlationId=0), responseBody=FindCoordinatorResponse(throttleTimeMs=0, errorMessage='NONE', error=NONE, node=development-kafka-1.cp.pke.fhm.de:9192 (id: 1 rack: null)))
+2020-04-03 09:59:06 INFO  AbstractCoordinator:677 - [Consumer clientId=consumer-1, groupId=2e5ef832-30b6-4bfb-ae38-96f604ab7ca9] Discovered group coordinator development-kafka-1.cp.pke.fhm.de:9192 (id: 2147483646 rack: null)
+2020-04-03 09:59:06 DEBUG NetworkClient:862 - [Consumer clientId=consumer-1, groupId=2e5ef832-30b6-4bfb-ae38-96f604ab7ca9] Initiating connection to node development-kafka-1.cp.pke.fhm.de:9192 (id: 2147483646 rack: null)
+2020-04-03 09:59:06 DEBUG SaslClientAuthenticator:255 - Set SASL client state to SEND_APIVERSIONS_REQUEST
+2020-04-03 09:59:06 DEBUG SaslClientAuthenticator:149 - Creating SaslClient: client=null;service=kafka;serviceHostname=development-kafka-1.cp.pke.fhm.de;mechs=[SCRAM-SHA-256]
+2020-04-03 09:59:06 DEBUG ScramSaslClient:185 - Setting SASL/SCRAM_SHA_256 client state to SEND_CLIENT_FIRST_MESSAGE
+2020-04-03 09:59:06 DEBUG AbstractCoordinator:1002 - [Consumer clientId=consumer-1, groupId=2e5ef832-30b6-4bfb-ae38-96f604ab7ca9] Heartbeat thread started
+2020-04-03 09:59:06 DEBUG ConsumerCoordinator:740 - [Consumer clientId=consumer-1, groupId=2e5ef832-30b6-4bfb-ae38-96f604ab7ca9] Sending synchronous auto-commit of offsets {}
+2020-04-03 09:59:06 INFO  ConsumerCoordinator:462 - [Consumer clientId=consumer-1, groupId=2e5ef832-30b6-4bfb-ae38-96f604ab7ca9] Revoking previously assigned partitions []
+2020-04-03 09:59:06 DEBUG AbstractCoordinator:979 - [Consumer clientId=consumer-1, groupId=2e5ef832-30b6-4bfb-ae38-96f604ab7ca9] Disabling heartbeat thread
+2020-04-03 09:59:06 INFO  AbstractCoordinator:509 - [Consumer clientId=consumer-1, groupId=2e5ef832-30b6-4bfb-ae38-96f604ab7ca9] (Re-)joining group
+2020-04-03 09:59:06 DEBUG AbstractCoordinator:517 - [Consumer clientId=consumer-1, groupId=2e5ef832-30b6-4bfb-ae38-96f604ab7ca9] Sending JoinGroup ((type: JoinGroupRequest, groupId=2e5ef832-30b6-4bfb-ae38-96f604ab7ca9, sessionTimeout=10000, rebalanceTimeout=300000, memberId=, protocolType=consumer, groupProtocols=org.apache.kafka.common.requests.JoinGroupRequest$ProtocolMetadata@74257a67)) to coordinator development-kafka-1.cp.pke.fhm.de:9192 (id: 2147483646 rack: null)
+2020-04-03 09:59:06 DEBUG Metrics:414 - Added sensor with name node-2147483646.bytes-sent
+2020-04-03 09:59:06 DEBUG Metrics:414 - Added sensor with name node-2147483646.bytes-received
+2020-04-03 09:59:06 DEBUG Metrics:414 - Added sensor with name node-2147483646.latency
+2020-04-03 09:59:06 DEBUG Selector:475 - [Consumer clientId=consumer-1, groupId=2e5ef832-30b6-4bfb-ae38-96f604ab7ca9] Created socket with SO_RCVBUF = 66346, SO_SNDBUF = 131338, SO_TIMEOUT = 0 to node 2147483646
+2020-04-03 09:59:06 DEBUG NetworkClient:824 - [Consumer clientId=consumer-1, groupId=2e5ef832-30b6-4bfb-ae38-96f604ab7ca9] Completed connection to node 2147483646. Fetching API versions.
+2020-04-03 09:59:06 DEBUG SslTransportLayer:415 - [SslTransportLayer channelId=2147483646 key=sun.nio.ch.SelectionKeyImpl@4daf3418] SSL handshake completed successfully with peerHost 'development-kafka-1.cp.pke.fhm.de' peerPort 9192 peerPrincipal 'CN=*.cp.pke.fhm.de, OU=Platform Engineering and Operations, O=ProSiebenSat.1 Produktion GmbH, L=Munich, ST=Bavaria, C=DE' cipherSuite 'TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384'
+2020-04-03 09:59:06 DEBUG SaslClientAuthenticator:255 - Set SASL client state to RECEIVE_APIVERSIONS_RESPONSE
+2020-04-03 09:59:06 DEBUG SaslClientAuthenticator:255 - Set SASL client state to SEND_HANDSHAKE_REQUEST
+2020-04-03 09:59:06 DEBUG SaslClientAuthenticator:255 - Set SASL client state to RECEIVE_HANDSHAKE_RESPONSE
+2020-04-03 09:59:06 DEBUG SaslClientAuthenticator:255 - Set SASL client state to INITIAL
+2020-04-03 09:59:06 DEBUG ScramSaslClient:185 - Setting SASL/SCRAM_SHA_256 client state to RECEIVE_SERVER_FIRST_MESSAGE
+2020-04-03 09:59:06 DEBUG SaslClientAuthenticator:255 - Set SASL client state to INTERMEDIATE
+2020-04-03 09:59:06 DEBUG ScramSaslClient:185 - Setting SASL/SCRAM_SHA_256 client state to RECEIVE_SERVER_FINAL_MESSAGE
+2020-04-03 09:59:06 DEBUG ScramSaslClient:185 - Setting SASL/SCRAM_SHA_256 client state to COMPLETE
+2020-04-03 09:59:06 DEBUG SaslClientAuthenticator:255 - Set SASL client state to COMPLETE
+2020-04-03 09:59:06 DEBUG NetworkClient:838 - [Consumer clientId=consumer-1, groupId=2e5ef832-30b6-4bfb-ae38-96f604ab7ca9] Initiating API versions fetch from node 2147483646.
+2020-04-03 09:59:06 DEBUG NetworkClient:792 - [Consumer clientId=consumer-1, groupId=2e5ef832-30b6-4bfb-ae38-96f604ab7ca9] Recorded API versions for node 2147483646: (Produce(0): 0 to 8 [usable: 6], Fetch(1): 0 to 11 [usable: 8], ListOffsets(2): 0 to 5 [usable: 3], Metadata(3): 0 to 9 [usable: 6], LeaderAndIsr(4): 0 to 4 [usable: 1], StopReplica(5): 0 to 2 [usable: 0], UpdateMetadata(6): 0 to 6 [usable: 4], ControlledShutdown(7): 0 to 3 [usable: 1], OffsetCommit(8): 0 to 8 [usable: 4], OffsetFetch(9): 0 to 6 [usable: 4], FindCoordinator(10): 0 to 3 [usable: 2], JoinGroup(11): 0 to 6 [usable: 3], Heartbeat(12): 0 to 4 [usable: 2], LeaveGroup(13): 0 to 4 [usable: 2], SyncGroup(14): 0 to 4 [usable: 2], DescribeGroups(15): 0 to 5 [usable: 2], ListGroups(16): 0 to 3 [usable: 2], SaslHandshake(17): 0 to 1 [usable: 1], ApiVersions(18): 0 to 3 [usable: 2], CreateTopics(19): 0 to 5 [usable: 3], DeleteTopics(20): 0 to 4 [usable: 2], DeleteRecords(21): 0 to 1 [usable: 1], InitProducerId(22): 0 to 2 [usable: 1], OffsetForLeaderEpoch(23): 0 to 3 [usable: 1], AddPartitionsToTxn(24): 0 to 1 [usable: 1], AddOffsetsToTxn(25): 0 to 1 [usable: 1], EndTxn(26): 0 to 1 [usable: 1], WriteTxnMarkers(27): 0 [usable: 0], TxnOffsetCommit(28): 0 to 2 [usable: 1], DescribeAcls(29): 0 to 1 [usable: 1], CreateAcls(30): 0 to 1 [usable: 1], DeleteAcls(31): 0 to 1 [usable: 1], DescribeConfigs(32): 0 to 2 [usable: 2], AlterConfigs(33): 0 to 1 [usable: 1], AlterReplicaLogDirs(34): 0 to 1 [usable: 1], DescribeLogDirs(35): 0 to 1 [usable: 1], SaslAuthenticate(36): 0 to 1 [usable: 0], CreatePartitions(37): 0 to 1 [usable: 1], CreateDelegationToken(38): 0 to 2 [usable: 1], RenewDelegationToken(39): 0 to 1 [usable: 1], ExpireDelegationToken(40): 0 to 1 [usable: 1], DescribeDelegationToken(41): 0 to 1 [usable: 1], DeleteGroups(42): 0 to 2 [usable: 1], UNKNOWN(43): 0 to 2, UNKNOWN(44): 0 to 1, UNKNOWN(45): 0, UNKNOWN(46): 0, UNKNOWN(47): 0)
+2020-04-03 09:59:06 DEBUG AbstractCoordinator:532 - [Consumer clientId=consumer-1, groupId=2e5ef832-30b6-4bfb-ae38-96f604ab7ca9] Received successful JoinGroup response: JoinGroupResponse(throttleTimeMs=0, error=NONE, generationId=1, groupProtocol=range, memberId=consumer-1-9261e93c-6d09-46b2-b396-938ca81d1b10, leaderId=consumer-1-9261e93c-6d09-46b2-b396-938ca81d1b10, members=consumer-1-9261e93c-6d09-46b2-b396-938ca81d1b10)
+2020-04-03 09:59:06 DEBUG ConsumerCoordinator:407 - [Consumer clientId=consumer-1, groupId=2e5ef832-30b6-4bfb-ae38-96f604ab7ca9] Performing assignment using strategy range with subscriptions {consumer-1-9261e93c-6d09-46b2-b396-938ca81d1b10=Subscription(topics=[ucp.sg-test-INGEST])}
+2020-04-03 09:59:06 DEBUG ConsumerCoordinator:444 - [Consumer clientId=consumer-1, groupId=2e5ef832-30b6-4bfb-ae38-96f604ab7ca9] Finished assignment for group: {consumer-1-9261e93c-6d09-46b2-b396-938ca81d1b10=Assignment(partitions=[ucp.sg-test-INGEST-0])}
+2020-04-03 09:59:06 DEBUG AbstractCoordinator:597 - [Consumer clientId=consumer-1, groupId=2e5ef832-30b6-4bfb-ae38-96f604ab7ca9] Sending leader SyncGroup to coordinator development-kafka-1.cp.pke.fhm.de:9192 (id: 2147483646 rack: null): (type=SyncGroupRequest, groupId=2e5ef832-30b6-4bfb-ae38-96f604ab7ca9, generationId=1, memberId=consumer-1-9261e93c-6d09-46b2-b396-938ca81d1b10, groupAssignment=consumer-1-9261e93c-6d09-46b2-b396-938ca81d1b10)
+2020-04-03 09:59:06 INFO  AbstractCoordinator:473 - [Consumer clientId=consumer-1, groupId=2e5ef832-30b6-4bfb-ae38-96f604ab7ca9] Successfully joined group with generation 1
+2020-04-03 09:59:06 DEBUG AbstractCoordinator:970 - [Consumer clientId=consumer-1, groupId=2e5ef832-30b6-4bfb-ae38-96f604ab7ca9] Enabling heartbeat thread
+2020-04-03 09:59:06 INFO  ConsumerCoordinator:280 - [Consumer clientId=consumer-1, groupId=2e5ef832-30b6-4bfb-ae38-96f604ab7ca9] Setting newly assigned partitions [ucp.sg-test-INGEST-0]
+2020-04-03 09:59:06 DEBUG ConsumerCoordinator:891 - [Consumer clientId=consumer-1, groupId=2e5ef832-30b6-4bfb-ae38-96f604ab7ca9] Fetching committed offsets for partitions: [ucp.sg-test-INGEST-0]
+2020-04-03 09:59:06 DEBUG ConsumerCoordinator:941 - [Consumer clientId=consumer-1, groupId=2e5ef832-30b6-4bfb-ae38-96f604ab7ca9] Found no committed offset for partition ucp.sg-test-INGEST-0
+2020-04-03 09:59:06 DEBUG Fetcher:728 - [Consumer clientId=consumer-1, groupId=2e5ef832-30b6-4bfb-ae38-96f604ab7ca9] Sending ListOffsetRequest (type=ListOffsetRequest, replicaId=-1, partitionTimestamps={ucp.sg-test-INGEST-0=-2}, isolationLevel=READ_UNCOMMITTED) to broker development-kafka-2.cp.pke.fhm.de:9192 (id: 2 rack: null)
+2020-04-03 09:59:06 DEBUG NetworkClient:862 - [Consumer clientId=consumer-1, groupId=2e5ef832-30b6-4bfb-ae38-96f604ab7ca9] Initiating connection to node development-kafka-2.cp.pke.fhm.de:9192 (id: 2 rack: null)
+2020-04-03 09:59:06 DEBUG SaslClientAuthenticator:255 - Set SASL client state to SEND_APIVERSIONS_REQUEST
+2020-04-03 09:59:06 DEBUG SaslClientAuthenticator:149 - Creating SaslClient: client=null;service=kafka;serviceHostname=development-kafka-2.cp.pke.fhm.de;mechs=[SCRAM-SHA-256]
+2020-04-03 09:59:06 DEBUG ScramSaslClient:185 - Setting SASL/SCRAM_SHA_256 client state to SEND_CLIENT_FIRST_MESSAGE
+2020-04-03 09:59:06 DEBUG Metrics:414 - Added sensor with name node-2.bytes-sent
+2020-04-03 09:59:06 DEBUG Metrics:414 - Added sensor with name node-2.bytes-received
+2020-04-03 09:59:06 DEBUG Metrics:414 - Added sensor with name node-2.latency
+2020-04-03 09:59:06 DEBUG Selector:475 - [Consumer clientId=consumer-1, groupId=2e5ef832-30b6-4bfb-ae38-96f604ab7ca9] Created socket with SO_RCVBUF = 66346, SO_SNDBUF = 131338, SO_TIMEOUT = 0 to node 2
+2020-04-03 09:59:06 DEBUG NetworkClient:824 - [Consumer clientId=consumer-1, groupId=2e5ef832-30b6-4bfb-ae38-96f604ab7ca9] Completed connection to node 2. Fetching API versions.
+2020-04-03 09:59:06 DEBUG SslTransportLayer:415 - [SslTransportLayer channelId=2 key=sun.nio.ch.SelectionKeyImpl@271037ae] SSL handshake completed successfully with peerHost 'development-kafka-2.cp.pke.fhm.de' peerPort 9192 peerPrincipal 'CN=*.cp.pke.fhm.de, OU=Platform Engineering and Operations, O=ProSiebenSat.1 Produktion GmbH, L=Munich, ST=Bavaria, C=DE' cipherSuite 'TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384'
+2020-04-03 09:59:06 DEBUG SaslClientAuthenticator:255 - Set SASL client state to RECEIVE_APIVERSIONS_RESPONSE
+2020-04-03 09:59:06 DEBUG SaslClientAuthenticator:255 - Set SASL client state to SEND_HANDSHAKE_REQUEST
+2020-04-03 09:59:06 DEBUG SaslClientAuthenticator:255 - Set SASL client state to RECEIVE_HANDSHAKE_RESPONSE
+2020-04-03 09:59:06 DEBUG SaslClientAuthenticator:255 - Set SASL client state to INITIAL
+2020-04-03 09:59:06 DEBUG ScramSaslClient:185 - Setting SASL/SCRAM_SHA_256 client state to RECEIVE_SERVER_FIRST_MESSAGE
+2020-04-03 09:59:06 DEBUG SaslClientAuthenticator:255 - Set SASL client state to INTERMEDIATE
+2020-04-03 09:59:06 DEBUG ScramSaslClient:185 - Setting SASL/SCRAM_SHA_256 client state to RECEIVE_SERVER_FINAL_MESSAGE
+2020-04-03 09:59:07 DEBUG ScramSaslClient:185 - Setting SASL/SCRAM_SHA_256 client state to COMPLETE
+2020-04-03 09:59:07 DEBUG SaslClientAuthenticator:255 - Set SASL client state to COMPLETE
+2020-04-03 09:59:07 DEBUG NetworkClient:838 - [Consumer clientId=consumer-1, groupId=2e5ef832-30b6-4bfb-ae38-96f604ab7ca9] Initiating API versions fetch from node 2.
+2020-04-03 09:59:07 DEBUG NetworkClient:792 - [Consumer clientId=consumer-1, groupId=2e5ef832-30b6-4bfb-ae38-96f604ab7ca9] Recorded API versions for node 2: (Produce(0): 0 to 8 [usable: 6], Fetch(1): 0 to 11 [usable: 8], ListOffsets(2): 0 to 5 [usable: 3], Metadata(3): 0 to 9 [usable: 6], LeaderAndIsr(4): 0 to 4 [usable: 1], StopReplica(5): 0 to 2 [usable: 0], UpdateMetadata(6): 0 to 6 [usable: 4], ControlledShutdown(7): 0 to 3 [usable: 1], OffsetCommit(8): 0 to 8 [usable: 4], OffsetFetch(9): 0 to 6 [usable: 4], FindCoordinator(10): 0 to 3 [usable: 2], JoinGroup(11): 0 to 6 [usable: 3], Heartbeat(12): 0 to 4 [usable: 2], LeaveGroup(13): 0 to 4 [usable: 2], SyncGroup(14): 0 to 4 [usable: 2], DescribeGroups(15): 0 to 5 [usable: 2], ListGroups(16): 0 to 3 [usable: 2], SaslHandshake(17): 0 to 1 [usable: 1], ApiVersions(18): 0 to 3 [usable: 2], CreateTopics(19): 0 to 5 [usable: 3], DeleteTopics(20): 0 to 4 [usable: 2], DeleteRecords(21): 0 to 1 [usable: 1], InitProducerId(22): 0 to 2 [usable: 1], OffsetForLeaderEpoch(23): 0 to 3 [usable: 1], AddPartitionsToTxn(24): 0 to 1 [usable: 1], AddOffsetsToTxn(25): 0 to 1 [usable: 1], EndTxn(26): 0 to 1 [usable: 1], WriteTxnMarkers(27): 0 [usable: 0], TxnOffsetCommit(28): 0 to 2 [usable: 1], DescribeAcls(29): 0 to 1 [usable: 1], CreateAcls(30): 0 to 1 [usable: 1], DeleteAcls(31): 0 to 1 [usable: 1], DescribeConfigs(32): 0 to 2 [usable: 2], AlterConfigs(33): 0 to 1 [usable: 1], AlterReplicaLogDirs(34): 0 to 1 [usable: 1], DescribeLogDirs(35): 0 to 1 [usable: 1], SaslAuthenticate(36): 0 to 1 [usable: 0], CreatePartitions(37): 0 to 1 [usable: 1], CreateDelegationToken(38): 0 to 2 [usable: 1], RenewDelegationToken(39): 0 to 1 [usable: 1], ExpireDelegationToken(40): 0 to 1 [usable: 1], DescribeDelegationToken(41): 0 to 1 [usable: 1], DeleteGroups(42): 0 to 2 [usable: 1], UNKNOWN(43): 0 to 2, UNKNOWN(44): 0 to 1, UNKNOWN(45): 0, UNKNOWN(46): 0, UNKNOWN(47): 0)
+2020-04-03 09:59:07 DEBUG Fetcher:784 - [Consumer clientId=consumer-1, groupId=2e5ef832-30b6-4bfb-ae38-96f604ab7ca9] Handling ListOffsetResponse response for ucp.sg-test-INGEST-0. Fetched offset 21864, timestamp -1
+2020-04-03 09:59:07 INFO  Fetcher:583 - [Consumer clientId=consumer-1, groupId=2e5ef832-30b6-4bfb-ae38-96f604ab7ca9] Resetting offset for partition ucp.sg-test-INGEST-0 to offset 21864.
+2020-04-03 09:59:07 DEBUG Fetcher:882 - [Consumer clientId=consumer-1, groupId=2e5ef832-30b6-4bfb-ae38-96f604ab7ca9] Added READ_UNCOMMITTED fetch request for partition ucp.sg-test-INGEST-0 at offset 21864 to node development-kafka-2.cp.pke.fhm.de:9192 (id: 2 rack: null)
+2020-04-03 09:59:07 DEBUG FetchSessionHandler:199 - [Consumer clientId=consumer-1, groupId=2e5ef832-30b6-4bfb-ae38-96f604ab7ca9] Built full fetch (sessionId=INVALID, epoch=INITIAL) for node 2 with 1 partition(s).
+2020-04-03 09:59:07 DEBUG Fetcher:202 - [Consumer clientId=consumer-1, groupId=2e5ef832-30b6-4bfb-ae38-96f604ab7ca9] Sending READ_UNCOMMITTED FullFetchRequest(ucp.sg-test-INGEST-0) to broker development-kafka-2.cp.pke.fhm.de:9192 (id: 2 rack: null)
+2020-04-03 09:59:07 DEBUG FetchSessionHandler:404 - [Consumer clientId=consumer-1, groupId=2e5ef832-30b6-4bfb-ae38-96f604ab7ca9] Node 2 sent a full fetch response that created a new incremental fetch session 1352260840 with 1 response partition(s)
+2020-04-03 09:59:07 DEBUG Fetcher:227 - [Consumer clientId=consumer-1, groupId=2e5ef832-30b6-4bfb-ae38-96f604ab7ca9] Fetch READ_UNCOMMITTED at offset 21864 for partition ucp.sg-test-INGEST-0 returned fetch data (error=NONE, highWaterMark=29763, lastStableOffset = 29763, logStartOffset = 21864, abortedTransactions = null, recordsSizeInBytes=1048576)
+2020-04-03 09:59:07 DEBUG Metrics:414 - Added sensor with name ucp.sg-test-INGEST-0.records-lag
+2020-04-03 09:59:07 DEBUG Metrics:414 - Added sensor with name ucp.sg-test-INGEST-0.records-lead
+2020-04-03 09:59:07 DEBUG ConsumerCoordinator:740 - [Consumer clientId=consumer-1, groupId=2e5ef832-30b6-4bfb-ae38-96f604ab7ca9] Sending synchronous auto-commit of offsets {ucp.sg-test-INGEST-0=OffsetAndMetadata{offset=22364, metadata=''}}
+2020-04-03 09:59:07 DEBUG ConsumerCoordinator:831 - [Consumer clientId=consumer-1, groupId=2e5ef832-30b6-4bfb-ae38-96f604ab7ca9] Committed offset 22364 for partition ucp.sg-test-INGEST-0
+2020-04-03 09:59:07 DEBUG AbstractCoordinator:1089 - [Consumer clientId=consumer-1, groupId=2e5ef832-30b6-4bfb-ae38-96f604ab7ca9] Heartbeat thread has closed
+2020-04-03 09:59:07 DEBUG AbstractCoordinator:806 - [Consumer clientId=consumer-1, groupId=2e5ef832-30b6-4bfb-ae38-96f604ab7ca9] Sending LeaveGroup request to coordinator development-kafka-1.cp.pke.fhm.de:9192 (id: 2147483646 rack: null)
+2020-04-03 09:59:07 DEBUG AbstractCoordinator:822 - [Consumer clientId=consumer-1, groupId=2e5ef832-30b6-4bfb-ae38-96f604ab7ca9] LeaveGroup request returned successfully
+2020-04-03 09:59:07 DEBUG Metrics:414 - Added sensor with name topic.ucp.sg-test-INGEST.bytes-fetched
+2020-04-03 09:59:07 DEBUG Metrics:414 - Added sensor with name topic.ucp.sg-test-INGEST.records-fetched
+2020-04-03 09:59:07 DEBUG Metrics:447 - Removed sensor with name connections-closed:
+2020-04-03 09:59:07 DEBUG Metrics:447 - Removed sensor with name connections-created:
+2020-04-03 09:59:07 DEBUG Metrics:447 - Removed sensor with name successful-authentication:
+2020-04-03 09:59:07 DEBUG Metrics:447 - Removed sensor with name failed-authentication:
+2020-04-03 09:59:07 DEBUG Metrics:447 - Removed sensor with name bytes-sent-received:
+2020-04-03 09:59:07 DEBUG Metrics:447 - Removed sensor with name bytes-sent:
+2020-04-03 09:59:07 DEBUG Metrics:447 - Removed sensor with name bytes-received:
+2020-04-03 09:59:07 DEBUG Metrics:447 - Removed sensor with name select-time:
+2020-04-03 09:59:07 DEBUG Metrics:447 - Removed sensor with name io-time:
+2020-04-03 09:59:07 DEBUG Metrics:447 - Removed sensor with name node--1.bytes-sent
+2020-04-03 09:59:07 DEBUG Metrics:447 - Removed sensor with name node--1.bytes-received
+2020-04-03 09:59:07 DEBUG Metrics:447 - Removed sensor with name node--1.latency
+2020-04-03 09:59:07 DEBUG Metrics:447 - Removed sensor with name node-2147483646.bytes-sent
+2020-04-03 09:59:07 DEBUG Metrics:447 - Removed sensor with name node-2147483646.bytes-received
+2020-04-03 09:59:07 DEBUG Metrics:447 - Removed sensor with name node-2147483646.latency
+2020-04-03 09:59:07 DEBUG Metrics:447 - Removed sensor with name node-2.bytes-sent
+2020-04-03 09:59:07 DEBUG Metrics:447 - Removed sensor with name node-2.bytes-received
+2020-04-03 09:59:07 DEBUG Metrics:447 - Removed sensor with name node-2.latency
+2020-04-03 09:59:07 DEBUG KafkaConsumer:2152 - [Consumer clientId=consumer-1, groupId=2e5ef832-30b6-4bfb-ae38-96f604ab7ca9] Kafka consumer has been closed

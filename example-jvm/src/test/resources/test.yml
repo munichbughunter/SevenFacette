@@ -1,0 +1,9 @@
+---
+Topics:
+  - INGEST_TOPIC: ucp.sg-test-INGEST
+  - PERSIST_TOPIC: ucp.sg-test-PERSISTED
+  - REPLICATION_TOPIC: ucp.sg-test-FORWARD_REPLICATION
+  - COMMITSTREAM_TOPIC: ucp.sg-test-KAFKAST-UCP_ST-commitstream
+BOOT_STRAP_SERVER: development-kafka-sd.cp.pke.fhm.de:9192
+AUTO_OFFSET: earliest
+SASL_MECHANISM: SCRAM-SHA-256

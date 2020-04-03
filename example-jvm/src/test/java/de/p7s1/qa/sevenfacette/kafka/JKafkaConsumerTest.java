@@ -1,92 +1,70 @@
 package de.p7s1.qa.sevenfacette.kafka;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import de.p7s1.qa.sevenfacette.kafka.config.KConfig;
+import de.p7s1.qa.sevenfacette.kafka.config.KTableTopicConfig;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Queue;
+import java.util.stream.Collectors;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 class JKafkaConsumerTest {
 
-  @Test
-  void consumeMessages() {
-    String commitStreamTopic = System.getenv("COMMIT_STREAM_TOPIC");
-    String forwardReplicationTopic = System.getenv("FORWARD_REPLICATION_TOPIC");
-    String persistenceTopic = System.getenv("PERSISTENCE_TOPIC");
-    String ingestTopic = System.getenv("INGEST_TOPIC");
+  static KConfig kafkaConfig;
+  static KTableTopicConfig ingestConsumerConfig;
 
-    KConsumer kafkaIngestConsumer = new KConsumer(ingestTopic, 1000, "*", 5);
-    KConsumer kafkaCommitStreamConsumer = new KConsumer(commitStreamTopic, 1000, "*", 5);
-    KConsumer kafkaReplicationConsumer = new KConsumer(forwardReplicationTopic, 1000, "*", 5);
-    KConsumer kafkaPersistConsumer = new KConsumer(persistenceTopic, 1000, "*", 5);
+  private static KConsumer ingestConsumer;
+  private static KConsumer persistConsumer;
+  private static KConsumer replicationConsumer;
+  private static KConsumer commitstreamConsumer;
 
-    kafkaCommitStreamConsumer.consume();
-    kafkaReplicationConsumer.consume();
-    kafkaPersistConsumer.consume();
-    kafkaIngestConsumer.consume();
+  @BeforeAll
+  static void setUp() {
+    kafkaConfig = new KConfig();
+    kafkaConfig.setAutoOffset(System.getenv("AUTO_OFFSET"));
+    kafkaConfig.setBootstrapServer(System.getenv("BOOT_STRAP_SERVER"));
+    kafkaConfig.setSaslMechanism(System.getenv("SASL_MECHANISM"));
+    kafkaConfig.setKafkaUser(System.getenv("KAFKA_SASL_USERNAME"));
+    kafkaConfig.setKafkaPW(System.getenv("KAFKA_SASL_PASSWORD"));
+    kafkaConfig.setKafkaProtocol(System.getenv("KAFKA_PROTOCOL"));
+    kafkaConfig.setMaxConsumingTime(5L);
 
-    System.out.println("Beginne mit einer Action wie DB Zeug anlegen... ");
-    System.out.println("Hier bin ich mit dem anlegen fertig... ");
-
-    System.out.println("AUSGABE COMMITSTREAM CONSUMER");
-    //assertTrue(kafkaCommitStreamConsumer.waitForMessage(5000), "Commitstream Consumer has message consumed");
-    System.out.println(kafkaCommitStreamConsumer.getMessageCount());
-    System.out.println(kafkaCommitStreamConsumer.getLastMessage());
-
-    System.out.println("AUSGABE REPLICATION CONSUMER");
-    //assertTrue(kafkaReplicationConsumer.waitForMessage(5000));
-    System.out.println(kafkaReplicationConsumer.getMessageCount());
-    System.out.println(kafkaReplicationConsumer.getLastMessage());
-
-    System.out.println("AUSGABE PERSIST CONSUMER");
-    //assertTrue(kafkaPersistConsumer.waitForMessage(5000));
-    System.out.println(kafkaPersistConsumer.getMessageCount());
-    System.out.println(kafkaPersistConsumer.getLastMessage());
-
-    System.out.println("AUSGABE INGEST CONSUMER");
-    //assertTrue(kafkaIngestConsumer.waitForMessage(5000));
-    System.out.println(kafkaIngestConsumer.getMessageCount());
-    System.out.println(kafkaIngestConsumer.getLastMessage());
+    ingestConsumerConfig = new KTableTopicConfig(kafkaConfig);
+    ingestConsumerConfig.setKafkaTopic(System.getenv("INGEST_TOPIC"));
   }
 
   @Test
-  void reconfigureConsumer() {
-    String commitStreamTopic = System.getenv("COMMIT_STREAM_TOPIC");
-    String forwardReplicationTopic = System.getenv("FORWARD_REPLICATION_TOPIC");
-    String persistenceTopic = System.getenv("PERSISTENCE_TOPIC");
-    String ingestTopic = System.getenv("INGEST_TOPIC");
+  void consumerFactory() {
+    KConsumer consumer = ingestConsumerConfig.createKConsumer(true);
 
-    KConsumer kafkaIngestConsumer = new KConsumer(ingestTopic, 1000, "", 5);
-    KConsumer kafkaCommitStreamConsumer = new KConsumer(commitStreamTopic, 1000, "*", 5);
-    KConsumer kafkaReplicationConsumer = new KConsumer(forwardReplicationTopic, 1000, "*", 5);
-    KConsumer kafkaPersistConsumer = new KConsumer(persistenceTopic, 1000, "", 5);
+    assertTrue(consumer.waitForKRecords(5000));
+    System.out.println(consumer.getKRecordsCount());
+    System.out.println(consumer.getLastKRecord());
 
-    kafkaCommitStreamConsumer.consume();
-    kafkaReplicationConsumer.consume();
-    kafkaPersistConsumer.consume();
-    kafkaIngestConsumer.consume();
+    List<KRecord> recordList = consumer.getKRecords()
+      .stream()
+      .filter(kRecord -> Objects.requireNonNull(kRecord.getValue()).contains("42681550000000000"))
+      .collect(Collectors.toList());
 
-    System.out.println("Beginne mit einer Action wie DB Zeug anlegen... ");
-    System.out.println("Hier bin ich mit dem anlegen fertig... ");
 
-    System.out.println("AUSGABE COMMITSTREAM CONSUMER");
-    //assertTrue(kafkaCommitStreamConsumer.waitForMessage(5000),     "Commitstream Consumer has message consumed");
-    System.out.println(kafkaCommitStreamConsumer.getMessageCount());
-    System.out.println(kafkaCommitStreamConsumer.getLastMessage());
+    recordList.forEach(record -> System.out.println(record.getKey() + "\n" + record.getValue() + "\n" + record.getOffset() + "\n" + record.getPartition()));
+  }
 
-    System.out.println("AUSGABE REPLICATION CONSUMER");
-    //assertTrue(kafkaReplicationConsumer.waitForMessage(5000));
-    System.out.println(kafkaReplicationConsumer.getMessageCount());
-    System.out.println(kafkaReplicationConsumer.getLastMessage());
+  @Test
+  void producerFactory() {
+    KProducer autoFlushProducer = ingestConsumerConfig.createKProducer(true);
+    autoFlushProducer.send("Testmessage die automatisch geflushed wird");
 
-    //kafkaPersistConsumer.reConfigure(1, "", 5, "<MyStreamIndex>");
-    //kafkaIngestConsumer.reConfigure(1, "", 5, "<MyStreamIndex>");
+    KProducer kFactor = KFactory.createKProducer(ingestConsumerConfig, true);
+    kFactor.send("Testmessage die nicht automatisch geflushed wird");
 
-    System.out.println("AUSGABE PERSIST CONSUMER");
-    //assertTrue(kafkaPersistConsumer.waitForMessage(5000));
-    System.out.println(kafkaPersistConsumer.getMessageCount());
-    System.out.println(kafkaPersistConsumer.getLastMessage());
-
-    System.out.println("AUSGABE INGEST CONSUMER");
-    //assertTrue(kafkaIngestConsumer.waitForMessage(5000));
-    System.out.println(kafkaIngestConsumer.getMessageCount());
-    System.out.println(kafkaIngestConsumer.getLastMessage());
+    KProducer manuellProducer = ingestConsumerConfig.createKProducer(false);
+    manuellProducer.send("Testmessage die nicht automatisch geflushed wird");
+    manuellProducer.flush();
   }
 }

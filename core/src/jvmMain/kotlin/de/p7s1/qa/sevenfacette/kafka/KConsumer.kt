@@ -1,147 +1,148 @@
 package de.p7s1.qa.sevenfacette.kafka
 
-import de.p7s1.qa.sevenfacette.kafka.SaslSecurityProtocol.SSL
+import de.p7s1.qa.sevenfacette.kafka.config.KTableTopicConfig
+import de.p7s1.qa.sevenfacette.kafka.config.SaslConfiguration
+import java.time.Duration
+import java.util.UUID
+import java.util.concurrent.ConcurrentLinkedQueue
+import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import mu.KLogging
+import mu.KotlinLogging
 import org.apache.kafka.clients.consumer.Consumer
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.consumer.KafkaConsumer
 import org.apache.kafka.common.serialization.StringDeserializer
-import java.time.Duration
-import java.util.UUID
-import java.util.concurrent.CountDownLatch
-import kotlin.coroutines.CoroutineContext
 
-class KConsumer(
-        private val topic: String,
-        private var expectedMessageCount: Int,
-        private var pattern: String,
-        private var latchWaitTime: Int
-) : CoroutineScope by CoroutineScope(Dispatchers.Default){
+/**
+ * JVM specific implementation of the Kafka consumer
+ *
+ * @constructor the constructor receives the [tableTopicConfig]
+ *
+ * @author Patrick Döring
+ */
+private val logger = KotlinLogging.logger {}
+class KConsumer (
+        private val tableTopicConfig: KTableTopicConfig
+) : CoroutineScope by CoroutineScope(Dispatchers.Default) {
     private val job = Job()
-    private var messageCount = expectedMessageCount
-    private val intermediateList: MutableList<String> = mutableListOf()
-    private var latch = CountDownLatch(messageCount)
+    private val kRecordQueue = ConcurrentLinkedQueue<KRecord>()
     private var keepGoing = true
-    private val messageList: MutableList<String> = mutableListOf()
-    private val consumer = createConsumer()
+    private lateinit var consumer: KafkaConsumer<String, String>
 
-    private fun createConsumer() : Consumer<String, String> {
+    /**
+     * Create a KafkaConsumer
+     * @return [consumer]
+     */
+    fun createConsumer() : Consumer<String, String> {
+        logger.info("Create KConsumer")
         var config : MutableMap<String, Any> = mutableMapOf()
-        // ToDo: That should come from the config
-        config[ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG] = System.getenv("BOOT_STRAP_SERVER")
+        config[ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG] = tableTopicConfig.kafkaConfig.bootstrapServer
         config[ConsumerConfig.GROUP_ID_CONFIG] = UUID.randomUUID().toString()
         config[ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG] = StringDeserializer::class.java
         config[ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG] = StringDeserializer::class.java
-        // ToDo: That should come from the config
-        config[ConsumerConfig.AUTO_OFFSET_RESET_CONFIG] = System.getenv("AUTO_OFFSET")
-        // ToDo: THE SSL should also come from the config
-        config = SaslConfiguration.addSaslProperties(config, SSL)
-        return KafkaConsumer<String, String>(config)
-    }
+        config[ConsumerConfig.AUTO_OFFSET_RESET_CONFIG] = tableTopicConfig.kafkaConfig.autoOffset
 
-    fun reConfigure(expectedMessageCount: Int,
-                    pattern: String,
-                    latchWaitTime: Int,
-                    streamIndex: String) {
-        this.latchWaitTime = latchWaitTime
-        this.messageCount = expectedMessageCount
-        if (!"".equals(streamIndex)) {
-            this.pattern = streamIndex
-        } else {
-            this.pattern = pattern
+        if (tableTopicConfig.kafkaConfig.useSASL) {
+            config = SaslConfiguration.addSaslProperties(config, tableTopicConfig)
         }
-        latch = CountDownLatch(this.messageCount)
-        intermediateList
-                .filter { msg -> msg.contains(streamIndex) }
-                .forEach(this::collectMessage)
+        consumer = KafkaConsumer<String, String>(config)
+        return consumer
     }
 
     override val coroutineContext: CoroutineContext
         get() = job
 
+    /**
+     * Stop consuming and close
+     */
     private fun shutdown() {
         job.complete()
         try {
             consumer.close(Duration.ofMillis(5000L))
         } catch (ex: ConcurrentModificationException) {
-            println("Kafka consumer closed")
+            logger.warn("KConsumer was ")
         }
     }
 
-    fun waitForMessage(waitingTime: Int): Boolean {
+    /**
+     * Wait for consumed KRecords within a given timespan
+     *
+     * @param [waitingTime]
+     * @return [hasMessage]
+     */
+    fun waitForKRecords(waitingTime: Int): Boolean {
         var waited : Int = 0
-        var hasMessage : Boolean = false
+        var hasMessage: Boolean
 
         do {
             Thread.sleep(500)
             waited += 500
-            hasMessage = hasMessage()
+            hasMessage = hasKRecords()
         } while (!hasMessage && waited <= waitingTime)
         stopConsumer()
         return hasMessage
     }
 
+    /**
+     * Subscribe consumer on table topic, start consuming and add KRecords to kRecordQueue
+     */
     fun consume()  {
-        consumer.subscribe(listOf(topic))
+        consumer.subscribe(listOf(tableTopicConfig.kafkaTopic))
         GlobalScope.launch {
             println("Consuming and processing data")
             while (keepGoing) {
-                consumer.poll(Duration.ofSeconds(latchWaitTime.toLong())).forEach {
-                    collectMessage(it.value())
+                consumer.poll(Duration.ofSeconds(tableTopicConfig.kafkaConfig.maxConsumingTime)).forEach {
+                    kRecordQueue.add(KRecord(it.key(), it.value(), it.offset(), it.partition()))
                 }
                 stopConsumer()
             }
         }
     }
 
-    private fun collectMessage(message: String) {
-        if (pattern.isEmpty()) {
-            intermediateList.add(message)
-            // ToDo Add logging
-            return
-        }
-        if (latch.count == 0L) {
-            return stopConsumer()
-        }
-        // ToDo: Validate that
-        if (message.contains(pattern) || pattern == "*") {
-            messageList.add(message)
-            // ToDo Add logging
-            latch.countDown()
-            checkLatch()
-        }
+    /**
+     * Returns the consumed KRecords
+     *
+     * @return [kRecordQueue]
+     */
+    fun getKRecords(): ConcurrentLinkedQueue<KRecord> {
+        return kRecordQueue
     }
 
-    fun getMessageList(): List<String?>? {
-        return messageList
+    /**
+     * Returns the consumed record count
+     *
+     * @return kRecordQueue.size
+     */
+    fun getKRecordsCount() : Int {
+        return kRecordQueue.size
     }
 
-    private fun checkLatch() {
-        if (latch.count == 0L) {
-            stopConsumer()
-        }
+    /**
+     * Returns the last consumed record
+     *
+     * @return kRecordQueue.elementAt(kRecordQueue.size -1)
+     */
+    fun getLastKRecord(): KRecord? {
+        return kRecordQueue.elementAt(kRecordQueue.size -1)
     }
 
-    fun getMessageCount() : Int {
-        return messageList.size
+    /**
+     * Returns true if messages are consumed
+     *
+     * @return !kRecordQueue.isEmpty()
+     */
+    private fun hasKRecords(): Boolean {
+        return !kRecordQueue.isEmpty()
     }
 
-    fun getAllMessages(): List<String?>? {
-        return messageList
-    }
-
-    fun getLastMessage(): String? {
-        return messageList[messageList.size - 1]
-    }
-
-    private fun hasMessage(): Boolean {
-        return messageList.isNotEmpty()
-    }
-
+    /**
+     * Sets the keepGoing flag to false and stops consumer
+     */
     private fun stopConsumer() {
         keepGoing = false
         shutdown()

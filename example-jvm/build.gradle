@@ -12,7 +12,14 @@ repositories {
 }
 
 dependencies {
-    implementation ("de.p7s1.qa.sevenfacette:core-jvm:0.0.3")
+    implementation ("de.p7s1.qa.sevenfacette:core-jvm:0.1.0")
+    implementation ("org.yaml:snakeyaml:1.21")
+    implementation ("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.10.3")
+    implementation ("com.fasterxml.jackson.core:jackson-databind:2.10.3")
+    implementation ("com.fasterxml.jackson.core:jackson-annotations:2.10.3")
+    implementation ("com.fasterxml.jackson.core:jackson-core:2.10.3")
+
+
 
     implementation ("commons-io:commons-io:2.6")
 
