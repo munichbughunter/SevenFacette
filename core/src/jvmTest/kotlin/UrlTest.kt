@@ -8,12 +8,6 @@ class UrlTest {
     val basePath = "myBasePath"
 
     @Test
-    fun sdfgsdf() {
-        logger.info("LOGGER INFO IN TEST CLASS")
-        Url().create()
-    }
-
-    @Test
     fun checkUrlCreation() {
         val path = "https://$basePath"
         val url: Url = Url().baseUrl(path)
