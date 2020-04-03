@@ -1,8 +1,8 @@
 package de.p7s1.qa.sevenfacette.http;
 
-import de.p7s1.qa.sevenfacette.sevenfacetteHttp.HttpHeader;
-import de.p7s1.qa.sevenfacette.sevenfacetteHttp.HttpResponse;
-import de.p7s1.qa.sevenfacette.sevenfacetteHttp.MultipartBody;
+import de.p7s1.qa.sevenfacette.http.HttpHeader;
+import de.p7s1.qa.sevenfacette.http.HttpResponse;
+import de.p7s1.qa.sevenfacette.http.MultipartBody;
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
 
