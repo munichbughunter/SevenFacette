@@ -11,7 +11,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import mu.KLogging
 import mu.KotlinLogging
 import org.apache.kafka.clients.consumer.Consumer
 import org.apache.kafka.clients.consumer.ConsumerConfig
@@ -39,7 +38,6 @@ class KConsumer (
      * @return [consumer]
      */
     fun createConsumer() : Consumer<String, String> {
-        logger.info("Create KConsumer")
         var config : MutableMap<String, Any> = mutableMapOf()
         config[ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG] = tableTopicConfig.kafkaConfig.bootstrapServer
         config[ConsumerConfig.GROUP_ID_CONFIG] = UUID.randomUUID().toString()
@@ -51,6 +49,7 @@ class KConsumer (
             config = SaslConfiguration.addSaslProperties(config, tableTopicConfig)
         }
         consumer = KafkaConsumer<String, String>(config)
+        logger.info("Create KConsumer")
         return consumer
     }
 
@@ -65,7 +64,7 @@ class KConsumer (
         try {
             consumer.close(Duration.ofMillis(5000L))
         } catch (ex: ConcurrentModificationException) {
-            logger.warn("KConsumer was ")
+            logger.warn("Consumer was closed")
         }
     }
 
@@ -94,7 +93,7 @@ class KConsumer (
     fun consume()  {
         consumer.subscribe(listOf(tableTopicConfig.kafkaTopic))
         GlobalScope.launch {
-            println("Consuming and processing data")
+            logger.info("Start consuming and processing records")
             while (keepGoing) {
                 consumer.poll(Duration.ofSeconds(tableTopicConfig.kafkaConfig.maxConsumingTime)).forEach {
                     kRecordQueue.add(KRecord(it.key(), it.value(), it.offset(), it.partition()))

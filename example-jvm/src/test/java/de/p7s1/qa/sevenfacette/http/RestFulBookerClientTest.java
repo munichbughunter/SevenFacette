@@ -16,7 +16,6 @@ import java.nio.charset.StandardCharsets;
  * @author Florian Pilz
  */
 
-/*
 public class RestFulBookerClientTest {
 
   @Test
@@ -70,6 +69,3 @@ public class RestFulBookerClientTest {
     System.out.println(response.getStatus());
   }
 }
-
-
- */

@@ -15,8 +15,6 @@ package de.p7s1.qa.sevenfacette.http;
  *
  * @author Florian Pilz
  */
-
-/*
 public class RestFulBookerClient extends GenericHttpClient {
   public RestFulBookerClient() {
     Authentication auth = new BasicAuth("", "");
@@ -52,5 +50,3 @@ public class RestFulBookerClient extends GenericHttpClient {
   }
 
 }
-
- */
