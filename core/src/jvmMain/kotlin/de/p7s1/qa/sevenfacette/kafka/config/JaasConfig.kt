@@ -1,5 +1,10 @@
 package de.p7s1.qa.sevenfacette.kafka.config
 
+/**
+ * Adds JAAS configuration property
+ *
+ * @author Patrick Döring
+ */
 class JaasConfig {
     companion object {
         @JvmStatic

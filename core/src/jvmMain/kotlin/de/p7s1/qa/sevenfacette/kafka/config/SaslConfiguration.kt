@@ -2,6 +2,11 @@ package de.p7s1.qa.sevenfacette.kafka.config
 
 import org.apache.kafka.common.config.SaslConfigs
 
+/**
+ * Adds SASL configuration properties
+ *
+ * @author Patrick Döring
+ */
 class SaslConfiguration {
     companion object {
         @JvmStatic
