@@ -1,8 +1,5 @@
 package de.p7s1.qa.sevenfacette.http
 
-import de.p7s1.qa.sevenfacette.http.*
-import de.p7s1.qa.sevenfacette.http.GenericHttpClient
-import de.p7s1.qa.sevenfacette.http.HttpResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.apache.Apache
 import io.ktor.client.features.HttpSend
@@ -22,6 +19,7 @@ import io.ktor.http.userAgent
 import io.ktor.util.KtorExperimentalAPI
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import mu.KotlinLogging
 import org.apache.http.conn.ssl.NoopHostnameVerifier
 import org.apache.http.conn.ssl.TrustAllStrategy
 import org.apache.http.ssl.SSLContextBuilder
@@ -33,6 +31,8 @@ import java.net.Proxy
  *
  * @author Florian Pilz
  */
+
+private val logger = KotlinLogging.logger {}
 actual open class GenericHttpClient actual constructor() {
 
     /**
@@ -318,38 +318,41 @@ actual open class GenericHttpClient actual constructor() {
     private inline fun <reified T> executeRequest(useMethod: HttpMethod, usePath: String, useContent: T?, useHeaders: HttpHeader): HttpResponse? {
         var facetteResponse: HttpResponse? = null
         val fullPath = this.url.path(usePath).create()
+        val usedBody = getBody(useContent)
 
-        println("Sending a ${useMethod.value} request to $fullPath")
-
-        // SSLContextBuilder.create()
+        logger.info("Sending a ${useMethod.value} request to $fullPath with ${if(useContent == null) "no" else ""} content")
+        logger.info("Body == $usedBody")
 
         runBlocking {
             launch {
                 try {
+
                     facetteResponse = HttpResponse(client.request {
 
                         url(fullPath)
-                        println(fullPath)
 
                         method = useMethod
-                        println(useMethod)
 
                         if (useContent != null) {
-                            body = getBody(useContent)
+                            body = usedBody
                         }
                         userAgent("SevenFacette")
 
                         useHeaders.header.forEach {
+                            logger.info("Appending header for ${it.first}")
                             headers.append(it.first, it.second)
                         }
                     })
                 } catch (e: Exception) {
-                    println(e.message)
+                    logger.error(e.message)
                 }
             }.join()
         }
 
         if(facetteResponse == null) throw Exception("No response received")
+        logger.info { "Response http status == ${facetteResponse?.status}" }
+        logger.info { "Response headers == ${facetteResponse?.headers}" }
+        logger.info { "Response body == ${facetteResponse?.body}" }
         return facetteResponse
     }
 

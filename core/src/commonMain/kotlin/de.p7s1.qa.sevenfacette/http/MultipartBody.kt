@@ -2,12 +2,15 @@ package de.p7s1.qa.sevenfacette.http
 
 import io.ktor.client.request.forms.MultiPartFormDataContent
 import io.ktor.client.request.forms.formData
+import mu.KotlinLogging
 
 /**
  * Multipart body which can be sent via GenericHttpClient
  *
  * @property multipartData list of Multipartdata
  */
+
+private val logger = KotlinLogging.logger {}
 class MultipartBody {
     val multipartData = mutableListOf<MultiPartData<*>>()
 
@@ -19,6 +22,7 @@ class MultipartBody {
      * @return this
      */
     fun addStringPart(name: String, content: String): MultipartBody {
+        logger.debug { "Adding string content with name == $name to multipart body" }
         multipartData.add(MultiPartData(name, content))
         return this
     }
@@ -33,6 +37,7 @@ class MultipartBody {
      * @author Florian Pilz
      */
     fun addByteArrayPart(name: String, content: ByteArray): MultipartBody {
+        logger.debug { "Adding byte array content with name == $name to multipart body" }
         multipartData.add(MultiPartData(name, content))
         return this
     }
@@ -48,7 +53,7 @@ class MultipartBody {
                     when(it.value!!::class) {
                         String::class ->  append(it.name, it.value as String)
                         ByteArray::class -> append(it.name, it.value as ByteArray)
-                        else -> println("Contenttype ${it.value::class} currently not implemented")
+                        else -> logger.error{"Content type ${it.value::class} currently not implemented"}
                     }
                 }
             }
