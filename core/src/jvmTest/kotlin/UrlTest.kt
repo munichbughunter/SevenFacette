@@ -1,9 +1,17 @@
 
 import de.p7s1.qa.sevenfacette.http.Url
+import mu.KotlinLogging
 import org.junit.Test
 
+private val logger = KotlinLogging.logger {}
 class UrlTest {
     val basePath = "myBasePath"
+
+    @Test
+    fun sdfgsdf() {
+        logger.info("LOGGER INFO IN TEST CLASS")
+        Url().create()
+    }
 
     @Test
     fun checkUrlCreation() {
