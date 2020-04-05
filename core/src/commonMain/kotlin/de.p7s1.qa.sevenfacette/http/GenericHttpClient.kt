@@ -1,6 +1,6 @@
 package de.p7s1.qa.sevenfacette.http
 
-import io.ktor.util.KtorExperimentalAPI
+import io.ktor.client.HttpClient
 
 /**
  * Class for http requests which needs to be implemented in js- and jvm-target
@@ -8,12 +8,9 @@ import io.ktor.util.KtorExperimentalAPI
  *
  * @author Florian Pilz
  */
-expect open class GenericHttpClient() {
+expect class GenericHttpClient() {
 
-    fun setUrl(url: Url): GenericHttpClient
-    fun setAuthentication(authentication: Authentication): GenericHttpClient
-    fun setProxy(host: String?, port: Int): GenericHttpClient
-    fun build()
+    fun setClient(url: Url, client: HttpClient): GenericHttpClient
 
     fun post(path: String, content: String, headers: HttpHeader): HttpResponse?
     fun postByteArray(path: String, content: ByteArray, headers: HttpHeader): HttpResponse?
