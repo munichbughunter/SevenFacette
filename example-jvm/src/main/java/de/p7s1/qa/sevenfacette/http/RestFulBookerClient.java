@@ -16,41 +16,43 @@ package de.p7s1.qa.sevenfacette.http;
  * @author Florian Pilz
  */
 
-/*
-public class RestFulBookerClient extends GenericHttpClient {
+
+public class RestFulBookerClient {
+
+  private GenericHttpClient client;
+
   public RestFulBookerClient() {
-    Authentication auth = new BasicAuth("", "");
-    this.setUrl(new Url().baseUrl("localhost").port(3001))
-            .setProxy("localhost",8080)
-            .setAuthentication(auth)
-            .build();
+   HttpConfig config = new HttpConfig();
+   config.setUrl(new Url().baseUrl("localhost").port(3001));
+   HttpClientConfig clientConfig = new HttpClientConfig(config, "myClient");
+   this.client = clientConfig.createClient();
   }
 
   public HttpResponse getAllBookings() {
-    return this.get("booking", new HttpHeader());
+    return client.get("booking", new HttpHeader());
   }
 
   public HttpResponse getBookingByID(String bookingID) {
-    return this.get("booking/" + bookingID, new HttpHeader());
+    return client.get("booking/" + bookingID, new HttpHeader());
   }
 
   public HttpResponse createNewBooking(String bookingData, HttpHeader header) {
-    return this.post("booking", bookingData, header);
+    return client.post("booking", bookingData, header);
   }
 
   public HttpResponse deleteBooking(String bookingId, HttpHeader headers) {
-    return this.delete("/booking/" + bookingId, headers);
+    return client.delete("/booking/" + bookingId, headers);
   }
 
   public HttpResponse sendMultipartData(String path, MultipartBody body, HttpHeader headers) {
-    return this.postMultiPart(path, body, headers);
+    return client.postMultiPart(path, body, headers);
   }
 
   public HttpResponse auth() {
     String content = "{\"username\":\"admin\",\"password\":\"password123\"}";
-    return this.post("auth", content, new HttpHeader());
+    return client.post("auth", content, new HttpHeader());
   }
 
 }
 
- */
+

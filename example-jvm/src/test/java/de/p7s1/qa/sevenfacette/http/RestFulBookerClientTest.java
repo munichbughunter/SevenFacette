@@ -1,8 +1,5 @@
 package de.p7s1.qa.sevenfacette.http;
 
-import de.p7s1.qa.sevenfacette.http.HttpHeader;
-import de.p7s1.qa.sevenfacette.http.HttpResponse;
-import de.p7s1.qa.sevenfacette.http.MultipartBody;
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
 
@@ -16,6 +13,7 @@ import java.nio.charset.StandardCharsets;
  * @author Florian Pilz
  */
 
+// Do not use these test currently in pipeline until backend is available in pipeline
 /*
 public class RestFulBookerClientTest {
 
@@ -30,7 +28,7 @@ public class RestFulBookerClientTest {
   @Test
   public void getBookingByID() {
     HttpResponse response =
-            new RestFulBookerClient().getBookingByID("11");
+            new RestFulBookerClient().getBookingByID("12");
     System.out.println(response.getBody());
     System.out.println(response.getStatus());
   }
@@ -49,7 +47,7 @@ public class RestFulBookerClientTest {
 
   @Test
   public void deleteBooking() {
-    HttpResponse response = new RestFulBookerClient().deleteBooking("11", new HttpHeader().add("Cookie", "token=46823e3cad43d25"));
+    HttpResponse response = new RestFulBookerClient().deleteBooking("12", new HttpHeader().add("Cookie", "token=46823e3cad43d25"));
     System.out.println(response.getBody());
     System.out.println(response.getStatus());
   }
@@ -70,6 +68,4 @@ public class RestFulBookerClientTest {
     System.out.println(response.getStatus());
   }
 }
-
-
- */
+*/
