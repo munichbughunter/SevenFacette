@@ -7,21 +7,30 @@ import java.sql.ResultSet
 import java.sql.SQLException
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.function.Consumer
+import mu.KotlinLogging
 
 /**
- * TODO: Add Description
+ * JVM specific implementation of the Database execution handler
+ *
+ * @constructor [dbConfig]
  *
  * @author Patrick Döring
  */
+private val logger = KotlinLogging.logger {}
 class Database(
         private val dbConfig: DConfig
 ) {
     private val select = "select"
     private val emptyValue = "NULL"
+
     /**
-     * create connection for the specified jdbc url and credentials
+     * Create connection for the specified jdbc driver, url and credentials
+     *
+     * @parameter [dbConfig]
+     *
+     * @return [Connection]
      */
-    fun openConnection(): Connection {
+    private fun openConnection(): Connection {
         return try {
             Class.forName(dbConfig.dbDriver)
             DriverManager.getConnection(dbConfig.dbUrl, dbConfig.dbUser, dbConfig.dbPW)
@@ -32,12 +41,18 @@ class Database(
         }
     }
 
+    /**
+     * Executes database statements
+     *
+     * @parameter [dbStatements] statements to execute
+     *
+     * @return [result] as List<Map<String, Any>> or an empty list
+     */
     fun executeStatements(dbStatements: DbStatements) : List<Map<String, Any>>? {
         var result: List<Map<String, Any>> = mutableListOf()
         try {
             openConnection().use { conn ->
-                //val executor = Executor(conn, dbConfig.autoCommit, true)
-                //logger.info("Iterating over SQL-Statements")
+                logger.info("Iterating over SQL-Statements")
                 val entryCounter = AtomicInteger(1)
 
                 dbStatements.list.forEach(Consumer {
@@ -60,10 +75,9 @@ class Database(
                 })
             }
         } catch (ex: SQLException) {
-            //logger.error("Error on opening database connection. ", ex)
+            logger.error("Error on opening database connection. ", ex)
             throw RuntimeException(ex)
         }
-
         return result
     }
 
@@ -71,6 +85,7 @@ class Database(
      * Convert result set to a list
      *
      * @param [rs] result set of the executed statement
+     *
      * @return [result]
      */
     private fun convertResultSetToList(rs: ResultSet) : List<Map<String, Any>> {
@@ -94,5 +109,4 @@ class Database(
             throw RuntimeException("Error on converting result set to List", ex)
         }
     }
-
 }

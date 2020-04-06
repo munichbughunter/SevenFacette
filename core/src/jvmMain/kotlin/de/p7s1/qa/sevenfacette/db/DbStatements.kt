@@ -1,6 +1,5 @@
 package de.p7s1.qa.sevenfacette.db
 
-import org.slf4j.LoggerFactory
 import java.util.Collections
 
 actual class DbStatements {
