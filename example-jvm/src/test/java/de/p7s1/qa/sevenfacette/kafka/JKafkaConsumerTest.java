@@ -4,11 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import de.p7s1.qa.sevenfacette.kafka.config.KConfig;
 import de.p7s1.qa.sevenfacette.kafka.config.KTableTopicConfig;
-import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Queue;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
