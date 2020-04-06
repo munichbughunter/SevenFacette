@@ -29,8 +29,6 @@ kotlin {
             dependencies {
                 implementation 'org.jetbrains.kotlin:kotlin-stdlib'
                 implementation 'org.jetbrains.kotlin:kotlin-stdlib-common'
-                implementation 'org.jetbrains.exposed:exposed-core:0.20.1'
-                implementation 'org.jetbrains.exposed:exposed-jdbc:0.20.1'
                 implementation 'com.willowtreeapps.opentest4k:opentest4k-common:1.1.0'
                 implementation 'io.github.microutils:kotlin-logging-common:1.7.8'
                 implementation 'org.postgresql:postgresql:42.2.5'
@@ -52,8 +50,6 @@ kotlin {
 
         jvmMain {
             dependencies {
-                api 'org.jetbrains.exposed:exposed-core:0.20.1'
-                api 'org.jetbrains.exposed:exposed-jdbc:0.20.1'
                 implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
                 implementation 'com.jayway.jsonpath:json-path:2.4.0'
                 implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.8'

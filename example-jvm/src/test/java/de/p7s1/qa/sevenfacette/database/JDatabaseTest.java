@@ -1,15 +1,10 @@
 package de.p7s1.qa.sevenfacette.database;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import de.p7s1.qa.sevenfacette.db.DBConnection;
-import de.p7s1.qa.sevenfacette.db.DFactory;
 import de.p7s1.qa.sevenfacette.db.DbStatements;
 import de.p7s1.qa.sevenfacette.db.config.DConfig;
-import java.sql.ResultSet;
 import java.util.List;
 import java.util.Map;
-import org.jetbrains.exposed.sql.Database;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 /**
@@ -46,7 +41,6 @@ class JDatabaseTest {
     selectStatements.add("SELECT * FROM table;");
 
     dbResultSet = dbConfig.executeQuery(selectStatements);
-
 
     deleteStatements.add("Statement 1;");
     deleteStatements.add("DELETE FROM table WHERE ...;");
