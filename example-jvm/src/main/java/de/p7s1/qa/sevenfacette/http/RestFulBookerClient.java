@@ -16,7 +16,6 @@ package de.p7s1.qa.sevenfacette.http;
  * @author Florian Pilz
  */
 
-
 public class RestFulBookerClient {
 
   private GenericHttpClient client;
@@ -54,5 +53,3 @@ public class RestFulBookerClient {
   }
 
 }
-
-
