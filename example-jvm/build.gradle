@@ -12,6 +12,7 @@ repositories {
 }
 
 dependencies {
+    compile fileTree(dir: 'lib', include: ['ifxjdbc.jar'])
     implementation ("de.p7s1.qa.sevenfacette:core-jvm:0.1.0")
     implementation ("org.yaml:snakeyaml:1.21")
     implementation ("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.10.3")

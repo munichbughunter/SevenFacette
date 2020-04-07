@@ -40,7 +40,9 @@ class KFactory {
          */
         @JvmStatic
         fun createKProducer(tableTopicConfig: KTableTopicConfig, autoSend: Boolean) : KProducer {
-            return KProducer(tableTopicConfig, autoSend)
+            return KProducer(tableTopicConfig, autoSend).apply {
+                createProducer()
+            }
         }
     }
 }
