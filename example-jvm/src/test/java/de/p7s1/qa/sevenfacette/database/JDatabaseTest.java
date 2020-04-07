@@ -7,11 +7,7 @@ import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-/**
- * TODO: Add Description
- *
- * @author Patrick Döring
- */
+
 class JDatabaseTest {
 
   static DConfig dbConfig;
@@ -35,6 +31,10 @@ class JDatabaseTest {
   void connectDB() {
     createStatements.add("Statement 1;");
     createStatements.add("Statement 2;");
+
+    System.out.println(createStatements.contains("Statement 2;"));
+    System.out.println(createStatements.get(0));
+    System.out.println(createStatements.size());
 
     dbConfig.executeQuery(createStatements);
 

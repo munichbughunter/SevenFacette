@@ -6,7 +6,6 @@ actual class DbStatements {
 
     actual val statements: MutableList<String> = mutableListOf()
 
-
     actual fun add(statement: String): Boolean {
         return statements.add(statement)
     }
@@ -16,7 +15,7 @@ actual class DbStatements {
 
 
     actual operator fun contains(statement: String): Boolean {
-        return statements.contains(statement)
+        return statement in statements
     }
 
     actual operator fun get(index: Int): String {
