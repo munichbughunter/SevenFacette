@@ -16,14 +16,14 @@ actual class DbStatements {
 
 
     actual operator fun contains(statement: String): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return statements.contains(statement)
     }
 
     actual operator fun get(index: Int): String {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return statements[index]
     }
 
     actual fun size(): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return statements.size
     }
 }
