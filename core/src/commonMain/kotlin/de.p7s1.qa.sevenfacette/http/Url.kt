@@ -1,5 +1,6 @@
 package de.p7s1.qa.sevenfacette.http
 
+import kotlinx.serialization.Serializable
 import mu.KotlinLogging
 
 /**
@@ -18,6 +19,7 @@ import mu.KotlinLogging
  */
 
 private val logger = KotlinLogging.logger {}
+@Serializable
 class Url {
     var protocol: String = "http"
         private set

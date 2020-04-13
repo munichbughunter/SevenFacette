@@ -1,5 +1,6 @@
 package de.p7s1.qa.sevenfacette.http
 
+import de.p7s1.qa.sevenfacette.http.config.AuthenticationFactory
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.apache.Apache
 import io.ktor.client.features.HttpSend
@@ -49,7 +50,7 @@ class HttpClientFactory {
 
                 if(config.authentication != null) {
                     install(Auth){
-                        providers.add(AuthenticationMapper.map(config.authentication))
+                        providers.add(AuthenticationFactory(config.authentication!!).getAuthentication())
                     }
                 }
 

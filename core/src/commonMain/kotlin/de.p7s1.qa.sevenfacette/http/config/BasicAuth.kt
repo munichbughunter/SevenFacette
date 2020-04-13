@@ -1,5 +1,7 @@
-package de.p7s1.qa.sevenfacette.http
+package de.p7s1.qa.sevenfacette.http.config
 
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 /**
  * Basic authentication type
@@ -12,7 +14,9 @@ package de.p7s1.qa.sevenfacette.http
  *
  * @author Florian Pilz
  */
-class BasicAuth(var username: String, var password: String) : Authentication {
+@Serializable
+@SerialName("basic")
+class BasicAuth(var username: String, var password: String) : Authentication() {
     var realm: String? = null
     var sendWithoutRequest: Boolean = true
 }

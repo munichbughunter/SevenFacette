@@ -1,5 +1,7 @@
 package de.p7s1.qa.sevenfacette.http
 
+import de.p7s1.qa.sevenfacette.http.config.Authentication
+import de.p7s1.qa.sevenfacette.http.config.BasicAuth
 import io.ktor.client.features.auth.AuthProvider
 import io.ktor.client.features.auth.providers.BasicAuthProvider
 import io.ktor.client.features.auth.providers.DigestAuthProvider
