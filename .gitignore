@@ -21,5 +21,4 @@ common/*
 /node_modules/
 /core/node_modules/
 /core/detekt/
-/logs
-/logs/
+/logs/*
