@@ -42,10 +42,8 @@ actual class GenericHttpClient {
      * @see HttpHeader
      * @return HttpResponse - null if no response is received
      */
-    actual fun post(path: String, content: String, headers: HttpHeader): HttpResponse? {
-        logger.info { "EXECUTE POST" }
-        return this.executeRequest(HttpMethod.Post, path, content, headers)
-    }
+    actual fun post(path: String, content: String, headers: HttpHeader): HttpResponse? =
+        this.executeRequest(HttpMethod.Post, path, content, headers)
 
     /**
      * JVM specific implementation of port
@@ -57,10 +55,8 @@ actual class GenericHttpClient {
      * @see HttpHeader
      * @return HttpResponse - null if no response is received
      */
-    actual fun postByteArray(path: String, content: ByteArray, headers: HttpHeader): HttpResponse? {
-        logger.info { "EXECUTE POST" }
-        return this.executeRequest(HttpMethod.Post, path, content, headers)
-    }
+    actual fun postByteArray(path: String, content: ByteArray, headers: HttpHeader): HttpResponse? =
+        this.executeRequest(HttpMethod.Post, path, content, headers)
 
     /**
      * JVM specific implementation of port
@@ -73,10 +69,8 @@ actual class GenericHttpClient {
      * @see HttpHeader
      * @return HttpResponse - null if no response is received
      */
-    actual fun postMultiPart(path: String, content: MultipartBody, header: HttpHeader): HttpResponse? {
-        logger.info { "EXECUTE POST" }
-        return this.executeRequest(HttpMethod.Post, path, content, header)
-    }
+    actual fun postMultiPart(path: String, content: MultipartBody, header: HttpHeader): HttpResponse? =
+        this.executeRequest(HttpMethod.Post, path, content, header)
 
     /**
      * JVM specific implementation of post
@@ -89,10 +83,8 @@ actual class GenericHttpClient {
      * @see HttpHeader
      * @return HttpResponse - null if no response is received
      */
-    actual fun postGraphQl(path: String, content: GraphQlContent, headers: HttpHeader, contentIsJson: Boolean): HttpResponse? {
-        logger.info { "EXECUTE POST" }
-        return this.executeRequest(HttpMethod.Post, path, content, headers)
-    }
+    actual fun postGraphQl(path: String, content: GraphQlContent, headers: HttpHeader, contentIsJson: Boolean): HttpResponse? =
+        this.executeRequest(HttpMethod.Post, path, content, headers)
 
     /**
      * JVM specific implementation of put
@@ -104,10 +96,8 @@ actual class GenericHttpClient {
      * @see HttpHeader
      * @return HttpResponse - null if no response is received
      */
-    actual fun put(path: String, content: String, headers: HttpHeader): HttpResponse? {
-        logger.info { "EXECUTE OPUT" }
-        return this.executeRequest(HttpMethod.Put, path, content, headers)
-    }
+    actual fun put(path: String, content: String, headers: HttpHeader): HttpResponse? =
+        this.executeRequest(HttpMethod.Put, path, content, headers)
 
     /**
      * JVM specific implementation of put
@@ -119,10 +109,8 @@ actual class GenericHttpClient {
      * @see HttpHeader
      * @return HttpResponse - null if no response is received
      */
-    actual fun putByteArray(path: String, content: ByteArray, headers: HttpHeader): HttpResponse? {
-        logger.info { "EXECUTE OPUT" }
-        return this.executeRequest(HttpMethod.Put, path, content, headers)
-    }
+    actual fun putByteArray(path: String, content: ByteArray, headers: HttpHeader): HttpResponse? =
+         this.executeRequest(HttpMethod.Put, path, content, headers)
 
     /**
      * JVM specific implementation of put
@@ -135,10 +123,8 @@ actual class GenericHttpClient {
      * @see HttpHeader
      * @return HttpResponse - null if no response is received
      */
-    actual fun putMultiPart(path: String, content: MultipartBody, headers: HttpHeader): HttpResponse? {
-        logger.info { "EXECUTE OPUT" }
-        return this.executeRequest(HttpMethod.Put, path, content, headers)
-    }
+    actual fun putMultiPart(path: String, content: MultipartBody, headers: HttpHeader): HttpResponse? =
+        this.executeRequest(HttpMethod.Put, path, content, headers)
 
     /**
      * JVM specific implementation of put
@@ -151,10 +137,8 @@ actual class GenericHttpClient {
      * @see HttpHeader
      * @return HttpResponse - null if no response is received
      */
-    actual fun putGraphQl(path: String, content: GraphQlContent, headers: HttpHeader, contentIsJson: Boolean): HttpResponse? {
-        logger.info { "EXECUTE OPUT" }
-        return this.executeRequest(HttpMethod.Put, path, content, headers)
-    }
+    actual fun putGraphQl(path: String, content: GraphQlContent, headers: HttpHeader, contentIsJson: Boolean): HttpResponse? =
+        this.executeRequest(HttpMethod.Put, path, content, headers)
 
     /**
      * JVM specific implementation of delete
@@ -165,10 +149,8 @@ actual class GenericHttpClient {
      * @see HttpHeader
      * @return HttpResponse - null if no response is received
      */
-    actual fun delete(path: String, headers: HttpHeader): HttpResponse? {
-        logger.info { "EXECUTE DELETE" }
-        return this.executeRequest<Unit>(HttpMethod.Delete, path, null, headers)
-    }
+    actual fun delete(path: String, headers: HttpHeader): HttpResponse? =
+        this.executeRequest<Unit>(HttpMethod.Delete, path, null, headers)
 
     /**
      * JVM specific implementation of get
@@ -179,10 +161,8 @@ actual class GenericHttpClient {
      * @see HttpHeader
      * @return HttpResponse - null if no response is received
      */
-    actual fun get(path: String, headers: HttpHeader): HttpResponse? {
-        logger.info { "EXECUTE GET" }
-        return this.executeRequest<Unit>(HttpMethod.Get, path, null, headers)
-    }
+    actual fun get(path: String, headers: HttpHeader): HttpResponse? =
+            this.executeRequest<Unit>(HttpMethod.Get, path, null, headers)
 
     /**
      * This function takes method, path, content and header and sends it via the Ktor client to the path.

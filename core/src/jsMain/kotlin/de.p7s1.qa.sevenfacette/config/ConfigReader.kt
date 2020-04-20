@@ -1,20 +1,23 @@
 package de.p7s1.qa.sevenfacette.config
 
-import de.p7s1.qa.sevenfacette.http.config.authenticationModule
 import kotlinx.serialization.json.Json
 import mu.KotlinLogging
 
+/**
+ * Actual implementation of the Config reader class.
+ * This class reads the configuration json and mapps them to the FacetteConfigDataClass
+ */
 private val logger = KotlinLogging.logger {}
 actual class ConfigReader {
 
-    actual fun readConfig(): FacetteConfig {
+    actual fun readConfig(): FacetteConfigDataClass {
         val config = getConfigFile()
-        var result = FacetteConfig()
+        var result = FacetteConfigDataClass()
 
         if(config != null) {
-            result = Json(context = authenticationModule)
+            result = Json
                     .parse(
-                            FacetteConfig.serializer(),
+                            FacetteConfigDataClass.serializer(),
                             config
                     )
         } else {
