@@ -7,17 +7,30 @@ public class ConfigReaderTest {
     public void configReaderTest() {
         System.clearProperty("FACETTE_CONFIG");
         ConfigReader reader = new ConfigReader();
-        FacetteConfig config = reader.readConfig();
+        FacetteConfigDataClass config = reader.readConfig();
         assert(config.getHttpClients().size() == 2);
     }
 
     @Test
     public void multiFileConfigReaderTest() {
         System.setProperty("FACETTE_CONFIG", "facetteConfigMultiFile.yml");
-
         ConfigReader reader = new ConfigReader();
-        FacetteConfig config = reader.readConfig();
+        FacetteConfigDataClass config = reader.readConfig();
         System.out.println(config.getHttpClients().size());
         assert(config.getHttpClients().size() == 2);
+    }
+
+    @Test
+    public void checkConfigObject() {
+        System.clearProperty("FACETTE_CONFIG");
+        assert(FacetteConfig.INSTANCE.getHttpClients().size() == 2);
+        assert(FacetteConfig.INSTANCE.getCustom().size() == 0);
+    }
+
+    @Test
+    public void checkConfigObjectMultiFiles() {
+        System.setProperty("FACETTE_CONFIG", "facetteConfigMultiFile.yml");
+        assert(FacetteConfig.INSTANCE.getHttpClients().size() == 2);
+        assert(FacetteConfig.INSTANCE.getCustom().size() == 0);
     }
 }
