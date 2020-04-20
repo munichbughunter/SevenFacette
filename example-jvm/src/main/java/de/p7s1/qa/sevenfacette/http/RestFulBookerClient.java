@@ -21,10 +21,7 @@ public class RestFulBookerClient {
   private GenericHttpClient client;
 
   public RestFulBookerClient() {
-   HttpConfig config = new HttpConfig();
-   config.setUrl(new Url().baseUrl("localhost").port(3001));
-   HttpClientConfig clientConfig = new HttpClientConfig(config, "myClient");
-   this.client = clientConfig.createClient();
+    GenericHttpClient client = HttpClientFactory.createClient("facetteConfig.yml");
   }
 
   public HttpResponse getAllBookings() {
