@@ -28,10 +28,12 @@ class HttpClientFactory {
 
         private var authenticationProvidedByUser: Boolean = false
 
+        @JvmStatic
         fun createClient(clientName: String): GenericHttpClient = createClient(
                 getConfigByClientName(clientName)
         )
 
+        @JvmStatic
         fun createClient(clientName: String, authentication: MutableMap<String, String>): GenericHttpClient {
             authenticationProvidedByUser = true
             val config = getConfigByClientName(clientName)
@@ -100,6 +102,7 @@ class HttpClientFactory {
          * @param port string port of proxy
          * @return this
          */
+        @JvmStatic
         fun createProxy(proxy: HttpProxy?) =
              if (proxy?.host == null) Proxy(Proxy.Type.HTTP, InetSocketAddress(proxy!!.port)) else Proxy(Proxy.Type.HTTP, InetSocketAddress(proxy.host, proxy.port))
 
