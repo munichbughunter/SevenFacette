@@ -32,12 +32,4 @@ actual object FacetteConfig {
         database = config.database
         application = config.application
     }
-
-    fun getHttpClient(clientName: String): HttpClientConfig? = http?.clients?.first { it.name == clientName }
-
-    fun getKafkaConsumer(consumerName: String): KafkaTopicConfig? = kafka?.consumer?.first { it.name == consumerName }
-    fun getKafkaProducer(producerName: String): KafkaTopicConfig? = kafka?.producer?.first { it.name == producerName }
-
-    fun getResourceFolder(folderName: String): String? = application?.resources?.first { it.name == folderName }?.path
-
 }

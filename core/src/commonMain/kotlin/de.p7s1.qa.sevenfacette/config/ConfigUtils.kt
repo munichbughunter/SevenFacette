@@ -39,7 +39,6 @@ fun replaceEnvironmentVariables(origin: String): String {
         }
         result = origin.replace(it.groupValues[0], replace)
     }
-    println(result)
     return result
 }
 

@@ -22,7 +22,6 @@ actual class ConfigReader {
     actual fun readConfig(): FacetteConfigDataClass {
         val config = replaceEnvironmentVariables(replaceImports(getConfigFileName().toString()))
         var result = FacetteConfigDataClass()
-        println(config)
         if(config != "") {
             result = Yaml().parse(FacetteConfigDataClass.serializer(), config)
         }

@@ -29,13 +29,13 @@ class HttpClientFactory {
 
         @JvmStatic
         fun createClient(clientName: String): GenericHttpClient = createClient(
-                FacetteConfig.getHttpClient(clientName)!!
+                FacetteConfig.http?.getClient(clientName)!!
         )
 
         @JvmStatic
         fun createClient(clientName: String, authentication: MutableMap<String, String>): GenericHttpClient {
             authenticationProvidedByUser = true
-            val config = FacetteConfig.getHttpClient(clientName)
+            val config = FacetteConfig.http?.getClient(clientName)
             config?.authentication = authentication
             return createClient(config!!)
         }
