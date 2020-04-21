@@ -1,4 +1,4 @@
-package de.p7s1.qa.sevenfacette.http.config
+package de.p7s1.qa.sevenfacette.http
 
 import de.p7s1.qa.sevenfacette.utils.KSystem
 import io.ktor.client.features.auth.AuthProvider

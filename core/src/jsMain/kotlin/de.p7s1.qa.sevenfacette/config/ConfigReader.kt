@@ -1,5 +1,6 @@
 package de.p7s1.qa.sevenfacette.config
 
+import de.p7s1.qa.sevenfacette.config.types.FacetteConfigDataClass
 import kotlinx.serialization.json.Json
 import mu.KotlinLogging
 

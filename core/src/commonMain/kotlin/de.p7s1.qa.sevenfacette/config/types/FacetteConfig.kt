@@ -1,7 +1,8 @@
-package de.p7s1.qa.sevenfacette.config
+package de.p7s1.qa.sevenfacette.config.types
 
-import de.p7s1.qa.sevenfacette.http.config.HttpClientConfig
+import de.p7s1.qa.sevenfacette.config.types.*
 import kotlinx.serialization.ContextualSerialization
+import kotlinx.serialization.KSerializer
 
 /**
  * Singelton that holds the configuration data globally for the user.
@@ -15,11 +16,14 @@ import kotlinx.serialization.ContextualSerialization
  * @author Florian Pilz
  */
 expect object FacetteConfig {
-    var httpClients: List<HttpClientConfig>
+    var http: HttpConfig?
         private set
-    var custom: Map<String, @ContextualSerialization Any>
+    var custom: Map<String, String>
         private set
-
-
-
+    var kafka: KafkaConfig?
+        private set
+    var database: List<DatabaseConfig>?
+        private set
+    var application: ApplicationConfig?
+        private set
 }

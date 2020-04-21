@@ -1,4 +1,4 @@
-package de.p7s1.qa.sevenfacette.http.config
+package de.p7s1.qa.sevenfacette.config.types
 
 import de.p7s1.qa.sevenfacette.http.HttpProxy
 import de.p7s1.qa.sevenfacette.http.Url

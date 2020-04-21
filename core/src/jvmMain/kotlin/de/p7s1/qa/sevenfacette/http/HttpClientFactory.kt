@@ -1,8 +1,7 @@
 package de.p7s1.qa.sevenfacette.http
 
-import de.p7s1.qa.sevenfacette.config.FacetteConfig
-import de.p7s1.qa.sevenfacette.http.config.AuthenticationFactory
-import de.p7s1.qa.sevenfacette.http.config.HttpClientConfig
+import de.p7s1.qa.sevenfacette.config.types.FacetteConfig
+import de.p7s1.qa.sevenfacette.config.types.HttpClientConfig
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.apache.Apache
 import io.ktor.client.features.HttpSend
@@ -30,15 +29,15 @@ class HttpClientFactory {
 
         @JvmStatic
         fun createClient(clientName: String): GenericHttpClient = createClient(
-                FacetteConfig.getHttpClient(clientName)
+                FacetteConfig.getHttpClient(clientName)!!
         )
 
         @JvmStatic
         fun createClient(clientName: String, authentication: MutableMap<String, String>): GenericHttpClient {
             authenticationProvidedByUser = true
             val config = FacetteConfig.getHttpClient(clientName)
-            config.authentication = authentication
-            return createClient(config)
+            config?.authentication = authentication
+            return createClient(config!!)
         }
 
         /**

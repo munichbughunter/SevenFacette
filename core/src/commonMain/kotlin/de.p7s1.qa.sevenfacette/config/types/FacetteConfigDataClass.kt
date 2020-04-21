@@ -1,8 +1,6 @@
-package de.p7s1.qa.sevenfacette.config
+package de.p7s1.qa.sevenfacette.config.types
 
-import de.p7s1.qa.sevenfacette.config.FacetteConfig.custom
-import de.p7s1.qa.sevenfacette.config.FacetteConfig.httpClients
-import de.p7s1.qa.sevenfacette.http.config.HttpClientConfig
+import de.p7s1.qa.sevenfacette.config.types.*
 import kotlinx.serialization.ContextualSerialization
 import kotlinx.serialization.Serializable
 
@@ -17,6 +15,9 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 class FacetteConfigDataClass (
-    val httpClients: List<HttpClientConfig> = mutableListOf(),
-    val custom: Map<String, @ContextualSerialization Any> = mutableMapOf()
+        var http: HttpConfig? = null,
+        var kafka: KafkaConfig? = null,
+        var database: List<DatabaseConfig>? = null,
+        var application: ApplicationConfig? = null,
+        var custom: Map<String, String> = mutableMapOf()
 )

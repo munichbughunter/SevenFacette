@@ -5,8 +5,8 @@ import de.p7s1.qa.sevenfacette.utils.KSystem
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
-val IMPORT_REGEX = Regex("@[Ii]mport\\([\\-_\\w]+.(yml|yaml|json)\\)")
-val SYSTEM_PROP_REGEX = Regex("\\[\\[[\\-_\\w|\\s]+\\]\\]")
+val IMPORT_REGEX = Regex("@[Ii]mport\\([-_\\w]+.(yml|yaml|json)\\)")
+val SYSTEM_PROP_REGEX = Regex("\\[\\[[-_\\w|\\s]+\\]\\]")
 
 /**
  * String extension that removes the last character. If the files are read a trailing break is added which adds empty lines to the config file.
@@ -25,6 +25,7 @@ fun extractFileName(text: String) = text.replace("@import(", "", true).replace("
 
 fun replaceEnvironmentVariables(origin: String): String {
     var result = origin
+
     SYSTEM_PROP_REGEX.findAll(origin).forEach {
         val envVarName = extractEnvVarName(it.groupValues[0])
         val replace = if(!KSystem.getProperty(envVarName[0]).isNullOrEmpty()) {
@@ -38,6 +39,7 @@ fun replaceEnvironmentVariables(origin: String): String {
         }
         result = origin.replace(it.groupValues[0], replace)
     }
+    println(result)
     return result
 }
 
