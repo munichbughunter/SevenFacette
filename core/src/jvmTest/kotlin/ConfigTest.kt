@@ -28,13 +28,24 @@ class ConfigTest {
         System.setProperty("saslUser", "Test User 123")
         assert(FacetteConfig.http?.clients?.size == 2)
         assert(FacetteConfig.custom.size == 1)
+        assert(FacetteConfig.kafka?.getKafkaConsumer("testtopic1")?.saslUsername == "Test User 123")
+    }
+
+    @Test
+    fun checkConfigObjectDefaultReplace() {
+        System.clearProperty("FACETTE_CONFIG")
+        System.clearProperty("saslUser")
+        assert(FacetteConfig.http?.clients?.size == 2)
+        assert(FacetteConfig.custom.size == 1)
+        assert(FacetteConfig.kafka?.getKafkaConsumer("testtopic1")?.saslUsername == "Default User")
+        assert(FacetteConfig.kafka?.consumer?.size == 2)
     }
 
     @Test
     fun checkConfigObjectMultiFiles() {
         System.setProperty("FACETTE_CONFIG", "facetteConfigMultiFile.yml")
         assert(FacetteConfig.http?.clients?.size == 2)
-        assert(FacetteConfig.custom.size == 1)
+        assert(FacetteConfig.custom.size == 0)
     }
 }
 

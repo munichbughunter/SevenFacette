@@ -28,7 +28,7 @@ kafka:
   consumer:
     - name: testtopic1
       useSASLAuthentication: true
-      saslUsername: [[saslUser]]
+      saslUsername: [[saslUser || Default User]]
       saslPassword: myPassword
     - name: topic2
   producer:
