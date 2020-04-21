@@ -19,4 +19,7 @@ expect object FacetteConfig {
         private set
     var custom: Map<String, @ContextualSerialization Any>
         private set
+
+
+
 }

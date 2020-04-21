@@ -30,13 +30,13 @@ class HttpClientFactory {
 
         @JvmStatic
         fun createClient(clientName: String): GenericHttpClient = createClient(
-                getConfigByClientName(clientName)
+                FacetteConfig.getHttpClient(clientName)
         )
 
         @JvmStatic
         fun createClient(clientName: String, authentication: MutableMap<String, String>): GenericHttpClient {
             authenticationProvidedByUser = true
-            val config = getConfigByClientName(clientName)
+            val config = FacetteConfig.getHttpClient(clientName)
             config.authentication = authentication
             return createClient(config)
         }
@@ -105,10 +105,5 @@ class HttpClientFactory {
         @JvmStatic
         fun createProxy(proxy: HttpProxy?) =
              if (proxy?.host == null) Proxy(Proxy.Type.HTTP, InetSocketAddress(proxy!!.port)) else Proxy(Proxy.Type.HTTP, InetSocketAddress(proxy.host, proxy.port))
-
-        private fun getConfigByClientName(clientName: String): HttpClientConfig =
-            FacetteConfig.httpClients.first {
-                it.name == clientName
-        }
     }
 }

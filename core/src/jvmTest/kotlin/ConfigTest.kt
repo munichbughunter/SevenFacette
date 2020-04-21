@@ -29,6 +29,7 @@ class ConfigTest {
         System.clearProperty("FACETTE_CONFIG")
         assert(FacetteConfig.httpClients.size == 2)
         assert(FacetteConfig.custom.isEmpty())
+        println(FacetteConfig.httpClients)
     }
 
     @Test

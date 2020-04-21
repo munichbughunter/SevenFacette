@@ -4,10 +4,17 @@ actual class KSystem {
     actual companion object {
 
         @JvmStatic
-        actual fun getEnv(name: String): String? = System.getenv(name)
+        actual fun getEnv(key: String): String? = System.getenv(key)
 
         @JvmStatic
-        actual fun getProperty(name: String): String? = System.getProperty(name)
+        actual fun getProperty(key: String): String? = System.getProperty(key)
 
+        @JvmStatic
+        actual fun setEnv(key: String, value: String) = System.getenv().set(key, value)
+
+        @JvmStatic
+        actual fun setProperty(key: String, value: String) {
+            System.setProperty(key, value)
+        }
     }
 }

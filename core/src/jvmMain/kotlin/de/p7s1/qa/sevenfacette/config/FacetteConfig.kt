@@ -22,4 +22,6 @@ actual object FacetteConfig {
         this.httpClients = config.httpClients
         this.custom = config.custom
     }
+
+    fun getHttpClient(clientName: String): HttpClientConfig = httpClients.first { it.name == clientName }
 }
