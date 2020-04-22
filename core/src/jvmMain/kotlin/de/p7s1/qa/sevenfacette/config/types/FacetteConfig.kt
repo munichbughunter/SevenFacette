@@ -13,23 +13,39 @@ import kotlinx.serialization.KSerializer
  * @author Florian Pilz
  */
 actual object FacetteConfig {
-    actual var http: HttpConfig?
+    actual var http: HttpConfig? = null
         private set
-    actual var custom: Map<String, String>
+    actual var custom: Map<String, String>? = null
         private set
-    actual var kafka: KafkaConfig?
+    actual var kafka: KafkaConfig? = null
         private set
-    actual var database: List<DatabaseConfig>?
+    actual var database: List<DatabaseConfig>? = null
         private set
-    actual var application: ApplicationConfig?
+    actual var application: ApplicationConfig? = null
         private set
 
     init {
+        update()
+    }
+
+    actual fun update() {
         val config = ConfigReader().readConfig()
+        set(config)
+    }
+
+    actual fun set(config: FacetteConfigDataClass) {
         http = config.http
         custom = config.custom
         kafka = config.kafka
         database = config.database
         application = config.application
+    }
+
+    actual fun reset() {
+        http = null
+        custom = null
+        kafka = null
+        database = null
+        application = null
     }
 }

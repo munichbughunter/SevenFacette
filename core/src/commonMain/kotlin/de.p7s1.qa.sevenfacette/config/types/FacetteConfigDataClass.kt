@@ -1,7 +1,5 @@
 package de.p7s1.qa.sevenfacette.config.types
 
-import de.p7s1.qa.sevenfacette.config.types.*
-import kotlinx.serialization.ContextualSerialization
 import kotlinx.serialization.Serializable
 
 /**
@@ -14,7 +12,7 @@ import kotlinx.serialization.Serializable
  * @author Florian Pilz
  */
 @Serializable
-class FacetteConfigDataClass (
+data class FacetteConfigDataClass (
         var http: HttpConfig? = null,
         var kafka: KafkaConfig? = null,
         var database: List<DatabaseConfig>? = null,

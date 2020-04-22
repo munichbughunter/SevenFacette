@@ -1,4 +1,4 @@
-    - name: testClient
+    testClient:
       connectionTimeout: 5000
       connectionRequestTimeout: 4000
       socketTimeout: 3000

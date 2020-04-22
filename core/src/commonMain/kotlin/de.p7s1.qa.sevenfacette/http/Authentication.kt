@@ -12,7 +12,7 @@ import io.ktor.client.features.auth.providers.BasicAuthProvider
  *
  * @author Florian Pilz
  */
-class AuthenticationFactory(private val values: MutableMap<String, String>, private val clientName: String? = null) {
+class AuthenticationFactory(private val values: MutableMap<String, String>) {
 
     /**
      * Creates the Ktor authentication provider according to the given type
@@ -25,30 +25,11 @@ class AuthenticationFactory(private val values: MutableMap<String, String>, priv
         }
         return when(values["type"]) {
             "basic" -> BasicAuthProvider(
-                    getValue("username"),
-                    getValue("password"),
-                    getValue("realm"),
-                    getValue("sendWithoutRequest") != "" && getValue("sendWithoutRequest") == "true")
+                    values["username"] ?: "",
+                    values["password"] ?: "",
+                    values["realm"] ?: "",
+                    values["sendWithoutRequest"] != "" && values["sendWithoutRequest"] == "true")
             else -> throw Exception("Type ${values["type"]} not supported")
-        }
-    }
-
-    /**
-     * This function returns the configuration value. It searches
-     * 1. in the environment properties. If no value is provided
-     * 2. in the configuration file
-     * This gives the possibility to combine values from the environment properties (e.g. user and pass) and the configuration file.
-     * If a client name is provided the function searches for clientName_key in the environment properties
-     *
-     * @param key String key to access the configuration
-     * @return String value of configuration
-     */
-    private fun getValue(key: String): String {
-        val envKey = if(clientName == null) key else "${clientName}_$key"
-        return if(!KSystem.getEnv(envKey).isNullOrEmpty()) {
-            KSystem.getEnv(envKey) ?: ""
-        } else {
-            values[key] ?: ""
         }
     }
 }

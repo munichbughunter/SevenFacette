@@ -18,7 +18,7 @@ import kotlinx.serialization.KSerializer
 expect object FacetteConfig {
     var http: HttpConfig?
         private set
-    var custom: Map<String, String>
+    var custom: Map<String, String>?
         private set
     var kafka: KafkaConfig?
         private set
@@ -26,4 +26,10 @@ expect object FacetteConfig {
         private set
     var application: ApplicationConfig?
         private set
+
+    fun update()
+
+    fun set(config: FacetteConfigDataClass)
+
+    fun reset()
 }

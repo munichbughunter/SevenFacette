@@ -7,7 +7,7 @@ actual object FacetteConfig {
     actual var http: HttpConfig?
         get() = TODO("Not yet implemented")
         set(value) {}
-    actual var custom: Map<String, String>
+    actual var custom: Map<String, String>?
         get() = TODO("Not yet implemented")
         set(value) {}
     actual var kafka: KafkaConfig?
@@ -19,4 +19,13 @@ actual object FacetteConfig {
     actual var application: ApplicationConfig?
         get() = TODO("Not yet implemented")
         set(value) {}
+
+    actual fun update() {
+    }
+
+    actual fun set(config: FacetteConfigDataClass) {
+    }
+
+    actual fun reset() {
+    }
 }

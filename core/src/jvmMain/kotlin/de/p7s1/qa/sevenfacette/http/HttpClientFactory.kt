@@ -66,7 +66,7 @@ class HttpClientFactory {
 
                 if(configHttp.authentication != null) {
                     install(Auth){
-                        providers.add(AuthenticationFactory(configHttp.authentication!!, configHttp.name).getAuthentication())
+                        providers.add(AuthenticationFactory(configHttp.authentication!!).getAuthentication())
                     }
                 }
 

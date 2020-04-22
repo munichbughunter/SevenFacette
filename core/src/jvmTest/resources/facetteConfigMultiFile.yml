@@ -1,6 +1,6 @@
 http:
   clients:
-    - name: restfulBooker
+    restfulBooker:
       connectionTimeout: 5000
       connectionRequestTimeout: 4000
       socketTimeout: 3000
