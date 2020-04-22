@@ -29,8 +29,8 @@ actual object FacetteConfig {
     }
 
     actual fun update() {
-        val config = ConfigReader().readConfig()
-        set(config)
+        val config = ConfigReader().readConfig().sevenFacette
+        set(config!!)
     }
 
     actual fun set(config: FacetteConfigDataClass) {

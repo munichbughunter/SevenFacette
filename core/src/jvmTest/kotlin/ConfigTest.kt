@@ -10,8 +10,8 @@ class ConfigTest {
         val cReader = ConfigReader()
         val config = cReader.readConfig()
 
-        assert(config.http?.clients?.size == 2)
-        assert(config.custom.isNotEmpty())
+        assert(config.sevenFacette?.http?.clients?.size == 2)
+        assert(config.sevenFacette?.custom != null)
     }
 
     @Test

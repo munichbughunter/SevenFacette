@@ -1,7 +1,7 @@
 package de.p7s1.qa.sevenfacette.config
 
 import com.charleskorn.kaml.Yaml
-import de.p7s1.qa.sevenfacette.config.types.FacetteConfigDataClass
+import de.p7s1.qa.sevenfacette.config.types.SevenFacetteConfig
 import mu.KotlinLogging
 
 /**
@@ -19,11 +19,11 @@ actual class ConfigReader {
      *
      * @return FacetteConfigDataClass
      */
-    actual fun readConfig(): FacetteConfigDataClass {
+    actual fun readConfig(): SevenFacetteConfig {
         val config = replaceEnvironmentVariables(replaceImports(getConfigFileName().toString()))
-        var result = FacetteConfigDataClass()
+        var result = SevenFacetteConfig()
         if(config != "") {
-            result = Yaml().parse(FacetteConfigDataClass.serializer(), config)
+            result = Yaml().parse(SevenFacetteConfig.serializer(), config)
         }
         return result
     }

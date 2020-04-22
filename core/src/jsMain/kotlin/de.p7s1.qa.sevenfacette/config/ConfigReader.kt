@@ -1,6 +1,6 @@
 package de.p7s1.qa.sevenfacette.config
 
-import de.p7s1.qa.sevenfacette.config.types.FacetteConfigDataClass
+import de.p7s1.qa.sevenfacette.config.types.SevenFacetteConfig
 import kotlinx.serialization.json.Json
 import mu.KotlinLogging
 
@@ -11,14 +11,14 @@ import mu.KotlinLogging
 private val logger = KotlinLogging.logger {}
 actual class ConfigReader {
 
-    actual fun readConfig(): FacetteConfigDataClass {
+    actual fun readConfig(): SevenFacetteConfig {
         val config = getConfigFile()
-        var result = FacetteConfigDataClass()
+        var result = SevenFacetteConfig()
 
         if(config != null) {
             result = Json
                     .parse(
-                            FacetteConfigDataClass.serializer(),
+                            SevenFacetteConfig.serializer(),
                             config
                     )
         } else {

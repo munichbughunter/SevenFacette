@@ -14,8 +14,8 @@ class ConfigTestMultiFiles {
     fun multiTest() {
         val cReader = ConfigReader()
         val config = cReader.readConfig()
-        assert(config.http?.clients?.size == 2)
-        assert(config.custom.isEmpty())
+        assert(config.sevenFacette?.http?.clients?.size == 2)
+        assert(config.sevenFacette?.custom.isNullOrEmpty())
     }
 
     @Test
