@@ -1,4 +1,4 @@
-package de.p7s1.qa.sevenfacette.helper
+package de.p7s1.qa.sevenfacette.utils
 
 import java.io.BufferedReader
 import java.io.File
