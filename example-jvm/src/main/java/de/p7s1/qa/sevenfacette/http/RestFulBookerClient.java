@@ -21,7 +21,7 @@ public class RestFulBookerClient {
   private GenericHttpClient client;
 
   public RestFulBookerClient() {
-    GenericHttpClient client = HttpClientFactory.createClient("restfulBooker");
+    client = HttpClientFactory.createClient("restfulBooker");
   }
 
   public HttpResponse getAllBookings() {
