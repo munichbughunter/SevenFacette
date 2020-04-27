@@ -11,7 +11,9 @@ class ConfigTest {
         val config = cReader.readConfig()
 
         assert(config.sevenFacette?.http?.clients?.size == 2)
+            { println("Actual client size == ${config.sevenFacette?.http?.clients?.size}") }
         assert(config.sevenFacette?.custom != null)
+            { println("Actual custom size == ${config.sevenFacette?.custom?.size}") }
     }
 
     @Test
@@ -20,8 +22,11 @@ class ConfigTest {
         FacetteConfig.update()
 
         assert(FacetteConfig.http?.clients?.size == 2)
+            { println("Actual client size == ${FacetteConfig.http?.clients?.size}") }
         assert(FacetteConfig.custom?.size == 1)
+            { println("Actual custom size == ${FacetteConfig.custom?.size}") }
         assert(FacetteConfig.kafka?.getKafkaConsumer("testtopic1")?.saslUsername == "Test User 123")
+            { println("Actual kafka user == ${FacetteConfig.kafka?.getKafkaConsumer("testtopic1")?.saslUsername}") }
     }
 
     @Test
@@ -30,9 +35,14 @@ class ConfigTest {
         FacetteConfig.update()
 
         assert(FacetteConfig.http?.clients?.size == 2)
+            { println("Actual client size == ${FacetteConfig.http?.clients?.size}") }
         assert(FacetteConfig.custom?.size == 1)
+            { println("Actual custom size == ${FacetteConfig.custom?.size}")
+                throw Error("SIZE == ${FacetteConfig.custom?.size}")}
         assert(FacetteConfig.kafka?.getKafkaConsumer("testtopic1")?.saslUsername == "Default User")
+            { println("Actual kafka user == ${FacetteConfig.kafka?.getKafkaConsumer("testtopic1")?.saslUsername}") }
         assert(FacetteConfig.kafka?.consumer?.size == 2)
+            { println("Actual kafka consumer size == ${FacetteConfig.kafka?.consumer?.size}") }
     }
 }
 
