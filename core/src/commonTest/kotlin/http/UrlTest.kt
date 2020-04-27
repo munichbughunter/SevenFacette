@@ -1,3 +1,5 @@
+package http
+
 import de.p7s1.qa.sevenfacette.http.Url
 import kotlin.test.assertEquals
 import kotlin.test.Test
