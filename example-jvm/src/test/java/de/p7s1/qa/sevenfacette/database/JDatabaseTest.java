@@ -6,6 +6,7 @@ import de.p7s1.qa.sevenfacette.db.config.DConfig;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 class JDatabaseTest {
@@ -16,7 +17,7 @@ class JDatabaseTest {
   static DbStatements deleteStatements;
   private List<Map<String, Object>> dbResultSet;
 
-  @BeforeAll
+  //@BeforeAll
   static void setUp() {
     dbConfig = new DConfig();
     dbConfig.setDbDriver(System.getenv("DB_DRIVER"));
@@ -28,6 +29,7 @@ class JDatabaseTest {
     deleteStatements = new DbStatements();
   }
   @Test
+  @Disabled
   void connectDB() {
     createStatements.add("Statement 1;");
     createStatements.add("Statement 2;");
