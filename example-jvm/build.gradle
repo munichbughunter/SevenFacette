@@ -7,8 +7,8 @@ version = "0.1.0"
 
 repositories {
     mavenCentral()
-    jcenter()
     mavenLocal()
+    jcenter()
 }
 
 dependencies {
@@ -26,7 +26,8 @@ dependencies {
 
     // Kafka
     implementation("org.apache.kafka:kafka-clients:2.0.0")
-    implementation("io.confluent:kafka-avro-serializer:5.0.0")
+    //implementation("io.confluent:kafka-avro-serializer:5.0.0")
+    implementation 'org.apache.avro:avro:1.9.2'
 
     // Testing
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.0")

@@ -14,7 +14,7 @@ class ScriptReader() {
     private var blockCommentActive = false
 
     fun getStatements(sqlScript: String): DbStatements? {
-        val statementList = Files().getResourceStream(sqlScript)
+        val statementList = Files.getResourceStream(sqlScript)
         return parseScript(statementList)
     }
 

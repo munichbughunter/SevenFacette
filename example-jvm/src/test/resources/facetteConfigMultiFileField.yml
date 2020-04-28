@@ -1,0 +1,3 @@
+imported Value
+    test2: testValue
+    test3: @Import(facetteConfigMultiFileField2.yml)

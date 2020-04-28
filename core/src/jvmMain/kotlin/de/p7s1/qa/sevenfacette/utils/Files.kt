@@ -1,6 +1,7 @@
 package de.p7s1.qa.sevenfacette.utils
 
 import java.io.File
+import java.net.URL
 
 /**
  * JVM specific implementation of Files
@@ -11,32 +12,43 @@ import java.io.File
  */
 actual class Files {
 
-    /**
-     * JVM specific implementation
-     * Returns byte array content provided file
-     *
-     * @param path string path of file
-     *
-     * @return content of file as byte array
-     */
-    actual fun getAsByteArray(path: String): ByteArray = File(path).readBytes()
+    actual companion object {
+        /**
+         * JVM specific implementation
+         * Returns byte array content provided file
+         *
+         * @param path string path of file
+         *
+         * @return content of file as byte array
+         */
+        @JvmStatic
+        actual fun getAsByteArray(path: String): ByteArray = File(path).readBytes()
 
-    /**
-     * JVM specific implementation
-     * Returns string content of provided file
-     *
-     * @param path string path of file
-     *
-     * @return content of file as string
-     */
-    actual fun getAsText(path: String): String = File(path).readText()
+        /**
+         * JVM specific implementation
+         * Returns string content of provided file
+         *
+         * @param path string path of file
+         *
+         * @return content of file as string
+         */
+        @JvmStatic
+        actual fun getAsText(path: String): String = File(path).readText()
 
-    /**
-     * Returns list of strings per line of provided file
-     *
-     * @param path string path of file
-     *
-     * @return content of file as list of strings
-     */
-    fun getResourceStream(path: String): List<String> = Files::class.java.getResourceAsStream(path).bufferedReader().readLines()
+        /**
+         * Returns list of strings per line of provided file
+         *
+         * @param path string path of file
+         *
+         * @return content of file as list of strings
+         */
+        @JvmStatic
+        fun getResourceStream(path: String): List<String> = Files::class.java.getResourceAsStream(path).bufferedReader().readLines()
+
+        @JvmStatic
+        actual fun getResource(fileName: String): String? = this::class.java.classLoader.getResource(fileName)?.toString()
+
+        @JvmStatic
+        actual fun getRessourceText(fileName: String): String? = URL(getResource(fileName)).readText()
+    }
 }

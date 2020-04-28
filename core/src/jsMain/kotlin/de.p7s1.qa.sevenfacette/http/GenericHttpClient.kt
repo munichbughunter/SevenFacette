@@ -7,35 +7,32 @@ actual class GenericHttpClient {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    actual fun post(path: String, content: String, headers: HttpHeader): HttpResponse? {
+    @JsName("post")
+    actual fun post(path: String, content: String, contentType: CONTENTTYPES, headers: HttpHeader): HttpResponse? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    actual fun postByteArray(path: String, content: ByteArray, headers: HttpHeader): HttpResponse? {
+    @JsName("postByteArray")
+    actual fun post(path: String, content: ByteArray, headers: HttpHeader): HttpResponse? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    actual fun postMultiPart(path: String, content: MultipartBody, header: HttpHeader): HttpResponse? {
+    @JsName("postMultiPart")
+    actual fun post(path: String, content: MultipartBody, header: HttpHeader): HttpResponse? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    actual fun postGraphQl(path: String, content: GraphQlContent, headers: HttpHeader, contentIsJson: Boolean): HttpResponse? {
+    actual fun put(path: String, content: String, contentType: CONTENTTYPES, headers: HttpHeader): HttpResponse? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    actual fun put(path: String, content: String, headers: HttpHeader): HttpResponse? {
+    @JsName("putByteArray")
+    actual fun put(path: String, content: ByteArray, headers: HttpHeader): HttpResponse? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    actual fun putByteArray(path: String, content: ByteArray, headers: HttpHeader): HttpResponse? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    actual fun putMultiPart(path: String, content: MultipartBody, headers: HttpHeader): HttpResponse? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    actual fun putGraphQl(path: String, content: GraphQlContent, headers: HttpHeader, contentIsJson: Boolean): HttpResponse? {
+    @JsName("putMultiPart")
+    actual fun put(path: String, content: MultipartBody, headers: HttpHeader): HttpResponse? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -46,6 +43,4 @@ actual class GenericHttpClient {
     actual fun delete(path: String, headers: HttpHeader): HttpResponse? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
-
-
 }

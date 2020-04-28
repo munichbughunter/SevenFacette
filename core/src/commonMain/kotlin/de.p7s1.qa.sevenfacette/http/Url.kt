@@ -1,5 +1,6 @@
 package de.p7s1.qa.sevenfacette.http
 
+import kotlinx.serialization.Serializable
 import mu.KotlinLogging
 
 /**
@@ -18,6 +19,7 @@ import mu.KotlinLogging
  */
 
 private val logger = KotlinLogging.logger {}
+@Serializable
 class Url {
     var protocol: String = "http"
         private set
@@ -68,10 +70,10 @@ class Url {
      *
      * @param url string url
      */
-    fun url(url: String) {
+    fun url(url: String) = apply {
         val protocolParts = url.split("://")
-        var urlString: String
-        if (protocolParts.size > 0) {
+        val urlString: String
+        if (protocolParts.isNotEmpty()) {
             this.protocol = protocolParts[0]
             urlString = protocolParts[1]
         } else {
@@ -81,9 +83,8 @@ class Url {
         val urlParts = urlString.split("/")
         val portParts = urlParts[0].split(":")
         this.baseUrl = portParts[0]
-        if (portParts.size > 0) {this.port = portParts[1].toInt() }
-
-        if (urlParts.size > 0) {
+        if (portParts.size > 1) {this.port = portParts[1].toInt() }
+        if (urlParts.isNotEmpty()) {
             this.path = urlParts.drop(1).joinToString("/")
         }
     }

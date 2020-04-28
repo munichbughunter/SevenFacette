@@ -1,5 +1,7 @@
 package de.p7s1.qa.sevenfacette.utils
 
+import kotlin.jvm.JvmStatic
+
 /**
  * Create target specific type file
  * This project is created with kotlin multiplatform. The commons part does not know any file type.
@@ -8,19 +10,25 @@ package de.p7s1.qa.sevenfacette.utils
  * @author Florian Pilz
  */
 expect class Files {
-    /**
-     * Create target specific byte array file
-     *
-     * @param path path of files
-     * @return bytearray content of file
-     */
-    fun getAsByteArray(path: String): ByteArray
+    companion object {
+        /**
+         * Create target specific byte array file
+         *
+         * @param path path of files
+         * @return bytearray content of file
+         */
+        fun getAsByteArray(path: String): ByteArray
 
-    /**
-     * Create target specific string file
-     *
-     * @param path path of files
-     * @return string content of file
-     */
-    fun getAsText(path: String): String
+        /**
+         * Create target specific string file
+         *
+         * @param path path of files
+         * @return string content of file
+         */
+        fun getAsText(path: String): String
+
+        fun getResource(fileName: String): String?
+
+        fun getRessourceText(fileName: String): String?
+    }
 }

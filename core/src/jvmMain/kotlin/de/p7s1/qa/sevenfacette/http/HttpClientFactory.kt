@@ -1,5 +1,7 @@
 package de.p7s1.qa.sevenfacette.http
 
+import de.p7s1.qa.sevenfacette.config.types.FacetteConfig
+import de.p7s1.qa.sevenfacette.config.types.HttpClientConfig
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.apache.Apache
 import io.ktor.client.features.HttpSend
@@ -23,6 +25,21 @@ import java.net.Proxy
 class HttpClientFactory {
     companion object {
 
+        private var authenticationProvidedByUser: Boolean = false
+
+        @JvmStatic
+        fun createClient(clientName: String): GenericHttpClient = createClient(
+                FacetteConfig.http?.getClient(clientName)!!
+        )
+
+        @JvmStatic
+        fun createClient(clientName: String, authentication: MutableMap<String, String>): GenericHttpClient {
+            authenticationProvidedByUser = true
+            val config = FacetteConfig.http?.getClient(clientName)
+            config?.authentication = authentication
+            return createClient(config!!)
+        }
+
         /**
          * Factory function - creates Ktor client and set values according to given configuration
          *
@@ -31,7 +48,7 @@ class HttpClientFactory {
          */
         @KtorExperimentalAPI
         @JvmStatic
-        fun createClient(config: HttpConfig): GenericHttpClient {
+        fun createClient(configHttp: HttpClientConfig): GenericHttpClient {
             val client = HttpClient(Apache) {
                 expectSuccess = false
 
@@ -47,16 +64,16 @@ class HttpClientFactory {
                     maxSendCount = 2
                 }
 
-                if(config.authentication != null) {
+                if(configHttp.authentication != null) {
                     install(Auth){
-                        providers.add(AuthenticationMapper.map(config.authentication))
+                        providers.add(AuthenticationFactory(configHttp.authentication!!).getAuthentication())
                     }
                 }
 
                 engine {
-                    socketTimeout = config.socketTimeout
-                    connectTimeout = config.connectionTimeout
-                    connectionRequestTimeout = config.connectionRequestTimeout
+                    socketTimeout = configHttp.socketTimeout
+                    connectTimeout = configHttp.connectionTimeout
+                    connectionRequestTimeout = configHttp.connectionRequestTimeout
 
                     customizeClient { // Trust all certificates
                         setSSLContext(
@@ -69,13 +86,12 @@ class HttpClientFactory {
 
                     }
 
-                    if(config.proxy != null) {
-                        proxy = createProxy(config.proxy)
+                    if(configHttp.proxy != null) {
+                        proxy = createProxy(configHttp.proxy)
                     }
                 }
             }
-
-            return GenericHttpClient().setClient(config.url, client)
+            return GenericHttpClient().setClient(configHttp.url!!, client)
         }
 
         /**
@@ -85,6 +101,7 @@ class HttpClientFactory {
          * @param port string port of proxy
          * @return this
          */
+        @JvmStatic
         fun createProxy(proxy: HttpProxy?) =
              if (proxy?.host == null) Proxy(Proxy.Type.HTTP, InetSocketAddress(proxy!!.port)) else Proxy(Proxy.Type.HTTP, InetSocketAddress(proxy.host, proxy.port))
     }

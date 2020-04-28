@@ -1,0 +1,8 @@
+      testClient:
+        connectionTimeout: 5000
+        connectionRequestTimeout: 4000
+        socketTimeout: 3000
+        url:
+          baseUrl: localhost
+          port: 3001
+          protocol: http

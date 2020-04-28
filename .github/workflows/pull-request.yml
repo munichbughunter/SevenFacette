@@ -21,7 +21,6 @@ jobs:
         run: chmod +x gradlew
       - name: Build with Gradle
         run: ./gradlew :core:build
-
       - name: Bundle the build report
         if: failure()
         run: find . -type d -name 'reports' | zip -@ -r build-report.zip

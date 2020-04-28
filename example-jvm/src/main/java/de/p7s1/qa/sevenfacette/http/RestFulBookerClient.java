@@ -21,10 +21,7 @@ public class RestFulBookerClient {
   private GenericHttpClient client;
 
   public RestFulBookerClient() {
-   HttpConfig config = new HttpConfig();
-   config.setUrl(new Url().baseUrl("localhost").port(3001));
-   HttpClientConfig clientConfig = new HttpClientConfig(config, "myClient");
-   this.client = clientConfig.createClient();
+    client = HttpClientFactory.createClient("restfulBooker");
   }
 
   public HttpResponse getAllBookings() {
@@ -36,7 +33,7 @@ public class RestFulBookerClient {
   }
 
   public HttpResponse createNewBooking(String bookingData, HttpHeader header) {
-    return client.post("booking", bookingData, header);
+    return client.post("booking", bookingData, CONTENTTYPES.APPLICATION_JSON, header);
   }
 
   public HttpResponse deleteBooking(String bookingId, HttpHeader headers) {
@@ -44,12 +41,12 @@ public class RestFulBookerClient {
   }
 
   public HttpResponse sendMultipartData(String path, MultipartBody body, HttpHeader headers) {
-    return client.postMultiPart(path, body, headers);
+    return client.post(path, body, headers);
   }
 
   public HttpResponse auth() {
     String content = "{\"username\":\"admin\",\"password\":\"password123\"}";
-    return client.post("auth", content, new HttpHeader());
+    return client.post("auth", content, CONTENTTYPES.APPLICATION_JSON, new HttpHeader());
   }
 
 }

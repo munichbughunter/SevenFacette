@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 class JKafkaConsumerTest {
@@ -20,7 +21,7 @@ class JKafkaConsumerTest {
   private static KConsumer replicationConsumer;
   private static KConsumer commitstreamConsumer;
 
-  @BeforeAll
+  //@BeforeAll
   static void setUp() {
     kafkaConfig = new KConfig();
     kafkaConfig.setAutoOffset(System.getenv("AUTO_OFFSET"));
@@ -36,6 +37,7 @@ class JKafkaConsumerTest {
   }
 
   @Test
+  @Disabled
   void consumerFactory() {
     KConsumer consumer = ingestConsumerConfig.createKConsumer(true);
 
@@ -53,6 +55,7 @@ class JKafkaConsumerTest {
   }
 
   @Test
+  @Disabled
   void producerFactory() {
     KProducer autoFlushProducer = ingestConsumerConfig.createKProducer(true);
     autoFlushProducer.send("Testmessage die automatisch geflushed wird");
