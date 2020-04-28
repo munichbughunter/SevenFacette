@@ -23,7 +23,7 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod 0755 gradlew && git add gradlew
       - name: Build with Gradle
-        run: ./gradlew clean build -x test
+        run: ./gradlew :core:build -x test
       - name: Github Tag Bump
         uses: anothrNick/github-tag-action@1.19.0
         env:
