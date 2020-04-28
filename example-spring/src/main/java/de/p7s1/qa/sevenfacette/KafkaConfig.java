@@ -3,11 +3,7 @@ package de.p7s1.qa.sevenfacette;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * TODO: Add Description
- *
- * @author Patrick Döring
- */
+
 public class KafkaConfig {
   private String bootstrapserver;
   private String autooffset;

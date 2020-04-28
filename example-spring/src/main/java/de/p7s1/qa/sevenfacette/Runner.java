@@ -13,11 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 
-/**
- * TODO: Add Description
- *
- * @author Patrick Döring
- */
+
 public class Runner implements CommandLineRunner {
 
   @Autowired

@@ -22,3 +22,4 @@ common/*
 /core/node_modules/
 /core/detekt/
 /logs/*
+/example-spring/build/

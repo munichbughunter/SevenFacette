@@ -17,3 +17,6 @@ sevenFacette:
           username: test
           password: testPass
 @Import(facetteConfigPart2.yml)
+  custom:
+    test: test
+    testImport1: @Import(facetteConfigMultiFileField.yml)

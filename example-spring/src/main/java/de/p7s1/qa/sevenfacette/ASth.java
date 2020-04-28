@@ -1,10 +1,6 @@
 package de.p7s1.qa.sevenfacette;
 
-/**
- * TODO: Add Description
- *
- * @author Patrick Döring
- */
+
 public class ASth {
   private AConfig conf;
 

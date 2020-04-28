@@ -5,11 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 
-/**
- * TODO: Add Description
- *
- * @author Patrick Döring
- */
+
 @SpringBootApplication
 @EnableConfigurationProperties
 public class Demo {

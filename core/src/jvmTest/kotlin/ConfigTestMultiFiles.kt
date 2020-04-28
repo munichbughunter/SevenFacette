@@ -40,5 +40,3 @@ class ConfigTestMultiFiles {
         assert(FacetteConfig.custom?.get("test3") == "imported Value for Field test3")
     }
 }
-
-

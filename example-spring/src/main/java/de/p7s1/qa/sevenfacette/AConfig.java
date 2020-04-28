@@ -2,11 +2,7 @@ package de.p7s1.qa.sevenfacette;
 
 import de.p7s1.qa.sevenfacette.kafka.config.KConfig;
 
-/**
- * TODO: Add Description
- *
- * @author Patrick Döring
- */
+
 public class AConfig {
 
   private String name;

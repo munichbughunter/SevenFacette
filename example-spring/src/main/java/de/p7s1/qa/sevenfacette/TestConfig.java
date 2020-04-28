@@ -11,11 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.GenericApplicationContext;
 
-/**
- * TODO: Add Description
- *
- * @author Patrick Döring
- */
+
 @Configuration
 public class TestConfig {
 

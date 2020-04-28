@@ -5,11 +5,7 @@ import de.p7s1.qa.sevenfacette.http.Url;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * TODO: Add Description
- *
- * @author Patrick Döring
- */
+
 public class HttpTestClientConfig {
 
   private int connectionTimeout;
