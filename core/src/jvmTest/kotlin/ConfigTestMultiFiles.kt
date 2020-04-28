@@ -24,16 +24,20 @@ class ConfigTestMultiFiles {
         val config = cReader.readConfig()
         assert(config.sevenFacette?.http?.clients?.size == 2)
             { println("Actual client size == ${config.sevenFacette?.http?.clients?.size}") }
-        assert(config.sevenFacette?.custom.isNullOrEmpty())
+        assert(config.sevenFacette?.custom?.size == 4)
             { println("Actual custom size == ${config.sevenFacette?.custom?.size}") }
+        assert(config.sevenFacette?.custom?.get("testImport1") == "imported Value")
+        assert(config.sevenFacette?.custom?.get("test3") == "imported Value for Field test3")
     }
 
     @Test
     fun checkConfigObjectMultiFiles() {
         assert(FacetteConfig.http?.clients?.size == 2)
             { println("Actual client size == ${FacetteConfig.http?.clients?.size}") }
-        assert(FacetteConfig.custom?.isNullOrEmpty() ?: false)
+        assert(FacetteConfig.custom?.size == 4)
             { println("Actual custom size == ${FacetteConfig.custom?.size}") }
+        assert(FacetteConfig.custom?.get("testImport1") == "imported Value")
+        assert(FacetteConfig.custom?.get("test3") == "imported Value for Field test3")
     }
 }
 
