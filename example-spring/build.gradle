@@ -7,8 +7,8 @@ version = "0.1.0"
 
 repositories {
     mavenCentral()
-    mavenLocal()
     jcenter()
+    mavenLocal()
 }
 
 dependencies {
@@ -20,6 +20,10 @@ dependencies {
     implementation ("com.fasterxml.jackson.core:jackson-annotations:2.10.3")
     implementation ("com.fasterxml.jackson.core:jackson-core:2.10.3")
 
+    implementation ("org.springframework.boot:spring-boot-starter-parent:2.2.6.RELEASE")
+    implementation ("org.springframework.boot:spring-boot-starter:2.2.6.RELEASE")
+    implementation ("org.springframework.boot:spring-boot-starter-test:2.2.6.RELEASE")
+
 
 
     implementation ("commons-io:commons-io:2.6")
@@ -27,7 +31,6 @@ dependencies {
     // Kafka
     implementation("org.apache.kafka:kafka-clients:2.0.0")
     //implementation("io.confluent:kafka-avro-serializer:5.0.0")
-    implementation 'org.apache.avro:avro:1.9.2'
 
     // Testing
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.0")

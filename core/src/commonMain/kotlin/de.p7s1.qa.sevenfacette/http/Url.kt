@@ -83,8 +83,7 @@ class Url {
         val urlParts = urlString.split("/")
         val portParts = urlParts[0].split(":")
         this.baseUrl = portParts[0]
-        if (portParts.isNotEmpty()) {this.port = portParts[1].toInt() }
-
+        if (portParts.size > 1) {this.port = portParts[1].toInt() }
         if (urlParts.isNotEmpty()) {
             this.path = urlParts.drop(1).joinToString("/")
         }
