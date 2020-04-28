@@ -22,10 +22,17 @@ jobs:
         run: java -version
       - name: Grant execute permission for gradlew
         run: chmod 0755 gradlew && git add gradlew
-   #   - name: Create Release
-   #     uses:  rymndhng/release-on-push-action@master
-   #     with:
-   #       strategy: minor
+      - name: Build with Gradle
+        run: ./gradlew clean build -x test
+      - name: Bum version and push tag
+        uses: anotherNick/github-tag-action@1.17.2
+        env:
+          - GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            - WITH_V: true
+      - name: Create Release
+        uses:  rymndhng/release-on-push-action@master
+        with:
+          strategy: minor
       - name: Publish 7Facette artifacts to JFrog Bintray
         env:
           JFROG_ACTOR: ${{ secrets.JFROG_ACTOR }}
@@ -33,18 +40,18 @@ jobs:
         # The GITHUB_REF tag comes in the format 'refs/tags/xxx'.
         # So if we split on '/' and take the 3rd value, we can get the release name.
         run: |
-          #NEW_VERSION=$(echo "${GITHUB_REF}" | cut -d "/" -f3)
-          NEW_VERSION=The_ROCK
+          NEW_VERSION=$(echo "${GITHUB_REF}" | cut -d "/" -f3)
+          #NEW_VERSION=The_ROCK
           echo "New version: ${NEW_VERSION}"
           
           echo  ${JFROG_ACTOR}
           
           ./gradlew -PLIBRARY_VERSION_NAME=${NEW_VERSION} :core:bintrayUpload
-      - uses: actions/setup-node@v1.1.0
-        with:
-          node-version: 12
-          registry-url: https://registry.npmjs.org/
-      - run: cd core && npm install
-      - run: cd core && npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      #- uses: actions/setup-node@v1.1.0
+      #  with:
+      #    node-version: 12
+      #    registry-url: https://registry.npmjs.org/
+      #- run: cd core && npm install
+      #- run: cd core && npm publish
+      #  env:
+      #    NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
