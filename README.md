@@ -29,7 +29,7 @@ around living documentation.
 
 ### Repository
 
-You can download 7Facette packages from JFRog Bintray or Maven Central
+You can download 7Facette packages from JFRog Bintray
 
 #### JFrog Bintray
 

@@ -31,24 +31,24 @@ jobs:
       #  env:
       #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       #    WITH_V: true
-      - name: Tag/Release on Push Action
-        uses: rymndhng/release-on-push-action@v0.12.1
-        with:
-          strategy: minor
-      - name: Publish 7Facette artifacts to JFrog Bintray
-        env:
-          JFROG_ACTOR: ${{ secrets.JFROG_ACTOR }}
-          JFROG_TOKEN: ${{ secrets.JFROG_TOKEN }}
+      #- name: Tag/Release on Push Action
+      #  uses: rymndhng/release-on-push-action@v0.12.1
+      #  with:
+      #    strategy: minor
+      #- name: Publish 7Facette artifacts to JFrog Bintray
+      #  env:
+      #    JFROG_ACTOR: ${{ secrets.JFROG_ACTOR }}
+      #    JFROG_TOKEN: ${{ secrets.JFROG_TOKEN }}
         # The GITHUB_REF tag comes in the format 'refs/tags/xxx'.
         # So if we split on '/' and take the 3rd value, we can get the release name.
-        run: |
-          NEW_VERSION=$(echo "${GITHUB_REF}" | cut -d "/" -f3)
+      #  run: |
+      #    NEW_VERSION=$(echo "${GITHUB_REF}" | cut -d "/" -f3)
           #NEW_VERSION=The_ROCK
-          echo "New version: ${NEW_VERSION}"
+      #    echo "New version: ${NEW_VERSION}"
           
-          echo  ${JFROG_ACTOR}
+      #    echo  ${JFROG_ACTOR}
           
-          ./gradlew -PLIBRARY_VERSION_NAME=${NEW_VERSION} :core:bintrayUpload
+      #    ./gradlew -PLIBRARY_VERSION_NAME=${NEW_VERSION} :core:bintrayUpload
       #- uses: actions/setup-node@v1.1.0
       #  with:
       #    node-version: 12
