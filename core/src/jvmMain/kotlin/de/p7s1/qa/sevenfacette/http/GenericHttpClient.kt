@@ -209,7 +209,7 @@ actual class GenericHttpClient {
         return when(T::class) {
             String::class, Unit::class -> TextContent(content as String, parseContentType(contentType))
             ByteArray::class -> ByteArrayContent(content as ByteArray)
-            MultipartBody::class -> mutableListOf<PartData>()
+            MultipartBody::class -> (content as MultipartBody).create()
             else -> throw Error("Content not supported")
         }
     }
