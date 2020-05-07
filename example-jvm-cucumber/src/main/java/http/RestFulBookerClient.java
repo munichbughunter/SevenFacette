@@ -1,5 +1,7 @@
-package de.p7s1.qa.sevenfacette.http;
+package http;
 
+
+import de.p7s1.qa.sevenfacette.http.*;
 
 /**
  * Example application of generic http client
