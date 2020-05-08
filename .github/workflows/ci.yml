@@ -43,12 +43,8 @@ jobs:
         # So if we split on '/' and take the 3rd value, we can get the release name.
         run: |
           NEW_VERSION=$(echo "${GITHUB_REF}" | cut -d "/" -f3)
-      #    #NEW_VERSION=The_ROCK
-      #    echo "New version: ${NEW_VERSION}"
-          
-      #    echo  ${JFROG_ACTOR}
-          
           ./gradlew -PLIBRARY_VERSION_NAME=${NEW_VERSION} :core:bintrayUpload
+ 
       #- uses: actions/setup-node@v1.1.0
       #  with:
       #    node-version: 12
