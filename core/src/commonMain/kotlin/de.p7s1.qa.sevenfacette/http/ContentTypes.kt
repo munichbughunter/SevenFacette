@@ -28,6 +28,7 @@ enum class CONTENTTYPES(val contentType: ContentType) {
     IMAGE_PNG (ContentType("image", "png")),
     IMAGE_SVG (ContentType("image", "svg+xml")),
     IMAGE_XICON (ContentType("image", "x-icon")),
+    KAFKA_JSON (ContentType("application", "vnd.kafka.json.v1+json")),
     MESSAGE_ANY (ContentType("message", "*")),
     MESSAGE_HTTP (ContentType("message", "http")),
     MULTIPART_ANY (ContentType("multipart", "*")),

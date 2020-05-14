@@ -1,34 +1,41 @@
 package de.p7s1.qa.sevenfacette.utils
 
-import java.io.BufferedReader
 import java.io.File
 import java.io.IOException
 import java.io.InputStream
-import java.io.InputStreamReader
-import java.io.UncheckedIOException
+import java.net.URL
+import java.nio.file.Files
+import java.util.Objects
 
 class FileLoader {
 
-    fun loadInputStreamFromResource(folder: String, fileName: String): InputStream {
-        return getInputStream(folder, fileName)
+    fun loadFileFromResourceAsString(folder: String, fileName: String): String? {
+        val file = getFile(folder, fileName)
+        return getFileContentAsString(file)
     }
 
+    fun loadFileFromResourceAsStream(folder: String, fileName: String): InputStream? {
+        return loadFileContentAsInputStream(folder + fileName)
+    }
 
     @Throws(IOException::class)
-    fun getResourceFiles(path: String, fileName: String): List<String> = getResourceAsStream(path+fileName).use{
-        return if(it == null) emptyList()
-        else BufferedReader(InputStreamReader(it)).readLines()
-    }
-
-    private fun getResourceAsStream(resource: String): InputStream? =
+    private fun loadFileContentAsInputStream(resource: String): InputStream? =
             Thread.currentThread().contextClassLoader.getResourceAsStream(resource)
                     ?: resource::class.java.getResourceAsStream(resource)
 
-    private fun getInputStream(folder: String, fileName: String): InputStream {
-        return try {
-            File(folder + fileName).inputStream()
+    private fun getFile(folder: String, fileName: String): File? {
+        return File(Objects.requireNonNull<URL>(FileLoader::class.java
+                .classLoader
+                .getResource("$folder/$fileName")).file)
+    }
+
+    private fun getFileContentAsString(file: File?): String? {
+        val fileString: String
+        fileString = try {
+            String(Files.readAllBytes(file!!.toPath()))
         } catch (e: IOException) {
-            throw UncheckedIOException(e)
+            throw RuntimeException(e)
         }
+        return fileString
     }
 }
