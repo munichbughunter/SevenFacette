@@ -1,6 +1,8 @@
 package de.p7s1.qa.sevenfacette.db
 
+import de.p7s1.qa.sevenfacette.utils.FileLoader
 import de.p7s1.qa.sevenfacette.utils.Files
+import java.io.BufferedReader
 
 
 class ScriptReader() {
@@ -13,15 +15,18 @@ class ScriptReader() {
 
     private var blockCommentActive = false
 
-    fun getStatements(sqlScript: String): DbStatements? {
-        val statementList = Files.getResourceStream(sqlScript)
+    fun getStatements(folder: String, sqlScript: String): DbStatements? {
+        val statementList = FileLoader()
+                .loadFileFromResourceAsStream(folder, sqlScript)
+                ?.bufferedReader()
+                ?.use(BufferedReader::readLines)
         return parseScript(statementList)
     }
 
-    private fun parseScript(statementList: List<String>): DbStatements? {
+    private fun parseScript(statementList: List<String>?): DbStatements? {
         val statements = DbStatements()
         var command = StringBuilder()
-        statementList.forEach {
+        statementList?.forEach {
             val trimmedStatement = trimStatement(it)
             if (trimmedStatement.length > 0) {
                 command.append(trimmedStatement)
