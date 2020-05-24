@@ -5,7 +5,6 @@ import io.ktor.client.request.request
 import io.ktor.client.request.url
 import io.ktor.http.HttpMethod
 import io.ktor.http.content.ByteArrayContent
-import io.ktor.http.content.PartData
 import io.ktor.http.content.TextContent
 import io.ktor.http.userAgent
 import kotlinx.coroutines.launch
@@ -179,7 +178,6 @@ actual class GenericHttpClient {
                         userAgent("SevenFacette")
 
                         useHeaders.header.forEach {
-                            logger.info("Appending header for ${it.first}")
                             headers.append(it.first, it.second)
                         }
                     })
