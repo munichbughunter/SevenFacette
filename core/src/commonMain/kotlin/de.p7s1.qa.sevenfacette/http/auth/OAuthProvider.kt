@@ -41,16 +41,13 @@ class OAuthProvider(val config: OAuthConfig): AuthProvider {
         }
     }
 
-    // TODO: check what this really does then implement the functionality
     override fun isApplicable(auth: HttpAuthHeader): Boolean = true
 
     private fun constructOAuth2Header(): String {
-        println("Create OAuth2 Header")
         return HttpAuthHeader.Single("Bearer", (config as OAuth2Config).bearer).render()
     }
 
     private fun constructOAuth1Value(): String {
-        println("Create OAuth1 Header")
         val oConfig = config as OAuth1Config
         return HttpAuthHeader.Parameterized (
                 AuthScheme.OAuth,
