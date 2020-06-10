@@ -2,16 +2,19 @@ package de.p7s1.qa.sevenfacette.http
 
 import de.p7s1.qa.sevenfacette.config.types.FacetteConfig
 import de.p7s1.qa.sevenfacette.config.types.HttpClientConfig
+import de.p7s1.qa.sevenfacette.http.auth.AuthenticationFactory
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.apache.Apache
 import io.ktor.client.features.HttpSend
 import io.ktor.client.features.auth.Auth
+import io.ktor.client.features.auth.providers.basic
 import io.ktor.client.features.cookies.AcceptAllCookiesStorage
 import io.ktor.client.features.cookies.HttpCookies
 import io.ktor.client.features.json.JacksonSerializer
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.util.KtorExperimentalAPI
-import org.apache.http.conn.ssl.NoopHostnameVerifier
+import org.apache.http.Header
+import org.apache.http.HeaderElement
 import org.apache.http.conn.ssl.TrustAllStrategy
 import org.apache.http.ssl.SSLContextBuilder
 import java.net.InetSocketAddress
@@ -49,7 +52,26 @@ class HttpClientFactory {
         @KtorExperimentalAPI
         @JvmStatic
         fun createClient(configHttp: HttpClientConfig): GenericHttpClient {
-            val client = HttpClient(Apache) {
+            val apache = Apache.create {
+                customizeClient {
+                    socketTimeout = configHttp.socketTimeout
+                    connectTimeout = configHttp.connectionTimeout
+                    connectionRequestTimeout = configHttp.connectionRequestTimeout
+
+                    setSSLContext(
+                            SSLContextBuilder
+                                    .create()
+                                    .loadTrustMaterial(TrustAllStrategy())
+                                    .build()
+                    )
+                }
+
+                if(configHttp.proxy != null) {
+                    proxy = createProxy(configHttp.proxy)
+                }
+            }
+
+            val client = HttpClient(apache) {
                 expectSuccess = false
 
                 install(HttpCookies) {
@@ -65,32 +87,12 @@ class HttpClientFactory {
                 }
 
                 if(configHttp.authentication != null) {
-                    install(Auth){
+                    install(Auth) {
                         providers.add(AuthenticationFactory(configHttp.authentication!!).getAuthentication())
                     }
                 }
-
-                engine {
-                    socketTimeout = configHttp.socketTimeout
-                    connectTimeout = configHttp.connectionTimeout
-                    connectionRequestTimeout = configHttp.connectionRequestTimeout
-
-                    customizeClient { // Trust all certificates
-                        setSSLContext(
-                                SSLContextBuilder
-                                        .create()
-                                        .loadTrustMaterial(TrustAllStrategy())
-                                        .build()
-                        )
-                        setSSLHostnameVerifier(NoopHostnameVerifier())
-
-                    }
-
-                    if(configHttp.proxy != null) {
-                        proxy = createProxy(configHttp.proxy)
-                    }
-                }
             }
+            client.engineConfig
             return GenericHttpClient().setClient(configHttp.url!!, client)
         }
 
