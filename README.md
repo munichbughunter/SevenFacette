@@ -49,7 +49,7 @@ Actual we provide a JVM implementation of the 7Facette core module. The JS imple
 for the next release. 
 
 ```kotlin
-implementation 'de.p7s1.qa.sevenfacette:core-jvm:0.2.1'
+implementation 'de.p7s1.qa.sevenfacette:core-jvm:0.3.1'
 ```
 
 ## Questions or need help?
