@@ -59,6 +59,9 @@ kotlin {
 
         jvmMain {
             dependencies {
+                implementation 'org.seleniumhq.selenium:selenium-api:3.141.59'
+                implementation 'org.seleniumhq.selenium:selenium-support:3.141.59'
+
                 api 'org.jetbrains.exposed:exposed-core:0.20.1'
                 implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
                 implementation 'com.jayway.jsonpath:json-path:2.4.0'
