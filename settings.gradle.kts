@@ -1,5 +1,6 @@
 include(
         ":core",
+        ":web",
         ":example-js",
         ":example-jvm",
         ":example-spring",

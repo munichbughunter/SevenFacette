@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>detekt report</title>
+    <style>
+h2 {
+  background-color: #666666;
+  padding: 0.2em;
+  color: #ffffff;
+}
+h3 {
+  background-color:#f8dfdf;
+  padding:0.5em;
+}
+.rule {
+  background-color: #dddddd;
+  padding: 0.3em;
+  font-weight: bold;
+}
+.description {
+  color:#000000;
+  padding:0.3em;
+}
+.location {
+  color: #690505;
+  font-family: monospace;
+  display: block;
+}
+.message {
+  font-size: 0.8em;
+  color: #444444;
+  display: block;
+  margin-top: 1pt;
+}
+.rule-container {
+  border: 0.1em dashed #dddddd;
+  padding: 0.1em;
+  line-height: 1.5em;
+  margin-bottom: 8px;
+  margin-top: 8px;
+}
+pre {
+  border: 1px solid #e0e0e0;
+  overflow: scroll;
+}
+.lineno {
+  color: #999999;
+  background-color: #f0f0f0;
+}
+.error {
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4AwCFR4T/3uLMgAAADxJREFUCNdNyLERQEAABMCjL4lQwIzcjErpguAL+C9AvgKJDbeD/PRpLdm35Hm+MU+cB+tCKaJW4L4YBy+CAiLJrFs9mgAAAABJRU5ErkJggg==) bottom repeat-x;
+}
+.exception {
+  color: #b60808;
+  display: inline-block;
+  background-color: #ecdada;
+  border-color: #b60808;
+  border-radius: 10px;
+  border: solid 2px;
+  padding-left: 16px;
+  padding-right: 16px;
+  margin-bottom: 16px;
+}
+</style>
+</head>
+<body>
+
+<h1>detekt report</h1>
+
+<h2>Metrics</h2>
+
+<div>
+  <ul>
+    <li>31 number of kt files</li>
+    <li>7 number of packages</li>
+    <li>42 number of classes</li>
+    <li>238 number of functions</li>
+    <li>98 number of properties</li>
+  </ul>
+</div>
+
+
+<h2>Complexity Report</h2>
+
+<div>
+  <ul>
+    <li>2,625 lines of code (loc)</li>
+    <li>1,400 source lines of code (sloc)</li>
+    <li>1,084 logical lines of code (lloc)</li>
+    <li>895 comment lines of code (cloc)</li>
+    <li>474 McCabe complexity (mcc)</li>
+    <li>6 number of total code smells</li>
+    <li>63% comment source ratio</li>
+    <li>437 mcc per 1,000 lloc</li>
+    <li>5 code smells per 1,000 lloc</li>
+  </ul>
+</div>
+
+
+<h2>Findings</h2>
+<div>Total: 6
+  <h3>empty-blocks: 2</h3>
+  <details id="EmptyDefaultConstructor" open="open">
+    <summary class="rule-container"><span class="rule">EmptyDefaultConstructor: 2 </span><span class="description">Empty block of code detected. As they serve no purpose they should be removed.</span></summary>
+    <ul>
+      <li><span class="location">/Users/doe0003p/TestLab/p7s1-qa/os/SevenFacette/core/src/commonMain/kotlin/de.p7s1.qa.sevenfacette/sevenfacetteHttp/GenericHttpClient.kt:6:36</span><span class="message">An empty default constructor can be removed.</span>
+        <pre><code><span class="lineno">   3 </span>import de.p7s1.qa.sevenfacette.config.RestServiceAuth
+<span class="lineno">   4 </span>import io.ktor.client.HttpClient
+<span class="lineno">   5 </span>
+<span class="lineno">   6 </span>expect open class GenericHttpClient<span class="error">()</span> {
+<span class="lineno">   7 </span>
+<span class="lineno">   8 </span>    val client: HttpClient
+<span class="lineno">   9 </span>    var auth: RestServiceAuth?
+</code></pre>
+      </li>
+      <li><span class="location">/Users/doe0003p/TestLab/p7s1-qa/os/SevenFacette/core/src/commonMain/kotlin/de.p7s1.qa.sevenfacette/utils/Resource.kt:5:23</span><span class="message">An empty default constructor can be removed.</span>
+        <pre><code><span class="lineno">   2 </span>
+<span class="lineno">   3 </span>expect class FileObj
+<span class="lineno">   4 </span>
+<span class="lineno">   5 </span>expect class Resource <span class="error">()</span> {
+<span class="lineno">   6 </span>    companion object {
+<span class="lineno">   7 </span>        fun getFullPath(path: String): String
+<span class="lineno">   8 </span>        fun get(path: String): FileObj
+</code></pre>
+      </li>
+    </ul>
+  </details>
+  <h3>naming: 2</h3>
+  <details id="MemberNameEqualsClassName" open="open">
+    <summary class="rule-container"><span class="rule">MemberNameEqualsClassName: 2 </span><span class="description">A member should not be given the same name as its parent class or object.</span></summary>
+    <ul>
+      <li><span class="location">/Users/doe0003p/TestLab/p7s1-qa/os/SevenFacette/core/src/commonMain/kotlin/de.p7s1.qa.sevenfacette/sevenfacetteHttp/Url.kt:15:5</span><span class="message">A member is named after the class. This might result in confusion. Either rename the member or change it to a constructor.</span>
+        <pre><code><span class="lineno">  12 </span>        private set
+<span class="lineno">  13 </span>    var port: Int = -1
+<span class="lineno">  14 </span>        private set
+<span class="lineno">  15 </span>    <span class="error">var url: String = &quot;&quot;</span>
+<span class="lineno">  16 </span><span class="error">        private set</span>
+<span class="lineno">  17 </span>
+<span class="lineno">  18 </span>    fun protocol(protocol: String) = apply { this.protocol = protocol }
+</code></pre>
+      </li>
+      <li><span class="location">/Users/doe0003p/TestLab/p7s1-qa/os/SevenFacette/core/src/commonMain/kotlin/de.p7s1.qa.sevenfacette/sevenfacetteHttp/Url.kt:29:5</span><span class="message">A member is named after the class. This might result in confusion. Either rename the member or change it to a constructor.</span>
+        <pre><code><span class="lineno">  26 </span>        this.port = port
+<span class="lineno">  27 </span>    }
+<span class="lineno">  28 </span>
+<span class="lineno">  29 </span>    <span class="error">fun url(url: String) {</span>
+<span class="lineno">  30 </span><span class="error">        val protocolParts = url.split(&quot;://&quot;)</span>
+<span class="lineno">  31 </span><span class="error">        var urlString: String</span>
+<span class="lineno">  32 </span><span class="error">        if (protocolParts.size &gt; 0) {</span>
+</code></pre>
+      </li>
+    </ul>
+  </details>
+  <h3>style: 2</h3>
+  <details id="MagicNumber" open="open">
+    <summary class="rule-container"><span class="rule">MagicNumber: 1 </span><span class="description">Report magic numbers. Magic number is a numeric literal that is not defined as a constant and hence it's unclear what the purpose of this number is. It's better to declare such numbers as constants and give them a proper name. By default, -1, 0, 1, and 2 are not considered to be magic numbers.</span></summary>
+    <ul>
+      <li><span class="location">/Users/doe0003p/TestLab/p7s1-qa/os/SevenFacette/core/src/commonMain/kotlin/de.p7s1.qa.sevenfacette/sevenfacetteHttp/Url.kt:25:38</span><span class="message">This expression contains a magic number. Consider defining it to a well named constant.</span>
+        <pre><code><span class="lineno">  22 </span>        /**
+<span class="lineno">  23 </span>         * TODO: Add logging
+<span class="lineno">  24 </span>         */
+<span class="lineno">  25 </span>        require(port &gt;= 0 &amp;&amp; port &lt;= <span class="error">65535</span>, { println(&quot;Port is outside of range&quot;)})
+<span class="lineno">  26 </span>        this.port = port
+<span class="lineno">  27 </span>    }
+<span class="lineno">  28 </span>
+</code></pre>
+      </li>
+    </ul>
+  </details>
+  <details id="UtilityClassWithPublicConstructor" open="open">
+    <summary class="rule-container"><span class="rule">UtilityClassWithPublicConstructor: 1 </span><span class="description">The class declaration is unnecessary because it only contains utility functions. An object declaration should be used instead.</span></summary>
+    <ul>
+      <li><span class="location">/Users/doe0003p/TestLab/p7s1-qa/os/SevenFacette/core/src/commonMain/kotlin/de.p7s1.qa.sevenfacette/utils/Resource.kt:5:1</span><span class="message">The class Resource only contains utility functions. Consider defining it as an object.</span>
+        <pre><code><span class="lineno">   2 </span>
+<span class="lineno">   3 </span>expect class FileObj
+<span class="lineno">   4 </span>
+<span class="lineno">   5 </span><span class="error">expect class Resource () {</span>
+<span class="lineno">   6 </span><span class="error">    companion object {</span>
+<span class="lineno">   7 </span><span class="error">        fun getFullPath(path: String): String</span>
+<span class="lineno">   8 </span><span class="error">        fun get(path: String): FileObj</span>
+</code></pre>
+      </li>
+    </ul>
+  </details>
+</div>
+
+
+</body>
+</html>
