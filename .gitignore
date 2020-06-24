@@ -26,3 +26,4 @@ build/
 /example-spring/bin/
 /example-spring/.settings/
 /core/.settings/
+/web/node_modules/
