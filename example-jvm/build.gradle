@@ -20,7 +20,7 @@ dependencies {
     implementation ("com.fasterxml.jackson.core:jackson-annotations:2.10.3")
     implementation ("com.fasterxml.jackson.core:jackson-core:2.10.3")
 
-
+    implementation ("com.h2database:h2:1.4.197")
 
     implementation ("commons-io:commons-io:2.6")
 
