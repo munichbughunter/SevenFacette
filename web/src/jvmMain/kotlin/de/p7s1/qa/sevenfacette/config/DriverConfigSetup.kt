@@ -11,14 +11,14 @@ const val DEFAULT_TIME_OUT_TIME_IN_SECONDS = 10L
  *
  * @author Patrick Döring
  */
-interface ConfigurationSetup {
+interface DriverConfigSetupSetup {
     val autoQuit: Boolean
     val driverFactory: () -> WebDriver
     val waitForSleepTimeInMilliseconds: Long
     val waitForTimeOutTimeInSeconds: Long
 
     companion object {
-        internal val Default = Configuration(
+        internal val Default = DriverConfig(
                 true,
                 ::ChromeDriver,
                 DEFAULT_SLEEP_TIME_IN_MILLISECONDS,
