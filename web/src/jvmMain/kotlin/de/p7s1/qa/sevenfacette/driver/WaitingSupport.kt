@@ -1,9 +1,9 @@
-package de.p7s1.qa.sevenfacette.internal
+package de.p7s1.qa.sevenfacette.driver
 
+import de.p7s1.qa.sevenfacette.config.ConfigurationSetup
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.support.ui.ExpectedCondition
 import org.openqa.selenium.support.ui.WebDriverWait
-
 
 /**
  * TODO: Add Description
@@ -13,7 +13,7 @@ import org.openqa.selenium.support.ui.WebDriverWait
 interface WaitingSupport {
     val driver: WebDriver
 
-    val configurationSetup : ConfigurationSetup
+    val configurationSetup: ConfigurationSetup
 
     fun <T> waitFor(timeOutInSeconds: Long = configurationSetup.waitForTimeOutTimeInSeconds,
                     sleepInMillis: Long = configurationSetup.waitForSleepTimeInMilliseconds,

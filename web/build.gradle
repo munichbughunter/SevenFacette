@@ -61,6 +61,7 @@ kotlin {
             dependencies {
                 implementation 'org.seleniumhq.selenium:selenium-api:3.141.59'
                 implementation 'org.seleniumhq.selenium:selenium-support:3.141.59'
+                implementation 'org.seleniumhq.selenium:selenium-chrome-driver:3.141.59'
 
                 api 'org.jetbrains.exposed:exposed-core:0.20.1'
                 implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
@@ -136,7 +137,7 @@ configurations {
 }
 
 def GROUP_ID="de.p7s1.qa.sevenfacette" // Your orginization in reverse domain notation. For example:  def GROUP_ID="com.fudge"
-def ARTIFACT_ID="core" // The name you gave your package in bintray. In our example it would be:  def ARTIFACT_ID="kotlin-awesome-printer"
+def ARTIFACT_ID="web" // The name you gave your package in bintray. In our example it would be:  def ARTIFACT_ID="kotlin-awesome-printer"
 
 def BINTRAY_REPOSITORY="sevenfacette-jvm" // What you named your repository in bintray. In our example it would be "myrepository"
 //def BINTRAY_ORGINIZATION="guide" //  Your public facing Bintray name. You can see your Bintray name on the top right corner in Bintray. I named it "guide" for our example.
