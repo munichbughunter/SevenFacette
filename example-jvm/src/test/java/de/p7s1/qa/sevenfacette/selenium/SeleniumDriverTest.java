@@ -9,6 +9,7 @@ import java.io.IOException;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
@@ -28,8 +29,8 @@ public class SeleniumDriverTest {
   static void setup() {
     //facetteDriver = new FDriver(FDFactory.driver(Driver.CHROME, ""));
     //facetteDriver = new FDriver(FDFactory.driver(Driver.FIREFOX, ""));
-    //facetteDriver = new FDriver(FDFactory.driver(Driver.CHROME, "http://localhost:4444/wd/hub"));
-    facetteDriver = new FDriver(FDFactory.driver(Driver.FIREFOX, "http://localhost:4444/wd/hub"));
+    facetteDriver = new FDriver(FDFactory.driver(Driver.CHROME, "http://localhost:4444/wd/hub"));
+    //facetteDriver = new FDriver(FDFactory.driver(Driver.FIREFOX, "http://localhost:4444/wd/hub"));
   }
 
   @AfterAll
@@ -38,11 +39,13 @@ public class SeleniumDriverTest {
   }
 
   @Test
+  @Disabled
   void startFacetteBrowser() {
     facetteDriver.get(TESTING_URL);
   }
 
   @Test
+  @Disabled
   void makeScreenshot() throws IOException {
     facetteDriver.get(TESTING_URL);
     File screeny = facetteDriver.getScreenshotAs(OutputType.FILE);
@@ -50,6 +53,7 @@ public class SeleniumDriverTest {
   }
 
   @Test
+  @Disabled
   void clickLink() throws IOException {
     facetteDriver.get(TESTING_URL);
     facetteDriver.findElement(By.xpath("//a[@href='/owners/find']")).click();
@@ -58,6 +62,7 @@ public class SeleniumDriverTest {
   }
 
   @Test
+  @Disabled
   void clickButton() throws IOException {
     facetteDriver.get(TESTING_URL);
     facetteDriver.findElement(By.xpath("//a[@href='/owners/find']")).click();
@@ -67,6 +72,7 @@ public class SeleniumDriverTest {
   }
 
   @Test
+  @Disabled
   void writeText() throws IOException {
     facetteDriver.get(TESTING_URL);
     facetteDriver.findElement(By.xpath("//a[@href='/owners/find']")).click();
@@ -74,5 +80,59 @@ public class SeleniumDriverTest {
     facetteDriver.findElement(By.xpath("//button[@class='btn btn-default']")).click();
     File screeny = facetteDriver.getScreenshotAs(OutputType.FILE);
     FileUtils.copyFile(screeny, new File(SCREENSHOT_OUTPUT_DIRECTORY + "WriteTextTest.png"));
+  }
+
+  @Test
+  @Disabled
+  void pageSnapshottingwithoutImagePath() {
+    facetteDriver.get(TESTING_URL);
+    facetteDriver.getPageSnapshot("");
+  }
+
+  @Test
+  @Disabled
+  void pageSnapshottingwithImagePath() {
+    facetteDriver.get(TESTING_URL);
+    facetteDriver.getPageSnapshot(SCREENSHOT_OUTPUT_DIRECTORY);
+  }
+
+  @Test
+  @Disabled
+  void elementSnapshotting() {
+    facetteDriver.get(TESTING_URL);
+    facetteDriver.findElement(By.xpath("//a[@href='/owners/find']")).click();
+    facetteDriver.getElementSnapshot(facetteDriver.findElement(By.id("lastName")), SCREENSHOT_OUTPUT_DIRECTORY );
+  }
+
+  @Test
+  @Disabled
+  void screenComparisonFailure() {
+    facetteDriver.get("https://www.google.de");
+    facetteDriver.compareSnapshotWithDiff("testfiles/BaseImage.png", SCREENSHOT_OUTPUT_DIRECTORY , "actualFailure", 0.1);
+  }
+
+  @Test
+  @Disabled
+  void screenComparisonPass() {
+    facetteDriver.get(TESTING_URL);
+    facetteDriver.compareSnapshotWithDiff("testfiles/BaseImage.png", SCREENSHOT_OUTPUT_DIRECTORY, "actualPass", 0.1);
+  }
+
+  @Test
+  @Disabled
+  void screenComparison() {
+    facetteDriver.get(TESTING_URL);
+    facetteDriver.findElement(By.xpath("//a[@href='/owners/find']")).click();
+    facetteDriver.compareSnapshotWithDiff("testfiles/BaseImage.png", SCREENSHOT_OUTPUT_DIRECTORY, "screenComparison", 0.1);
+  }
+
+  @Test
+  @Disabled
+  void FileUploadRemotDriver() {
+    facetteDriver.setFileDetector();
+    facetteDriver.get("http://demo.guru99.com/test/upload/");
+    facetteDriver.findElement(By.id("uploadfile_0")).sendKeys("./screenshots/BaseImage.png");
+    facetteDriver.findElement(By.id("submitbutton")).click();
+    facetteDriver.getPageSnapshot("");
   }
 }

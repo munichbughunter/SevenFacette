@@ -1,5 +1,7 @@
 package de.p7s1.qa.sevenfacette.driver
 
+import com.assertthat.selenium_shutterbug.core.Shutterbug
+import com.assertthat.selenium_shutterbug.utils.web.ScrollStrategy.WHOLE_PAGE
 import org.openqa.selenium.*
 import org.openqa.selenium.WebDriver.*
 import org.openqa.selenium.interactions.Sequence;
@@ -9,8 +11,14 @@ import org.openqa.selenium.interactions.Keyboard
 import org.openqa.selenium.interactions.Mouse
 import org.openqa.selenium.internal.*
 import org.openqa.selenium.internal.WrapsDriver
+import org.openqa.selenium.remote.LocalFileDetector
 import org.openqa.selenium.remote.RemoteWebDriver
+import java.awt.image.BufferedImage
+import java.io.File
+import java.net.URL
+import java.util.Objects
 import java.util.stream.Collectors
+import javax.imageio.ImageIO
 
 
 /**
@@ -53,6 +61,10 @@ class FDriver(private val wrappedDriver: RemoteWebDriver) : WebDriver, Javascrip
         return elements.stream() //
                 .map { element: WebElement? -> this.wrap(element) } //
                 .collect(Collectors.toList())
+    }
+
+    fun setFileDetector() {
+        wrappedDriver.fileDetector = LocalFileDetector()
     }
 
 
@@ -220,5 +232,43 @@ class FDriver(private val wrappedDriver: RemoteWebDriver) : WebDriver, Javascrip
 
     override fun getWrappedDriver(): WebDriver? {
         return wrappedDriver
+    }
+
+    fun getPageSnapshot(imagePath: String? = null) {
+        if (imagePath.isNullOrEmpty()) {
+            Shutterbug.shootPage(wrappedDriver, WHOLE_PAGE).save()
+        } else {
+            Shutterbug.shootPage(wrappedDriver, WHOLE_PAGE).save(imagePath)
+        }
+    }
+
+    fun getElementSnapshot(element: WebElement, imagePath: String? = null) {
+        if (imagePath.isNullOrEmpty()) {
+            Shutterbug.shootElement(wrappedDriver, element).save()
+        } else {
+            Shutterbug.shootElement(wrappedDriver, element).save(imagePath)
+        }
+    }
+
+    fun compareSnapshotWithDiff(expectedImagePath: String, failureImagePath: String? = null,
+                                failureName: String, deviation: Double = 0.0) : Boolean {
+        return Shutterbug
+                .shootPage(wrappedDriver)
+                .equalsWithDiff(loadImageFromResource(expectedImagePath),
+                        "$failureImagePath/$failureName", deviation)
+    }
+
+    private fun loadImageFromResource(imagePath: String): BufferedImage? {
+        return loadImage(imagePath)
+    }
+
+    private fun loadImage(resource: String): BufferedImage? {
+        return ImageIO.read(getFile(resource))
+    }
+
+    private fun getFile(resource: String): File? {
+        return File(Objects.requireNonNull<URL>(FDriver::class.java
+                .classLoader
+                .getResource(resource)).file)
     }
 }
