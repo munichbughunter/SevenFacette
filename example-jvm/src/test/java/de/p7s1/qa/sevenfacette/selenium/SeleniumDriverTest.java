@@ -74,10 +74,4 @@ public class SeleniumDriverTest {
     File screeny = facetteDriver.getScreenshotAs(OutputType.FILE);
     FileUtils.copyFile(screeny, new File(SCREENSHOT_OUTPUT_DIRECTORY + "WriteTextTest.png"));
   }
-
-  @Test
-  void useGrid() {
-    String gridUrl = "http://localhost:4444/wd/hub";
-
-  }
 }
