@@ -33,8 +33,8 @@ class FDFactory {
 
         private fun commonArguments(): List<String> {
             return listOf(
-                    "--headless",
-                    "--window-size=1200,800")
+                    //"--headless",
+                    "--start-maximized")
         }
     }
 }
