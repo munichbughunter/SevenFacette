@@ -20,6 +20,9 @@ import java.util.stream.Collectors
  */
 class FDriver(private val wrappedDriver: RemoteWebDriver) : WebDriver, JavascriptExecutor, FindsById, FindsByClassName, FindsByLinkText, FindsByName, FindsByCssSelector, FindsByTagName, FindsByXPath, HasInputDevices, HasCapabilities, Interactive, TakesScreenshot, WrapsDriver {
 
+    // ToDo: Check the deprecations of selenium
+
+
     //private val lastExpectedState: RootElement? = null
     //private val lastActualState: RootElement? = null
     //private val warningConsumer: Consumer<QualifiedElementWarning>? = null
