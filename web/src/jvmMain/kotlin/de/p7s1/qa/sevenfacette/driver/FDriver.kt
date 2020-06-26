@@ -1,6 +1,5 @@
 package de.p7s1.qa.sevenfacette.driver
 
-import de.p7s1.qa.sevenfacette.driver.SeleniumWrapperUtil.WrapperOf
 import org.openqa.selenium.*
 import org.openqa.selenium.WebDriver.*
 import org.openqa.selenium.interactions.Sequence;
