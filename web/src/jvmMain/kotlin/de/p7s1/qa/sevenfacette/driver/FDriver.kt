@@ -220,21 +220,5 @@ class FDriver(private val wrappedDriver: RemoteWebDriver) : WebDriver, Javascrip
 
     override fun getWrappedDriver(): WebDriver? {
         return wrappedDriver
-        /*
-        return if (SeleniumWrapperUtil.isWrapper(WrapperOf.DRIVER, wrappedDriver)) {
-            SeleniumWrapperUtil.getWrapped(WrapperOf.DRIVER, wrappedDriver)
-        } else wrappedDriver
-
-         */
     }
-
-    /**
-     * Skip checks for actions performed on this web driver. Alias for [.getWrappedDriver].
-     *
-     * @return the [WebDriver] wrapped by this instance
-     */
-    fun skipCheck(): WebDriver? {
-        return getWrappedDriver()
-    }
-
 }
