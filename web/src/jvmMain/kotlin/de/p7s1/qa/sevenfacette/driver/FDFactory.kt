@@ -1,6 +1,7 @@
 package de.p7s1.qa.sevenfacette.driver
 
 import de.p7s1.qa.sevenfacette.driver.FDFactory.Driver.*
+import io.github.bonigarcia.wdm.WebDriverManager
 import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.chrome.ChromeOptions
 import org.openqa.selenium.remote.RemoteWebDriver
@@ -22,6 +23,7 @@ class FDFactory {
         fun driver(driver: Driver, gridUrl: String? = null): RemoteWebDriver {
             return when (driver) {
                 CHROME -> {
+                    WebDriverManager.chromedriver().setup()
                     ChromeDriver(ChromeOptions().addArguments(commonArguments()))
                 }
                 FIREFOX -> {
@@ -36,7 +38,6 @@ class FDFactory {
 
         private fun commonArguments(): List<String> {
             return listOf(
-                    //"--headless",
                     "--start-maximized")
         }
     }

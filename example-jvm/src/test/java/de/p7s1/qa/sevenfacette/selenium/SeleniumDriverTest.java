@@ -26,9 +26,8 @@ public class SeleniumDriverTest {
 
   @BeforeAll
   static void setup() {
-    System.setProperty("webdriver.chrome.driver","/Users/doe0003p/TestLab/p7s1-qa/os/SevenFacette/chromedriver");
-    //facetteDriver = new FDriver(FDFactory.driver(Driver.CHROME, ""));
-    facetteDriver = new FDriver(FDFactory.driver(Driver.REMOTE, "http://localhost:4444/wd/hub"));
+    facetteDriver = new FDriver(FDFactory.driver(Driver.CHROME, ""));
+    //facetteDriver = new FDriver(FDFactory.driver(Driver.REMOTE, "http://localhost:4444/wd/hub"));
   }
 
   @AfterAll
