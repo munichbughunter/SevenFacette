@@ -62,6 +62,7 @@ kotlin {
                 implementation 'org.seleniumhq.selenium:selenium-api:3.141.59'
                 implementation 'org.seleniumhq.selenium:selenium-support:3.141.59'
                 implementation 'org.seleniumhq.selenium:selenium-chrome-driver:3.141.59'
+                implementation 'org.seleniumhq.selenium:selenium-firefox-driver:3.141.59'
                 implementation 'io.github.bonigarcia:webdrivermanager:4.0.0'
 
                 api 'org.jetbrains.exposed:exposed-core:0.20.1'

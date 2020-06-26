@@ -4,6 +4,8 @@ import de.p7s1.qa.sevenfacette.driver.FDFactory.Driver.*
 import io.github.bonigarcia.wdm.WebDriverManager
 import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.chrome.ChromeOptions
+import org.openqa.selenium.firefox.FirefoxDriver
+import org.openqa.selenium.firefox.FirefoxOptions
 import org.openqa.selenium.remote.RemoteWebDriver
 import java.net.URL
 
@@ -15,7 +17,7 @@ import java.net.URL
 class FDFactory {
 
     enum class Driver {
-        CHROME, FIREFOX, REMOTE
+        CHROME, FIREFOX
     }
 
     companion object {
@@ -23,14 +25,20 @@ class FDFactory {
         fun driver(driver: Driver, gridUrl: String? = null): RemoteWebDriver {
             return when (driver) {
                 CHROME -> {
-                    WebDriverManager.chromedriver().setup()
-                    ChromeDriver(ChromeOptions().addArguments(commonArguments()))
+                    if (gridUrl.isNullOrEmpty()) {
+                        WebDriverManager.chromedriver().setup()
+                        ChromeDriver(ChromeOptions().addArguments(commonArguments()))
+                    } else {
+                        RemoteWebDriver(URL("$gridUrl"), ChromeOptions().addArguments(commonArguments()))
+                    }
                 }
                 FIREFOX -> {
-                    ChromeDriver(ChromeOptions().addArguments(commonArguments()))
-                }
-                REMOTE -> {
-                    RemoteWebDriver(URL(gridUrl.toString()), ChromeOptions().addArguments(commonArguments()))
+                    if (gridUrl.isNullOrEmpty()) {
+                        WebDriverManager.firefoxdriver().setup()
+                        FirefoxDriver(FirefoxOptions().addArguments(commonArguments()))
+                    } else {
+                        RemoteWebDriver(URL("$gridUrl"), FirefoxOptions().addArguments(commonArguments()))
+                    }
                 }
                 else -> throw java.lang.IllegalArgumentException("No \"$driver\" driver available.")
             }

@@ -26,8 +26,10 @@ public class SeleniumDriverTest {
 
   @BeforeAll
   static void setup() {
-    facetteDriver = new FDriver(FDFactory.driver(Driver.CHROME, ""));
-    //facetteDriver = new FDriver(FDFactory.driver(Driver.REMOTE, "http://localhost:4444/wd/hub"));
+    //facetteDriver = new FDriver(FDFactory.driver(Driver.CHROME, ""));
+    //facetteDriver = new FDriver(FDFactory.driver(Driver.FIREFOX, ""));
+    //facetteDriver = new FDriver(FDFactory.driver(Driver.CHROME, "http://localhost:4444/wd/hub"));
+    facetteDriver = new FDriver(FDFactory.driver(Driver.FIREFOX, "http://localhost:4444/wd/hub"));
   }
 
   @AfterAll
@@ -44,7 +46,7 @@ public class SeleniumDriverTest {
   void makeScreenshot() throws IOException {
     facetteDriver.get(TESTING_URL);
     File screeny = facetteDriver.getScreenshotAs(OutputType.FILE);
-    FileUtils.copyFile(screeny, new File(SCREENSHOT_OUTPUT_DIRECTORY + "REMOTE_FDriverTest.png"));
+    FileUtils.copyFile(screeny, new File(SCREENSHOT_OUTPUT_DIRECTORY + "FDriverTest.png"));
   }
 
   @Test
