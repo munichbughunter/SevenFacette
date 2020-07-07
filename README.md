@@ -46,11 +46,12 @@ repositories {
 
 #### JVM
 
-Actual we provide a JVM implementation of the 7Facette core module. The JS implementation is planned
+Actual we provide a JVM implementation of the 7Facette core and web module. The JS implementation is planned
 for the next release. 
 
 ```kotlin
-implementation 'de.p7s1.qa.sevenfacette:core-jvm:0.3.1'
+implementation 'de.p7s1.qa.sevenfacette:core-jvm:0.4.1'
+implementation 'de.p7s1.qa.sevenfacette:web-jvm:0.4.1'
 ```
 
 ## Questions or need help?
