@@ -48,6 +48,7 @@ jobs:
         run: |
           NEW_VERSION=$(echo "${GITHUB_REF}" | cut -d "/" -f3)
           ./gradlew -PLIBRARY_VERSION_NAME=${NEW_VERSION} :core:bintrayUpload
+          ./gradlew -PLIBRARY_VERSION_NAME=${NEW_VERSION} :web:bintrayUpload
  
       #- uses: actions/setup-node@v1.1.0
       #  with:
