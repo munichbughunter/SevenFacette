@@ -1,0 +1,59 @@
+# This workflow will build a Java project with Gradle
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
+name: 7Facette CI
+
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - '*'
+    paths-ignore:
+      - '*.md'
+      - 'misc/**'
+      - '.github/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+      - name: print Java version
+        run: java -version
+      - name: Grant execute permission for gradlew
+        run: chmod 0755 gradlew && git add gradlew
+      - name: Build Web with Gradle
+        run: ./gradlew clean :web:build -x test
+      - name: Github Tag Bump
+        uses: anothrNick/github-tag-action@1.19.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WITH_V: true
+      - name: Tag/Release on Push Action
+        uses: rymndhng/release-on-push-action@v0.12.1
+        with:
+          strategy: minor
+      - name: Publish 7Facette artifacts to JFrog Bintray
+        env:
+          JFROG_ACTOR: ${{ secrets.JFROG_ACTOR }}
+          JFROG_TOKEN: ${{ secrets.JFROG_TOKEN }}
+        # The GITHUB_REF tag comes in the format 'refs/tags/xxx'.
+        # So if we split on '/' and take the 3rd value, we can get the release name.
+        run: |
+          NEW_VERSION=$(echo "${GITHUB_REF}" | cut -d "/" -f3)
+          ./gradlew -PLIBRARY_VERSION_NAME=${NEW_VERSION} :web:bintrayUpload
+ 
+      #- uses: actions/setup-node@v1.1.0
+      #  with:
+      #    node-version: 12
+      #    registry-url: https://registry.npmjs.org/
+      #- run: cd core && npm install
+      #- run: cd core && npm publish
+      #  env:
+      #    NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
