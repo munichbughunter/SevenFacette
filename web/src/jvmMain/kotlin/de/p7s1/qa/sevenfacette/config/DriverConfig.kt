@@ -13,8 +13,5 @@ class DriverConfig(
         override val waitForSleepTimeInMilliseconds: Long = DriverConfigSetupSetup.Default.waitForSleepTimeInMilliseconds,
         override val waitForTimeOutTimeInSeconds: Long = DriverConfigSetupSetup.Default.waitForTimeOutTimeInSeconds,
         val setups: Map<String, DriverConfigSetupSetup> = emptyMap()) : DriverConfigSetupSetup {
-
-
-
 }
 
