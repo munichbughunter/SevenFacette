@@ -1,8 +1,8 @@
 # Welcome to 7Facette
 
 
-![7Facette Core CI](https://github.com/p7s1-ctf/SevenFacette/workflows/7Facette%20Core%20CI/badge.svg?branch=master)
-![7Facette Web CI](https://github.com/p7s1-ctf/SevenFacette/workflows/7Facette%20Web%20CI/badge.svg?branch=master)
+![7Facette Core](https://github.com/p7s1-ctf/SevenFacette/workflows/7Facette%20Core%20CI/badge.svg?branch=master)
+![7Facette Web](https://github.com/p7s1-ctf/SevenFacette/workflows/7Facette%20Web%20CI/badge.svg?branch=master)
 
 
 7Facette is an open-source multiplatform test automation library written in Kotlin with support for Kotlin Native, JVM and JS. It is designed to provide a structure
@@ -14,7 +14,7 @@ around living documentation.
 
 | **[User Docs][userdocs]**     | **[Setup Guide][get-started]**     | **[Examples][examples]**           | **[Contributing][contributing]**           |
 |:-------------------------------------:|:-------------------------------:|:-----------------------------------:|:---------------------------------------------:|
-| [![i1][userdocs-image]][userdocs]<br>Learn more about using 7Facette | [![i2][getstarted-image]][get-started]<br> Getting started with 7Facette | [![i3][examples-image]][examples]<br>Some 7Facettee Examples | [![i4][contributing-image]][contributing]<br>How can you contribute to 7Facette? |
+| [![i1][userdocs-image]][userdocs]<br>Learn more about using 7Facette | [![i2][getstarted-image]][get-started]<br> Getting started with 7Facette | [![i3][examples-image]][examples]<br>Some 7Facette Examples | [![i4][contributing-image]][contributing]<br>How can you contribute to 7Facette? |
 
 [userdocs-image]:/misc/images/docs.png
 [getstarted-image]:/misc/images/setup.png
