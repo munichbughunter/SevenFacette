@@ -17,9 +17,13 @@ common/*
 /core-js/bin/
 /selenium-j/bin/
 /example-jvm/out
-
 /node_modules/
 /core/node_modules/
 /core/detekt/
 /logs/*
 /example-spring/build/
+build/
+/example-spring/bin/
+/example-spring/.settings/
+/core/.settings/
+/web/node_modules/

@@ -13,14 +13,20 @@ repositories {
 
 dependencies {
     compile fileTree(dir: 'lib', include: ['ifxjdbc.jar'])
-    implementation ("de.p7s1.qa.sevenfacette:core-jvm:0.2.0")
+    implementation ("de.p7s1.qa.sevenfacette:core-jvm:0.2.1")
+    implementation ("de.p7s1.qa.sevenfacette:web-jvm:0.3.1")
+
+    implementation 'org.seleniumhq.selenium:selenium-api:3.141.59'
+    implementation 'org.seleniumhq.selenium:selenium-support:3.141.59'
+    implementation 'org.seleniumhq.selenium:selenium-chrome-driver:3.141.59'
+
     implementation ("org.yaml:snakeyaml:1.21")
     implementation ("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.10.3")
     implementation ("com.fasterxml.jackson.core:jackson-databind:2.10.3")
     implementation ("com.fasterxml.jackson.core:jackson-annotations:2.10.3")
     implementation ("com.fasterxml.jackson.core:jackson-core:2.10.3")
 
-
+    implementation ("com.h2database:h2:1.4.197")
 
     implementation ("commons-io:commons-io:2.6")
 

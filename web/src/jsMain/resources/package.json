@@ -1,0 +1,26 @@
+{
+  "private": true,
+  "workspaces": [
+    "packages/core-js",
+    "packages_imported/kotlin/1.3.61",
+    "packages_imported/ktor-client-js/1.0.0",
+    "packages_imported/ktor-client-json-js/1.0.0",
+    "packages_imported/ktor-client-core-js/1.0.0",
+    "packages_imported/ktor-http-js/1.0.0",
+    "packages_imported/ktor-utils-js/1.0.0",
+    "packages_imported/kotlinx-coroutines-io-js/0.1.0",
+    "packages_imported/kotlinx-coroutines-core/1.0.1",
+    "packages_imported/kotlinx-io-js/0.1.0",
+    "packages_imported/kotlin-test/1.3.61",
+    "packages_imported/kotlinx-atomicfu/0.11.12",
+    "packages_imported/kotlinx-serialization-kotlinx-serialization-runtime/0.14.0",
+    "packages_imported/kotlin-test-js-runner/1.3.61"
+  ],
+  "devDependencies": {},
+  "dependencies": {},
+  "peerDependencies": {},
+  "optionalDependencies": {},
+  "bundledDependencies": [],
+  "name": "sevenfacette",
+  "version": "unspecified"
+}
