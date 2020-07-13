@@ -3,6 +3,7 @@ package de.p7s1.qa.sevenfacette.core
 
 import de.p7s1.qa.sevenfacette.conditions.Condition
 import de.p7s1.qa.sevenfacette.conditions.ConditionAssert
+import de.p7s1.qa.sevenfacette.config.types.FacetteConfig
 import de.p7s1.qa.sevenfacette.extension.saveScreenshot
 import de.p7s1.qa.sevenfacette.locators.ElementLocator
 import de.p7s1.qa.sevenfacette.utils.ConditionMismatchException
@@ -82,14 +83,14 @@ private fun <T> highlightElement(driver: WebDriver, locator: ElementLocator<T>) 
 
 private fun highlightElement(driver: WebDriver, element: WebElement) {
 
-    val size = configuration.highlightSize
-    val style = configuration.highlightStyle
-    val color = configuration.hightlightColor
+    val size = FacetteConfig.web!!.highlightSize
+    val style = FacetteConfig.web!!.highlightStyle
+    val color = FacetteConfig.web!!.highlightColor
     //val size = configuration.highlightSize()
     //val style = configuration.highlightStyle()
     //val color = configuration.highlightColor()
     //if (configuration.highlightBorder()) {
-    if (configuration.highlightBorder) {
+    if (FacetteConfig.web!!.highlightBorder) {
         JsExecutor(driver).execute(element) {
             "arguments[0].style.setProperty('border', '$size $style $color');"
         }

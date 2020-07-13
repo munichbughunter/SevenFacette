@@ -1,10 +1,11 @@
 sevenFacette:
   web:
-    timeout: 4
+    timeout: 4000
     startMaximized: true
-    autoClose: false
-    screenSize: 1920, 1080
+    autoClose: true
+    screenSize:
+      - 1920
+      - 1080
     pollingInterval: 0.1
     baseUrl: http://juliemr.github.io/protractor-demo/
-    browserName: firefox
-
+    # browserName: chrome

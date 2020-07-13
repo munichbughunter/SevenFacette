@@ -1,10 +1,11 @@
 @file: JvmName("Extensions")
 
 package de.p7s1.qa.sevenfacette.extension
+import de.p7s1.qa.sevenfacette.config.FConfig
 import de.p7s1.qa.sevenfacette.core.Select
-import de.p7s1.qa.sevenfacette.core.configuration
+//import de.p7s1.qa.sevenfacette.core.configuration
 import de.p7s1.qa.sevenfacette.core.isXpath
-import de.p7s1.qa.sevenfacette.core.loadConfig
+//import de.p7s1.qa.sevenfacette.core.loadConfig
 import de.p7s1.qa.sevenfacette.core.screenshots
 import de.p7s1.qa.sevenfacette.driver.Browser
 import de.p7s1.qa.sevenfacette.driver.FElement
@@ -58,11 +59,6 @@ val WebElement.classes: List<String>
 //    configuration = loadConfig(klazz)
 //    return this
 //}
-
-fun <T: FDConfig> FDriver.Companion.withConfig(klazz: KClass<T>): FDriver.Companion {
-    configuration = loadConfig(klazz)
-    return this
-}
 
 
 fun Browser.select(cssLocator: String): Select {

@@ -1,6 +1,9 @@
 package de.p7s1.qa.sevenfacette.driver
 
 
+import de.p7s1.qa.sevenfacette.config.FConfig
+import de.p7s1.qa.sevenfacette.config.types.FacetteConfig
+import de.p7s1.qa.sevenfacette.config.types.WebConfig
 import de.p7s1.qa.sevenfacette.core.*
 import de.p7s1.qa.sevenfacette.extension.isAlive
 import de.p7s1.qa.sevenfacette.extension.logs
@@ -21,15 +24,20 @@ class Browser(val driver: WebDriver = getDriver(),
         listener.onStart()
     }
 
-    var config: FDConfig = loadConfig(FDConfig::class)
+    //var config: FConfig = loadConfig(FConfig::class)
+    var config: WebConfig = FacetteConfig.web!!
 
-    var baseUrl: String by baseUrl()
+    //var baseUrl: String by baseUrl()
+    var baseUrl: String = FacetteConfig.web!!.baseUrl
 
-    var timeout: Int by timeout()
+    //var timeout: Int by timeout()
+    var timeout: Int = FacetteConfig.web!!.timeout
 
-    var poolingInterval: Double by poolingInterval()
+    //var poolingInterval: Double by poolingInterval()
+    var poolingInterval: Double = FacetteConfig.web!!.pollingInterval
 
-    var screenSize: List<Int> by screenSize()
+    //var screenSize: List<Int> by screenSize()
+    var screenSize: List<Int> = FacetteConfig.web!!.screenSize
 
     val actions = Actions(driver)
 

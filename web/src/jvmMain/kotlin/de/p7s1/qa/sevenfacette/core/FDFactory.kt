@@ -1,6 +1,8 @@
 package de.p7s1.qa.sevenfacette.core
 
 
+import de.p7s1.qa.sevenfacette.config.FConfig
+import de.p7s1.qa.sevenfacette.config.types.FacetteConfig
 import de.p7s1.qa.sevenfacette.extension.autoClose
 import de.p7s1.qa.sevenfacette.extension.isAlive
 import io.github.bonigarcia.wdm.WebDriverManager.chromedriver
@@ -17,6 +19,14 @@ import java.net.URI
 import java.util.concurrent.ConcurrentHashMap
 
 
+val driverFactory = FDFactory()
+// Hier wird die Config geladen bzw. gelesen...
+//var configuration: FConfig = loadConfig(FConfig::class)
+
+fun getDriver(): WebDriver {
+    return driverFactory.getDriver()
+}
+
 class FDFactory {
     private val driverContainer: MutableMap<Long, WebDriver> = ConcurrentHashMap(4)
 
@@ -24,10 +34,9 @@ class FDFactory {
     private val FIREFOX = "firefox"
 
     private fun createDriver(): WebDriver {
-        //val browser = configuration.browserName()
-        val browser = configuration.browserName
+        val browser = FacetteConfig.web!!.browserName
         //if (configuration.remoteUrl().isNotBlank()) {
-        if (configuration.remoteUrl.isNotBlank()) {
+        if (FacetteConfig.web!!.remoteUrl.isNotBlank()) {
             return createRemoteDriver(browser)
         }
         when (browser) {
@@ -40,7 +49,7 @@ class FDFactory {
 
     private fun createChromeDriver(): WebDriver {
         chromedriver().setup()
-        // val capabilities = getCapabilities()
+        //val capabilities = getCapabilities()
         // return ChromeDriver(capabilities.merge(getOptions()))
         return ChromeDriver(ChromeOptions())
     }
@@ -52,8 +61,8 @@ class FDFactory {
     }
 
     private fun createRemoteDriver(browser: String): WebDriver {
+        val remoteUrl = FacetteConfig.web!!.remoteUrl
         //val remoteUrl = configuration.remoteUrl()
-        val remoteUrl = configuration.remoteUrl
 
         var capabilities = DesiredCapabilities()
         when (browser) {
@@ -86,17 +95,15 @@ class FDFactory {
             return driver
         }
         val newDriver = createDriver()
+        newDriver.autoClose(FacetteConfig.web!!.autoClose)
         //newDriver.autoClose(configuration.autoClose())
-        newDriver.autoClose(configuration.autoClose)
         return setWebDriver(newDriver)
     }
 
     private fun getOptions(): DesiredCapabilities {
         val options = ChromeOptions()
-        if (configuration.chromeArgs!!.isNotEmpty()) options.addArguments(configuration.chromeArgs)
-        if (!configuration.chromeBin!!.isNullOrEmpty()) options.setBinary(configuration.chromeBin)
-        if (configuration.chromeExtensions!!.isNotEmpty()) options.addExtensions(configuration.chromeExtensions)
-
+        if (FacetteConfig.web!!.chromeArgs!!.isNotEmpty()) options.addArguments(FacetteConfig.web!!.chromeArgs)
+        if (FacetteConfig.web!!.chromeBin.isNullOrEmpty()) options.addArguments(FacetteConfig.web!!.chromeBin)
         val capabilities = DesiredCapabilities()
         capabilities.setCapability(ChromeOptions.CAPABILITY, options)
 
@@ -105,7 +112,7 @@ class FDFactory {
 
     private fun getCapabilities(): DesiredCapabilities {
         //val capabilities = configuration.capabilities()
-        val capabilities = configuration.capabilities
+        val capabilities = FacetteConfig.web!!.capabilities
 
         val map = HashMap<String, Any>()
         if (capabilities != null) {
@@ -114,8 +121,7 @@ class FDFactory {
                     .forEach { map[it[0]] = convert(it[1]) }
         }
 
-       return DesiredCapabilities(map)
-        //return DesiredCapabilities(capabilities)
+        return DesiredCapabilities(map)
     }
 
     private fun convert(value: String): Any {
@@ -125,22 +131,19 @@ class FDFactory {
     }
 }
 
-val driverFactory = FDFactory()
 
-//var configuration: FConfig = loadConfig(FConfig::class)
-var configuration: FDConfig = loadConfig(FDConfig::class)
-
-fun getDriver(): WebDriver {
-    return driverFactory.getDriver()
-}
 
 
 fun getListener(): FEventListener {
+    // WORKAROUND!
+    return AbstractFEventListener()
+
     //val listenerClass = configuration.listenerClass()
-    val listenerClass = configuration.listenerClass
-    return if (listenerClass.isBlank()) {
-        AbstractFEventListener()
-    } else {
-        Class.forName(listenerClass).newInstance() as FEventListener
-    }
+    //val listenerClass = FacetteConfig.web!!.listenerClass
+
+    //return if (listenerClass.isBlank()) {
+    //    AbstractFEventListener()
+    //} else {
+    //    Class.forName(listenerClass).newInstance() as FEventListener
+    //}
 }

@@ -1,7 +1,9 @@
 package de.p7s1.qa.sevenfacette.core
 
+import de.p7s1.qa.sevenfacette.config.FConfig
 import de.p7s1.qa.sevenfacette.driver.Browser
 import de.p7s1.qa.sevenfacette.utils.WrongUrlException
+import org.aeonbits.owner.ConfigFactory
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty
 
@@ -9,9 +11,6 @@ import kotlin.reflect.KProperty
 //fun <T : FConfig> loadConfig(klazz: KClass<T>): FConfig {
 //    return ConfigFactory.create(klazz.java, System.getProperties())
 //}
-fun <T: FDConfig> loadConfig(klazz: KClass<T>): FDConfig {
-    return FDConfig()
-}
 
 class BaseUrlDelegate {
 
@@ -21,7 +20,6 @@ class BaseUrlDelegate {
         if (prop.isBlank()) {
             //val url = browser.config.baseUrl()
             val url = browser.config.baseUrl
-
             if (url == null) {
                 throw WrongUrlException("Can't navigate to url [$url]. " +
                         "Please use absolute or set the base url !!!")
@@ -46,7 +44,6 @@ class TimeoutDelegate {
 
     operator fun getValue(browser: Browser, property: KProperty<*>): Int {
         if (prop < 0) {
-            //return browser.config.timeout()
             return browser.config.timeout
         }
         return prop
@@ -66,8 +63,7 @@ class PoolingIntervalDelegate {
 
     operator fun getValue(browser: Browser, property: KProperty<*>): Double {
         if (prop < 0) {
-            //return browser.config.poolingInterval()
-            return browser.config.poolingInterval
+            return browser.config.pollingInterval
         }
         return prop
     }
@@ -86,8 +82,7 @@ class ScreenSizeDelegate {
 
     operator fun getValue(browser: Browser, property: KProperty<*>): List<Int> {
         if (prop.isEmpty()) {
-            //return browser.config.screenSize()
-            browser.config.screenSize
+            return browser.config.screenSize
         }
         return prop
     }

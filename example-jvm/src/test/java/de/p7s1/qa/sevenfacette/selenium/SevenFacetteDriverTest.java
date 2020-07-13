@@ -1,6 +1,8 @@
 package de.p7s1.qa.sevenfacette.selenium;
 
 import static de.p7s1.qa.sevenfacette.driver.FDriver.getBrowser;
+
+import de.p7s1.qa.sevenfacette.config.types.FacetteConfig;
 import de.p7s1.qa.sevenfacette.core.JsExecutor;
 import de.p7s1.qa.sevenfacette.core.Select;
 import de.p7s1.qa.sevenfacette.driver.Browser;
@@ -12,7 +14,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import static de.p7s1.qa.sevenfacette.driver.FDriver.open;
 import static de.p7s1.qa.sevenfacette.conditions.Have.text;
-import static io.github.bonigarcia.wdm.WebDriverManager.chromedriver;
 
 /**
  * TODO: Add Description
@@ -23,16 +24,15 @@ public class SevenFacetteDriverTest {
 
   @BeforeAll
   static void setup() {
-    chromedriver().setup();
+    System.setProperty("FACETTE_CONFIG", "seleniumTestConfig.yml");
   }
 
   @Test
   void StartBrowser() {
     open(CalculatorPage::new)
       .calculate("10", "/", "2")
-      .result.shouldHave(text("5"));
+      .result.shouldHave(text("10"));
   }
-
 
   @Test
   void JSScript() {
@@ -66,16 +66,6 @@ public class SevenFacetteDriverTest {
   void takeScreenshotRemote() {
     getBrowser().takeScreenshot("./build/screenshots/screenyRemote.png");
   }
-
-  // @Test
-  //  @Disabled
-  //  void FileUploadRemotDriver() {
-  //    facetteDriver.setFileDetector();
-  //    facetteDriver.get("http://demo.guru99.com/test/upload/");
-  //    facetteDriver.findElement(By.id("uploadfile_0")).sendKeys("./screenshots/BaseImage.png");
-  //    facetteDriver.findElement(By.id("submitbutton")).click();
-  //    facetteDriver.getPageSnapshot("");
-  //  }
 }
 
 class UploadPage extends Page {
@@ -104,8 +94,9 @@ class CalculatorPage extends Page {
   }
 
   public String getUrl() {
-    return "http://juliemr.github.io/protractor-demo/";
-
+    //return "http://juliemr.github.io/protractor-demo/";
+    // Here we can get the url directly from the config...
+    return FacetteConfig.INSTANCE.getWeb().getBaseUrl();
   }
 
   public FElement first = element("input[ng-model='first']");
