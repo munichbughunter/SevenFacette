@@ -26,6 +26,8 @@ expect object FacetteConfig {
         private set
     var application: ApplicationConfig?
         private set
+    var web: WebConfig?
+        private set
 
     fun update()
 

@@ -23,6 +23,8 @@ actual object FacetteConfig {
         private set
     actual var application: ApplicationConfig? = null
         private set
+    actual var web: WebConfig? = null
+        private set
 
     init {
         update()
@@ -39,6 +41,7 @@ actual object FacetteConfig {
         kafka = config.kafka
         database = config.database
         application = config.application
+        web = config.web
     }
 
     actual fun reset() {
@@ -47,5 +50,6 @@ actual object FacetteConfig {
         kafka = null
         database = null
         application = null
+        web = null
     }
 }
