@@ -19,6 +19,9 @@ actual object FacetteConfig {
     actual var application: ApplicationConfig?
         get() = TODO("Not yet implemented")
         set(value) {}
+    actual var web: WebConfig?
+        get() = TODO("Not yet implemented")
+        set(value) {}
 
     actual fun update() {
     }

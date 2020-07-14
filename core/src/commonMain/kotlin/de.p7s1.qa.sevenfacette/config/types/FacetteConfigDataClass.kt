@@ -17,5 +17,6 @@ data class FacetteConfigDataClass (
         var kafka: KafkaConfig? = null,
         var database: List<DatabaseConfig>? = null,
         var application: ApplicationConfig? = null,
-        var custom: Map<String, String> = mutableMapOf()
+        var custom: Map<String, String> = mutableMapOf(),
+        var web: WebConfig? = null
 )

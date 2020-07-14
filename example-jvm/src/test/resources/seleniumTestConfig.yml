@@ -1,0 +1,13 @@
+sevenFacette:
+  web:
+    timeout: 4000
+    startMaximized: true
+    autoClose: true
+    screenSize:
+      - 1920
+      - 1080
+    pollingInterval: 0.1
+    baseUrl: http://juliemr.github.io/protractor-demo/
+    remoteUrl: http://localhost:4444/wd/hub
+    chromeArgs:
+      - no-sandbox
