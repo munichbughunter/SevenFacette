@@ -13,10 +13,10 @@ plugins {
     id 'io.gitlab.arturbosch.detekt' version '1.7.0'
 }
 repositories {
+    maven { url "https://dl.bintray.com/p7s1qa/sevenfacette-jvm" }
     mavenLocal()
     mavenCentral()
     jcenter()
-    maven { url "https://dl.bintray.com/p7s1qa/sevenfacette-jvm" }
     maven { url "https://dl.bintray.com/aakira/maven" }
     maven { url "https://jitpack.io" }
     maven { url "https://kotlin.bintray.com/kotlinx" }
