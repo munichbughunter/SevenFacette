@@ -18,7 +18,7 @@ data class WebConfig(
         var baseUrl: String = "",
         var browserName: String = "chrome",
         var capabilities: List<String>? = null,
-        var chromeArgs: List<String> = listOf("--no-sandbox"),
+        var chromeArgs: List<String>? = null,
         var chromeBin: String = "",
         var highlightBorder: Boolean = true,
         var highlightColor: String = "",

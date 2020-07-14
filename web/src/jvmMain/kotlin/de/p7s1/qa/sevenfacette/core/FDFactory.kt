@@ -104,9 +104,9 @@ class FDFactory {
 
     private fun getOptions(): DesiredCapabilities {
         val options = ChromeOptions()
-        // ToDo: Check what is wrong with that... Why are these properties unknown?
-        //if (FacetteConfig.web!!.chromeArgs.isNotEmpty()) options.addArguments(FacetteConfig.web!!.chromeArgs)
-        //if (FacetteConfig.web!!.chromeBin.isNullOrEmpty()) options.addArguments(FacetteConfig.web!!.chromeBin)
+
+        FacetteConfig.web!!.chromeArgs.let { options.addArguments(FacetteConfig.web!!.chromeArgs) }
+        if (!FacetteConfig.web!!.chromeBin.isNullOrEmpty()) options.addArguments(FacetteConfig.web!!.chromeBin)
         val capabilities = DesiredCapabilities()
         capabilities.setCapability(ChromeOptions.CAPABILITY, options)
 
