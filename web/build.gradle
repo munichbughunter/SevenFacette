@@ -16,8 +16,9 @@ repositories {
     mavenLocal()
     mavenCentral()
     jcenter()
-    maven {url "https://dl.bintray.com/aakira/maven"}
-    maven {url "https://jitpack.io"}
+    maven { url "https://dl.bintray.com/p7s1qa/sevenfacette-jvm" }
+    maven { url "https://dl.bintray.com/aakira/maven" }
+    maven { url "https://jitpack.io" }
     maven { url "https://kotlin.bintray.com/kotlinx" }
 }
 
