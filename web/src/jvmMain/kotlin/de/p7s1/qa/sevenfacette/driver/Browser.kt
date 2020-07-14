@@ -1,7 +1,6 @@
 package de.p7s1.qa.sevenfacette.driver
 
 
-import de.p7s1.qa.sevenfacette.config.FConfig
 import de.p7s1.qa.sevenfacette.config.types.FacetteConfig
 import de.p7s1.qa.sevenfacette.config.types.WebConfig
 import de.p7s1.qa.sevenfacette.core.*

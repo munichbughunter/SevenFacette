@@ -1,8 +1,8 @@
 package de.p7s1.qa.sevenfacette.core
 
 
-import de.p7s1.qa.sevenfacette.config.FConfig
 import de.p7s1.qa.sevenfacette.config.types.FacetteConfig
+import de.p7s1.qa.sevenfacette.config.types.WebConfig
 import de.p7s1.qa.sevenfacette.extension.autoClose
 import de.p7s1.qa.sevenfacette.extension.isAlive
 import io.github.bonigarcia.wdm.WebDriverManager.chromedriver
@@ -22,6 +22,8 @@ import java.util.concurrent.ConcurrentHashMap
 val driverFactory = FDFactory()
 // Hier wird die Config geladen bzw. gelesen...
 //var configuration: FConfig = loadConfig(FConfig::class)
+
+var facetteConfiguration: WebConfig = FacetteConfig.web!!
 
 fun getDriver(): WebDriver {
     return driverFactory.getDriver()
@@ -102,8 +104,9 @@ class FDFactory {
 
     private fun getOptions(): DesiredCapabilities {
         val options = ChromeOptions()
-        if (FacetteConfig.web!!.chromeArgs!!.isNotEmpty()) options.addArguments(FacetteConfig.web!!.chromeArgs)
-        if (FacetteConfig.web!!.chromeBin.isNullOrEmpty()) options.addArguments(FacetteConfig.web!!.chromeBin)
+        // ToDo: Check what is wrong with that... Why are these properties unknown?
+        //if (FacetteConfig.web!!.chromeArgs.isNotEmpty()) options.addArguments(FacetteConfig.web!!.chromeArgs)
+        //if (FacetteConfig.web!!.chromeBin.isNullOrEmpty()) options.addArguments(FacetteConfig.web!!.chromeBin)
         val capabilities = DesiredCapabilities()
         capabilities.setCapability(ChromeOptions.CAPABILITY, options)
 

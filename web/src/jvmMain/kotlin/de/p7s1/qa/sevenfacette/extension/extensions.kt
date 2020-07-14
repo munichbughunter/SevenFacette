@@ -1,7 +1,6 @@
 @file: JvmName("Extensions")
 
 package de.p7s1.qa.sevenfacette.extension
-import de.p7s1.qa.sevenfacette.config.FConfig
 import de.p7s1.qa.sevenfacette.core.Select
 //import de.p7s1.qa.sevenfacette.core.configuration
 import de.p7s1.qa.sevenfacette.core.isXpath
@@ -10,7 +9,6 @@ import de.p7s1.qa.sevenfacette.core.screenshots
 import de.p7s1.qa.sevenfacette.driver.Browser
 import de.p7s1.qa.sevenfacette.driver.FElement
 import de.p7s1.qa.sevenfacette.driver.FElementCollection
-import de.p7s1.qa.sevenfacette.driver.FDriver
 import org.apache.commons.io.FileUtils
 import org.openqa.selenium.*
 import org.openqa.selenium.chrome.ChromeDriver
@@ -18,7 +16,6 @@ import org.openqa.selenium.interactions.Actions
 import org.openqa.selenium.logging.LogEntries
 import org.openqa.selenium.remote.UnreachableBrowserException
 import java.io.File
-import kotlin.reflect.KClass
 
 
 @JvmOverloads

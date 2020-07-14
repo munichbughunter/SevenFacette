@@ -8,4 +8,4 @@ sevenFacette:
       - 1080
     pollingInterval: 0.1
     baseUrl: http://juliemr.github.io/protractor-demo/
-    # browserName: chrome
+    remoteUrl: http://localhost:4444/wd/hub
