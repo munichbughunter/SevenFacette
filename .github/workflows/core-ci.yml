@@ -53,11 +53,11 @@ jobs:
     steps:
       - name: Publish 7Facette core module to JFrog Bintray
         env:
-          VERSION: NEW_VERSION=$(echo "${GITHUB_REF}" | cut -d "/" -f3)
           JFROG_ACTOR: ${{ secrets.JFROG_ACTOR }}
           JFROG_TOKEN: ${{ secrets.JFROG_TOKEN }}
         run: |
-          echo "Version: $VERSION"
+          NEW_VERSION=$(echo "${GITHUB_REF}" | cut -d "/" -f3)
+          echo $NEW_VERSION
 
         #      - name: Publish 7Facette artifacts to JFrog Bintray
 #        env:
