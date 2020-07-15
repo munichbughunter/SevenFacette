@@ -136,6 +136,8 @@ task printProp {
         println(version)
         //println System.properties['mySystemPropA']
         println System.getProperty('VERSION')
+
+        println(version.toString().substring(0,2))
     }
 }
 
