@@ -55,22 +55,15 @@ jobs:
       - name: Get the version
         id: get_version
         run: echo ::set-env name=VERSION::${GITHUB_REF/refs\/tags\//}
-      - name: Set env
-        #run: echo ::set-env name=RELEASE_VERSION::/usr/bin/git tag --sort=committerdate | grep -E '[0-9]' | tail -1 | cut -b 2-7
-        run: echo ::set-env name=RELEASE_VERSION::previoustag
       - name: Test
         run: |
-          echo ${{ env.RELEASE_VERSION }}
           echo ${{ env.VERSION }}
       - name: Publish 7Facette core module to JFrog Bintray
         env:
           JFROG_ACTOR: ${{ secrets.JFROG_ACTOR }}
           JFROG_TOKEN: ${{ secrets.JFROG_TOKEN }}
         run: |
-          NEW_VERSION=$(echo "/usr/bin/git tag")
-          echo ${NEW_VERSION}
-          NEW_VERSION=$(echo /usr/bin/git tag)
-          echo ${NEW_VERSION}
+          ./gradlew -PLIBRARY_VERSION_NAME=${{ env.VERSION }} :core:bintrayUpload
 
         #      - name: Publish 7Facette artifacts to JFrog Bintray
 #        env:
