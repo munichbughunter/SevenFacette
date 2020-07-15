@@ -142,7 +142,7 @@ def LIBRARY_VERSION_NAME=0.1 // The current version of your library. You will ne
 
 // version = "0.6.0"
 version = System.properties['VERSION']
-LIBRARY_VERSION_NAME=version.toString().substring(1,4)
+LIBRARY_VERSION_NAME=version.toString().substring(0,3)
 
 afterEvaluate {
     project.publishing.publications.all {
