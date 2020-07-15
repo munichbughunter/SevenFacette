@@ -210,7 +210,7 @@ bintrayUpload.doFirst {
 
 //The task of bintrayUpload depends on publishToMavenLocal set in the previous section.
 // This will create maven artifacts when running bintrayUplaod's task.
-bintrayUpload.dependsOn publishToMavenLocal
+//bintrayUpload.dependsOn publishToMavenLocal
 
 dokka {
     outputDirectory = "$buildDir/dokka"
