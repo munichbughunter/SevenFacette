@@ -60,6 +60,7 @@ kotlin {
 
         jvmMain {
             dependencies {
+
                 implementation 'de.p7s1.qa.sevenfacette:core-jvm:+'
                 implementation 'org.aeonbits.owner:owner-java8:1.0.9'
                 implementation 'org.seleniumhq.selenium:selenium-api:3.141.59'
