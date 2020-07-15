@@ -32,8 +32,8 @@ jobs:
         run: ./gradlew clean :core:build -x test
   create-version:
     runs-on: ubuntu-latest
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Github Tag Bump
         uses: anothrNick/github-tag-action@1.19.0
