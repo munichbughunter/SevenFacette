@@ -63,7 +63,7 @@ jobs:
           JFROG_ACTOR: ${{ secrets.JFROG_ACTOR }}
           JFROG_TOKEN: ${{ secrets.JFROG_TOKEN }}
         run: |
-          ./gradlew -DVERSION=${{ env.VERSION }} :core:printProp
+          ./gradlew -DVERSION=${{ env.VERSION }} :core:bintrayUpload
 
         #      - name: Publish 7Facette artifacts to JFrog Bintray
 #        env:
