@@ -30,8 +30,16 @@ jobs:
         run: chmod 0755 gradlew && git add gradlew
       - name: Build Core with Gradle
         run: ./gradlew clean :core:build -x test
-
-
+  create-version:
+    runs-on: ubuntu-latest
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Github Tag Bump
+        uses: anothrNick/github-tag-action@1.19.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WITH_V: true
 
 #      - name: Github Tag Bump
 #        uses: anothrNick/github-tag-action@1.19.0
