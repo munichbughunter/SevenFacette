@@ -45,16 +45,21 @@ jobs:
         uses: rymndhng/release-on-push-action@v0.15.0
         with:
           bump_version_scheme: minor
+  publish-core:
+    needs: create-core-version
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Publish 7Facette core module to JFrog Bintray
+        env:
+          JFROG_ACTOR: ${{ secrets.JFROG_ACTOR }}
+          JFROG_TOKEN: ${{ secrets.JFROG_TOKEN }}
+        run: |
+          NEW_VERSION=$(echo "${GITHUB_REF}" | cut -d "/" -f3)
+          ::set-env name=VERSION::NEW_VERSION
+          echo "Version: $VERSION"
 
-#      - name: Github Tag Bump
-#        uses: anothrNick/github-tag-action@1.19.0
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#          WITH_V: true
-#      - name: Tag/Release on Push Action
-#        uses: rymndhng/release-on-push-action@v0.15.0
-#        with:
-#          bump_version_scheme: minor
 #      - name: Publish 7Facette artifacts to JFrog Bintray
 #        env:
 #          JFROG_ACTOR: ${{ secrets.JFROG_ACTOR }}
