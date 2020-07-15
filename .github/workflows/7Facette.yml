@@ -28,15 +28,10 @@ jobs:
         run: java -version
       - name: Grant execute permission for gradlew
         run: chmod 0755 gradlew && git add gradlew
- #     - name: Build Core with Gradle
- #       run: ./gradlew clean :core:build -x test
-  create-core-version:
-    needs: build-core
-    runs-on: ubuntu-latest
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build 7Facette core module with gradle
+        run: ./gradlew clean :core:build -x test
   publish-core:
-    needs: create-core-version
+    needs: build-core
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -45,26 +40,53 @@ jobs:
       - name: Get the version
         id: get_version
         run: echo ::set-env name=VERSION::${GITHUB_REF/refs\/tags\//}
-      - name: Test
-        run: |
-          echo ${{ env.VERSION }}
+#      - name: Test
+#        run: |
+#          echo ${{ env.VERSION }}
       - name: Publish 7Facette core module to JFrog Bintray
         env:
           JFROG_ACTOR: ${{ secrets.JFROG_ACTOR }}
           JFROG_TOKEN: ${{ secrets.JFROG_TOKEN }}
-        run: |
-          ./gradlew -DVERSION=${{ env.VERSION }} :core:bintrayUpload
-
-        #      - name: Publish 7Facette artifacts to JFrog Bintray
-#        env:
-#          JFROG_ACTOR: ${{ secrets.JFROG_ACTOR }}
-#          JFROG_TOKEN: ${{ secrets.JFROG_TOKEN }}
         # The GITHUB_REF tag comes in the format 'refs/tags/xxx'.
         # So if we split on '/' and take the 3rd value, we can get the release name.
-#        run: |
-#          NEW_VERSION=$(echo "${GITHUB_REF}" | cut -d "/" -f3)
-#          ./gradlew -PLIBRARY_VERSION_NAME=${NEW_VERSION} :core:bintrayUpload
- 
+        run: |
+          ./gradlew -DVERSION=${{ env.VERSION }} :core:bintrayUpload
+  build-web:
+    needs: publish-core
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+      - name: print Java version
+        run: java -version
+      - name: Grant execute permission for gradlew
+        run: chmod 0755 gradlew && git add gradlew
+      - name: Build 7Facette web module with gradle
+        run: ./gradlew clean :web:build -x test
+  publish-web:
+    needs: build-web
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Get the version
+        id: get_version
+        run: echo ::set-env name=VERSION::${GITHUB_REF/refs\/tags\//}
+      - name: Publish 7Facette web module to JFrog Bintray
+        env:
+          JFROG_ACTOR: ${{ secrets.JFROG_ACTOR }}
+          JFROG_TOKEN: ${{ secrets.JFROG_TOKEN }}
+        run: |
+          ./gradlew -DVERSION=${{ env.VERSION }} :web:bintrayUpload
+
+  ## Here we have to add the ms teams integration...
+
       #- uses: actions/setup-node@v1.1.0
       #  with:
       #    node-version: 12
