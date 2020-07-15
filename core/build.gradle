@@ -130,15 +130,6 @@ configurations {
     compileClasspath
 }
 
-task printProp {
-    doLast {
-        version = System.properties['VERSION']
-        println(version)
-        println System.getProperty('VERSION')
-        println(version.toString().substring(1,4))
-    }
-}
-
 def GROUP_ID="de.p7s1.qa.sevenfacette" // Your orginization in reverse domain notation. For example:  def GROUP_ID="com.fudge"
 def ARTIFACT_ID="core" // The name you gave your package in bintray. In our example it would be:  def ARTIFACT_ID="kotlin-awesome-printer"
 
