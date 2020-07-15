@@ -53,7 +53,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Set env
-        run: echo::set-env name=RELEASE_VERSION::/usr/bin/git tag --sort=committerdate | grep -E '[0-9]' | tail -1 | cut -b 2-7
+        #run: echo ::set-env name=RELEASE_VERSION::/usr/bin/git tag --sort=committerdate | grep -E '[0-9]' | tail -1 | cut -b 2-7
+        run: /usr/bin/git tag --sort=committerdate | grep -E '[0-9]' | tail -1 | cut -b 2-7
       - name: Test
         run: |
           echo $RELEASE_VERSION
