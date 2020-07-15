@@ -52,15 +52,15 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Publish 7Facette core module to JFrog Bintray
-        env:
-          JFROG_ACTOR: ${{ secrets.JFROG_ACTOR }}
-          JFROG_TOKEN: ${{ secrets.JFROG_TOKEN }}
         run: |
           NEW_VERSION=$(echo "${GITHUB_REF}" | cut -d "/" -f3)
-          ::set-env name=VERSION::NEW_VERSION
           echo "Version: $VERSION"
+        env:
+          VERSION: NEW_VERSION
+          JFROG_ACTOR: ${{ secrets.JFROG_ACTOR }}
+          JFROG_TOKEN: ${{ secrets.JFROG_TOKEN }}
 
-#      - name: Publish 7Facette artifacts to JFrog Bintray
+        #      - name: Publish 7Facette artifacts to JFrog Bintray
 #        env:
 #          JFROG_ACTOR: ${{ secrets.JFROG_ACTOR }}
 #          JFROG_TOKEN: ${{ secrets.JFROG_TOKEN }}
