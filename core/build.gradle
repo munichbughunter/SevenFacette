@@ -141,7 +141,7 @@ def BINTRAY_REPOSITORY="sevenfacette-jvm" // What you named your repository in b
 //def VCS_URL="https://github.com/natanfudge/KotlinAwesomePrinter.git" // A link to the version control system (where the code is stored). In our example: "https://github.com/natanfudge/KotlinAwesomePrinter.git"
 def LIBRARY_VERSION_NAME=0.5 // The current version of your library. You will need to update this value whenever you upload a new release. For example: 1.0
 
-group GROUP_ID
+//group GROUP_ID
 version = "0.5.1"
 
 
@@ -206,8 +206,7 @@ bintray {
 // It is not necessary to have the findAll part,
 // [project name]-kotlinMultiplatformbut a directory containing only pom files will be uploaded, so it is better to exclude it.
 bintrayUpload.doFirst {
-    println findProperty("LIBRARY_VERSION_NAME")
-    //Other way of accessing the environment variable.
+    println(System.getProperty("VERSION"))
 
     publications = publishing.publications.collect {
         it.name
