@@ -30,24 +30,24 @@ jobs:
         run: chmod 0755 gradlew && git add gradlew
       - name: Build Web with Gradle
         run: ./gradlew clean :web:build -x test
-      - name: Github Tag Bump
-        uses: anothrNick/github-tag-action@1.19.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          WITH_V: true
-      - name: Tag/Release on Push Action
-        uses: rymndhng/release-on-push-action@v0.12.1
-        with:
-          strategy: minor
-      - name: Publish 7Facette artifacts to JFrog Bintray
-        env:
-          JFROG_ACTOR: ${{ secrets.JFROG_ACTOR }}
-          JFROG_TOKEN: ${{ secrets.JFROG_TOKEN }}
+#      - name: Github Tag Bump
+#        uses: anothrNick/github-tag-action@1.19.0
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#          WITH_V: true
+#      - name: Tag/Release on Push Action
+#        uses: rymndhng/release-on-push-action@v0.15.0
+#        with:
+#          bump_version_scheme: minor
+#      - name: Publish 7Facette artifacts to JFrog Bintray
+#        env:
+#          JFROG_ACTOR: ${{ secrets.JFROG_ACTOR }}
+#          JFROG_TOKEN: ${{ secrets.JFROG_TOKEN }}
         # The GITHUB_REF tag comes in the format 'refs/tags/xxx'.
         # So if we split on '/' and take the 3rd value, we can get the release name.
-        run: |
-          NEW_VERSION=$(echo "${GITHUB_REF}" | cut -d "/" -f3)
-          ./gradlew -PLIBRARY_VERSION_NAME=${NEW_VERSION} :web:bintrayUpload
+#        run: |
+#          NEW_VERSION=$(echo "${GITHUB_REF}" | cut -d "/" -f3)
+#          ./gradlew -PLIBRARY_VERSION_NAME=${NEW_VERSION} :web:bintrayUpload
  
       #- uses: actions/setup-node@v1.1.0
       #  with:
