@@ -133,9 +133,9 @@ configurations {
 task printProp {
     doLast {
         version = System.properties['VERSION']
-
+        println(version)
         //println System.properties['mySystemPropA']
-        //println System.getProperty('mySystemPropA')
+        println System.getProperty('VERSION')
     }
 }
 
