@@ -30,7 +30,7 @@ jobs:
         run: chmod 0755 gradlew && git add gradlew
       - name: Build Core with Gradle
         run: ./gradlew clean :core:build -x test
-  create-version:
+  create-core-version:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
