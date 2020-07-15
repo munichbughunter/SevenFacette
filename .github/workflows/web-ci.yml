@@ -1,35 +1,35 @@
 # This workflow will build a Java project with Gradle
 # For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
-name: 7Facette Web CI
+#name: 7Facette Web CI
 
-on:
-  push:
-    branches:
-      - master
-    tags:
-      - '*'
-    paths-ignore:
-      - '*.md'
-      - 'misc/**'
-      - '.github/**'
+#on:
+#  push:
+#    branches:
+#      - master
+#    tags:
+#      - '*'
+#    paths-ignore:
+#      - '*.md'
+#      - 'misc/**'
+#      - '.github/**'
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    steps:
-      - uses: actions/checkout@v2
-      - name: Set up JDK
-        uses: actions/setup-java@v1
-        with:
-          java-version: 1.8
-      - name: print Java version
-        run: java -version
-      - name: Grant execute permission for gradlew
-        run: chmod 0755 gradlew && git add gradlew
-      - name: Build Web with Gradle
-        run: ./gradlew clean :web:build -x test
+#jobs:
+#  build:
+#    runs-on: ubuntu-latest
+#    env:
+#      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#    steps:
+#      - uses: actions/checkout@v2
+#      - name: Set up JDK
+#        uses: actions/setup-java@v1
+#        with:
+#          java-version: 1.8
+#      - name: print Java version
+#        run: java -version
+#      - name: Grant execute permission for gradlew
+#        run: chmod 0755 gradlew && git add gradlew
+#      - name: Build Web with Gradle
+#        run: ./gradlew clean :web:build -x test
 #      - name: Github Tag Bump
 #        uses: anothrNick/github-tag-action@1.19.0
 #        env:
