@@ -57,7 +57,7 @@ jobs:
           JFROG_TOKEN: ${{ secrets.JFROG_TOKEN }}
         run: |
           NEW_VERSION=$(echo "${GITHUB_REF}" | cut -d "/" -f3)
-          echo $NEW_VERSION
+          echo ${NEW_VERSION}
 
         #      - name: Publish 7Facette artifacts to JFrog Bintray
 #        env:
