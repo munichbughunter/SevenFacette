@@ -30,19 +30,9 @@ jobs:
         run: chmod 0755 gradlew && git add gradlew
       - name: Build 7Facette core module with gradle
         run: ./gradlew clean :core:build -x test
-  publish-core:
-    needs: build-core
-    runs-on: ubuntu-latest
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    steps:
-      - uses: actions/checkout@v2
       - name: Get the version
         id: get_version
         run: echo ::set-env name=VERSION::${GITHUB_REF/refs\/tags\//}
-#      - name: Test
-#        run: |
-#          echo ${{ env.VERSION }}
       - name: Publish 7Facette core module to JFrog Bintray
         env:
           JFROG_ACTOR: ${{ secrets.JFROG_ACTOR }}
@@ -52,7 +42,7 @@ jobs:
         run: |
           ./gradlew -DVERSION=${{ env.VERSION }} :core:bintrayUpload
   build-web:
-    needs: publish-core
+    needs: build-core
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -68,13 +58,6 @@ jobs:
         run: chmod 0755 gradlew && git add gradlew
       - name: Build 7Facette web module with gradle
         run: ./gradlew clean :web:build -x test
-  publish-web:
-    needs: build-web
-    runs-on: ubuntu-latest
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    steps:
-      - uses: actions/checkout@v2
       - name: Get the version
         id: get_version
         run: echo ::set-env name=VERSION::${GITHUB_REF/refs\/tags\//}
