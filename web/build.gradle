@@ -134,7 +134,8 @@ def BINTRAY_REPOSITORY="sevenfacette-jvm" // What you named your repository in b
 def LIBRARY_VERSION_NAME=0.1 // The current version of your library. You will need to update this value whenever you upload a new release. For example: 1.0
 
 version = System.properties['VERSION']
-LIBRARY_VERSION_NAME=version.toString().substring(1,4)
+version = version.toString().substring(1,6)
+LIBRARY_VERSION_NAME=version.toString().substring(0,3)
 
 afterEvaluate {
     project.publishing.publications.all {

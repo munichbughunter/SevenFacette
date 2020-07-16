@@ -7,7 +7,7 @@ on:
     branches:
       - master
     tags:
-      - '*'
+      - 'v*'
     paths-ignore:
       - '*.md'
       - 'misc/**'
