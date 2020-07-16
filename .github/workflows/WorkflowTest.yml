@@ -1,0 +1,49 @@
+# This workflow will build a Java project with Gradle
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
+name: 7Facette
+
+on:
+  push:
+    branches:
+      - wftest
+    tags:
+      - '*'
+    paths-ignore:
+      - '*.md'
+      - 'misc/**'
+      - '.github/**'
+
+jobs:
+  build-core:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Get the version
+        id: get_version
+        run: echo ::set-env name=VERSION::${GITHUB_REF/refs\/tags\/}
+      - name: Publish 7Facette core module to JFrog Bintray
+        env:
+          JFROG_ACTOR: ${{ secrets.JFROG_ACTOR }}
+          JFROG_TOKEN: ${{ secrets.JFROG_TOKEN }}
+        # The GITHUB_REF tag comes in the format 'refs/tags/xxx'.
+        # So if we split on '/' and take the 3rd value, we can get the release name.
+        run: ${{ env.VERSION }}
+        #run: |
+        #  ./gradlew -DVERSION=${{ env.VERSION }} :core:bintrayUpload
+      #- name: Send information to 7Facette channel
+      #  uses: aliencube/microsoft-teams-actions@v.0.8.0
+      #  with:
+      #    webhook_uri: https://teams.microsoft.com/l/channel/19%3a2d9bdc5d0d7047b4b6a3657cd57aa506%40thread.skype/Releases?groupId=a230e6d9-0872-4228-9230-fd7887fe09c2&tenantId=3825a6f3-24cb-47d4-8aa2-35d3e5891324
+      #    title: A new version of 7Facette is available
+      #    summary:
+
+      #- uses: actions/setup-node@v1.1.0
+      #  with:
+      #    node-version: 12
+      #    registry-url: https://registry.npmjs.org/
+      #- run: cd core && npm install
+      #- run: cd core && npm publish
+      #  env:
+      #    NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
