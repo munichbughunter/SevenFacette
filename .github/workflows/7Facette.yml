@@ -32,7 +32,7 @@ jobs:
         run: ./gradlew clean :core:build -x test
       - name: Get the version
         id: get_version
-        run: echo ::set-env name=VERSION::${GITHUB_REF/refs\/tags\//}
+        run: echo ::set-env name=VERSION::${GITHUB_REF/refs\/tags\/}
       - name: Publish 7Facette core module to JFrog Bintray
         env:
           JFROG_ACTOR: ${{ secrets.JFROG_ACTOR }}
