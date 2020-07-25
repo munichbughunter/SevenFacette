@@ -23,13 +23,13 @@ import static de.p7s1.qa.sevenfacette.conditions.Have.text;
  */
 public class SevenFacetteDriverTest {
 
-  //@BeforeAll
+  @BeforeAll
   static void setup() {
     System.setProperty("FACETTE_CONFIG", "seleniumTestConfig.yml");
   }
 
   @Test
-  @Disabled
+  //@Disabled
   void StartBrowser() {
     open(CalculatorPage::new)
       .calculate("10", "/", "2")

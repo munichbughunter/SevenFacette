@@ -6,7 +6,7 @@ sevenfacette:
         connectionrequesttimeout: 4000
         sockettimeout: 3000
         baseurl: www.google.de/
-        urlpath: @import("")
+        #urlpath: @import("")
         #port:
         protocol: https://
         #proxyhost: localhost
@@ -35,3 +35,22 @@ sevenfacette:
     consumer:
       ingest: ucp.sg-test-INGEST
       replication: ucp-cc-replication
+  web:
+    browserName: chrome
+    chromeBin: ""
+    highlightColor: red
+    highlightSize: 2px
+    highlightStyle: dotted
+    listenerClass: ""
+    reportDir: ""
+    timeout: 4000
+    startMaximized: true
+    autoClose: true
+    screenSize:
+      - 1920
+      - 1080
+    pollingInterval: 0.1
+    baseUrl: http://juliemr.github.io/protractor-demo/
+    remoteUrl: https://zalenium.manitu.pke.fhm.de/wd/hub
+    chromeArgs:
+      - no-sandbox
