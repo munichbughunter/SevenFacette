@@ -67,13 +67,12 @@ jobs:
           JFROG_TOKEN: ${{ secrets.JFROG_TOKEN }}
         run: |
           ./gradlew -DVERSION=${{ env.VERSION }} :web:bintrayUpload
+
       - name: Send information to 7Facette channel
-        uses: aliencube/microsoft-teams-actions@v0.8.0
+        uses: dhollerbach/actions.send-message-to-ms-teams@1.0.10
         with:
-          webhook_uri: https://teams.microsoft.com/l/channel/19%3a2d9bdc5d0d7047b4b6a3657cd57aa506%40thread.skype/Releases?groupId=a230e6d9-0872-4228-9230-fd7887fe09c2&tenantId=3825a6f3-24cb-47d4-8aa2-35d3e5891324
-          title: A new version of 7Facette is available
-          summary: Check out the new version of 7Facette https://github.com/p7s1-ctf/SevenFacette
-          theme_color: 0078D7
+          webhook: 'https://outlook.office.com/webhook/a230e6d9-0872-4228-9230-fd7887fe09c2@3825a6f3-24cb-47d4-8aa2-35d3e5891324/IncomingWebhook/683f71138b3f4eba8a60a2a2a22e465e/cf5104bb-b3ad-4c86-a7ec-3b4c1e26cb60'
+          message: 'Check out the new version ${{ env.VERSION }} of 7Facette -> https://github.com/p7s1-ctf/SevenFacette'
 
       #- uses: actions/setup-node@v1.1.0
       #  with:
