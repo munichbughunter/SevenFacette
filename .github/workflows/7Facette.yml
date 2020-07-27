@@ -67,12 +67,22 @@ jobs:
           JFROG_TOKEN: ${{ secrets.JFROG_TOKEN }}
         run: |
           ./gradlew -DVERSION=${{ env.VERSION }} :web:bintrayUpload
-
-      - name: Send information to 7Facette channel
-        uses: dhollerbach/actions.send-message-to-ms-teams@1.0.10
+      - name: Microsoft Teams Deploy Card
+        uses: toko-bifrost/ms-teams-deploy-card@3.1.2
+        if: always()
         with:
-          webhook: 'https://outlook.office.com/webhook/a230e6d9-0872-4228-9230-fd7887fe09c2@3825a6f3-24cb-47d4-8aa2-35d3e5891324/IncomingWebhook/683f71138b3f4eba8a60a2a2a22e465e/cf5104bb-b3ad-4c86-a7ec-3b4c1e26cb60'
-          message: 'Check out the new version ${{ env.VERSION }} of 7Facette -> https://github.com/p7s1-ctf/SevenFacette'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          webhook-uri: ${{ secrets.WEB_URL }}
+          show-on-start: false
+          card-layout-exit: complete
+          custom-facts: |
+            - name: New 7Facette Version available
+              value: Check out the new version ${{ env.VERSION }} of 7Facette -> https://github.com/p7s1-ctf/SevenFacette
+      #- name: Send information to 7Facette channel
+      #  uses: dhollerbach/actions.send-message-to-ms-teams@1.0.10
+      #  with:
+      #    webhook: ${{ secrets.WEB_URL }}
+      #    message: 'Check out the new version ${{ env.VERSION }} of 7Facette -> https://github.com/p7s1-ctf/SevenFacette'
 
       #- uses: actions/setup-node@v1.1.0
       #  with:
