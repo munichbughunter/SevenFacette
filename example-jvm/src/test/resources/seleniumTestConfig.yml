@@ -8,6 +8,6 @@ sevenFacette:
       - 1080
     pollingInterval: 0.1
     baseUrl: http://juliemr.github.io/protractor-demo/
-    remoteUrl: https://zalenium.manitu.pke.fhm.de/wd/hub
+    remoteUrl: http://localhost/wd/hub
     chromeArgs:
       - no-sandbox

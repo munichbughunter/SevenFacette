@@ -1,6 +1,8 @@
 package de.p7s1.qa.sevenfacette.driver
 
 
+import com.assertthat.selenium_shutterbug.core.Shutterbug
+import com.assertthat.selenium_shutterbug.utils.web.ScrollStrategy.WHOLE_PAGE
 import de.p7s1.qa.sevenfacette.config.types.FacetteConfig
 import de.p7s1.qa.sevenfacette.config.types.WebConfig
 import de.p7s1.qa.sevenfacette.core.*
@@ -11,9 +13,11 @@ import org.openqa.selenium.Alert
 import org.openqa.selenium.By
 import org.openqa.selenium.Dimension
 import org.openqa.selenium.WebDriver
+import org.openqa.selenium.WebElement
 import org.openqa.selenium.interactions.Actions
 import org.openqa.selenium.logging.LogEntries
 import org.openqa.selenium.logging.LogType
+import java.awt.image.BufferedImage
 import java.io.File
 
 class Browser(val driver: WebDriver = getDriver(),
@@ -114,6 +118,18 @@ class Browser(val driver: WebDriver = getDriver(),
         val file = driver.saveScreenshot(saveTo)
         screenshots.put(Thread.currentThread().id, file)
         return file
+    }
+
+    fun shootPage(saveTo: String, imageName: String) {
+        Shutterbug.shootPage(driver, WHOLE_PAGE, 500, true).withName(imageName).save(saveTo)
+    }
+
+    fun shootElement(saveTo: String, imageName: String, element: WebElement) {
+        Shutterbug.shootElement(driver, element).withName(imageName).save(saveTo)
+    }
+
+    fun compareImage(expectedImage: BufferedImage, saveTo: String, deviation: Double) : Boolean {
+        return Shutterbug.shootPage(driver, WHOLE_PAGE, 500, true).equalsWithDiff(expectedImage, saveTo, deviation)
     }
 
     override fun back(): Browser {

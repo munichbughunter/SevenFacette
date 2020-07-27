@@ -61,8 +61,8 @@ public class Runner implements CommandLineRunner {
     //System.out.println(myConsumer.getLastKRecord());
     //System.out.println("Finished");
 
-    open(CalculatorPage::new)
-      .calculate("10", "/", "2")
-      .result.shouldHave(text("5"));
+//    open(CalculatorPage::new)
+//      .calculate("10", "/", "2")
+//      .result.shouldHave(text("5"));
   }
 }
