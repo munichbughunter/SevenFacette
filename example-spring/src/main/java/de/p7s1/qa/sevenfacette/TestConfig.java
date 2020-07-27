@@ -2,6 +2,7 @@ package de.p7s1.qa.sevenfacette;
 
 
 import de.p7s1.qa.sevenfacette.config.types.HttpClientConfig;
+import de.p7s1.qa.sevenfacette.config.types.WebConfig;
 import de.p7s1.qa.sevenfacette.kafka.config.KConfig;
 import de.p7s1.qa.sevenfacette.kafka.config.KTableTopicConfig;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,20 @@ public class TestConfig {
 
     //testClientConfig.getHttpProxy(),
     //  testClientConfig.getAuthentication()
+  }
+
+  @Bean("seleniumConfig")
+  @ConfigurationProperties("sevenfacette.web")
+  public SeleniumConfig seleniumConfig() { return new SeleniumConfig(); }
+
+  @Bean("browserConfiguration")
+  public WebConfig broserConfig(@Qualifier("seleniumConfig") SeleniumConfig seleniumConfig) {
+    return new WebConfig(seleniumConfig.isAutoClose(), seleniumConfig.getBaseUrl(), seleniumConfig.getBrowserName(),
+      seleniumConfig.getCapabilities(), seleniumConfig.getChromeArgs(), seleniumConfig.getChromeBin(),
+      seleniumConfig.isHighlightBorder(), seleniumConfig.getHighlightColor(), seleniumConfig.getHighlightSize(),
+      seleniumConfig.getHighlightStyle(), seleniumConfig.getListenerClass(), seleniumConfig.getPollingInterval(),
+      seleniumConfig.getRemoteUrl(), seleniumConfig.getReportDir(), seleniumConfig.getScreenSize(),
+      seleniumConfig.isStartMaximized(), seleniumConfig.getTimeout());
   }
 
   @Bean("kafkaConfig")

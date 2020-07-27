@@ -8,6 +8,12 @@ import de.p7s1.qa.sevenfacette.core.Select;
 import de.p7s1.qa.sevenfacette.driver.Browser;
 import de.p7s1.qa.sevenfacette.driver.FElement;
 import de.p7s1.qa.sevenfacette.driver.Page;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.time.LocalTime;
+import java.time.temporal.ChronoField;
+import javax.imageio.ImageIO;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -15,6 +21,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import static de.p7s1.qa.sevenfacette.driver.FDriver.open;
 import static de.p7s1.qa.sevenfacette.conditions.Have.text;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * TODO: Add Description
@@ -23,7 +31,7 @@ import static de.p7s1.qa.sevenfacette.conditions.Have.text;
  */
 public class SevenFacetteDriverTest {
 
-  //@BeforeAll
+  @BeforeAll
   static void setup() {
     System.setProperty("FACETTE_CONFIG", "seleniumTestConfig.yml");
   }
@@ -117,6 +125,11 @@ class CalculatorPage extends Page {
     this.second.setValue(second);
     this.select.selectOption(operation);
     this.goBtn.click();
+    return this;
+  }
+
+  public CalculatorPage takeElementSnappy() {
+    getBrowser().shootElement("screenshots", "Element", this.goBtn.getWebElement());
     return this;
   }
 

@@ -27,3 +27,4 @@ build/
 /example-spring/.settings/
 /core/.settings/
 /web/node_modules/
+/example-spring/out/
