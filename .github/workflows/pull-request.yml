@@ -22,17 +22,6 @@ jobs:
         run: chmod 0755 gradlew && git add gradlew
       - name: Build 7Facette core module with gradle
         run: ./gradlew clean :core:build -x test
-      - name: Get the version
-        id: get_version
-        run: echo ::set-env name=VERSION::${GITHUB_REF/refs\/tags\/}
-      - name: Publish 7Facette core module to JFrog Bintray
-        env:
-          JFROG_ACTOR: ${{ secrets.JFROG_ACTOR }}
-          JFROG_TOKEN: ${{ secrets.JFROG_TOKEN }}
-        # The GITHUB_REF tag comes in the format 'refs/tags/xxx'.
-        # So if we split on '/' and take the 3rd value, we can get the release name.
-        run: |
-          ./gradlew -DVERSION=${{ env.VERSION }} :core:publishJvmPublicationToMavenLocal
   build-web:
     needs: build-core
     runs-on: ubuntu-latest
@@ -50,12 +39,4 @@ jobs:
         run: chmod 0755 gradlew && git add gradlew
       - name: Build 7Facette web module with gradle
         run: ./gradlew clean :web:build -x test
-      - name: Get the version
-        id: get_version
-        run: echo ::set-env name=VERSION::${GITHUB_REF/refs\/tags\//}
-      - name: Publish 7Facette web module to JFrog Bintray
-        env:
-          JFROG_ACTOR: ${{ secrets.JFROG_ACTOR }}
-          JFROG_TOKEN: ${{ secrets.JFROG_TOKEN }}
-        run: |
-          ./gradlew -DVERSION=${{ env.VERSION }} :web:publishJvmPublicationToMavenLocal
+
