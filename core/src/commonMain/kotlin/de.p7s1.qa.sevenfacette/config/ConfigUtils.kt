@@ -37,7 +37,7 @@ fun replaceEnvironmentVariables(origin: String): String {
             logger.error { "No value found for environment variable ${envVarName[0]}" }
             ""
         }
-        result = origin.replace(it.groupValues[0], replace)
+        result = result.replace(it.groupValues[0], replace)
     }
     return result
 }
