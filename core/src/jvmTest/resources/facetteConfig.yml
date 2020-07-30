@@ -30,7 +30,7 @@ sevenFacette:
       - name: testtopic1
         useSASLAuthentication: true
         saslUsername: [[saslUser || Default User]]
-        saslPassword: myPassword
+        saslPassword: [[saslPass || Default Password]]
       - name: topic2
     producer:
       - name: testConsumer1
