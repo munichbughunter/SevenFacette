@@ -19,13 +19,6 @@ class AuthenticationFactory(private val values: MutableMap<String, String>) {
      * @return AuthProvider provided by Ktor
      */
     fun getAuthentication(): AuthProvider {
-        println(values["sendWithoutRequest"] != "")
-        val test = values["sendWithoutRequest"]?.toBoolean() ?: true
-        println("TESt $test")
-
-        println(values["sendWithoutRequest"] != "" && values["sendWithoutRequest"] == "false")
-        println(values["sendWithoutRequest"] == "false")
-
         if(!values.containsKey("type")) {
             throw Exception("No type for authentication defined")
         }
