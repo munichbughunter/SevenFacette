@@ -1,10 +1,10 @@
-include(
+
+rootProject.name = "SevenFacette"
+include (
         ":core",
         ":web",
         ":example-js",
         ":example-jvm",
-        ":example-spring",
-        ":example-jvm-cucumber"
+        ":example-jvm-cucumber",
+        ":example-spring"
 )
-
-enableFeaturePreview("GRADLE_METADATA")

@@ -1,8 +1,7 @@
 package de.p7s1.qa.sevenfacette.kafka
 
 import de.p7s1.qa.sevenfacette.kafka.config.KTableTopicConfig
-import de.p7s1.qa.sevenfacette.kafka.config.SaslConfiguration
-import mu.KotlinLogging
+import de.p7s1.qa.sevenfacette.kafka.config.SaslConfig
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerConfig
 import org.apache.kafka.clients.producer.ProducerRecord
@@ -15,7 +14,6 @@ import org.apache.kafka.common.serialization.StringSerializer
  *
  * @author Patrick Döring
  */
-private val logger = KotlinLogging.logger {}
 class KProducer (private val tableTopicConfig: KTableTopicConfig,
                  private var autoSend: Boolean
 ) {
@@ -32,10 +30,10 @@ class KProducer (private val tableTopicConfig: KTableTopicConfig,
         config[ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG] = StringSerializer::class.java
 
         if (tableTopicConfig.kafkaConfig.useSASL) {
-            config = SaslConfiguration.addSaslProperties(config, tableTopicConfig)
+            config = SaslConfig.addSaslProperties(config, tableTopicConfig)
         }
         producer = KafkaProducer<String, String>(config)
-        logger.info("Create KProducer")
+        //logger.info("Create KProducer")
         return producer
     }
 
@@ -48,7 +46,7 @@ class KProducer (private val tableTopicConfig: KTableTopicConfig,
         if (autoSend) {
             flush()
         }
-        logger.info("Message send to topic: %s", {msg})
+        //logger.info("Message send to topic: %s", {msg})
     }
 
     /**
@@ -61,7 +59,7 @@ class KProducer (private val tableTopicConfig: KTableTopicConfig,
         if (autoSend) {
             flush()
         }
-        logger.info("Message send to topic: %s", {msg})
+        //logger.info("Message send to topic: %s", {msg})
     }
 
     /**

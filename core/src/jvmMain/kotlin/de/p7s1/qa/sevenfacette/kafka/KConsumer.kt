@@ -1,7 +1,7 @@
 package de.p7s1.qa.sevenfacette.kafka
 
 import de.p7s1.qa.sevenfacette.kafka.config.KTableTopicConfig
-import de.p7s1.qa.sevenfacette.kafka.config.SaslConfiguration
+import de.p7s1.qa.sevenfacette.kafka.config.SaslConfig
 import java.time.Duration
 import java.util.UUID
 import java.util.concurrent.ConcurrentLinkedQueue
@@ -11,7 +11,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import mu.KotlinLogging
 import org.apache.kafka.clients.consumer.Consumer
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.consumer.KafkaConsumer
@@ -24,7 +23,6 @@ import org.apache.kafka.common.serialization.StringDeserializer
  *
  * @author Patrick Döring
  */
-private val logger = KotlinLogging.logger {}
 class KConsumer (
         private val tableTopicConfig: KTableTopicConfig
 ) : CoroutineScope by CoroutineScope(Dispatchers.Default) {
@@ -46,10 +44,10 @@ class KConsumer (
         config[ConsumerConfig.AUTO_OFFSET_RESET_CONFIG] = tableTopicConfig.kafkaConfig.autoOffset
 
         if (tableTopicConfig.kafkaConfig.useSASL) {
-            config = SaslConfiguration.addSaslProperties(config, tableTopicConfig)
+            config = SaslConfig.addSaslProperties(config, tableTopicConfig)
         }
         consumer = KafkaConsumer<String, String>(config)
-        logger.info("Create KConsumer")
+        //logger.info("Create KConsumer")
         return consumer
     }
 
@@ -64,7 +62,7 @@ class KConsumer (
         try {
             consumer.close(Duration.ofMillis(5000L))
         } catch (ex: ConcurrentModificationException) {
-            logger.warn("Consumer was closed")
+            //logger.warn("Consumer was closed")
         }
     }
 
@@ -93,7 +91,7 @@ class KConsumer (
     fun consume()  {
         consumer.subscribe(listOf(tableTopicConfig.kafkaTopic))
         GlobalScope.launch {
-            logger.info("Start consuming and processing records")
+            //logger.info("Start consuming and processing records")
             while (keepGoing) {
                 consumer.poll(Duration.ofSeconds(tableTopicConfig.kafkaConfig.maxConsumingTime)).forEach {
                     kRecordQueue.add(KRecord(it.key(), it.value(), it.offset(), it.partition()))

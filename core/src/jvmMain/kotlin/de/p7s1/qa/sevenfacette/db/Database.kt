@@ -7,7 +7,7 @@ import java.sql.ResultSet
 import java.sql.SQLException
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.function.Consumer
-import mu.KotlinLogging
+//import mu.KotlinLogging
 
 /**
  * JVM specific implementation of the Database execution handler
@@ -16,7 +16,7 @@ import mu.KotlinLogging
  *
  * @author Patrick Döring
  */
-private val logger = KotlinLogging.logger {}
+//private val logger = KotlinLogging.logger {}
 class Database(
         private val dbConfig: DConfig
 ) {
@@ -52,7 +52,7 @@ class Database(
         var result: List<Map<String, Any>> = mutableListOf()
         try {
             openConnection().use { conn ->
-                logger.info("Iterating over SQL-Statements")
+  //              logger.info("Iterating over SQL-Statements")
                 val entryCounter = AtomicInteger(1)
 
                 dbStatements.list.forEach(Consumer {
@@ -75,7 +75,7 @@ class Database(
                 })
             }
         } catch (ex: SQLException) {
-            logger.error("Error on opening database connection. ", ex)
+    //        logger.error("Error on opening database connection. ", ex)
             throw RuntimeException(ex)
         }
         return result

@@ -2,7 +2,7 @@ package de.p7s1.qa.sevenfacette.config
 
 import com.charleskorn.kaml.Yaml
 import de.p7s1.qa.sevenfacette.config.types.SevenFacetteConfig
-import mu.KotlinLogging
+//import mu.KotlinLogging
 
 /**
  * Class to read the config yaml file(s).
@@ -11,7 +11,7 @@ import mu.KotlinLogging
  *
  * @author Florian Pilz
  */
-private val logger = KotlinLogging.logger {}
+//private val logger = KotlinLogging.logger {}
 actual class ConfigReader {
 
     /**

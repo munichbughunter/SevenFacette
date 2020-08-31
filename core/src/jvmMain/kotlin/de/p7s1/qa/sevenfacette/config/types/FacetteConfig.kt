@@ -2,7 +2,6 @@ package de.p7s1.qa.sevenfacette.config.types
 
 import de.p7s1.qa.sevenfacette.config.ConfigReader
 import kotlinx.serialization.KSerializer
-
 /**
  * Singelton that holds the configuration data globally for the user.
  * n initialization the configuration files will be read and the configuration will be created.

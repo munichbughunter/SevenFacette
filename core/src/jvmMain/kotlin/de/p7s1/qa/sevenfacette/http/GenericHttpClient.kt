@@ -9,7 +9,7 @@ import io.ktor.http.content.TextContent
 import io.ktor.http.userAgent
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import mu.KotlinLogging
+//import mu.KotlinLogging
 
 /**
  * JVM specific implementation of the generic rest client
@@ -17,14 +17,14 @@ import mu.KotlinLogging
  * @author Florian Pilz
  */
 
-private val logger = KotlinLogging.logger {}
+//private val logger = KotlinLogging.logger {}
 actual class GenericHttpClient {
 
     private lateinit var client: HttpClient
     private lateinit var url: Url
 
     actual fun setClient(url: Url, client: HttpClient):GenericHttpClient {
-        logger.info { "SET CLIENT" }
+        //logger.info { "SET CLIENT" }
         this.client = client
         this.url = url
         return this
@@ -41,7 +41,7 @@ actual class GenericHttpClient {
      * @return HttpResponse - null if no response is received
      */
     actual fun post(path: String, content: String, contentType: CONTENTTYPES, headers: HttpHeader): HttpResponse? =
-        this.executeRequest(HttpMethod.Post, path, content, contentType, headers)
+            this.executeRequest(HttpMethod.Post, path, content, contentType, headers)
 
     /**
      * JVM specific implementation of port
@@ -54,7 +54,7 @@ actual class GenericHttpClient {
      * @return HttpResponse - null if no response is received
      */
     actual fun post(path: String, content: ByteArray, headers: HttpHeader): HttpResponse? =
-        this.executeRequest(HttpMethod.Post, path, content, useHeaders = headers)
+            this.executeRequest(HttpMethod.Post, path, content, useHeaders = headers)
 
     /**
      * JVM specific implementation of port
@@ -68,7 +68,7 @@ actual class GenericHttpClient {
      * @return HttpResponse - null if no response is received
      */
     actual fun post(path: String, content: MultipartBody, header: HttpHeader): HttpResponse? =
-        this.executeRequest(HttpMethod.Post, path, content, useHeaders = header)
+            this.executeRequest(HttpMethod.Post, path, content, useHeaders = header)
 
     /**
      * JVM specific implementation of put
@@ -81,7 +81,7 @@ actual class GenericHttpClient {
      * @return HttpResponse - null if no response is received
      */
     actual fun put(path: String, content: String, contentType: CONTENTTYPES, headers: HttpHeader): HttpResponse? =
-        this.executeRequest(HttpMethod.Put, path, content, contentType, headers)
+            this.executeRequest(HttpMethod.Put, path, content, contentType, headers)
 
     /**
      * JVM specific implementation of put
@@ -94,7 +94,7 @@ actual class GenericHttpClient {
      * @return HttpResponse - null if no response is received
      */
     actual fun put(path: String, content: ByteArray, headers: HttpHeader): HttpResponse? =
-         this.executeRequest(HttpMethod.Put, path, content, useHeaders = headers)
+            this.executeRequest(HttpMethod.Put, path, content, useHeaders = headers)
 
     /**
      * JVM specific implementation of put
@@ -108,7 +108,7 @@ actual class GenericHttpClient {
      * @return HttpResponse - null if no response is received
      */
     actual fun put(path: String, content: MultipartBody, headers: HttpHeader): HttpResponse? =
-        this.executeRequest(HttpMethod.Put, path, content, useHeaders = headers)
+            this.executeRequest(HttpMethod.Put, path, content, useHeaders = headers)
 
     /**
      * JVM specific implementation of delete
@@ -120,7 +120,7 @@ actual class GenericHttpClient {
      * @return HttpResponse - null if no response is received
      */
     actual fun delete(path: String, headers: HttpHeader): HttpResponse? =
-        this.executeRequest<Unit>(HttpMethod.Delete, path, useHeaders = headers)
+            this.executeRequest<Unit>(HttpMethod.Delete, path, useHeaders = headers)
 
     /**
      * JVM specific implementation of get
@@ -152,14 +152,14 @@ actual class GenericHttpClient {
         var facetteResponse: HttpResponse? = null
         val fullPath = this.url .path(usePath).create()
 
-        logger.info("Sending a ${useMethod.value} request to $fullPath with ${if(useContent == null) "no" else ""} content")
+        //logger.info("Sending a ${useMethod.value} request to $fullPath with ${if(useContent == null) "no" else ""} content")
 
         var usedBody: Any? = null
         if (useContent != null) {
             usedBody = getBody(useContent, contentType)
-            logger.info("Body == $usedBody")
+            //logger.info("Body == $usedBody")
         } else {
-            logger.info("With no body")
+            //logger.info("With no body")
         }
 
         runBlocking {
@@ -182,15 +182,15 @@ actual class GenericHttpClient {
                         }
                     })
                 } catch (e: Exception) {
-                    logger.error(e.message)
+                    //logger.error(e.message)
                 }
             }.join()
         }
 
         if(facetteResponse == null) throw Exception("No response received")
-        logger.info { "Response http status == ${facetteResponse?.status}" }
-        logger.info { "Response headers == ${facetteResponse?.headers}" }
-        logger.info { "Response body == ${facetteResponse?.body}" }
+        //logger.info { "Response http status == ${facetteResponse?.status}" }
+        //logger.info { "Response headers == ${facetteResponse?.headers}" }
+        //logger.info { "Response body == ${facetteResponse?.body}" }
         return facetteResponse
     }
 
