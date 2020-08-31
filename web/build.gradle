@@ -96,10 +96,12 @@ def BINTRAY_REPOSITORY="sevenfacette-jvm" // What you named your repository in b
 //def ISSUE_URL="https://github.com/natanfudge/KotlinAwesomePrinter/issues" // A link to an issue tracker for the library, in our example: "https://github.com/natanfudge/KotlinAwesomePrinter/issues"
 //def SITE_URL="https://github.com/natanfudge/KotlinAwesomePrinter" // A link to the library's site. In our example: "https://github.com/natanfudge/KotlinAwesomePrinter"
 //def VCS_URL="https://github.com/natanfudge/KotlinAwesomePrinter.git" // A link to the version control system (where the code is stored). In our example: "https://github.com/natanfudge/KotlinAwesomePrinter.git"
-def LIBRARY_VERSION_NAME=0.6 // The current version of your library. You will need to update this value whenever you upload a new release. For example: 1.0
 
-version = "v0.6.0"
-//version = System.properties['VERSION']
+// Only for local TESTING //
+//def LIBRARY_VERSION_NAME=0.6 // The current version of your library. You will need to update this value whenever you upload a new release. For example: 1.0
+//version = "v0.6.0"
+
+version = System.properties['VERSION']
 version = version.toString().substring(1,6)
 LIBRARY_VERSION_NAME=version.toString().substring(0,3)
 
