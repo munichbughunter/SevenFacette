@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "sevenfacette": "file:../build/js"
+    "sevenfacette": "file:../build/js",
+    "kafkajs": "^1.12.0"
   },
   "author": "",
   "license": "ISC"

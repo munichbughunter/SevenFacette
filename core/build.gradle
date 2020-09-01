@@ -1,6 +1,6 @@
 plugins {
-    id 'org.jetbrains.kotlin.multiplatform' version '1.3.71'
-    id 'org.jetbrains.kotlin.plugin.serialization' version '1.3.71'
+    id 'org.jetbrains.kotlin.multiplatform' version '1.3.72'
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.3.72'
     id("maven-publish")
     id("com.jfrog.bintray") version "1.8.4"
 }
@@ -22,6 +22,7 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
 kotlin {
     jvm()
     js() {
+        useCommonJs()
         nodejs()
     }
     sourceSets {
@@ -84,6 +85,10 @@ kotlin {
                 implementation 'io.ktor:ktor-client-auth-js:1.3.0'
                 implementation 'org.jetbrains.kotlin:kotlin-reflect:1.3.0'
                 implementation 'org.jetbrains.kotlinx:kotlinx-serialization-runtime-js:0.14.0'
+
+                //implementation (npm("is-sorted", "1.0.5"))
+                implementation (npm( "kafkajs", "^1.12.0"))
+                //implementation (npm( "kafka-node", "^5.0.0"))
                 //implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime-js:0.14.0")
                 //implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.20.0-1.4-M2")
             }
@@ -103,7 +108,7 @@ def BINTRAY_REPOSITORY="sevenfacette-jvm" // What you named your repository in b
 //def VCS_URL="https://github.com/natanfudge/KotlinAwesomePrinter.git" // A link to the version control system (where the code is stored). In our example: "https://github.com/natanfudge/KotlinAwesomePrinter.git"
 
 // Only for local TESTING //
-//def LIBRARY_VERSION_NAME=0.6 // The current version of your library. You will need to update this value whenever you upload a new release. For example: 1.0
+def LIBRARY_VERSION_NAME=0.6 // The current version of your library. You will need to update this value whenever you upload a new release. For example: 1.0
 //version = "v0.6.0"
 
 version = System.properties['VERSION']
