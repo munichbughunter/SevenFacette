@@ -1,19 +1,7 @@
-const sevenfacetteK = require('../build/js/packages/SevenFacette-core').de.p7s1.qa.sevenfacette.kafka;
-'use strict';
-
+const sevenfacette = require('../build/js/packages/SevenFacette-core').de.p7s1.qa.sevenfacette.kafka;
 
 async function testCall() {
-  //console.log(sevenfacetteConsumer.ConsumerSayHello());
-
-  // const producer = kafka.producer()
-  const producer = sevenfacetteK.createProducer();
-  //sevenfacetteConsumer.createConsumer();
-  console.log("Test");
-  //console.log(consumer)
-  //console.log(sevenfacetteConsumer.createConsumer());
-  //var consumer = sevenfacetteConsumer.createConsumer();
-  //console.log(consumer['groupId']);
-
+  const producer = sevenfacette.createProducer();
+  console.log("producer call is working");
 }
-
 testCall();

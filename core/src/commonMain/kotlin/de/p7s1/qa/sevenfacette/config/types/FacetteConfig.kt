@@ -1,7 +1,7 @@
 package de.p7s1.qa.sevenfacette.config.types
 
 import de.p7s1.qa.sevenfacette.config.types.*
-import kotlinx.serialization.ContextualSerialization
+import kotlinx.serialization.Contextual
 import kotlinx.serialization.KSerializer
 
 /**
