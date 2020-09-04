@@ -1,6 +1,8 @@
 package de.p7s1.qa.sevenfacette.kafka
 
 import de.p7s1.qa.sevenfacette.kafka.config.KTableTopicConfig
+import de.p7s1.qa.sevenfacette.kafka.externals.Kafka
+import de.p7s1.qa.sevenfacette.kafka.externals.KafkaConfig
 
 /**
  * JS specific implementation of the Kafka producer
