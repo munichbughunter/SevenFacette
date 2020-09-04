@@ -23,9 +23,14 @@ class KConsumer (private val tableTopicConfig: KTableTopicConfig) {
         val kafkaOptions: KafkaConfig = js("({})")
         kafkaOptions.brokers = arrayOf(tableTopicConfig.kafkaConfig.bootstrapServer)
         kafkaOptions.clientId = "7Facette_" + (0..36).shuffled().first().toString()
+        if (tableTopicConfig.kafkaConfig.useSASL) {
+            kafkaOptions.ssl = true
+            kafkaOptions.sasl?.mechanism = tableTopicConfig.kafkaConfig.saslMechanism
+            kafkaOptions.sasl?.username = tableTopicConfig.kafkaConfig.kafkaUser
+            kafkaOptions.sasl?.password = tableTopicConfig.kafkaConfig.kafkaPW
+        }
         val consumerOptions: ConsumerConfig = js("({})")
         consumerOptions.groupId = "7Facette_Consumer_" + (0..36).shuffled().first().toString()
-
         consumer = Kafka(kafkaOptions).consumer(consumerOptions)
 
         // logger.info("Create Producer")
