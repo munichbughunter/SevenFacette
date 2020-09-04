@@ -31,7 +31,6 @@ class KTableTopicConfig (var kafkaConfig: KConfig) {
      */
     @JsName("createKProducer")
     fun createKProducer() : dynamic {
-        println("CREATING A NEW PRODUCER")
         return KFactory().createKProducer(this@KTableTopicConfig)
     }
 }
