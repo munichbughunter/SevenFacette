@@ -23,7 +23,5 @@ async function testCall() {
   console.log(kConsumer);
   console.log("consumer call is working");
   //kProducer.send("message to send");
-
-
 }
 testCall();

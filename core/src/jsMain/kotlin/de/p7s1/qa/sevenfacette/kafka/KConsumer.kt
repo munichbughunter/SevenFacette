@@ -4,6 +4,7 @@ import de.p7s1.qa.sevenfacette.kafka.config.KTableTopicConfig
 import de.p7s1.qa.sevenfacette.kafka.externals.ConsumerConfig
 import de.p7s1.qa.sevenfacette.kafka.externals.Kafka
 import de.p7s1.qa.sevenfacette.kafka.externals.KafkaConfig
+import kotlinx.coroutines.awaitAll
 
 /**
  * JS specific implementation of the Kafka consumer
@@ -32,7 +33,6 @@ class KConsumer (private val tableTopicConfig: KTableTopicConfig) {
         val consumerOptions: ConsumerConfig = js("({})")
         consumerOptions.groupId = "7Facette_Consumer_" + (0..36).shuffled().first().toString()
         consumer = Kafka(kafkaOptions).consumer(consumerOptions)
-
         // logger.info("Create Producer")
         return consumer
     }
