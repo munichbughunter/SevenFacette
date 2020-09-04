@@ -15,6 +15,7 @@ async function testCall() {
   const kProducer = producerConfig.createKProducer();
   console.log(kProducer);
 
+
   kProducer.send("message to send");
 
   console.log("producer call is working");

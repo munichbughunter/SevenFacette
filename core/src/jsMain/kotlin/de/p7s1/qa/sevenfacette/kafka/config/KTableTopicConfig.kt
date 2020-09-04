@@ -15,24 +15,22 @@ class KTableTopicConfig (var kafkaConfig: KConfig) {
     /**
      * Creates a KConsumer object via a factory
      *
-     * @param [autoStart]
      *
      * @return [KConsumer]
      */
     @JsName("createKConsumer")
-    fun createKConsumer(autoStart: dynamic) : dynamic {
-        return KFactory().createKConsumer(this@KTableTopicConfig, autoStart)
+    fun createKConsumer() : dynamic {
+        return KFactory().createKConsumer(this@KTableTopicConfig)
     }
 
     /**
      * Creates a KProducer object via a factory
      *
-     * @param [autoSend]
      *
      * @return [KProducer]
      */
     @JsName("createKProducer")
-    fun createKProducer(autoSend: dynamic) : dynamic {
+    fun createKProducer() : dynamic {
         println("CREATING A NEW PRODUCER")
         return KFactory().createKProducer(this@KTableTopicConfig)
     }
