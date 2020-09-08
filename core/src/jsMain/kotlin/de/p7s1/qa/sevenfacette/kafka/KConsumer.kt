@@ -32,6 +32,7 @@ class KConsumer (private val tableTopicConfig: KTableTopicConfig) {
         }
         val consumerOptions: ConsumerConfig = js("({})")
         consumerOptions.groupId = "7Facette_Consumer_" + (0..36).shuffled().first().toString()
+        consumerOptions.maxWaitTimeInMs = tableTopicConfig.kafkaConfig.maxConsumingTime
         consumer = Kafka(kafkaOptions).consumer(consumerOptions)
         // logger.info("Create Producer")
         return consumer
