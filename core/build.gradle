@@ -1,8 +1,16 @@
+buildscript {
+    repositories.jcenter()
+    dependencies {
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.0")
+    }
+}
+
 plugins {
     id 'org.jetbrains.kotlin.multiplatform' version '1.4.0'
     id 'org.jetbrains.kotlin.plugin.serialization' version '1.4.0'
     id("maven-publish")
     id("com.jfrog.bintray") version "1.8.4"
+    id 'org.jetbrains.dokka' version '1.4.0'
 }
 
 repositories {
@@ -178,3 +186,6 @@ bintrayUpload.doFirst {
 //The task of bintrayUpload depends on publishToMavenLocal set in the previous section.
 // This will create maven artifacts when running bintrayUplaod's task.
 bintrayUpload.dependsOn publishJvmPublicationToMavenLocal
+
+
+
