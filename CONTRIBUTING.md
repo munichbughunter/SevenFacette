@@ -2,7 +2,7 @@
 
 :+1::tada: First off, thanks for taking the time to contribute! :tada::+1:
 
-The following is a set of guidelines for contributing to 7Facette and its packages, which are hosted on GitHub. These are mostly guidelines, not rules. Use your best judgment, and feel free to propose changes to this document in a pull request.
+The following is a set of guidelines for contributing to 7Facette and its modules, which are hosted on GitHub. These are mostly guidelines, not rules. Use your best judgment, and feel free to propose changes to this document in a pull request.
 
 #### Table Of Contents
 
@@ -12,7 +12,6 @@ The following is a set of guidelines for contributing to 7Facette and its packag
   - [I don't want to read this whole thing I just have a question!!!](#i-dont-want-to-read-this-whole-thing-i-just-have-a-question)
   - [What should I know before I get started?](#what-should-i-know-before-i-get-started)
     - [7Facette and Modules](#7facette-and-modules)
-      - [Module Conventions](#module-conventions)
     - [Design Decisions](#design-decisions)
   - [How Can I Contribute?](#how-can-i-contribute)
     - [Reporting Bugs](#reporting-bugs)
@@ -28,9 +27,7 @@ The following is a set of guidelines for contributing to 7Facette and its packag
     - [Git Commit Messages](#git-commit-messages)
     - [Kotlin Styleguide](#kotlin-styleguide)
     - [Test Styleguide](#test-styleguide)
-      - [Example](#example)
     - [Documentation Styleguide](#documentation-styleguide)
-      - [Example](#example-1)
   - [Additional Notes](#additional-notes)
     - [Issue Labels](#issue-labels)
       - [Type of Issue and Issue State](#type-of-issue-and-issue-state)
@@ -38,6 +35,11 @@ The following is a set of guidelines for contributing to 7Facette and its packag
 ## Code of Conduct
 
 This project and everyone participating in it is governed by the [7Facette Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. 
+
+## I don't want to read this whole thing I just have a question!!!
+> **Note:** Please don't file an issue to ask a question. You'll get faster results by using the resources below.
+
+We have an official [7Facette Spectrum Chat](https://spectrum.chat/7facette/?tab=posts) where the community chimes in with helpful advice if you have questions.
 
 ## What should I know before I get started?
 
@@ -47,20 +49,16 @@ This project and everyone participating in it is governed by the [7Facette Code 
 
 7Facette is intentionally very modular. Here's a list of our actual modules:
 
-* [7Facette/core](https://github.com/7Facette/core) - 7Facette Core! The core component is responsible for . 
+* [core/commonMain](https://github.com/p7s1-ctf/SevenFacette/tree/master/core/src/commonMain/kotlin/de.p7s1.qa.sevenfacette) - The shared core logic resides under the commonMain.
+* [core/jvmMain](https://github.com/p7s1-ctf/SevenFacette/tree/master/core/src/jvmMain/kotlin/de/p7s1/qa/sevenfacette) - The JVM platform native code for the core module
+* [core/jsMain](https://github.com/p7s1-ctf/SevenFacette/tree/master/core/src/jsMain/kotlin/de/p7s1/qa/sevenfacette) - The JS platform native code for the core module
+* [web/jvmMain](https://github.com/p7s1-ctf/SevenFacette/tree/master/web/src/jvmMain/kotlin/de/p7s1/qa/sevenfacette) - The JVM specific Selenium implementation
 
-This list should be a good starting point. For more information on how to work with 7Facette's official packages, see [Contributing to 7Facette Packages][contributing-to-official-7Facette-packages].
-
-#### Module Conventions
-
-There are a few conventions that have developed over time around modules:
-
-* Modules are split by domains. 
-    * Domains are named `sevenfacette/[domain]`
+This list should be a good starting point. For more information on how to work with 7Facette's official modules, see [Contributing to 7Facette Modules][contributing-to-official-7Facette-modules].
 
 ### Design Decisions
 
-When we make a significant decision in how we maintain the project and what we can or cannot support, we will document it on [Spectrum, the official 7Facette message board](https://spectrum.chat/7facette?tab=posts). If you have a question around how we do things, check to see if it is documented there. If it is *not* documented there, please open a new discussion on the board and ask your question.
+When we make a significant decision in how we maintain the project and what we can or cannot support, we will document it on [Spectrum, the official 7Facette chat](https://spectrum.chat/7facette?tab=posts). If you have a question around how we do things, check to see if it is documented there. If it is *not* documented there, please open a new discussion on the chat and ask your question.
 
 ## How Can I Contribute?
 
@@ -81,7 +79,7 @@ Before creating bug reports, please check [this list](#before-submitting-a-bug-r
 
 #### How Do I Submit A (Good) Bug Report?
 
-Bugs are tracked as [GitHub issues](https://guides.github.com/features/issues/). After you've determined [which module](#7Facette-and-packages) your bug is related to, create an issue on the repository and provide the following information by filling in [the template](/ISSUE_TEMPLATE/bug_report.md).
+Bugs are tracked as [GitHub issues](https://guides.github.com/features/issues/). After you've determined [which module](#7Facette-and-modules) your bug is related to, create an issue on the repository and provide the following information by filling in [the template](/ISSUE_TEMPLATE/bug_report.md).
 
 Explain the problem and include additional details to help maintainers reproduce the problem:
 
@@ -99,7 +97,7 @@ Provide more context by answering these questions:
 
 * **Can you reproduce the problem?**
 * **Did the problem start happening recently** (e.g. after updating to a new version of 7Facette) or was this always a problem?
-* If the problem started happening recently, **can you reproduce the problem in an older version of **7Facette**?** What's the most recent version in which the problem doesn't happen? You can download older versions of 7Facette from [the releases page](https://github.com/7Facette/releases).
+* If the problem started happening recently, **can you reproduce the problem in an older version of **7Facette**?** What's the most recent version in which the problem doesn't happen? You can download older versions of 7Facette from [the bintray repository](https://bintray.com/beta/#/p7s1qa/sevenfacette-jvm).
 * **Can you reliably reproduce the issue?** If not, provide details about how often the problem happens and under which conditions it normally happens.
 * If the problem is related to working with files (e.g. opening and editing files), **does the problem happen for all files and projects or only some?** Does the problem happen only when working with local or remote files (e.g. on network drives), with files of a specific type (e.g. only Json or XML files), with large files or files with very long lines, or with files in a specific encoding? Is there anything else special about the files you are using?
 
@@ -109,7 +107,7 @@ Include details about your configuration and environment:
 * **What's the name and version of the OS you're using**?
 * **What's the kotlin, java or node js version you're using**?
 * **Which [modules](#facette-and-packages) are you using?** 
-* **Are you using environment variables or files** `config.env` to configure 7Facette? If so, provide the contents of those files, preferably in a [code block](https://help.github.com/articles/markdown-basics/#multiple-lines) or with a link to a [gist](https://gist.github.com/).
+* **Are you using environment variables or files** `config.yml` to configure 7Facette? If so, provide the contents of those files, preferably in a [code block](https://help.github.com/articles/markdown-basics/#multiple-lines) or with a link to a [gist](https://gist.github.com/).
 
 ### Suggesting Enhancements
 
@@ -148,7 +146,7 @@ Both issue lists are sorted by total number of comments. While not perfect, numb
 
 #### Local development
 
-7Facette core and all other modules can be developed locally. For instructions on how to do this, see the following sections in the [7Facette Wiki Local Development](https://flight-manual.7Facette.io)
+7Facette core and web module can be developed locally. For instructions on how to do this, see the following sections in the [7Facette Wiki Local Development](https://github.com/p7s1-ctf/SevenFacette/wiki/Local-Development)
 
 ### Pull Requests
 
@@ -163,7 +161,7 @@ Please follow these steps to have your contribution considered by the maintainer
 
 1. Follow all instructions in [the template](/misc/templates/PULL_REQUEST_TEMPLATE/)
 2. Follow the [styleguides](#styleguides)
-3. After you submit your pull request, verify that all [status checks](https://help.github.com/articles/about-status-checks/) are passing <details><summary>What if the status checks are failing?</summary>If a status check is failing, and you believe that the failure is unrelated to your change, please leave a comment on the pull request explaining why you believe the failure is unrelated. A maintainer will re-run the status check for you. If we conclude that the failure was a false positive, then we will open an issue to track that problem with our status check suite.</details>
+3. After you submit your pull request, verify that all [status checks](https://help.github.com/articles/about-status-checks/) are passing <details><summary>What if the status checks are failing?</summary>If a status check is failing, and you believe that the failure is unrelated to your change, please leave a comment on the pull request explaining why you believe the failure is unrelated. A maintainer will re-run the status check for you. If we conclude that the failure was a false positive, then we will open an issue to track that problem.</details>
 
 While the prerequisites above must be satisfied prior to having your pull request reviewed, the reviewer(s) may ask you to complete additional design work, tests, or other changes before your pull request can be ultimately accepted.
 
@@ -174,8 +172,7 @@ While the prerequisites above must be satisfied prior to having your pull reques
 * Use the present tense ("Add feature" not "Added feature")
 * Use the imperative mood ("Move file to..." not "Moves file to...")
 * Limit the first line to 72 characters or less
-* Reference issues and pull requests liberally after the first line
-* When only changing documentation, include `[ci skip]` in the commit title
+* Reference issues and pull requests liberally after the first lin
 * Consider starting the commit message with an applicable emoji:
     * :art: `:art:` code structure
     * :racehorse: `:racehorse:` performance
