@@ -51,14 +51,14 @@ We have an official [7Facette Spectrum Chat](https://spectrum.chat/7facette/?tab
 
 * [core/commonMain](https://github.com/p7s1-ctf/SevenFacette/tree/master/core/src/commonMain/kotlin/de.p7s1.qa.sevenfacette) - The shared core logic resides under the commonMain.
 * [core/jvmMain](https://github.com/p7s1-ctf/SevenFacette/tree/master/core/src/jvmMain/kotlin/de/p7s1/qa/sevenfacette) - The JVM platform native code for the core module
-* [core/jsMain](https://github.com/p7s1-ctf/SevenFacette/tree/master/core/src/jsMain/kotlin/de/p7s1/qa/sevenfacette) - The JS platform native code for the core module
+* [core/jsMain](https://github.com/p7s1-ctf/SevenFacette/tree/master/core/src/jsMain/kotlin/de.p7s1.qa.sevenfacette) - The JS platform native code for the core module
 * [web/jvmMain](https://github.com/p7s1-ctf/SevenFacette/tree/master/web/src/jvmMain/kotlin/de/p7s1/qa/sevenfacette) - The JVM specific Selenium implementation
 
-This list should be a good starting point. For more information on how to work with 7Facette's official modules, see [Contributing to 7Facette Modules][contributing-to-official-7Facette-modules].
+This list should be a good starting point.
 
 ### Design Decisions
 
-When we make a significant decision in how we maintain the project and what we can or cannot support, we will document it on [Spectrum, the official 7Facette chat](https://spectrum.chat/7facette?tab=posts). If you have a question around how we do things, check to see if it is documented there. If it is *not* documented there, please open a new discussion on the chat and ask your question.
+When we make a significant decision in how we maintain the project and what we can or cannot support, we will document it on [Spectrum, the official 7Facette Chat](https://spectrum.chat/7facette?tab=posts). If you have a question around how we do things, check to see if it is documented there. If it is *not* documented there, please open a new discussion on the chat and ask your question.
 
 ## How Can I Contribute?
 
@@ -66,20 +66,20 @@ When we make a significant decision in how we maintain the project and what we c
 
 This section guides you through submitting a bug report for 7Facette. Following these guidelines helps maintainers and the community understand your report :pencil:, reproduce the behavior :computer: :computer:, and find related reports :mag_right:.
 
-Before creating bug reports, please check [this list](#before-submitting-a-bug-report) as you might find out that you don't need to create one. When you are creating a bug report, please [include as many details as possible](#how-do-i-submit-a-good-bug-report). Fill out [the required template](/ISSUE_TEMPLATE/bug_report.md), the information it asks for helps us resolve issues faster.
+Before creating bug reports, please check [this list](#before-submitting-a-bug-report) as you might find out that you don't need to create one. When you are creating a bug report, please [include as many details as possible](#how-do-i-submit-a-good-bug-report). Fill out [the required template](/misc/templates/ISSUE_TEMPLATE/bug_report.md), the information it asks for helps us resolve issues faster.
 
 > **Note:** If you find a **Closed** issue that seems like it is the same thing that you're experiencing, open a new issue and include a link to the original issue in the body of your new one.
 
 #### Before Submitting A Bug Report
 
-* **Check the [debugging guide](https://7Facette/debugging/ NOTWENDIG?).** You might be able to find the cause of the problem and fix things yourself. Most importantly, check if you can reproduce the problem [in the latest version of 7Facette](), if the problem happens when you run 7Facette, and if you can get the desired behavior by changing [7Facette packages or config settings]().
+* **Check the [local development guide]((https://github.com/p7s1-ctf/SevenFacette/wiki/Local-Development)).** You might be able to find the cause of the problem and fix things yourself. Most importantly, check if you can reproduce the problem [in the latest version of 7Facette](https://bintray.com/beta/#/p7s1qa/sevenfacette-jvm), if the problem happens when you run 7Facette, and if you can get the desired behavior by changing [7Facette configuration](https://github.com/p7s1-ctf/SevenFacette/wiki/Configuration).
 * **Check the [FAQs on the forum](https://spectrum.chat/7facette?tab=posts)** for a list of common questions and problems.
-* **Determine [which module the problem should be reported in](#7Facette-and-packages)**.
-* **Perform a [cursory search]()** to see if the problem has already been reported. If it has **and the issue is still open**, add a comment to the existing issue instead of opening a new one.
+* **Determine [which module the problem should be reported in](#7Facette-and-Modules)**.
+* **Perform an [issue search](https://github.com/p7s1-ctf/SevenFacette/issues)** to see if the problem has already been reported. If it has **and the issue is still open**, add a comment to the existing issue instead of opening a new one.
 
 #### How Do I Submit A (Good) Bug Report?
 
-Bugs are tracked as [GitHub issues](https://guides.github.com/features/issues/). After you've determined [which module](#7Facette-and-modules) your bug is related to, create an issue on the repository and provide the following information by filling in [the template](/ISSUE_TEMPLATE/bug_report.md).
+Bugs are tracked as [GitHub issues](https://guides.github.com/features/issues/). After you've determined [which module](#7Facette-and-modules) your bug is related to, create an issue on the repository and provide the following information by filling in [the template](/misc/templates/ISSUE_TEMPLATE/bug_report.md).
 
 Explain the problem and include additional details to help maintainers reproduce the problem:
 
@@ -106,20 +106,20 @@ Include details about your configuration and environment:
 * **Which version of 7Facette are you using?** You can get the exact version from your gradle build, or maven pom.
 * **What's the name and version of the OS you're using**?
 * **What's the kotlin, java or node js version you're using**?
-* **Which [modules](#facette-and-packages) are you using?** 
+* **Which [modules](#facette-and-modules) are you using?** 
 * **Are you using environment variables or files** `config.yml` to configure 7Facette? If so, provide the contents of those files, preferably in a [code block](https://help.github.com/articles/markdown-basics/#multiple-lines) or with a link to a [gist](https://gist.github.com/).
 
 ### Suggesting Enhancements
 
 This section guides you through submitting an enhancement suggestion for 7Facette, including completely new features and minor improvements to existing functionality. Following these guidelines helps maintainers and the community understand your suggestion :pencil: and find related suggestions :mag_right:.
 
-Before creating enhancement suggestions, please check [this list](#before-submitting-an-enhancement-suggestion) as you might find out that you don't need to create one. When you are creating an enhancement suggestion, please [include as many details as possible](#how-do-i-submit-a-good-enhancement-suggestion). Fill in [the template](https://github.com/facette/.github/blob/master/.github/ISSUE_TEMPLATE/feature_request.md), including the steps that you imagine you would take if the feature you're requesting existed.
+Before creating enhancement suggestions, please check [this list](#before-submitting-an-enhancement-suggestion) as you might find out that you don't need to create one. When you are creating an enhancement suggestion, please [include as many details as possible](#how-do-i-submit-a-good-enhancement-suggestion). Fill in [the template](/misc/templates/ISSUE_TEMPLATE/feature_request.md), including the steps that you imagine you would take if the feature you're requesting existed.
 
 #### Before Submitting An Enhancement Suggestion
 
-* **Check the [Wiki](https://flight-manual.7Facette.io/hacking-7Facette/sections/debugging/)** for tips — you might discover that the enhancement is already available. Most importantly, check if you're using [the latest version of 7Facette](https://flight-manual.7Facette.io/hacking-7Facette/sections/debugging/#update-to-the-latest-version).
-* **Check if there's already [a module](https://7Facette.io/packages) which provides that enhancement.**
-* **Determine [which module the enhancement should be suggested in](#7Facette-and-packages).**
+* **Check the [Wiki](https://github.com/p7s1-ctf/SevenFacette/wiki)** for tips — you might discover that the enhancement is already available. Most importantly, check if you're using [the latest version of 7Facette](https://github.com/p7s1-ctf/SevenFacette/releases).
+* **Check if there's already [a module](#7Facette-and-modules) which provides that enhancement.**
+* **Determine [which module the enhancement should be suggested in](#7Facette-and-modules).**
 * **Perform a [cursory search](https://github.com/p7s1-ctf/SevenFacette/search?q=is%3Aissue+is%3Aopen&type=Issues)** to see if the enhancement has already been suggested. If it has, add a comment to the existing issue instead of opening a new one.
 
 #### How Do I Submit A (Good) Enhancement Suggestion?
