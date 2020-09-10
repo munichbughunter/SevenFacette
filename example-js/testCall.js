@@ -28,7 +28,7 @@ async function testCall() {
   });
 
   console.log("producer call is working");
-
+  await kProducer.disconnect();
   var expectedMessage = "";
 
 
@@ -52,7 +52,8 @@ async function testCall() {
   });
 
   await console.log(expectedMessage);
-  //await kConsumer.disconnect();
+  await kConsumer.disconnect();
+
   //process.exit();
 
   await console.log("Jetzt können wir auch den Process killen...");
