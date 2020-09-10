@@ -1,6 +1,7 @@
 # Welcome to 7Facette
 
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/p7s1-ctf/Sevenfacette?color=orange&label=7Facette)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/p7s1-ctf/Sevenfacette/7Facette?label=7Facette%20build)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/p7s1-ctf/Sevenfacette?color=orange&label=latest%20version)
 
 
 7Facette is an open-source multiplatform test automation library written in Kotlin with support for Kotlin Native, JVM and JS. It is designed to provide a structure
