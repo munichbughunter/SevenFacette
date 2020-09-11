@@ -9,10 +9,10 @@ assignees: ''
 
 **Prerequisites**
 Put an X between the brackets on this line if you have done all of the following:
-[ ] Reproduced the problem
-[ ] Checked the Wiki for common solutions
-[ ] Checked that your issue isn`t already filed
-[ ] Checked that there is not already an 7Facette module that provides the described functionality
+- [ ] Reproduced the problem
+- [ ] Checked the Wiki for common solutions
+- [ ] Checked that your issue isn`t already filed
+- [ ] Checked that there is not already an 7Facette module that provides the described functionality
 
 **Describe the bug**
 A clear and concise description of what the bug is.
