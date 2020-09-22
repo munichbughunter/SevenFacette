@@ -24,17 +24,17 @@ sevenfacette:
         port: 3001
         protocol: https://
   kafka:
-    bootstrapserver: development-kafka-sd.cp.pke.fhm.de:9192
+    bootstrapserver: localhost:9092
     autooffset: earliest
     sasl: true
     saslmechanism: SCRAM-SHA-256
     saslprotocol: SASL_SSL
-    sasluser: sg.qa.dev
+    sasluser: kafkaUser
     saslpw: "${kafkaPW}"
     consumingtimeout: 5000
     consumer:
-      ingest: ucp.sg-test-INGEST
-      replication: ucp-cc-replication
+      consumer1: topic1
+      consumer2: topic2
   web:
     browserName: chrome
     chromeBin: ""
@@ -51,6 +51,6 @@ sevenfacette:
       - 1080
     pollingInterval: 0.1
     baseUrl: http://juliemr.github.io/protractor-demo/
-    remoteUrl: https://zalenium.manitu.pke.fhm.de/wd/hub
+    remoteUrl: selenium.grid.url
     chromeArgs:
       - no-sandbox
