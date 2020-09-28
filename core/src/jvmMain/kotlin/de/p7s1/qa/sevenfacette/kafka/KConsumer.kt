@@ -2,15 +2,11 @@ package de.p7s1.qa.sevenfacette.kafka
 
 import de.p7s1.qa.sevenfacette.kafka.config.KTableTopicConfig
 import de.p7s1.qa.sevenfacette.kafka.config.SaslConfiguration
+import kotlinx.coroutines.*
 import java.time.Duration
 import java.util.UUID
 import java.util.concurrent.ConcurrentLinkedQueue
 import kotlin.coroutines.CoroutineContext
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 import mu.KotlinLogging
 import org.apache.kafka.clients.consumer.Consumer
 import org.apache.kafka.clients.consumer.ConsumerConfig
@@ -82,7 +78,7 @@ class KConsumer (
             Thread.sleep(500)
             waited += 500
             hasMessage = hasKRecords()
-        } while (!hasMessage && waited <= waitingTime)
+        } while (waited <= waitingTime)
         stopConsumer()
         return hasMessage
     }
@@ -90,17 +86,17 @@ class KConsumer (
     /**
      * Subscribe consumer on table topic, start consuming and add KRecords to kRecordQueue
      */
-    fun consume()  {
+    @ObsoleteCoroutinesApi
+    fun consume() = launch(newSingleThreadContext(tableTopicConfig.kafkaTopic)){
         consumer.subscribe(listOf(tableTopicConfig.kafkaTopic))
-        GlobalScope.launch {
-            logger.info("Start consuming and processing records")
-            while (keepGoing) {
-                consumer.poll(Duration.ofSeconds(tableTopicConfig.kafkaConfig.maxConsumingTime)).forEach {
-                    kRecordQueue.add(KRecord(it.key(), it.value(), it.offset(), it.partition()))
-                }
-                stopConsumer()
+        logger.info("Start consuming and processing records")
+        while (keepGoing) {
+            consumer.poll(Duration.ofSeconds(tableTopicConfig.kafkaConfig.maxConsumingTime)).forEach {
+                kRecordQueue.add(KRecord(it.key(), it.value(), it.offset(), it.partition()))
             }
         }
+        logger.info("Shut down consumer...: {}", tableTopicConfig.kafkaTopic)
+        shutdown()
     }
 
     /**
@@ -144,6 +140,5 @@ class KConsumer (
      */
     private fun stopConsumer() {
         keepGoing = false
-        shutdown()
     }
 }
