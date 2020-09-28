@@ -27,25 +27,25 @@ class JKafkaConsumerTest {
   @BeforeAll
   static void setUp() {
     kafkaConfig = new KConfig();
-    kafkaConfig.setAutoOffset("latest");
-    kafkaConfig.setBootstrapServer("development-kafka-sd.cp.pke.fhm.de:9192");
-    kafkaConfig.setSaslMechanism("SCRAM-SHA-256");
-    kafkaConfig.setKafkaUser("sg.qa.dev");
-    kafkaConfig.setKafkaPW(System.getenv("KAFKA_SASL_PASSWORD"));
-    kafkaConfig.setKafkaProtocol("SASL_SSL");
+    kafkaConfig.setAutoOffset("");
+    kafkaConfig.setBootstrapServer("");
+    kafkaConfig.setSaslMechanism("");
+    kafkaConfig.setKafkaUser("");
+    kafkaConfig.setKafkaPW(System.getenv(""));
+    kafkaConfig.setKafkaProtocol("");
     kafkaConfig.setMaxConsumingTime(45L);
 
     ingestConsumerConfig = new KTableTopicConfig(kafkaConfig);
-    ingestConsumerConfig.setKafkaTopic("ucp.sg-test-INGEST");
+    ingestConsumerConfig.setKafkaTopic("");
 
     commitConsumerConfig = new KTableTopicConfig(kafkaConfig);
-    commitConsumerConfig.setKafkaTopic("ucp.sg-test-KAFKAST-UCP_ST-commitstream");
+    commitConsumerConfig.setKafkaTopic("");
 
     replicationConsumerConfig = new KTableTopicConfig(kafkaConfig);
-    replicationConsumerConfig.setKafkaTopic("ucp.sg-test-FORWARD_REPLICATION");
+    replicationConsumerConfig.setKafkaTopic("");
 
     persistConsumerConfig = new KTableTopicConfig(kafkaConfig);
-    persistConsumerConfig.setKafkaTopic("ucp.sg-test-PERSISTED");
+    persistConsumerConfig.setKafkaTopic("");
   }
 
   @Test
