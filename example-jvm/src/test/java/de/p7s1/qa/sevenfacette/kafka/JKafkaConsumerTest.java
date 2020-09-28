@@ -24,7 +24,7 @@ class JKafkaConsumerTest {
   private static KConsumer replicationConsumer;
   private static KConsumer commitstreamConsumer;
 
-  @BeforeAll
+  //@BeforeAll
   static void setUp() {
     kafkaConfig = new KConfig();
     kafkaConfig.setAutoOffset("");
@@ -49,6 +49,7 @@ class JKafkaConsumerTest {
   }
 
   @Test
+  @Disabled
   void consumerFactory() {
     ingestConsumer = ingestConsumerConfig.createKConsumer(true);
     commitstreamConsumer = commitConsumerConfig.createKConsumer(true);
