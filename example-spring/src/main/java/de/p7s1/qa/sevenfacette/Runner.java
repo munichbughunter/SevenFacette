@@ -9,7 +9,6 @@ import de.p7s1.qa.sevenfacette.config.types.FacetteConfigDataClass;
 import de.p7s1.qa.sevenfacette.config.types.HttpClientConfig;
 import de.p7s1.qa.sevenfacette.config.types.WebConfig;
 import de.p7s1.qa.sevenfacette.http.GenericHttpClient;
-import de.p7s1.qa.sevenfacette.http.GenericHttpClientKt;
 import de.p7s1.qa.sevenfacette.http.HttpClientFactory;
 import de.p7s1.qa.sevenfacette.http.HttpHeader;
 import de.p7s1.qa.sevenfacette.http.HttpResponse;
