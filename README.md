@@ -50,8 +50,8 @@ Actual we provide a JVM implementation of the 7Facette core and web module. The 
 for the next release. 
 
 ```kotlin
-implementation 'de.p7s1.qa.sevenfacette:core-jvm:0.5.3'
-implementation 'de.p7s1.qa.sevenfacette:web-jvm:0.5.3'
+implementation 'de.p7s1.qa.sevenfacette:core-jvm:0.5.4'
+implementation 'de.p7s1.qa.sevenfacette:web-jvm:0.5.4'
 ```
 
 ## Questions or need help?
@@ -69,4 +69,3 @@ Please don't file an issue to ask a question, you'll get faster answers by using
 - I have an idea/request -- create an [issue](https://github.com/p7s1-ctf/SevenFacette/issues) using our [template](https://github.com/p7s1-ctf/SevenFacette/blob/documentation/create_readme/misc/templates/ISSUE_TEMPLATE/Feature_Request.md)
 - Why do you? -- [7Facette Spectrum.chat](https://spectrum.chat/7facette)
 - When will you? -- [7Facette Spectrum.chat](https://spectrum.chat/7facette)
-
