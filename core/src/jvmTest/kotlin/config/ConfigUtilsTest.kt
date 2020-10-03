@@ -1,3 +1,5 @@
+package config
+
 import de.p7s1.qa.sevenfacette.config.replaceEnvironmentVariables
 import de.p7s1.qa.sevenfacette.config.types.FacetteConfig
 import org.junit.Before

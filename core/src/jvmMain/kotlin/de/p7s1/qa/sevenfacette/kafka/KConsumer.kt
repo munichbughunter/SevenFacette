@@ -1,20 +1,16 @@
 package de.p7s1.qa.sevenfacette.kafka
 
-import de.p7s1.qa.sevenfacette.kafka.config.KTableTopicConfig
+import de.p7s1.qa.sevenfacette.config.types.KafkaTopicConfig
 import de.p7s1.qa.sevenfacette.kafka.config.SaslConfig
-import java.time.Duration
-import java.util.UUID
-import java.util.concurrent.ConcurrentLinkedQueue
-import kotlin.coroutines.CoroutineContext
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import org.apache.kafka.clients.consumer.Consumer
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.consumer.KafkaConsumer
 import org.apache.kafka.common.serialization.StringDeserializer
+import java.time.Duration
+import java.util.*
+import java.util.concurrent.ConcurrentLinkedQueue
+import kotlin.coroutines.CoroutineContext
 
 /**
  * JVM specific implementation of the Kafka consumer
@@ -24,7 +20,8 @@ import org.apache.kafka.common.serialization.StringDeserializer
  * @author Patrick Döring
  */
 class KConsumer (
-        private val tableTopicConfig: KTableTopicConfig
+    private val topicName: String,
+    private val topicConfig: KafkaTopicConfig
 ) : CoroutineScope by CoroutineScope(Dispatchers.Default) {
     private val job = Job()
     private val kRecordQueue = ConcurrentLinkedQueue<KRecord>()
@@ -37,14 +34,14 @@ class KConsumer (
      */
     fun createConsumer() : Consumer<String, String> {
         var config : MutableMap<String, Any> = mutableMapOf()
-        config[ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG] = tableTopicConfig.kafkaConfig.bootstrapServer
+        config[ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG] = topicConfig.bootstrapServer
         config[ConsumerConfig.GROUP_ID_CONFIG] = UUID.randomUUID().toString()
         config[ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG] = StringDeserializer::class.java
         config[ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG] = StringDeserializer::class.java
-        config[ConsumerConfig.AUTO_OFFSET_RESET_CONFIG] = tableTopicConfig.kafkaConfig.autoOffset
+        config[ConsumerConfig.AUTO_OFFSET_RESET_CONFIG] = topicConfig.autoOffset
 
-        if (tableTopicConfig.kafkaConfig.useSASL) {
-            config = SaslConfig.addSaslProperties(config, tableTopicConfig)
+        if (topicConfig.useSASLAuthentication) {
+            config = SaslConfig.addSaslProperties(config, topicConfig)
         }
         consumer = KafkaConsumer<String, String>(config)
         //logger.info("Create KConsumer")
@@ -89,11 +86,11 @@ class KConsumer (
      * Subscribe consumer on table topic, start consuming and add KRecords to kRecordQueue
      */
     fun consume()  {
-        consumer.subscribe(listOf(tableTopicConfig.kafkaTopic))
+        consumer.subscribe(listOf(topicName))
         GlobalScope.launch {
             //logger.info("Start consuming and processing records")
             while (keepGoing) {
-                consumer.poll(Duration.ofSeconds(tableTopicConfig.kafkaConfig.maxConsumingTime)).forEach {
+                consumer.poll(Duration.ofSeconds(topicConfig.maxConsumingTime)).forEach {
                     kRecordQueue.add(KRecord(it.key(), it.value(), it.offset(), it.partition()))
                 }
                 stopConsumer()

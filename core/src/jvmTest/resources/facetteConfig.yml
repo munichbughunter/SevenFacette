@@ -24,16 +24,20 @@ sevenFacette:
           baseUrl: some.url
           protocol: https
   kafka:
-    bootstrap: development-kafka.de:9192
+    bootstrapServer: development-kafka.de:9192
     consumer:
-      - name: testtopic1
+      testtopic1:
         useSASLAuthentication: false
-      - name: topic2
+        autoOffset: latest
+      topic2:
+        autoOffset: earliest
+        bootstrapServer: development-kafka.de:9191
     producer:
-      - name: testProducer1
+      testProducer1:
         useSASLAuthentication: true
         saslUsername: myProducerUserName
         saslPassword: myProducerUserPass
+        autoOffset: latest
   database:
     - name: pvv
       url: jdbc:sqli://localhost:1529/abc:INFORMIXSERVER=info_server

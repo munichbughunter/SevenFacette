@@ -4,8 +4,12 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class KafkaTopicConfig(
-        var name: String,
         var useSASLAuthentication: Boolean = false,
+        var saslMechanism: String? = null,
         var saslUsername: String? = null,
-        var saslPassword: String? = null
+        var saslPassword: String? = null,
+        var autoOffset: String,
+        var maxConsumingTime: Long = 0,
+        var kafkaProtocol: String = "",
+        var bootstrapServer: String = ""
 )

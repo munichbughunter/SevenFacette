@@ -1,3 +1,5 @@
+package config
+
 import de.p7s1.qa.sevenfacette.config.ConfigReader
 import de.p7s1.qa.sevenfacette.config.types.FacetteConfig
 import org.junit.Test
@@ -11,39 +13,53 @@ class ConfigTest {
     fun checkKafkaConfig() {
         val config = ConfigReader().readConfig().sevenFacette?.kafka
 
-        assertEquals("development-kafka.de:9192", config?.bootstrap,
+        assertEquals("development-kafka.de:9192", config?.bootstrapServer,
             "Kafka bootstrap server is not correct")
 
         assertEquals(2, config?.consumer?.size,
             "Number of consumers size is not correct")
-        assertEquals("testtopic1", config?.consumer?.get(0)?.name,
-            "Name of consumer 0 is not correct")
-        assertEquals(false, config?.consumer?.get(0)?.useSASLAuthentication,
-            "UseSasl of consumer 0 is not correct")
-        assertEquals(null, config?.consumer?.get(0)?.saslPassword,
-            "Sasl password of consumer 0 is not correct")
-        assertEquals(null, config?.consumer?.get(0)?.saslUsername,
-            "Sasl username of consumer 0 is not correct")
 
-        assertEquals("topic2", config?.consumer?.get(1)?.name,
-            "Name of consumer 1 is not correct")
-        assertEquals(false, config?.consumer?.get(1)?.useSASLAuthentication,
-            "UseSasl of consumer 1 is not correct")
-        assertEquals(null, config?.consumer?.get(1)?.saslPassword,
-            "Sasl password of consumer 1 is not correct")
-        assertEquals(null, config?.consumer?.get(1)?.saslUsername,
-            "Sasl username of consumer 1 is not correct")
+        val testtopic1 = config?.getKafkaConsumer("testtopic1")
 
-        assertEquals(1, config?.producer?.size,
+        assertNotNull(testtopic1,
+            "testtopic1 is not available")
+        assertEquals(false, testtopic1.useSASLAuthentication,
+            "UseSasl of consumer testtopic1 is not correct")
+        assertEquals(null, testtopic1.saslPassword,
+            "Sasl password of consumer testtopic1 is not correct")
+        assertEquals(null, testtopic1.saslUsername,
+            "Sasl username of consumer testtopic1 is not correct")
+        assertEquals("latest", testtopic1.autoOffset,
+            "Autooffset of consumer testtopic1 is not correct")
+
+        val topic2 = config.getKafkaConsumer("topic2")
+
+        assertNotNull(topic2,
+            "topic2 is not available")
+        assertEquals(false, topic2.useSASLAuthentication,
+            "UseSasl of consumer topic2 is not correct")
+        assertEquals(null, topic2.saslPassword,
+            "Sasl password of consumer topic2 is not correct")
+        assertEquals(null, topic2.saslUsername,
+            "Sasl username of consumer topic2 is not correct")
+        assertEquals("earliest", topic2.autoOffset,
+            "Autooffset of consumer topic2 is not correct")
+        assertEquals("development-kafka.de:9191", topic2.bootstrapServer,
+            "Bootstrapserver of consumer topic2 is not correct")
+
+        assertEquals(1, config.producer.size,
             "Number of producers is not correct")
-        assertEquals("testProducer1", config?.producer?.get(0)?.name,
-            "Name of producer 0 is not correct")
-        assertEquals(true, config?.producer?.get(0)?.useSASLAuthentication,
-            "Use sasl of producer 0 is not correct")
-        assertEquals("myProducerUserPass", config?.producer?.get(0)?.saslPassword,
-            "Sasl password of producer 0 is not correct")
-        assertEquals("myProducerUserName", config?.producer?.get(0)?.saslUsername,
-            "Sasl username of producer 0 is not correct")
+
+        val testProducer1 = config.getKafkaProducer("testProducer1")
+
+        assertNotNull(testProducer1,
+            "testProducer1 is not available")
+        assertEquals(true, testProducer1.useSASLAuthentication,
+            "Use sasl of producer testProducer1 is not correct")
+        assertEquals("myProducerUserPass", testProducer1.saslPassword,
+            "Sasl password of producer testProducer1 is not correct")
+        assertEquals("myProducerUserName", testProducer1.saslUsername,
+            "Sasl username of producer testProducer1 is not correct")
     }
 
     @Test
