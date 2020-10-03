@@ -1,14 +1,12 @@
 package de.p7s1.qa.sevenfacette.http
 
-import io.ktor.client.HttpClient
-import io.ktor.client.request.request
-import io.ktor.client.request.url
-import io.ktor.http.HttpMethod
-import io.ktor.http.content.ByteArrayContent
-import io.ktor.http.content.TextContent
-import io.ktor.http.userAgent
+import io.ktor.client.*
+import io.ktor.client.request.*
+import io.ktor.http.*
+import io.ktor.http.content.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+
 //import mu.KotlinLogging
 
 /**
