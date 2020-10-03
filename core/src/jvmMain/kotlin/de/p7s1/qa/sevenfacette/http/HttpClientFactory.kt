@@ -30,17 +30,27 @@ class HttpClientFactory {
 
         private var authenticationProvidedByUser: Boolean = false
 
+        private fun createConfig(clientName: String): HttpClientConfig {
+            val config = FacetteConfig.http?.getClient(clientName)
+                ?: throw Exception("Client $clientName not found in configuration")
+            if(config.connectionRequestTimeout==null) config.connectionRequestTimeout = FacetteConfig.http?.connectionRequestTimeout
+            if(config.connectionTimeout==null) config.connectionTimeout = FacetteConfig.http?.connectionTimeout
+            if(config.socketTimeout==null) config.socketTimeout = FacetteConfig.http?.socketTimeout
+            if(config.proxy==null) config.proxy = FacetteConfig.http?.proxy
+            return config
+        }
+
         @JvmStatic
         fun createClient(clientName: String): GenericHttpClient = createClient(
-                FacetteConfig.http?.getClient(clientName)!!
+                createConfig(clientName)
         )
 
         @JvmStatic
         fun createClient(clientName: String, authentication: MutableMap<String, String>): GenericHttpClient {
             authenticationProvidedByUser = true
-            val config = FacetteConfig.http?.getClient(clientName)
-            config?.authentication = authentication
-            return createClient(config!!)
+            val config = createConfig(clientName)
+            config.authentication = authentication
+            return createClient(config)
         }
 
         /**
@@ -54,9 +64,9 @@ class HttpClientFactory {
         fun createClient(configHttp: HttpClientConfig): GenericHttpClient {
             val apache = Apache.create {
                 customizeClient {
-                    socketTimeout = configHttp.socketTimeout
-                    connectTimeout = configHttp.connectionTimeout
-                    connectionRequestTimeout = configHttp.connectionRequestTimeout
+                    socketTimeout = configHttp.socketTimeout!!
+                    connectTimeout = configHttp.connectionTimeout!!
+                    connectionRequestTimeout = configHttp.connectionRequestTimeout!!
 
                     setSSLContext(
                             SSLContextBuilder
