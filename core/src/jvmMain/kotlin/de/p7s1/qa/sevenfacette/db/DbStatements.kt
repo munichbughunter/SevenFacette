@@ -1,6 +1,6 @@
 package de.p7s1.qa.sevenfacette.db
 
-import java.util.Collections
+import java.util.*
 
 actual class DbStatements {
 
@@ -24,5 +24,9 @@ actual class DbStatements {
 
     actual fun size(): Int {
         return statements.size
+    }
+
+    actual fun reformat(index: Int, vararg args: String) {
+        statements[index] = String.format(statements[index], args)
     }
 }
