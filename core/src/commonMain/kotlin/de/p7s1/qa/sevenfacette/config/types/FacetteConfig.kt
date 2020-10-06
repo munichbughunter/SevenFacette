@@ -22,7 +22,7 @@ expect object FacetteConfig {
         private set
     var kafka: KafkaConfig?
         private set
-    var database: List<DatabaseConfig>?
+    var database: Map<String, DatabaseConfig>?
         private set
     var application: ApplicationConfig?
         private set

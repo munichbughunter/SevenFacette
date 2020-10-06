@@ -18,7 +18,7 @@ import kotlinx.serialization.Serializable
 data class FacetteConfigDataClass (
         var http: HttpConfig? = null,
         var kafka: KafkaConfig? = null,
-        var database: List<DatabaseConfig>? = null,
+        var database: Map<String, DatabaseConfig>? = null,
         var application: ApplicationConfig? = null,
         var custom: Map<String, String> = mutableMapOf(),
         var web: WebConfig? = null

@@ -18,7 +18,7 @@ actual object FacetteConfig {
         private set
     actual var kafka: KafkaConfig? = null
         private set
-    actual var database: List<DatabaseConfig>? = null
+    actual var database: Map<String, DatabaseConfig>? = null
         private set
     actual var application: ApplicationConfig? = null
         private set
@@ -30,7 +30,7 @@ actual object FacetteConfig {
     }
 
     actual fun update() {
-        val config = ConfigReader().readConfig().sevenFacette
+        val config = ConfigReader.readConfig().sevenFacette
         set(config!!)
     }
 

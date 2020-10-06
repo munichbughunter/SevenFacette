@@ -39,10 +39,10 @@ sevenFacette:
         saslPassword: myProducerUserPass
         autoOffset: latest
   database:
-    - name: pvv
+    pvv:
       url: jdbc:sqli://localhost:1529/abc:INFORMIXSERVER=info_server
       driver: com.informix.jdbc.IfxDriver
-    - name: postgres
+    postgres:
       url: jdbc:postgresql://dev.svc.kube.local:5432/dev
       driver: org.postgresql.Driver
   application:

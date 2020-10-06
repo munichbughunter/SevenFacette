@@ -1,7 +1,7 @@
 package de.p7s1.qa.sevenfacette.config
 
 import com.charleskorn.kaml.Yaml
-import de.p7s1.qa.sevenfacette.config.types.SevenFacetteConfig
+import de.p7s1.qa.sevenfacette.config.types.*
 
 /**
  * Class to read the config yaml file(s).
@@ -13,17 +13,35 @@ import de.p7s1.qa.sevenfacette.config.types.SevenFacetteConfig
 //private val logger = KotlinLogging.logger {}
 actual class ConfigReader {
 
-    /**
-     * Reads the configuration.
-     *
-     * @return FacetteConfigDataClass
-     */
-    actual fun readConfig(): SevenFacetteConfig {
-        val config = replaceEnvironmentVariables(replaceImports(getConfigFileName().toString()))
-        var result = SevenFacetteConfig()
-        if(config != "") {
-            result = Yaml.default.decodeFromString(SevenFacetteConfig.serializer(), config)
+    actual companion object {
+        /**
+         * Reads the configuration.
+         *
+         * @return FacetteConfigDataClass
+         */
+        actual fun readConfig(): SevenFacetteConfig {
+            val config = replaceEnvironmentVariables(replaceImports(getConfigFileName().toString()))
+            var result = SevenFacetteConfig()
+            if(config != "") {
+                result = Yaml.default.decodeFromString(SevenFacetteConfig.serializer(), config)
+            }
+            return result
         }
-        return result
+
+        @JvmStatic
+        actual fun getHttpConfig(clientName: String): HttpClientConfig? =
+                FacetteConfig.http?.clients?.get(clientName)
+
+        @JvmStatic
+        actual fun getKafkaConsumer(consumerName: String): KafkaTopicConfig? =
+                FacetteConfig.kafka?.consumer?.get(consumerName)
+
+        @JvmStatic
+        actual fun getKafkaProducer(producerName: String): KafkaTopicConfig? =
+                FacetteConfig.kafka?.producer?.get(producerName)
+
+        @JvmStatic
+        actual fun getDatabase(databaseName: String) : DatabaseConfig? =
+                FacetteConfig.database?.get(databaseName)
     }
 }

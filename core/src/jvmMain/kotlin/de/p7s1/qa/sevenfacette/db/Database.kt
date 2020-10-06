@@ -1,6 +1,6 @@
 package de.p7s1.qa.sevenfacette.db
 
-import de.p7s1.qa.sevenfacette.db.config.DConfig
+import de.p7s1.qa.sevenfacette.config.types.DatabaseConfig
 import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.ResultSet
@@ -18,7 +18,7 @@ import java.util.function.Consumer
  */
 //private val logger = KotlinLogging.logger {}
 class Database(
-        private val dbConfig: DConfig
+        private val dbConfig: DatabaseConfig
 ) {
     private val select = "select"
     private val emptyValue = "NULL"
@@ -32,8 +32,8 @@ class Database(
      */
     private fun openConnection(): Connection {
         return try {
-            Class.forName(dbConfig.dbDriver)
-            DriverManager.getConnection(dbConfig.dbUrl, dbConfig.dbUser, dbConfig.dbPW)
+            Class.forName(dbConfig.driver)
+            DriverManager.getConnection(dbConfig.url, dbConfig.user, dbConfig.password)
         } catch (e: ClassNotFoundException) {
             throw RuntimeException(e)
         } catch (e: SQLException) {

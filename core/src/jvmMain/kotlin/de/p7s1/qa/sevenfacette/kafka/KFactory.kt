@@ -1,5 +1,6 @@
 package de.p7s1.qa.sevenfacette.kafka
 
+import de.p7s1.qa.sevenfacette.config.ConfigReader
 import de.p7s1.qa.sevenfacette.config.types.FacetteConfig
 import de.p7s1.qa.sevenfacette.config.types.KafkaTopicConfig
 
@@ -20,7 +21,7 @@ class KFactory {
          */
         @JvmStatic
         fun createConsumer(consumerName: String, autoStart: Boolean) : KConsumer {
-            val config: KafkaTopicConfig = FacetteConfig.kafka?.getKafkaConsumer(consumerName) ?:
+            val config: KafkaTopicConfig = ConfigReader.getKafkaConsumer(consumerName) ?:
                 throw Exception("Kafka config for consumer $consumerName not found")
             if(config.bootstrapServer.isEmpty()) config.bootstrapServer = FacetteConfig.kafka?.bootstrapServer ?: ""
 
@@ -50,7 +51,7 @@ class KFactory {
          */
         @JvmStatic
         fun createKProducer(producerName: String, autoSend: Boolean) : KProducer {
-            val config = FacetteConfig.kafka?.getKafkaProducer(producerName) ?:
+            val config = ConfigReader.getKafkaProducer(producerName) ?:
             throw Exception("Kafka config for consumer $producerName not found")
             if(config.bootstrapServer.isEmpty()) config.bootstrapServer = FacetteConfig.kafka?.bootstrapServer ?: ""
 

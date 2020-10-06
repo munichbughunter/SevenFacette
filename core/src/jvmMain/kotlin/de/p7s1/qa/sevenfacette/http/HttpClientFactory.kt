@@ -1,5 +1,6 @@
 package de.p7s1.qa.sevenfacette.http
 
+import de.p7s1.qa.sevenfacette.config.ConfigReader
 import de.p7s1.qa.sevenfacette.config.types.FacetteConfig
 import de.p7s1.qa.sevenfacette.config.types.HttpClientConfig
 import de.p7s1.qa.sevenfacette.http.auth.AuthenticationFactory
@@ -26,7 +27,8 @@ class HttpClientFactory {
         private var authenticationProvidedByUser: Boolean = false
 
         private fun createConfig(clientName: String): HttpClientConfig {
-            val config = FacetteConfig.http?.getClient(clientName)
+
+            val config = ConfigReader.getHttpConfig(clientName)
                 ?: throw Exception("Client $clientName not found in configuration")
             if(config.connectionRequestTimeout==null) config.connectionRequestTimeout = FacetteConfig.http?.connectionRequestTimeout
             if(config.connectionTimeout==null) config.connectionTimeout = FacetteConfig.http?.connectionTimeout

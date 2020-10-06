@@ -22,8 +22,7 @@ class ConfigTestMultiFiles {
 
     @Test
     fun multiTest() {
-        val cReader = ConfigReader()
-        val config = cReader.readConfig()
+        val config = ConfigReader.readConfig()
         assert(config.sevenFacette?.http?.clients?.size == 2)
             { println("Actual client size == ${config.sevenFacette?.http?.clients?.size}") }
         assert(config.sevenFacette?.custom?.size == 4)

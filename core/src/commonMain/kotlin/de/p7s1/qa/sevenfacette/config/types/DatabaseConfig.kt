@@ -4,7 +4,10 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class DatabaseConfig(
-        val name: String,
         val url: String,
-        val driver: String
+        val driver: String,
+        val user: String? = null,
+        val password: String? = null,
+        var autoCommit: Boolean = true,
+        var stopOnError: Boolean = false
 )

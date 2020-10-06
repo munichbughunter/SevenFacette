@@ -13,6 +13,4 @@ data class HttpConfig(
         var socketTimeout: Int = 0,
         var proxy: HttpProxy? = null,
         val clients: Map<String, HttpClientConfig>
-) {
-    fun getClient(clientName: String): HttpClientConfig? = clients[clientName]
-}
+)
