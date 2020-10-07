@@ -21,7 +21,7 @@ class KFactory {
          */
         @JvmStatic
         fun createConsumer(consumerName: String, autoStart: Boolean) : KConsumer {
-            val config: KafkaTopicConfig = ConfigReader.getKafkaConsumer(consumerName) ?:
+            val config: KafkaTopicConfig = ConfigReader.getKafkaConsumerConfig(consumerName) ?:
                 throw Exception("Kafka config for consumer $consumerName not found")
             if(config.bootstrapServer.isEmpty()) config.bootstrapServer = FacetteConfig.kafka?.bootstrapServer ?: ""
 
@@ -51,7 +51,7 @@ class KFactory {
          */
         @JvmStatic
         fun createKProducer(producerName: String, autoSend: Boolean) : KProducer {
-            val config = ConfigReader.getKafkaProducer(producerName) ?:
+            val config = ConfigReader.getKafkaProducerConfig(producerName) ?:
             throw Exception("Kafka config for consumer $producerName not found")
             if(config.bootstrapServer.isEmpty()) config.bootstrapServer = FacetteConfig.kafka?.bootstrapServer ?: ""
 

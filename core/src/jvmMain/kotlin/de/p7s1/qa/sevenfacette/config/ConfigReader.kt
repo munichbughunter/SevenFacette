@@ -33,15 +33,15 @@ actual class ConfigReader {
                 FacetteConfig.http?.clients?.get(clientName)
 
         @JvmStatic
-        actual fun getKafkaConsumer(consumerName: String): KafkaTopicConfig? =
+        actual fun getKafkaConsumerConfig(consumerName: String): KafkaTopicConfig? =
                 FacetteConfig.kafka?.consumer?.get(consumerName)
 
         @JvmStatic
-        actual fun getKafkaProducer(producerName: String): KafkaTopicConfig? =
+        actual fun getKafkaProducerConfig(producerName: String): KafkaTopicConfig? =
                 FacetteConfig.kafka?.producer?.get(producerName)
 
         @JvmStatic
-        actual fun getDatabase(databaseName: String) : DatabaseConfig? =
+        actual fun getDatabaseConfig(databaseName: String) : DatabaseConfig? =
                 FacetteConfig.database?.get(databaseName)
     }
 }

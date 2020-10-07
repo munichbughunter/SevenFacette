@@ -19,7 +19,7 @@ class ConfigTest {
         assertEquals(2, config?.consumer?.size,
             "Number of consumers size is not correct")
 
-        val testtopic1 = ConfigReader.getKafkaConsumer("testtopic1")
+        val testtopic1 = ConfigReader.getKafkaConsumerConfig("testtopic1")
 
         assertNotNull(testtopic1,
             "testtopic1 is not available")
@@ -32,7 +32,7 @@ class ConfigTest {
         assertEquals("latest", testtopic1.autoOffset,
             "Autooffset of consumer testtopic1 is not correct")
 
-        val topic2 = ConfigReader.getKafkaConsumer("topic2")
+        val topic2 = ConfigReader.getKafkaConsumerConfig("topic2")
 
         assertNotNull(topic2,
             "topic2 is not available")
@@ -50,7 +50,7 @@ class ConfigTest {
         assertEquals(1, config?.producer?.size,
             "Number of producers is not correct")
 
-        val testProducer1 = ConfigReader.getKafkaProducer("testProducer1")
+        val testProducer1 = ConfigReader.getKafkaProducerConfig("testProducer1")
 
         assertNotNull(testProducer1,
             "testProducer1 is not available")
@@ -69,14 +69,14 @@ class ConfigTest {
         assertEquals(2, config?.size,
             "Number of databases is not correct")
 
-        val pvvDatabase = ConfigReader.getDatabase("pvv")
+        val pvvDatabase = ConfigReader.getDatabaseConfig("pvv")
 
         assertEquals("jdbc:sqli://localhost:1529/abc:INFORMIXSERVER=info_server", pvvDatabase?.url,
             "Url of database 0 is not correct")
         assertEquals("com.informix.jdbc.IfxDriver", pvvDatabase?.driver,
             "Driver of database 0 is not correct")
 
-        val postgresDb = ConfigReader.getDatabase("postgres")
+        val postgresDb = ConfigReader.getDatabaseConfig("postgres")
         assertEquals("jdbc:postgresql://dev.svc.kube.local:5432/dev", postgresDb?.url,
             "Url of database 1 is not correct")
         assertEquals("org.postgresql.Driver", postgresDb?.driver,

@@ -18,12 +18,12 @@ expect class ConfigReader {
         fun getHttpConfig(clientName: String): HttpClientConfig?
 
         @JvmStatic
-        fun getKafkaConsumer(consumerName: String): KafkaTopicConfig?
+        fun getKafkaConsumerConfig(consumerName: String): KafkaTopicConfig?
 
         @JvmStatic
-        fun getKafkaProducer(producerName: String): KafkaTopicConfig?
+        fun getKafkaProducerConfig(producerName: String): KafkaTopicConfig?
 
         @JvmStatic
-        fun getDatabase(databaseName: String) : DatabaseConfig?
+        fun getDatabaseConfig(databaseName: String) : DatabaseConfig?
     }
 }

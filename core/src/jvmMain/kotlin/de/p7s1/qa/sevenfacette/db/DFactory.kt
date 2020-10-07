@@ -13,7 +13,7 @@ class DFactory {
     companion object {
         @JvmStatic
         fun createDatabase(databaseName: String) : Database {
-            val config = ConfigReader.getDatabase(databaseName) ?: throw Exception("No config found for database $databaseName")
+            val config = ConfigReader.getDatabaseConfig(databaseName) ?: throw Exception("No config found for database $databaseName")
             return Database(config)
         }
 
