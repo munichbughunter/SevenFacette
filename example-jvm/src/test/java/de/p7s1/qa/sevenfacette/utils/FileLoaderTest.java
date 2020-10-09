@@ -13,7 +13,7 @@ class FileLoaderTest {
   static final String RESOURCES_TEST_FOLDER = "testfiles/";
 
   @Test
-  @Disabled
+  @Disabled // git can't handle references in package structure
   void readRessourceFileAsInputStream() {
     InputStream inputStream = new FileLoader().loadFileFromResourceAsStream(RESOURCES_TEST_FOLDER, "test.txt");
 
@@ -24,7 +24,7 @@ class FileLoaderTest {
   }
 
   @Test
-  @Disabled
+  @Disabled // git can't handle references in package structure
   void readRessourceFileAsString() {
     String fileContent = new FileLoader().loadFileFromResourceAsString(RESOURCES_TEST_FOLDER, "test.txt");
     assert(!fileContent.isEmpty());
