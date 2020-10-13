@@ -22,4 +22,12 @@ class KConfig {
     var useSASL: Boolean = true
 
     var kafkaProtocol: String = ""
+
+    var groupID: String = ""
+
+    var isolationLevel: String = ""
+
+    var autoCommit: Boolean = false
+
+    var autoCommitInterval: Int = 0
 }
