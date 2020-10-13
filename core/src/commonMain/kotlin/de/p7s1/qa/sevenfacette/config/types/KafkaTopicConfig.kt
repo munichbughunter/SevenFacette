@@ -11,5 +11,10 @@ data class KafkaTopicConfig(
         var autoOffset: String,
         var maxConsumingTime: Long = 0,
         var kafkaProtocol: String = "",
-        var bootstrapServer: String = ""
+        var bootstrapServer: String = "",
+        var groupID: String = "",
+        var isolationLevel: String = "",
+        var autoCommit: Boolean = false,
+        var autoCommitInterval: Int = 0,
+        var kafkaTopic: String = ""
 )
