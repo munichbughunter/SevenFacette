@@ -4,7 +4,7 @@ import de.p7s1.qa.sevenfacette.db.DFactory
 import de.p7s1.qa.sevenfacette.db.DbStatements
 
 /**
- * Holds the basic Kafka configuration parameter
+ * Holds the basic database configuration parameter
  *
  * @parmeter [dbDriver] Database driver
  * @parmeter [dbUrl] Database url
