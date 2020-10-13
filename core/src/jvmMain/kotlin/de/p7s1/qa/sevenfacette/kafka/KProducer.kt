@@ -15,7 +15,6 @@ import org.apache.kafka.common.serialization.StringSerializer
  * @author Patrick Döring
  */
 class KProducer (
-    private val topicName: String,
     private val topicConfig: KafkaTopicConfig,
     private var autoSend: Boolean
 ) {
@@ -44,7 +43,7 @@ class KProducer (
      * @param [msg]
      */
     fun send(msg: String) {
-        producer.send(ProducerRecord(topicName, msg))
+        producer.send(ProducerRecord(topicConfig.kafkaTopic, msg))
         if (autoSend) {
             flush()
         }
@@ -57,7 +56,7 @@ class KProducer (
      * @param [msg]
      */
     fun sendKeyMessage(key: String, msg: String) {
-        producer.send(ProducerRecord(topicName, key, msg))
+        producer.send(ProducerRecord(topicConfig.kafkaTopic, key, msg))
         if (autoSend) {
             flush()
         }
