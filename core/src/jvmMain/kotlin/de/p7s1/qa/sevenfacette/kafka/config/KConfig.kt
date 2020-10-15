@@ -25,9 +25,17 @@ class KConfig {
 
     var groupID: String = ""
 
+    var readIsolationLevel: IsolationLevel = IsolationLevel.DEFAULT
+
+    @Deprecated("Please use the new Enum instead", ReplaceWith("readIsolationLevel"))
     var isolationLevel: String = ""
 
     var autoCommit: Boolean = false
 
     var autoCommitInterval: Int = 0
+
+    enum class IsolationLevel(val isolationLevel: String) {
+        DEFAULT(""),
+        READ_COMMITTED("read_committed")
+    }
 }
