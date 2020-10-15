@@ -1,13 +1,48 @@
-const sevenfacette = require('../build/js/packages/SevenFacette-core').de.p7s1.qa.sevenfacette.kafka;
+const sfKafka = require('../build/js/packages/SevenFacette-core').de.p7s1.qa.sevenfacette.kafka;
+const sfConfig = require('../build/js/packages/SevenFacette-core').de.p7s1.qa.sevenfacette.config;
 
-async function testCall() {
+async function testConsumer() {
 
-  var kConfig = new sevenfacette.config.KConfig();
-  kConfig.autoOffset = 'earliest';
+  var kConfig = new sfConfig.types.KafkaTopicConfig();
+  kConfig.autoOffset = true;
   kConfig.bootstrapServer = 'localhost:9092';
-  kConfig.useSASL = false;
-  kConfig.maxConsumingTime = 5000;
+  kConfig.maxConsumingTime = 50;
+  kConfig.kafkaTopic = 'test';
 
+  console.log(kConfig);
+
+  // Now we will check if we can consume from a topic
+  // Create KConsumer
+  const sfConsumer = new sfKafka.KFactory().createKConsumer("testConsumer", kConfig);
+  console.log(sfConsumer);
+
+  let consumedMessages = [];
+
+  await sfConsumer.connect();
+  await sfConsumer.subscribe({topic: kConfig.kafkaTopic, fromBeginning: kConfig.autoOffset})
+  await sfConsumer.run({
+    eachMessage: async ({ topic, partition, message }) => {
+      console.log({
+        value: message.value.toString(),
+      })
+      consumedMessages.push(message.value.toString())
+    },
+  });
+  setTimeout(() => {
+    sfConsumer.stop();
+    sfConsumer.disconnect();
+    console.log(consumedMessages);
+  }, 8000);
+
+
+
+  //var kConfig = new sevenfacette.config.KConfig();
+  //kConfig.autoOffset = 'earliest';
+  //kConfig.bootstrapServer = 'localhost:9092';
+  //kConfig.useSASL = false;
+  //kConfig.maxConsumingTime = 5000;
+
+  /*
   var producerConfig = new sevenfacette.config.KTableTopicConfig(kConfig);
   producerConfig.kafkaTopic = 'test';
   console.log(producerConfig);
@@ -32,31 +67,13 @@ async function testCall() {
   var expectedMessage = "";
 
 
-  // Create KConsumer
-  const kConsumer = producerConfig.createKConsumer();
-  console.log(kConsumer);
-  await kConsumer.connect();
-  await kConsumer.subscribe({topic: producerConfig.kafkaTopic, fromBeginning: true});
-  await kConsumer.run({
-    eachMessage: async ({ topic, partition, message }) => {
-      if (message.value.toString().includes('New')) {
-        console.log("ready with consuming... We can stop now...");
-        expectedMessage = message.value.toString();
-        //kConsumer.disconnect();
-        kConsumer.stop();
-      }
-      console.log({
-        value: message.value.toString(),
-      })
-    },
-  });
 
-  await console.log(expectedMessage);
-  await kConsumer.disconnect();
 
   //process.exit();
 
   await console.log("Jetzt können wir auch den Process killen...");
+
+   */
 }
-testCall();
+testConsumer();
 

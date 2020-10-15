@@ -13,7 +13,7 @@ actual object FacetteConfig {
     actual var kafka: KafkaConfig?
         get() = TODO("Not yet implemented")
         set(value) {}
-    actual var database: List<DatabaseConfig>?
+    actual var database: Map<String, DatabaseConfig>?
         get() = TODO("Not yet implemented")
         set(value) {}
     actual var application: ApplicationConfig?

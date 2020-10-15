@@ -3,7 +3,6 @@ package de.p7s1.qa.sevenfacette.kafka
 import de.p7s1.qa.sevenfacette.config.ConfigReader
 import de.p7s1.qa.sevenfacette.config.types.FacetteConfig
 import de.p7s1.qa.sevenfacette.config.types.KafkaTopicConfig
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 
 /**
  * JVM specific implementation of the KFactory to create consumer and producer objects
@@ -20,19 +19,17 @@ class KFactory {
          * @param [consumerName] and [autoStart]
          * @return [KConsumer]
          */
-        @ObsoleteCoroutinesApi
         @JvmStatic
-        fun createConsumer(consumerName: String, autoStart: Boolean) : KConsumer {
+        fun createKConsumer(consumerName: String, autoStart: Boolean) : KConsumer {
             val config: KafkaTopicConfig = ConfigReader.getKafkaConsumerConfig(consumerName) ?:
                 throw Exception("Kafka config for consumer $consumerName not found")
             if(config.bootstrapServer.isEmpty()) config.bootstrapServer = FacetteConfig.kafka?.bootstrapServer ?: ""
 
-            return createConsumer(config, autoStart)
+            return createKConsumer(config, autoStart)
         }
 
-        @ObsoleteCoroutinesApi
         @JvmStatic
-        fun createConsumer(config: KafkaTopicConfig, autoStart: Boolean) : KConsumer {
+        fun createKConsumer(config: KafkaTopicConfig, autoStart: Boolean) : KConsumer {
             return when (autoStart) {
                 true -> KConsumer(config).apply {
                     createConsumer()
