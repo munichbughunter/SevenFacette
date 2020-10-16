@@ -11,7 +11,7 @@ async function testConsumer() {
   kConfig.autoOffset = true;
   kConfig.bootstrapServer = 'localhost:9092';
   kConfig.maxConsumingTime = 50;
-  kConfig.kafkaTopic = 'test';
+  kConfig.topicName = 'test';
 
   console.log(kConfig);
 
@@ -50,9 +50,8 @@ async function testConsumer() {
   var producer = new sfKafka.KProducer("testProducer", kConfig).createKProducer();
   console.log("PRODUCER:");
   console.log(producer);
-  producer.sendKafkaMessage();
-
   console.log(producer.getTopic());
+  producer.sendKafkaMessage("Testmessage", "Here I am");
 
   //var sfProducer = new sfKafka.KProducer("testProducer", kConfig).createKProducer();
 
