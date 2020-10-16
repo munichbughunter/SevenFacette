@@ -39,11 +39,14 @@ async function testConsumer() {
   //   console.log(consumedMessages);
   // }, 8000);
 
-  //const kenjiConsumer = createConsumer(kConfig);
-  //consi.createKConsumer(kConfig);
+
 
   // Now we will check if we can produce a message to a topic
   // Create KProducer
+
+  //const kenjiConsumer = createConsumer(kConfig);
+  //consi.createKConsumer(kConfig);
+
   var producer = new sfKafka.KProducer("testProducer", kConfig).createKProducer();
   console.log("PRODUCER:");
   console.log(producer);

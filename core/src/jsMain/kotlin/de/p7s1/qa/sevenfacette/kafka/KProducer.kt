@@ -48,6 +48,6 @@ class KProducer (
 
     @JsName("getTopic")
     fun getTopic(): String {
-        return topicConfig.kafkaTopic
+        return topicConfig.topicName
     }
 }
