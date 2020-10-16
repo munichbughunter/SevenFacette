@@ -1,8 +1,7 @@
 package de.p7s1.qa.sevenfacette.config
 
 import com.charleskorn.kaml.Yaml
-import de.p7s1.qa.sevenfacette.config.types.SevenFacetteConfig
-import mu.KotlinLogging
+import de.p7s1.qa.sevenfacette.config.types.*
 
 /**
  * Class to read the config yaml file(s).
@@ -11,20 +10,38 @@ import mu.KotlinLogging
  *
  * @author Florian Pilz
  */
-private val logger = KotlinLogging.logger {}
+//private val logger = KotlinLogging.logger {}
 actual class ConfigReader {
 
-    /**
-     * Reads the configuration.
-     *
-     * @return FacetteConfigDataClass
-     */
-    actual fun readConfig(): SevenFacetteConfig {
-        val config = replaceEnvironmentVariables(replaceImports(getConfigFileName().toString()))
-        var result = SevenFacetteConfig()
-        if(config != "") {
-            result = Yaml().parse(SevenFacetteConfig.serializer(), config)
+    actual companion object {
+        /**
+         * Reads the configuration.
+         *
+         * @return FacetteConfigDataClass
+         */
+        actual fun readConfig(): SevenFacetteConfig {
+            val config = replaceEnvironmentVariables(replaceImports(getConfigFileName().toString()))
+            var result = SevenFacetteConfig()
+            if(config != "") {
+                result = Yaml.default.decodeFromString(SevenFacetteConfig.serializer(), config)
+            }
+            return result
         }
-        return result
+
+        @JvmStatic
+        actual fun getHttpConfig(clientName: String): HttpClientConfig? =
+                FacetteConfig.http?.clients?.get(clientName)
+
+        @JvmStatic
+        actual fun getKafkaConsumerConfig(consumerName: String): KafkaTopicConfig? =
+                FacetteConfig.kafka?.consumer?.get(consumerName)
+
+        @JvmStatic
+        actual fun getKafkaProducerConfig(producerName: String): KafkaTopicConfig? =
+                FacetteConfig.kafka?.producer?.get(producerName)
+
+        @JvmStatic
+        actual fun getDatabaseConfig(databaseName: String) : DatabaseConfig? =
+                FacetteConfig.database?.get(databaseName)
     }
 }

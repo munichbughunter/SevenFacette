@@ -1,13 +1,13 @@
 package de.p7s1.qa.sevenfacette.db
 
-import de.p7s1.qa.sevenfacette.db.config.DConfig
+import de.p7s1.qa.sevenfacette.config.types.DatabaseConfig
 import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.ResultSet
 import java.sql.SQLException
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.function.Consumer
-import mu.KotlinLogging
+//import mu.KotlinLogging
 
 /**
  * JVM specific implementation of the Database execution handler
@@ -16,9 +16,9 @@ import mu.KotlinLogging
  *
  * @author Patrick Döring
  */
-private val logger = KotlinLogging.logger {}
+//private val logger = KotlinLogging.logger {}
 class Database(
-        private val dbConfig: DConfig
+        private val dbConfig: DatabaseConfig
 ) {
     private val select = "select"
     private val emptyValue = "NULL"
@@ -32,8 +32,8 @@ class Database(
      */
     private fun openConnection(): Connection {
         return try {
-            Class.forName(dbConfig.dbDriver)
-            DriverManager.getConnection(dbConfig.dbUrl, dbConfig.dbUser, dbConfig.dbPW)
+            Class.forName(dbConfig.driver)
+            DriverManager.getConnection(dbConfig.url, dbConfig.user, dbConfig.password)
         } catch (e: ClassNotFoundException) {
             throw RuntimeException(e)
         } catch (e: SQLException) {
@@ -52,7 +52,7 @@ class Database(
         var result: List<Map<String, Any>> = mutableListOf()
         try {
             openConnection().use { conn ->
-                logger.info("Iterating over SQL-Statements")
+  //              logger.info("Iterating over SQL-Statements")
                 val entryCounter = AtomicInteger(1)
 
                 dbStatements.list.forEach(Consumer {
@@ -75,7 +75,7 @@ class Database(
                 })
             }
         } catch (ex: SQLException) {
-            logger.error("Error on opening database connection. ", ex)
+    //        logger.error("Error on opening database connection. ", ex)
             throw RuntimeException(ex)
         }
         return result

@@ -1,6 +1,8 @@
 package de.p7s1.qa.sevenfacette.kafka
 
-import de.p7s1.qa.sevenfacette.kafka.config.KTableTopicConfig
+import de.p7s1.qa.sevenfacette.config.ConfigReader
+import de.p7s1.qa.sevenfacette.config.types.FacetteConfig
+import de.p7s1.qa.sevenfacette.config.types.KafkaTopicConfig
 
 /**
  * JVM specific implementation of the KFactory to create consumer and producer objects
@@ -14,17 +16,26 @@ class KFactory {
          * true -> start consuming and returns the created object
          * false -> returns the created object
          *
-         * @param [tableTopicConfig] and [autoStart]
+         * @param [consumerName] and [autoStart]
          * @return [KConsumer]
          */
         @JvmStatic
-        fun createKConsumer(tableTopicConfig: KTableTopicConfig, autoStart: Boolean) : KConsumer {
+        fun createConsumer(consumerName: String, autoStart: Boolean) : KConsumer {
+            val config: KafkaTopicConfig = ConfigReader.getKafkaConsumerConfig(consumerName) ?:
+            throw Exception("Kafka config for consumer $consumerName not found")
+            if(config.bootstrapServer.isEmpty()) config.bootstrapServer = FacetteConfig.kafka?.bootstrapServer ?: ""
+
+            return createConsumer(consumerName, config, autoStart)
+        }
+
+        @JvmStatic
+        fun createConsumer(consumerName: String, config: KafkaTopicConfig, autoStart: Boolean) : KConsumer {
             return when (autoStart) {
-                true -> KConsumer(tableTopicConfig).apply {
+                true -> KConsumer(consumerName, config).apply {
                     createConsumer()
                     consume()
                 }
-                false -> KConsumer(tableTopicConfig).apply {
+                false -> KConsumer(consumerName, config).apply {
                     createConsumer()
                 }
             }
@@ -39,8 +50,17 @@ class KFactory {
          * @return [KProducer]
          */
         @JvmStatic
-        fun createKProducer(tableTopicConfig: KTableTopicConfig, autoSend: Boolean) : KProducer {
-            return KProducer(tableTopicConfig, autoSend).apply {
+        fun createKProducer(producerName: String, autoSend: Boolean) : KProducer {
+            val config = ConfigReader.getKafkaProducerConfig(producerName) ?:
+            throw Exception("Kafka config for consumer $producerName not found")
+            if(config.bootstrapServer.isEmpty()) config.bootstrapServer = FacetteConfig.kafka?.bootstrapServer ?: ""
+
+            return createKProducer(producerName, config, autoSend)
+        }
+
+        @JvmStatic
+        fun createKProducer(producerName: String, config: KafkaTopicConfig, autoSend: Boolean) : KProducer {
+            return KProducer(producerName, config, autoSend).apply {
                 createProducer()
             }
         }

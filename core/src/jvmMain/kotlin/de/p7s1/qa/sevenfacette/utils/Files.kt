@@ -52,3 +52,4 @@ actual class Files {
         actual fun getRessourceText(fileName: String): String? = URL(getResource(fileName)).readText()
     }
 }
+

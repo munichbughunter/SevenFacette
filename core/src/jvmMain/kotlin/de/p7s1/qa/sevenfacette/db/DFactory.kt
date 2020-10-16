@@ -1,6 +1,7 @@
 package de.p7s1.qa.sevenfacette.db
 
-import de.p7s1.qa.sevenfacette.db.config.DConfig
+import de.p7s1.qa.sevenfacette.config.ConfigReader
+import de.p7s1.qa.sevenfacette.config.types.DatabaseConfig
 
 /**
  * JVM specific implementation of the DFactory to initialise Database connections
@@ -11,8 +12,13 @@ class DFactory {
 
     companion object {
         @JvmStatic
-        fun executeQuery(dbConfig: DConfig, dbStatements: de.p7s1.qa.sevenfacette.db.DbStatements) : List<Map<String, Any>>? {
-            return Database(dbConfig).executeStatements(dbStatements)
+        fun createDatabase(databaseName: String) : Database {
+            val config = ConfigReader.getDatabaseConfig(databaseName) ?: throw Exception("No config found for database $databaseName")
+            return Database(config)
         }
+
+        @JvmStatic
+        fun createDatabase(config: DatabaseConfig) : Database =
+                Database(config)
     }
 }

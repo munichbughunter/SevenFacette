@@ -2,7 +2,6 @@ package de.p7s1.qa.sevenfacette.config.types
 
 import de.p7s1.qa.sevenfacette.config.ConfigReader
 import kotlinx.serialization.KSerializer
-
 /**
  * Singelton that holds the configuration data globally for the user.
  * n initialization the configuration files will be read and the configuration will be created.
@@ -19,7 +18,7 @@ actual object FacetteConfig {
         private set
     actual var kafka: KafkaConfig? = null
         private set
-    actual var database: List<DatabaseConfig>? = null
+    actual var database: Map<String, DatabaseConfig>? = null
         private set
     actual var application: ApplicationConfig? = null
         private set
@@ -31,7 +30,7 @@ actual object FacetteConfig {
     }
 
     actual fun update() {
-        val config = ConfigReader().readConfig().sevenFacette
+        val config = ConfigReader.readConfig().sevenFacette
         set(config!!)
     }
 

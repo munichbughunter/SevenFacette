@@ -28,3 +28,5 @@ build/
 /core/.settings/
 /web/node_modules/
 /example-spring/out/
+/example-js/node_modules/
+/core/src/jvmMain/kotlin/de/p7s1/qa/sevenfacette/Base64.kt

@@ -1,8 +1,7 @@
 package de.p7s1.qa.sevenfacette.kafka
 
-import de.p7s1.qa.sevenfacette.kafka.config.KTableTopicConfig
-import de.p7s1.qa.sevenfacette.kafka.config.SaslConfiguration
-import mu.KotlinLogging
+import de.p7s1.qa.sevenfacette.config.types.KafkaTopicConfig
+import de.p7s1.qa.sevenfacette.kafka.config.SaslConfig
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerConfig
 import org.apache.kafka.clients.producer.ProducerRecord
@@ -15,9 +14,10 @@ import org.apache.kafka.common.serialization.StringSerializer
  *
  * @author Patrick Döring
  */
-private val logger = KotlinLogging.logger {}
-class KProducer (private val tableTopicConfig: KTableTopicConfig,
-                 private var autoSend: Boolean
+class KProducer (
+    private val topicName: String,
+    private val topicConfig: KafkaTopicConfig,
+    private var autoSend: Boolean
 ) {
     private lateinit var producer : KafkaProducer<String, String>
 
@@ -27,15 +27,15 @@ class KProducer (private val tableTopicConfig: KTableTopicConfig,
      */
     fun createProducer() : KafkaProducer<String, String> {
         var config : MutableMap<String, Any> = mutableMapOf()
-        config[ProducerConfig.BOOTSTRAP_SERVERS_CONFIG] = tableTopicConfig.kafkaConfig.bootstrapServer
+        config[ProducerConfig.BOOTSTRAP_SERVERS_CONFIG] = topicConfig.bootstrapServer
         config[ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG] = StringSerializer::class.java
         config[ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG] = StringSerializer::class.java
 
-        if (tableTopicConfig.kafkaConfig.useSASL) {
-            config = SaslConfiguration.addSaslProperties(config, tableTopicConfig)
+        if (topicConfig.useSASLAuthentication) {
+            config = SaslConfig.addSaslProperties(config, topicConfig)
         }
         producer = KafkaProducer<String, String>(config)
-        logger.info("Create KProducer")
+        //logger.info("Create KProducer")
         return producer
     }
 
@@ -44,11 +44,11 @@ class KProducer (private val tableTopicConfig: KTableTopicConfig,
      * @param [msg]
      */
     fun send(msg: String) {
-        producer.send(ProducerRecord(tableTopicConfig.kafkaTopic, msg))
+        producer.send(ProducerRecord(topicName, msg))
         if (autoSend) {
             flush()
         }
-        logger.info("Message send to topic: %s", {msg})
+        //logger.info("Message send to topic: %s", {msg})
     }
 
     /**
@@ -57,23 +57,15 @@ class KProducer (private val tableTopicConfig: KTableTopicConfig,
      * @param [msg]
      */
     fun sendKeyMessage(key: String, msg: String) {
-        producer.send(ProducerRecord(tableTopicConfig.kafkaTopic, key, msg))
+        producer.send(ProducerRecord(topicName, key, msg))
         if (autoSend) {
             flush()
         }
-        logger.info("Message send to topic: %s", {msg})
+        //logger.info("Message send to topic: %s", {msg})
     }
 
     /**
      * Flush records currently buffered in the producer
      */
     fun flush() = producer.flush()
-
-    /**
-     * Returns the configured table topic
-     * @return [tableTopicConfig.kafkaTopic]
-     */
-    fun getTopic() : String {
-        return tableTopicConfig.kafkaTopic
-    }
 }

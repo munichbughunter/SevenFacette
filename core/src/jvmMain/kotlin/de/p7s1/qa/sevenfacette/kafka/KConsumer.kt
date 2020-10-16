@@ -1,14 +1,12 @@
 package de.p7s1.qa.sevenfacette.kafka
 
-import de.p7s1.qa.sevenfacette.kafka.config.KTableTopicConfig
-import de.p7s1.qa.sevenfacette.kafka.config.SaslConfiguration
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import de.p7s1.qa.sevenfacette.config.types.KafkaTopicConfig
+import de.p7s1.qa.sevenfacette.kafka.config.SaslConfig
+import kotlinx.coroutines.*
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.newSingleThreadContext
-import mu.KotlinLogging
 import org.apache.kafka.clients.consumer.Consumer
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.consumer.KafkaConsumer
@@ -21,7 +19,7 @@ import java.util.concurrent.TimeUnit.MILLISECONDS
 import java.util.concurrent.TimeUnit.SECONDS
 import kotlin.coroutines.CoroutineContext
 
-
+import java.util.*
 /**
  * JVM specific implementation of the Kafka consumer
  *
@@ -29,9 +27,9 @@ import kotlin.coroutines.CoroutineContext
  *
  * @author Patrick Döring
  */
-private val logger = KotlinLogging.logger {}
 class KConsumer(
-        private val tableTopicConfig: KTableTopicConfig
+        private val topicName: String,
+        private val topicConfig: KafkaTopicConfig
 ) : CoroutineScope by CoroutineScope(Dispatchers.Default) {
     private val job = Job()
     private val kRecordQueue = ConcurrentLinkedQueue<KRecord>()
@@ -44,31 +42,17 @@ class KConsumer(
      */
     fun createConsumer() : Consumer<String, String> {
         var config : MutableMap<String, Any> = mutableMapOf()
-        config[ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG] = tableTopicConfig.kafkaConfig.bootstrapServer
+        config[ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG] = topicConfig.bootstrapServer
+        config[ConsumerConfig.GROUP_ID_CONFIG] = UUID.randomUUID().toString()
         config[ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG] = StringDeserializer::class.java
         config[ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG] = StringDeserializer::class.java
-        config[ConsumerConfig.AUTO_OFFSET_RESET_CONFIG] = tableTopicConfig.kafkaConfig.autoOffset
+        config[ConsumerConfig.AUTO_OFFSET_RESET_CONFIG] = topicConfig.autoOffset
 
-        if (tableTopicConfig.kafkaConfig.autoCommit) {
-            config[ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG] = tableTopicConfig.kafkaConfig.autoCommit
-            config[ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG] = tableTopicConfig.kafkaConfig.autoCommitInterval
-        }
-
-        if (tableTopicConfig.kafkaConfig.groupID.isBlank()) {
-            config[ConsumerConfig.GROUP_ID_CONFIG] = UUID.randomUUID().toString()
-        } else {
-            config[ConsumerConfig.GROUP_ID_CONFIG] = tableTopicConfig.kafkaConfig.groupID
-        }
-
-        if (!tableTopicConfig.kafkaConfig.isolationLevel.isBlank()) {
-            config[ConsumerConfig.ISOLATION_LEVEL_CONFIG] = tableTopicConfig.kafkaConfig.isolationLevel
-        }
-
-        if (tableTopicConfig.kafkaConfig.useSASL) {
-            config = SaslConfiguration.addSaslProperties(config, tableTopicConfig)
+        if (topicConfig.useSASLAuthentication) {
+            config = SaslConfig.addSaslProperties(config, topicConfig)
         }
         consumer = KafkaConsumer<String, String>(config)
-        logger.info("Create KConsumer")
+        //logger.info("Create KConsumer")
         return consumer
     }
 
@@ -83,7 +67,7 @@ class KConsumer(
         try {
             consumer.close(Duration.ofMillis(5000L))
         } catch (ex: ConcurrentModificationException) {
-            logger.warn("Consumer was closed")
+            //logger.warn("Consumer was closed")
         }
     }
 
@@ -134,7 +118,7 @@ class KConsumer(
             Thread.sleep(500)
             waited += 500
             hasMessage = hasKRecords()
-        } while (waited <= waitingTime)
+        } while (!hasMessage && waited <= waitingTime)
         stopConsumer()
         return hasMessage
     }
@@ -143,16 +127,13 @@ class KConsumer(
      * Subscribe consumer on table topic, start consuming and add KRecords to kRecordQueue
      */
     @ObsoleteCoroutinesApi
-    fun consume() = launch(newSingleThreadContext(tableTopicConfig.kafkaTopic)){
-        consumer.subscribe(listOf(tableTopicConfig.kafkaTopic))
-        logger.info("Start consuming and processing records")
+    fun consume() = launch(newSingleThreadContext(topicConfig.topicName)) {
+        consumer.subscribe(listOf(topicConfig.topicName))
         while (keepGoing) {
-            consumer.poll(Duration.ofSeconds(tableTopicConfig.kafkaConfig.maxConsumingTime)).forEach {
+            consumer.poll(Duration.ofSeconds(topicConfig.maxConsumingTime)).forEach {
                 kRecordQueue.add(KRecord(it.key(), it.value(), it.offset(), it.partition()))
             }
         }
-        logger.info("Shut down consumer...: {}", tableTopicConfig.kafkaTopic)
-        shutdown()
     }
 
     /**
@@ -179,7 +160,7 @@ class KConsumer(
      * @return kRecordQueue.elementAt(kRecordQueue.size -1)
      */
     fun getLastKRecord(): KRecord? {
-        return kRecordQueue.elementAt(kRecordQueue.size - 1)
+        return kRecordQueue.elementAt(kRecordQueue.size -1)
     }
 
     /**
@@ -196,5 +177,6 @@ class KConsumer(
      */
     private fun stopConsumer() {
         keepGoing = false
+        shutdown()
     }
 }

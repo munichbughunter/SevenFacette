@@ -1,20 +1,16 @@
 package de.p7s1.qa.sevenfacette.http
 
+import de.p7s1.qa.sevenfacette.config.ConfigReader
 import de.p7s1.qa.sevenfacette.config.types.FacetteConfig
 import de.p7s1.qa.sevenfacette.config.types.HttpClientConfig
 import de.p7s1.qa.sevenfacette.http.auth.AuthenticationFactory
-import io.ktor.client.HttpClient
-import io.ktor.client.engine.apache.Apache
-import io.ktor.client.features.HttpSend
-import io.ktor.client.features.auth.Auth
-import io.ktor.client.features.auth.providers.basic
-import io.ktor.client.features.cookies.AcceptAllCookiesStorage
-import io.ktor.client.features.cookies.HttpCookies
-import io.ktor.client.features.json.JacksonSerializer
-import io.ktor.client.features.json.JsonFeature
-import io.ktor.util.KtorExperimentalAPI
-import org.apache.http.Header
-import org.apache.http.HeaderElement
+import io.ktor.client.*
+import io.ktor.client.engine.apache.*
+import io.ktor.client.features.*
+import io.ktor.client.features.auth.*
+import io.ktor.client.features.cookies.*
+import io.ktor.client.features.json.*
+import io.ktor.util.*
 import org.apache.http.conn.ssl.TrustAllStrategy
 import org.apache.http.ssl.SSLContextBuilder
 import java.net.InetSocketAddress
@@ -30,17 +26,28 @@ class HttpClientFactory {
 
         private var authenticationProvidedByUser: Boolean = false
 
+        private fun createConfig(clientName: String): HttpClientConfig {
+
+            val config = ConfigReader.getHttpConfig(clientName)
+                ?: throw Exception("Client $clientName not found in configuration")
+            if(config.connectionRequestTimeout==null) config.connectionRequestTimeout = FacetteConfig.http?.connectionRequestTimeout
+            if(config.connectionTimeout==null) config.connectionTimeout = FacetteConfig.http?.connectionTimeout
+            if(config.socketTimeout==null) config.socketTimeout = FacetteConfig.http?.socketTimeout
+            if(config.proxy==null) config.proxy = FacetteConfig.http?.proxy
+            return config
+        }
+
         @JvmStatic
         fun createClient(clientName: String): GenericHttpClient = createClient(
-                FacetteConfig.http?.getClient(clientName)!!
+                createConfig(clientName)
         )
 
         @JvmStatic
         fun createClient(clientName: String, authentication: MutableMap<String, String>): GenericHttpClient {
             authenticationProvidedByUser = true
-            val config = FacetteConfig.http?.getClient(clientName)
-            config?.authentication = authentication
-            return createClient(config!!)
+            val config = createConfig(clientName)
+            config.authentication = authentication
+            return createClient(config)
         }
 
         /**
@@ -54,9 +61,9 @@ class HttpClientFactory {
         fun createClient(configHttp: HttpClientConfig): GenericHttpClient {
             val apache = Apache.create {
                 customizeClient {
-                    socketTimeout = configHttp.socketTimeout
-                    connectTimeout = configHttp.connectionTimeout
-                    connectionRequestTimeout = configHttp.connectionRequestTimeout
+                    socketTimeout = configHttp.socketTimeout!!
+                    connectTimeout = configHttp.connectionTimeout!!
+                    connectionRequestTimeout = configHttp.connectionRequestTimeout!!
 
                     setSSLContext(
                             SSLContextBuilder
@@ -105,6 +112,6 @@ class HttpClientFactory {
          */
         @JvmStatic
         fun createProxy(proxy: HttpProxy?) =
-             if (proxy?.host == null) Proxy(Proxy.Type.HTTP, InetSocketAddress(proxy!!.port)) else Proxy(Proxy.Type.HTTP, InetSocketAddress(proxy.host, proxy.port))
+                if (proxy?.host == null) Proxy(Proxy.Type.HTTP, InetSocketAddress(proxy!!.port)) else Proxy(Proxy.Type.HTTP, InetSocketAddress(proxy.host, proxy.port))
     }
 }
