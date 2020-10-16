@@ -2,7 +2,8 @@ package de.p7s1.qa.sevenfacette.kafka
 
 import de.p7s1.qa.sevenfacette.config.types.KafkaTopicConfig
 import de.p7s1.qa.sevenfacette.kafka.config.SaslConfig
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
@@ -19,7 +20,6 @@ import java.util.concurrent.TimeUnit.MILLISECONDS
 import java.util.concurrent.TimeUnit.SECONDS
 import kotlin.coroutines.CoroutineContext
 
-import java.util.*
 /**
  * JVM specific implementation of the Kafka consumer
  *
@@ -27,9 +27,8 @@ import java.util.*
  *
  * @author Patrick Döring
  */
-class KConsumer(
-        private val topicName: String,
-        private val topicConfig: KafkaTopicConfig
+class KConsumer (
+    private val topicConfig: KafkaTopicConfig
 ) : CoroutineScope by CoroutineScope(Dispatchers.Default) {
     private val job = Job()
     private val kRecordQueue = ConcurrentLinkedQueue<KRecord>()
@@ -43,16 +42,29 @@ class KConsumer(
     fun createConsumer() : Consumer<String, String> {
         var config : MutableMap<String, Any> = mutableMapOf()
         config[ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG] = topicConfig.bootstrapServer
-        config[ConsumerConfig.GROUP_ID_CONFIG] = UUID.randomUUID().toString()
         config[ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG] = StringDeserializer::class.java
         config[ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG] = StringDeserializer::class.java
         config[ConsumerConfig.AUTO_OFFSET_RESET_CONFIG] = topicConfig.autoOffset
+
+        if (topicConfig.autoCommit) {
+            config[ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG] = topicConfig.autoCommit
+            config[ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG] = topicConfig.autoCommitInterval
+        }
+
+        if (topicConfig.groupID.isBlank()) {
+            config[ConsumerConfig.GROUP_ID_CONFIG] = UUID.randomUUID().toString()
+        } else {
+            config[ConsumerConfig.GROUP_ID_CONFIG] = topicConfig.groupID
+        }
+
+        if (!topicConfig.isolationLevel.isBlank()) {
+            config[ConsumerConfig.ISOLATION_LEVEL_CONFIG] = topicConfig.isolationLevel
+        }
 
         if (topicConfig.useSASLAuthentication) {
             config = SaslConfig.addSaslProperties(config, topicConfig)
         }
         consumer = KafkaConsumer<String, String>(config)
-        //logger.info("Create KConsumer")
         return consumer
     }
 
@@ -110,6 +122,7 @@ class KConsumer(
      * @param [waitingTime]
      * @return [hasMessage]
      */
+    // ToDo: Discuss about this method / solution...
     fun waitForKRecords(waitingTime: Int): Boolean {
         var waited : Int = 0
         var hasMessage: Boolean
@@ -127,13 +140,16 @@ class KConsumer(
      * Subscribe consumer on table topic, start consuming and add KRecords to kRecordQueue
      */
     @ObsoleteCoroutinesApi
-    fun consume() = launch(newSingleThreadContext(topicConfig.topicName)) {
+    fun consume() = launch(newSingleThreadContext(topicConfig.topicName)){
         consumer.subscribe(listOf(topicConfig.topicName))
+        //logger.info("Start consuming and processing records")
         while (keepGoing) {
             consumer.poll(Duration.ofSeconds(topicConfig.maxConsumingTime)).forEach {
                 kRecordQueue.add(KRecord(it.key(), it.value(), it.offset(), it.partition()))
             }
         }
+        //logger.info("Shut down consumer...: {}", topicConfig.kafkaTopic)
+        shutdown()
     }
 
     /**
