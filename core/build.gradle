@@ -72,10 +72,7 @@ kotlin {
                 implementation 'io.ktor:ktor-client-apache:1.3.0'
                 implementation 'io.ktor:ktor-client-auth-jvm:1.3.0'
                 implementation 'org.awaitility:awaitility-kotlin:4.0.3'
-
-                //implementation("org.jetbrains.kotlin:kotlin-reflect:1.4.0")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:1.0-M1-1.4.0-rc-218")
-                //implementation fileTree(dir: 'lib', include: ['ifxjdbc.jar'])
             }
         }
         jvmTest {
@@ -182,6 +179,3 @@ bintrayUpload.doFirst {
 //The task of bintrayUpload depends on publishToMavenLocal set in the previous section.
 // This will create maven artifacts when running bintrayUplaod's task.
 bintrayUpload.dependsOn publishJvmPublicationToMavenLocal
-
-
-
