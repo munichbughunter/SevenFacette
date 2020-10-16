@@ -53,6 +53,7 @@ async function testConsumer() {
   console.log(producer.getTopic());
   producer.sendKafkaMessage("Testmessage", "Here I am");
 
+
   //var sfProducer = new sfKafka.KProducer("testProducer", kConfig).createKProducer();
 
   //console.log(sfProducer);
