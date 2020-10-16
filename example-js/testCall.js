@@ -1,62 +1,79 @@
-const sevenfacette = require('../build/js/packages/SevenFacette-core').de.p7s1.qa.sevenfacette.kafka;
+const sfKafka = require('../build/js/packages/SevenFacette-core').de.p7s1.qa.sevenfacette.kafka;
+const sfConfig = require('../build/js/packages/SevenFacette-core').de.p7s1.qa.sevenfacette.config;
 
-async function testCall() {
+// ES6
+//import {createConsumer} from "../build/js/packages/SevenFacette-core').de.p7s1.qa.sevenfacette.kafka";
+//import consi from "../build/js/packages/SevenFacette-core').de.p7s1.qa.sevenfacette.kafka";
 
-  var kConfig = new sevenfacette.config.KConfig();
-  kConfig.autoOffset = 'earliest';
+async function testConsumer() {
+
+  var kConfig = new sfConfig.types.KafkaTopicConfig();
+  kConfig.autoOffset = true;
   kConfig.bootstrapServer = 'localhost:9092';
-  kConfig.useSASL = false;
-  kConfig.maxConsumingTime = 5000;
+  kConfig.maxConsumingTime = 50;
+  kConfig.topicName = 'test';
 
-  var producerConfig = new sevenfacette.config.KTableTopicConfig(kConfig);
-  producerConfig.kafkaTopic = 'test';
-  console.log(producerConfig);
-  console.log(producerConfig.kafkaTopic);
-  console.log(producerConfig.kafkaConfig.bootstrapServer);
+  console.log(kConfig);
 
-  // Create KProducer
-  const kProducer = producerConfig.createKProducer();
-  console.log(kProducer);
-
-  // Connect to the Kafka and send message
-  await kProducer.connect();
-  await kProducer.send({
-    topic: producerConfig.kafkaTopic,
-    messages: [
-      { key: 'message1', value: 'New Test message from JS'}
-    ]
-  });
-
-  console.log("producer call is working");
-  await kProducer.disconnect();
-  var expectedMessage = "";
-
-
+  // Now we will check if we can consume from a topic
   // Create KConsumer
-  const kConsumer = producerConfig.createKConsumer();
-  console.log(kConsumer);
-  await kConsumer.connect();
-  await kConsumer.subscribe({topic: producerConfig.kafkaTopic, fromBeginning: true});
-  await kConsumer.run({
-    eachMessage: async ({ topic, partition, message }) => {
-      if (message.value.toString().includes('New')) {
-        console.log("ready with consuming... We can stop now...");
-        expectedMessage = message.value.toString();
-        //kConsumer.disconnect();
-        kConsumer.stop();
-      }
-      console.log({
-        value: message.value.toString(),
-      })
-    },
-  });
+  //const sfConsumer = new sfKafka.KFactory().createKConsumer("testConsumer", kConfig);
+  // console.log(sfConsumer);
+  //
+  // let consumedMessages = [];
+  //
+  // await sfConsumer.connect();
+  // await sfConsumer.subscribe({topic: kConfig.kafkaTopic, fromBeginning: kConfig.autoOffset})
+  // await sfConsumer.run({
+  //   eachMessage: async ({ topic, partition, message }) => {
+  //     console.log({
+  //       value: message.value.toString(),
+  //     })
+  //     consumedMessages.push(message.value.toString())
+  //   },
+  // });
+  //
+  // setTimeout(() => {
+  //   sfConsumer.stop();
+  //   sfConsumer.disconnect();
+  //   console.log(consumedMessages);
+  // }, 8000);
 
-  await console.log(expectedMessage);
-  await kConsumer.disconnect();
 
-  //process.exit();
 
-  await console.log("Jetzt können wir auch den Process killen...");
+  // Now we will check if we can produce a message to a topic
+  // Create KProducer
+
+  //const kenjiConsumer = createConsumer(kConfig);
+  //consi.createKConsumer(kConfig);
+
+  var producer = new sfKafka.KProducer("testProducer", kConfig).createKProducer();
+  console.log("PRODUCER:");
+  console.log(producer);
+  console.log(producer.getTopic());
+  producer.sendKafkaMessage("Testmessage", "Here I am");
+
+  //var sfProducer = new sfKafka.KProducer("testProducer", kConfig).createKProducer();
+
+  //console.log(sfProducer);
+
+  //sfProducer.sendKafkaMessage();
+  //console.log(sfProducer.sendMessage());
+  // console.log(sfProducer);
+  //
+  // Connect to the Kafka and send message
+  //await producer.connect();
+  // await producer.send({
+  //   topic: kConfig.kafkaTopic,
+  //   messages: [
+  //     { key: 'message1', value: 'New Test message from JS Producer'}
+  //   ]
+  // });
+
+  setTimeout(() => {
+    console.log("producer call is working");
+    producer.disconnect();
+  }, 5000);
 }
-testCall();
+testConsumer();
 

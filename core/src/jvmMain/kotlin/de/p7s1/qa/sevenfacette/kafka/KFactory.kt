@@ -20,22 +20,22 @@ class KFactory {
          * @return [KConsumer]
          */
         @JvmStatic
-        fun createConsumer(consumerName: String, autoStart: Boolean) : KConsumer {
+        fun createKConsumer(consumerName: String, autoStart: Boolean) : KConsumer {
             val config: KafkaTopicConfig = ConfigReader.getKafkaConsumerConfig(consumerName) ?:
             throw Exception("Kafka config for consumer $consumerName not found")
             if(config.bootstrapServer.isEmpty()) config.bootstrapServer = FacetteConfig.kafka?.bootstrapServer ?: ""
 
-            return createConsumer(consumerName, config, autoStart)
+            return createKConsumer(config, autoStart)
         }
 
         @JvmStatic
-        fun createConsumer(consumerName: String, config: KafkaTopicConfig, autoStart: Boolean) : KConsumer {
+        fun createKConsumer(config: KafkaTopicConfig, autoStart: Boolean) : KConsumer {
             return when (autoStart) {
-                true -> KConsumer(consumerName, config).apply {
+                true -> KConsumer(config).apply {
                     createConsumer()
                     consume()
                 }
-                false -> KConsumer(consumerName, config).apply {
+                false -> KConsumer(config).apply {
                     createConsumer()
                 }
             }
@@ -55,12 +55,12 @@ class KFactory {
             throw Exception("Kafka config for consumer $producerName not found")
             if(config.bootstrapServer.isEmpty()) config.bootstrapServer = FacetteConfig.kafka?.bootstrapServer ?: ""
 
-            return createKProducer(producerName, config, autoSend)
+            return createKProducer(config, autoSend)
         }
 
         @JvmStatic
-        fun createKProducer(producerName: String, config: KafkaTopicConfig, autoSend: Boolean) : KProducer {
-            return KProducer(producerName, config, autoSend).apply {
+        fun createKProducer(config: KafkaTopicConfig, autoSend: Boolean) : KProducer {
+            return KProducer(config, autoSend).apply {
                 createProducer()
             }
         }
