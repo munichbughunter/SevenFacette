@@ -16,5 +16,5 @@ data class KafkaTopicConfig(
         var isolationLevel: String = "",
         var autoCommit: Boolean = false,
         var autoCommitInterval: Int = 0,
-        var kafkaTopic: String = ""
+        var topicName: String = ""
 )

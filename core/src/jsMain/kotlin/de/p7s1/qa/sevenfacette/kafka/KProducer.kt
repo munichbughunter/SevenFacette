@@ -3,7 +3,9 @@ package de.p7s1.qa.sevenfacette.kafka
 import de.p7s1.qa.sevenfacette.config.types.KafkaTopicConfig
 import de.p7s1.qa.sevenfacette.kafka.externals.Kafka
 import de.p7s1.qa.sevenfacette.kafka.externals.KafkaConfig
+import de.p7s1.qa.sevenfacette.kafka.externals.ProducerEvents
 import de.p7s1.qa.sevenfacette.kafka.externals.ProducerRecord
+import de.p7s1.qa.sevenfacette.kafka.externals.Sender
 
 /**
  * JS specific implementation of the Kafka producer
@@ -13,33 +15,39 @@ import de.p7s1.qa.sevenfacette.kafka.externals.ProducerRecord
  * @author Patrick Döring
  */
 class KProducer (
+    // ToDo: Do we need that?
+    private val producerName: String,
     private val topicConfig: KafkaTopicConfig
 ) {
-
     private var producer: dynamic = ""
+
+    @JsName("createKProducer")
+    fun createKProducer() : KProducer {
+        createProducer()
+        return this
+    }
 
     /**
      * Create a KafkaProducer
      * @return [producer]
      */
-    fun createProducer(): dynamic {
+    private fun createProducer() {
         val kafkaOptions: KafkaConfig = js("({})")
         kafkaOptions.brokers = arrayOf(topicConfig.bootstrapServer)
         kafkaOptions.clientId = "7Facette_Producer_" + (0..36).shuffled().first().toString()
         producer = Kafka(kafkaOptions).producer()
-        return producer
     }
 
-    @JsName("sendMessage")
-    fun send(msg: ProducerRecord) {
+    @JsName("sendKafkaMessage")
+    fun sendKafkaMessage() {
         producer.connect()
-        producer.send(msg)
+        println(" HERE IS THE PRODUCER CLASS")
     }
 
     // ToDo: Validate to send key and message via kotlin...
 
     @JsName("getTopic")
-    fun getTopic(): dynamic {
+    fun getTopic(): String {
         return topicConfig.kafkaTopic
     }
 }

@@ -43,7 +43,7 @@ class KProducer (
      * @param [msg]
      */
     fun send(msg: String) {
-        producer.send(ProducerRecord(topicConfig.kafkaTopic, msg))
+        producer.send(ProducerRecord(topicConfig.topicName, msg))
         if (autoSend) {
             flush()
         }
@@ -56,7 +56,7 @@ class KProducer (
      * @param [msg]
      */
     fun sendKeyMessage(key: String, msg: String) {
-        producer.send(ProducerRecord(topicConfig.kafkaTopic, key, msg))
+        producer.send(ProducerRecord(topicConfig.topicName, key, msg))
         if (autoSend) {
             flush()
         }

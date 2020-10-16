@@ -140,8 +140,8 @@ class KConsumer (
      * Subscribe consumer on table topic, start consuming and add KRecords to kRecordQueue
      */
     @ObsoleteCoroutinesApi
-    fun consume() = launch(newSingleThreadContext(topicConfig.kafkaTopic)){
-        consumer.subscribe(listOf(topicConfig.kafkaTopic))
+    fun consume() = launch(newSingleThreadContext(topicConfig.topicName)){
+        consumer.subscribe(listOf(topicConfig.topicName))
         //logger.info("Start consuming and processing records")
         while (keepGoing) {
             consumer.poll(Duration.ofSeconds(topicConfig.maxConsumingTime)).forEach {
