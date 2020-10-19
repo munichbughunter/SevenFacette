@@ -61,7 +61,7 @@ class KConsumer(
             config[ConsumerConfig.GROUP_ID_CONFIG] = tableTopicConfig.kafkaConfig.groupID
         }
 
-        if (tableTopicConfig.kafkaConfig.readIsolationLevel != KConfig.IsolationLevel.DEFAULT && tableTopicConfig.kafkaConfig.isolationLevel.isBlank()) {
+        if (tableTopicConfig.kafkaConfig.isolationLevel.isBlank()) {
             config[ConsumerConfig.ISOLATION_LEVEL_CONFIG] = tableTopicConfig.kafkaConfig.readIsolationLevel.isolationLevel
         } else {
             config[ConsumerConfig.ISOLATION_LEVEL_CONFIG] = tableTopicConfig.kafkaConfig.isolationLevel
