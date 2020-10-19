@@ -11,7 +11,7 @@ async function testConsumer() {
   kConfig.autoOffset = true;
   kConfig.bootstrapServer = 'localhost:9092';
   kConfig.maxConsumingTime = 50;
-  kConfig.topicName = 'test';
+  kConfig.topicName = "test";
 
   console.log(kConfig);
 
@@ -51,7 +51,16 @@ async function testConsumer() {
   console.log("PRODUCER:");
   console.log(producer);
   console.log(producer.getTopic());
-  producer.sendKafkaMessage("Testmessage", "Here I am");
+
+  //console.log(topicMessage.some(({ topic })));
+
+  //if (topicMessages.some(({ topic }) => !topic)) {
+  //  throw new KafkaJSNonRetriableError(`Invalid topic`)
+  //}
+
+
+
+  producer.sendKafkaMessage("Testmessage", "Here I am again");
 
 
   //var sfProducer = new sfKafka.KProducer("testProducer", kConfig).createKProducer();
