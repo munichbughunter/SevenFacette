@@ -50,8 +50,8 @@ Actual we provide a JVM implementation of the 7Facette core and web module. The 
 for the next release. 
 
 ```kotlin
-implementation 'de.p7s1.qa.sevenfacette:core-jvm:0.5.4'
-implementation 'de.p7s1.qa.sevenfacette:web-jvm:0.5.4'
+implementation 'de.p7s1.qa.sevenfacette:core-jvm:0.6.5'
+implementation 'de.p7s1.qa.sevenfacette:web-jvm:0.6.5'
 ```
 
 ## Questions or need help?
