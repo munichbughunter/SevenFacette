@@ -12,8 +12,20 @@ async function testConsumer() {
   kConfig.bootstrapServer = 'localhost:9092';
   kConfig.maxConsumingTime = 50;
   kConfig.topicName = "test";
+  kConfig.autoOffset = "latest";
 
   console.log(kConfig);
+
+  var producer = new sfKafka.KProducer("testProducer", kConfig).createKProducer();
+  console.log("PRODUCER:");
+  console.log(producer);
+  console.log(producer.getTopic());
+  producer.sendKafkaMessage("Testmessage", "Here I am the last message...");
+
+  setTimeout(() => {
+    console.log("producer call is working");
+    producer.disconnect();
+  }, 5000);
 
   // Now we will check if we can consume from a topic
   // Create KConsumer
@@ -46,44 +58,23 @@ async function testConsumer() {
 
   //const kenjiConsumer = createConsumer(kConfig);
   //consi.createKConsumer(kConfig);
-
-  var producer = new sfKafka.KProducer("testProducer", kConfig).createKProducer();
-  console.log("PRODUCER:");
-  console.log(producer);
-  console.log(producer.getTopic());
-
-  //console.log(topicMessage.some(({ topic })));
-
-  //if (topicMessages.some(({ topic }) => !topic)) {
-  //  throw new KafkaJSNonRetriableError(`Invalid topic`)
-  //}
-
-
-
-  producer.sendKafkaMessage("Testmessage", "Here I am again");
-
-
-  //var sfProducer = new sfKafka.KProducer("testProducer", kConfig).createKProducer();
-
-  //console.log(sfProducer);
-
-  //sfProducer.sendKafkaMessage();
-  //console.log(sfProducer.sendMessage());
-  // console.log(sfProducer);
-  //
-  // Connect to the Kafka and send message
-  //await producer.connect();
-  // await producer.send({
-  //   topic: kConfig.kafkaTopic,
-  //   messages: [
-  //     { key: 'message1', value: 'New Test message from JS Producer'}
-  //   ]
-  // });
+  var consumer = new sfKafka.KConsumer(kConfig).createKConsumer();
+  console.log("CONSUMER:");
+  console.log(consumer);
+  console.log(consumer.getTopic());
 
   setTimeout(() => {
-    console.log("producer call is working");
-    producer.disconnect();
-  }, 5000);
+    //console.log(consumer.getMessages())
+    //console.log("consumer is working");
+    //consumer.shutdown();
+  }, 8000);
+
+  setTimeout(() => {
+    consumer.shutdown();
+  }, 8000);
+
+
+
 }
 testConsumer();
 
