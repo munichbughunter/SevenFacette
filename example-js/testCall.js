@@ -71,7 +71,7 @@ async function testConsumer() {
 
   setTimeout(() => {
     consumer.shutdown();
-  }, 8000);
+  }, 50000);
 
 
 

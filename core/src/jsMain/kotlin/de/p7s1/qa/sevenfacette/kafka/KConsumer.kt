@@ -9,7 +9,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.promise
-import kotlin.coroutines.suspendCoroutine
+import kotlin.coroutines.*
 import kotlin.js.Promise
 
 /**
@@ -91,38 +91,80 @@ class KConsumer(
         config.eachMessage = null
 
         consumer.logger().debug
-
         consumer.connect()
-        GlobalScope.launch ( context = Dispatchers.Default ) {
+
+
+        launch {
             delay(1000)
+
             consumer.subscribe(consumerSubscription)
             delay(1000)
-
-
-            val res: Promise<Unit> = consumer.run(config.apply {
-
+            console.log("Yoo-Hoo! I'm in a coroutine now!")
+            val result = consumer.run(config.apply {
                 config.eachMessage = {
-//                    val topic = it.batch.topic
-//                    val partition = it.batch.partition
-//                    val message = it.batch.messages
                     val topic = it.topic
                     val partition = it.partition
                     val message = it.message
-
                     println(topic)
                     println(partition)
                     println(message.value.toString())
-//                    kRecordQueue.forEach {
-//                        println(it.value.toString())
-//                    }
 
                     Promise { resolve, reject ->
-                        resolve()
+                        // resolve()
                     }
                 }
-            })
-            delay(500)
+            }).await()
+            console.log("I have a $result without callbacks!")
         }
+
+//        consumer.connect()
+//        GlobalScope.launch ( context = Dispatchers.Default ) {
+//            delay(1000)
+//            consumer.subscribe(consumerSubscription)
+//            delay(1000)
+//
+//
+//            val res = consumer.run(config.apply {
+//
+//                config.eachMessage = {
+////                    val topic = it.batch.topic
+////                    val partition = it.batch.partition
+////                    val message = it.batch.messages
+//                    val topic = it.topic
+//                    val partition = it.partition
+//                    val message = it.message
+//
+//                    println(topic)
+//                    println(partition)
+//                    println(message.value.toString())
+////                    kRecordQueue.forEach {
+////                        println(it.value.toString())
+////                    }
+//
+//
+//                    Promise { resolve, reject ->
+//                       // resolve()
+//                    }
+//                }
+//            })
+//            println(res)
+//            delay(500)
+//        }
+    }
+
+    private fun launch(block: suspend () -> Unit) {
+        block.startCoroutine(object : Continuation<Unit> {
+            override val context: CoroutineContext get() = Dispatchers.Default
+            //override fun resume(value: Unit) {}
+            //override fun resumeWithException(e: Throwable) { console.log("Coroutine failed: $e") }
+            override fun resumeWith(result: Result<Unit>) {
+                println(result.isSuccess)
+            }
+        })
+    }
+
+    suspend fun <T> Promise<T>.await(): T = suspendCoroutine { cont ->
+        then({ cont.resume(it) }, { cont.resumeWithException(it) })
     }
 
     private fun resolve() {
