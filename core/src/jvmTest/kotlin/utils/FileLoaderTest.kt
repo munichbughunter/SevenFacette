@@ -1,3 +1,5 @@
+package utils
+
 import de.p7s1.qa.sevenfacette.utils.FileLoader
 import org.junit.Test
 import java.io.BufferedReader
