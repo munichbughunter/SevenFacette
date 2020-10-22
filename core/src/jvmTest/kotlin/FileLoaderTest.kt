@@ -6,7 +6,6 @@ import java.util.stream.Collectors
 import kotlin.test.assertFailsWith
 import kotlin.test.assertNotNull
 
-
 /**
  * Testingclass for [FileLoader].
  *
@@ -17,8 +16,8 @@ import kotlin.test.assertNotNull
  * @author Stella Bastug
  */
 class FileLoaderTest {
-    val RESOURCES_TEST_FOLDER = "testfiles/"
 
+    private val RESOURCES_TEST_FOLDER = "testfiles/"
 
     @Test
     fun fileStreamIsNotEmpty(){
@@ -33,7 +32,7 @@ class FileLoaderTest {
     }
 
     @Test
-    fun readfileFromResourceAsStream(){
+    fun readFileFromResourceAsStream(){
         //arrange
         val loader = FileLoader()
         //act
@@ -41,7 +40,6 @@ class FileLoaderTest {
         //assert
         assertNotNull(inputStream)
     }
-
 
     @Test
     fun canNotReadResourceFileAsString() {
@@ -62,6 +60,5 @@ class FileLoaderTest {
         //assert
         assert(fileContent!!.isNotEmpty())
     }
-
 
 }

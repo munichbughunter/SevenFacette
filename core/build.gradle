@@ -295,3 +295,4 @@ task detektJSMain(type: io.gitlab.arturbosch.detekt.Detekt) {
     exclude 'resources/'
     exclude 'build/'
 }
+
