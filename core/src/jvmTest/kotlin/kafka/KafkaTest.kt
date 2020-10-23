@@ -14,9 +14,9 @@ class KafkaTest {
     fun getConsumerWithOwnConfig() {
         val config = KafkaTopicConfig(
             useSASLAuthentication=false,
-            saslMechanism=null,
-            saslUsername=null,
-            saslPassword=null,
+            saslMechanism="",
+            saslUsername="",
+            saslPassword="",
             autoOffset="latest",
             maxConsumingTime=10,
             kafkaProtocol="",
@@ -35,9 +35,9 @@ class KafkaTest {
     fun getProducerWithOwnConfig() {
         val config = KafkaTopicConfig(
             useSASLAuthentication=false,
-            saslMechanism=null,
-            saslUsername=null,
-            saslPassword=null,
+            saslMechanism="",
+            saslUsername="",
+            saslPassword="",
             autoOffset="latest",
             maxConsumingTime=10,
             kafkaProtocol="",

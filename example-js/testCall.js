@@ -10,71 +10,57 @@ async function testConsumer() {
   var kConfig = new sfConfig.types.KafkaTopicConfig();
   kConfig.autoOffset = true;
   kConfig.bootstrapServer = 'localhost:9092';
-  kConfig.maxConsumingTime = 50;
-  kConfig.topicName = "test";
-  kConfig.autoOffset = "latest";
+  kConfig.maxConsumingTime = 5;
+  kConfig.topicName = 'test';
+  kConfig.autoOffset = 'earliest';
+  kConfig.useSASLAuthentication = false;
+  kConfig.saslMechanism = '';
+  kConfig.saslUsername = '';
+  kConfig.saslPassword = '';
+  kConfig.groupID = '';
+  kConfig.kafkaProtocol = '';
 
-  console.log(kConfig);
-
-  var producer = new sfKafka.KProducer("testProducer", kConfig).createKProducer();
-  console.log("PRODUCER:");
-  console.log(producer);
-  console.log(producer.getTopic());
-  producer.sendKafkaMessage("Testmessage", "Here I am the last message...");
-
-  setTimeout(() => {
-    console.log("producer call is working");
-    producer.disconnect();
-  }, 5000);
-
-  // Now we will check if we can consume from a topic
-  // Create KConsumer
-  //const sfConsumer = new sfKafka.KFactory().createKConsumer("testConsumer", kConfig);
-  // console.log(sfConsumer);
-  //
-  // let consumedMessages = [];
-  //
-  // await sfConsumer.connect();
-  // await sfConsumer.subscribe({topic: kConfig.kafkaTopic, fromBeginning: kConfig.autoOffset})
-  // await sfConsumer.run({
-  //   eachMessage: async ({ topic, partition, message }) => {
-  //     console.log({
-  //       value: message.value.toString(),
-  //     })
-  //     consumedMessages.push(message.value.toString())
-  //   },
-  // });
-  //
+  // var producer = new sfKafka.KProducer(kConfig).createKProducer();
+  // await producer.sendKafkaMessage("Testmessage", "Here I am rocking like a hurricane");
   // setTimeout(() => {
-  //   sfConsumer.stop();
-  //   sfConsumer.disconnect();
-  //   console.log(consumedMessages);
-  // }, 8000);
+  //   producer.disconnect();
+  // }, 5000);
 
-
-
-  // Now we will check if we can produce a message to a topic
-  // Create KProducer
-
-  //const kenjiConsumer = createConsumer(kConfig);
+  //const consumer = createConsumer(kConfig);
   //consi.createKConsumer(kConfig);
-  var consumer = new sfKafka.KConsumer(kConfig).createKConsumer();
-  console.log("CONSUMER:");
-  console.log(consumer);
-  console.log(consumer.getTopic());
+  const kafka = new sfKafka.KConsumer(kConfig).createKConsumer();
+  const sfConsumer = kafka.getConsumer();
+
+  await sfConsumer.run({
+    eachMessage: async ({ topic, partition, message }) => {
+      //const prefix = `${topic}[${partition} | ${message.offset}] / ${message.timestamp}`
+      //console.log(`- ${prefix} ${message.key}#${message.value}`)
+      kafka.addKRecord(message.key.toString(), message.value.toString(), message.offset, partition)
+    },
+  })
 
   setTimeout(() => {
-    //console.log(consumer.getMessages())
-    //console.log("consumer is working");
-    //consumer.shutdown();
-  }, 8000);
+    kafka.shutdown();
 
-  setTimeout(() => {
-    consumer.shutdown();
-  }, 50000);
+    console.log("Records Count:");
+    console.log(kafka.getKRecordsCount());
 
+    console.log("Messages:");
+    console.log(kafka.getMessages());
 
+    console.log("filterByValue");
+    console.log(kafka.filterByValue('Here I am rocking like a hurricane'));
 
+    console.log("filterByKey");
+    console.log(kafka.filterByKey('Hallo'));
+
+    console.log("All messages")
+    console.log(kafka.getMessages());
+
+    console.log("Letzte Nachricht")
+    console.log(kafka.getLastKRecord());
+
+  }, kConfig.maxConsumingTime*1000);
 }
 testConsumer();
 

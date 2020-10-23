@@ -23,8 +23,6 @@ import kotlin.coroutines.suspendCoroutine
  * @author Patrick Döring
  */
 class KProducer (
-    // ToDo: Do we need that?
-    private val producerName: String,
     private val topicConfig: KafkaTopicConfig
 ) {
     private var producer: dynamic = ""
