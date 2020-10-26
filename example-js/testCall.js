@@ -21,7 +21,7 @@ async function testConsumer() {
   kConfig.kafkaProtocol = '';
 
   // var producer = new sfKafka.KProducer(kConfig).createKProducer();
-  // await producer.sendKafkaMessage("Testmessage", "Here I am rocking like a hurricane");
+  // await producer.sendKeyMessage("Testmessage", "Here I am rocking like a hurricane");
   // setTimeout(() => {
   //   producer.disconnect();
   // }, 5000);
