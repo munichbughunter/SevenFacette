@@ -27,7 +27,7 @@ import kotlin.coroutines.CoroutineContext
  *
  * @author Patrick Döring
  */
-class KConsumer (
+actual class KConsumer actual constructor(
     private val topicConfig: KafkaTopicConfig
 ) : CoroutineScope by CoroutineScope(Dispatchers.Default) {
     private val job = Job()
@@ -166,7 +166,7 @@ class KConsumer (
      *
      * @return kRecordQueue.size
      */
-    fun getKRecordsCount() : Int {
+    actual fun getKRecordsCount() : Int {
         return kRecordQueue.size
     }
 

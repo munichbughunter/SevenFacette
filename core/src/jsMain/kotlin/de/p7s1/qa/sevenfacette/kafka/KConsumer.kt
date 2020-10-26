@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
  *
  * @author Patrick Döring
  */
-class KConsumer(
+actual class KConsumer actual constructor (
         private val topicConfig: KafkaTopicConfig
 ) {
     private var consumer: dynamic = ""
@@ -98,7 +98,7 @@ class KConsumer(
     }
 
     @JsName("getKRecordsCount")
-    fun getKRecordsCount(): Int {
+    actual fun getKRecordsCount(): Int {
         return kRecords.size
     }
 
@@ -117,7 +117,7 @@ class KConsumer(
     }
 
     @JsName("getLastKRecord")
-    fun getLastKRecord(): KRecord {
+    fun getLastKRecord(): KRecord? {
         return kRecords.elementAt(kRecords.lastIndex)
     }
 

@@ -44,8 +44,8 @@ class KProducer (
         producer = Kafka(kafkaOptions).producer()
     }
 
-    @JsName("sendKafkaMessage")
-    fun sendKafkaMessage(key: String, msg: String) {
+    @JsName("sendKeyMessage")
+    fun sendKeyMessage(key: String, msg: String) {
         val message: Message = js("({})")
         message.key = key
         message.value = msg
