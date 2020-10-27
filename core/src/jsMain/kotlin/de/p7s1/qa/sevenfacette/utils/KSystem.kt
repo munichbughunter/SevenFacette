@@ -1,20 +1,21 @@
 package de.p7s1.qa.sevenfacette.utils
 
-actual class KSystem {
-    actual companion object {
-        actual fun getEnv(key: String): String? {
-            TODO("Not yet implemented")
-        }
+import NodeJS.Process
+import NodeJS.get
+import NodeJS.set
 
-        actual fun getProperty(key: String): String? {
-            TODO("Not yet implemented")
+external val process: Process
+
+actual class KSystem {
+
+    actual companion object {
+
+        actual fun getEnv(key: String): String? {
+            return process.env[key]
         }
 
         actual fun setEnv(key: String, value: String) {
+            process.env[key] = value
         }
-
-        actual fun setProperty(key: String, value: String) {
-        }
-
     }
 }
