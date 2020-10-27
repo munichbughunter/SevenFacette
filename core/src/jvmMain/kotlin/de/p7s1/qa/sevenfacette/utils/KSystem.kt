@@ -7,13 +7,13 @@ actual class KSystem {
         actual fun getEnv(key: String): String? = System.getenv(key)
 
         @JvmStatic
-        fun getProperty(key: String): String? = System.getProperty(key)
+        actual fun getProperty(key: String): String? = System.getProperty(key)
 
         @JvmStatic
         actual fun setEnv(key: String, value: String) = System.getenv().set(key, value)
 
         @JvmStatic
-        fun setProperty(key: String, value: String) {
+        actual fun setProperty(key: String, value: String) {
             System.setProperty(key, value)
         }
     }
