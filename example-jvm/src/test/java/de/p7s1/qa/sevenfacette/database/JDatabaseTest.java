@@ -126,4 +126,22 @@ class JDatabaseTest {
         entry.getKey())));
     });
   }
+
+  @Test
+  @DisplayName("Reformat statement")
+  void reformatStatements() {
+    updateStatements.add("DELETE FROM customer WHERE ID = %s");
+    updateStatements.add("DELETE FROM customer WHERE ID = %s, %s");
+    updateStatements.reformat(0, "12345");
+    assertEquals("DELETE FROM customer WHERE ID = 12345", updateStatements.get(0));
+  }
+
+  @Test
+  @DisplayName("Reformat statement multiple variables")
+  void reformatStatementsMultipleVariables() {
+    updateStatements.add("DELETE FROM customer WHERE ID = %s");
+    updateStatements.add("DELETE FROM customer WHERE ID = %s, %s");
+    updateStatements.reformat(1, "12345", "123123");
+    assertEquals("DELETE FROM customer WHERE ID = 12345, 123123", updateStatements.get(1));
+  }
 }

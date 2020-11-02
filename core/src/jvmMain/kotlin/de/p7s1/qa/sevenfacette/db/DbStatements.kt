@@ -27,6 +27,6 @@ actual class DbStatements {
     }
 
     actual fun reformat(index: Int, vararg args: String) {
-        statements[index] = String.format(statements[index], args)
+        statements[index] = String.format(statements[index], *args)
     }
 }
