@@ -15,7 +15,8 @@ external open class Kafka(config: KafkaConfig) {
 
 external interface KafkaConfig {
     var brokers: Array<String>
-    var ssl: dynamic /* tls.ConnectionOptions? | Boolean? */
+    //var ssl: dynamic /* tls.ConnectionOptions? | Boolean? */
+    var ssl: SSLOptions?
         get() = definedExternally
         set(value) = definedExternally
     var sasl: SASLOptions?
@@ -53,6 +54,9 @@ external interface KafkaConfig {
         set(value) = definedExternally
 }
 
+external interface SSLOptions {
+    var rejectUnauthorized: Boolean
+}
 
 external interface SASLOptions {
     var mechanism: String /* 'plain' | 'scram-sha-256' | 'scram-sha-512' | 'aws' */

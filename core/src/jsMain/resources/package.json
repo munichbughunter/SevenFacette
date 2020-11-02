@@ -1,0 +1,16 @@
+{
+  "name": "sevenfacette-core",
+  "version": "1.0.0",
+  "description": "",
+  "main": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "7Facette Team",
+  "license": "MIT",
+  //"typings": "index.d.ts",
+  "dependencies": {
+    "kotlin": "^1.4.0"
+  },
+  "repository": "github.com/munichbughunter/SevenFacette"
+}
