@@ -10,7 +10,16 @@
   "license": "MIT",
   //"typings": "index.d.ts",
   "dependencies": {
-    "kotlin": "^1.4.0"
+    "kotlin": "^1.4.0",
+    "kotlinx-coroutines-core": "1.4.0",
+    "ktor-ktor-client-core": "1.3.2",
+    "ktor-ktor-http-cio": "1.3.2",
+    "ktor-ktor-http": "1.3.2",
+    "ktor-ktor-io": "1.3.2",
+    "ktor-ktor-client-json": "1.3.2",
+    "ktor-ktor-utils": "1.3.2",
+    "kotlinx-atomicfu": "0.14.1",
+    "ktor-ktor-client-auth": "^1.3.0"
   },
   "repository": "github.com/munichbughunter/SevenFacette"
 }
