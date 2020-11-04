@@ -19,4 +19,8 @@ actual class DbStatements {
     actual fun size(): Int {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
+
+    actual fun reformat(index: Int, vararg args: String) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }

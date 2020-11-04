@@ -11,4 +11,6 @@ expect class DbStatements {
     operator fun get(index: Int): String
 
     fun size(): Int
+
+    fun reformat(index: Int, vararg args: String)
 }

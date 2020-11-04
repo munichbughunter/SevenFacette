@@ -2,18 +2,14 @@ package de.p7s1.qa.sevenfacette.database;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import de.p7s1.qa.sevenfacette.db.DbStatements;
 import de.p7s1.qa.sevenfacette.db.config.DConfig;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -125,5 +121,23 @@ class JDatabaseTest {
       result.entrySet().stream().allMatch(entry -> entry.getValue().equals(validationMap.get(
         entry.getKey())));
     });
+  }
+
+  @Test
+  @DisplayName("Reformat statement")
+  void reformatStatements() {
+    updateStatements.add("DELETE FROM customer WHERE ID = %s");
+    updateStatements.add("DELETE FROM customer WHERE ID = %s, %s");
+    updateStatements.reformat(0, "12345");
+    assertEquals("DELETE FROM customer WHERE ID = 12345", updateStatements.get(0));
+  }
+
+  @Test
+  @DisplayName("Reformat statement multiple variables")
+  void reformatStatementsMultipleVariables() {
+    updateStatements.add("DELETE FROM customer WHERE ID = %s");
+    updateStatements.add("DELETE FROM customer WHERE ID = %s, %s");
+    updateStatements.reformat(1, "12345", "123123");
+    assertEquals("DELETE FROM customer WHERE ID = 12345, 123123", updateStatements.get(1));
   }
 }
