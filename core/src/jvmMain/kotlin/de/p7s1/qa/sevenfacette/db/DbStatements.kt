@@ -25,4 +25,8 @@ actual class DbStatements {
     actual fun size(): Int {
         return statements.size
     }
+
+    actual fun reformat(index: Int, vararg args: String) {
+        statements[index] = String.format(statements[index], *args)
+    }
 }
