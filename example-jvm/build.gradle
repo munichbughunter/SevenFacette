@@ -6,6 +6,7 @@ group = "de.p7s1.qa.sevenfacette"
 version = "0.2.0"
 
 repositories {
+    maven {url "https://dl.bintray.com/p7s1qa/sevenfacette-jvm"}
     mavenCentral()
     mavenLocal()
     jcenter()

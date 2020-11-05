@@ -1,5 +1,6 @@
 package de.p7s1.qa.sevenfacette.kafka
 
+import de.p7s1.qa.sevenfacette.kafka.config.KConfig
 import de.p7s1.qa.sevenfacette.kafka.config.KTableTopicConfig
 import de.p7s1.qa.sevenfacette.kafka.config.SaslConfiguration
 import kotlinx.coroutines.CoroutineScope
@@ -60,7 +61,9 @@ class KConsumer(
             config[ConsumerConfig.GROUP_ID_CONFIG] = tableTopicConfig.kafkaConfig.groupID
         }
 
-        if (!tableTopicConfig.kafkaConfig.isolationLevel.isBlank()) {
+        if (tableTopicConfig.kafkaConfig.isolationLevel.isBlank()) {
+            config[ConsumerConfig.ISOLATION_LEVEL_CONFIG] = tableTopicConfig.kafkaConfig.readIsolationLevel.isolationLevel
+        } else {
             config[ConsumerConfig.ISOLATION_LEVEL_CONFIG] = tableTopicConfig.kafkaConfig.isolationLevel
         }
 
