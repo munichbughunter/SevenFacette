@@ -1,28 +1,19 @@
 package de.p7s1.qa.sevenfacette.selenium;
 
+import static de.p7s1.qa.sevenfacette.conditions.Have.text;
 import static de.p7s1.qa.sevenfacette.driver.FDriver.getBrowser;
-
+import static de.p7s1.qa.sevenfacette.driver.FDriver.open;
 import de.p7s1.qa.sevenfacette.config.types.FacetteConfig;
 import de.p7s1.qa.sevenfacette.core.JsExecutor;
 import de.p7s1.qa.sevenfacette.core.Select;
 import de.p7s1.qa.sevenfacette.driver.Browser;
 import de.p7s1.qa.sevenfacette.driver.FElement;
 import de.p7s1.qa.sevenfacette.driver.Page;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.time.LocalTime;
-import java.time.temporal.ChronoField;
-import javax.imageio.ImageIO;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import static de.p7s1.qa.sevenfacette.driver.FDriver.open;
-import static de.p7s1.qa.sevenfacette.conditions.Have.text;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * TODO: Add Description
@@ -37,7 +28,7 @@ public class SevenFacetteDriverTest {
   }
 
   @Test
-  @Disabled
+  //@Disabled
   void StartBrowser() {
     open(CalculatorPage::new)
       .calculate("10", "/", "2")
@@ -101,11 +92,24 @@ class UploadPage extends Page {
     this.submitButton.click();
     return this;
   }
+
+  @Override
+  public boolean isAtPage() {
+    return false;
+  }
 }
 
 class CalculatorPage extends Page {
+
+  private Boolean atPage;
+
   public CalculatorPage(Browser browser) {
     super(browser);
+  }
+
+  @Override
+  public boolean isAtPage() {
+    return getBrowser().getCurrentUrl().contains("test");
   }
 
   public String getUrl() {
@@ -120,13 +124,19 @@ class CalculatorPage extends Page {
   public FElement result = element("h2.ng-binding");
   public Select select = select("select[ng-model='operator']");
 
+
   public CalculatorPage calculate(String first, String operation, String second) {
+    isAtPage();
+
+
     this.first.setValue(first);
     this.second.setValue(second);
     this.select.selectOption(operation);
     this.goBtn.click();
     return this;
   }
+
+
 
   public CalculatorPage takeElementSnappy() {
     getBrowser().shootElement("screenshots", "Element", this.goBtn.getWebElement());
