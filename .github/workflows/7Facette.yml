@@ -20,6 +20,8 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
       - name: Set up JDK
         uses: actions/setup-java@v1
         with:
@@ -28,8 +30,23 @@ jobs:
         run: java -version
       - name: Grant execute permission for gradlew
         run: chmod 0755 gradlew && git add gradlew
-      - name: Build 7Facette core module with gradle
-        run: ./gradlew clean :core:build -x test
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v1
+        with:
+          patch: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+      - name: Chache gradle packages
+        uses: actions/cache@v1
+        with:
+          patch: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
+          restore-keys: ${{ runner.os }}-gradle
+      - name: Build and analyze 7Facette core module with gradle
+        env: 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: ./gradlew clean :core:build sonarqube --info -x test
       - name: Get the version
         id: get_version
         run: echo ::set-env name=VERSION::${GITHUB_REF/refs\/tags\/}
