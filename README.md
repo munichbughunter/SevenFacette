@@ -3,7 +3,6 @@
 ![7Facette](https://github.com/p7s1-ctf/SevenFacette/workflows/7Facette/badge.svg?branch=v0.5.3)
 
 
-
 7Facette is an open-source multiplatform test automation library written in Kotlin with support for JVM and JS. It is designed to provide a structure
 for developing higher quality automated acceptance and regression tests easier, faster and of course with more fun. So your team can hit the ground running 
 and not have to waste time needlessly building and maintaining their own framework. It`s ideal for agile software delivery teams who want to collaborate
