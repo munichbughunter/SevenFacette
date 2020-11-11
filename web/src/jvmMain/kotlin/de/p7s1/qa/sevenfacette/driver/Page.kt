@@ -9,7 +9,7 @@ import org.openqa.selenium.By
 import java.lang.RuntimeException
 
 
-abstract class Page(private val browser: Browser) : SearchContext by browser {
+abstract class Page(val browser: Browser) : SearchContext by browser {
 
     open val url: String? = null
     open val isAt: Browser.() -> Boolean = { true }

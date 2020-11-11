@@ -27,7 +27,7 @@ class Browser(val driver: WebDriver = getDriver(),
         listener.onStart()
     }
 
-    //var config: FConfig = loadConfig(FConfig::class)
+    //var webConfig: WebConfig = loadConfig(WebConfig::class)
     var config: WebConfig = FacetteConfig.web!!
 
     //var baseUrl: String by baseUrl()
