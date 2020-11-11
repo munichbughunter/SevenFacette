@@ -1,3 +1,5 @@
+package db
+
 import de.p7s1.qa.sevenfacette.db.DbStatements
 import de.p7s1.qa.sevenfacette.db.ScriptReader
 import de.p7s1.qa.sevenfacette.utils.FileLoader

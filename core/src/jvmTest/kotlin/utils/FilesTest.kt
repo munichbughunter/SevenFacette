@@ -3,8 +3,6 @@ package utils
 
 import de.p7s1.qa.sevenfacette.utils.Files
 import org.junit.Test
-import java.io.File
-import java.nio.file.Paths
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 

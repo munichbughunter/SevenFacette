@@ -15,7 +15,7 @@ import kotlin.test.assertTrue
  * Testcases:
  * - Can i get a resource (return isNotNull)
  * - Can i getting the right full path
- * 
+ *
  * @author Stella Bastug
  */
 class ResourceTest {
