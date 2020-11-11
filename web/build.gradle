@@ -14,6 +14,15 @@ plugins {
     //id 'io.gitlab.arturbosch.detekt' version '1.7.0'
 }
 
+sonarqube {
+    properties {
+        property "sonar.projectKey", "7Facette"
+        property "sonar.organization", "munichbughunter"
+        property "sonar.host.url", "https://sonarcloud.io"
+        property "sonar.login", "e46a7416086e7a47f39a00f920d0b047254648a8"
+    }
+}
+
 repositories {
     mavenCentral()
     jcenter()
