@@ -24,7 +24,7 @@ val driverFactory = FDFactory()
 // Hier wird die Config geladen bzw. gelesen...
 //var configuration: WebConfig = loadConfig(WebConfig::class)
 
-var facetteConfiguration: WebConfig = driverFactory.createConfig()
+//var facetteConfiguration: WebConfig = driverFactory.createConfig()
 
 fun getDriver(): WebDriver {
     return driverFactory.getDriver()
@@ -38,12 +38,12 @@ class FDFactory {
 
     private lateinit var config: WebConfig
 
-    fun createConfig(): WebConfig {
+    private fun createConfig(): WebConfig {
         config = ConfigReader.getSeleniumConfig("web")!!
         return config
     }
 
-    fun createDriver(): WebDriver {
+    private fun createDriver(): WebDriver {
         createConfig()
         //val browser = FacetteConfig.web!!.browserName
         val browser = config.browserName
