@@ -8,6 +8,6 @@ sonarqube {
         property "sonar.organization", "munichbughunter"
         property "sonar.host.url", "https://sonarcloud.io"
         property "sonar.scanner.force-deprecated-java-version", "true"
-        property "sonar.login", "e46a7416086e7a47f39a00f920d0b047254648a8"
+
     }
 }
