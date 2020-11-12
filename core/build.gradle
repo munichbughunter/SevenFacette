@@ -16,6 +16,7 @@ plugins {
 
 sonarqube {
     properties {
+        property "sonar.projectName", "7Facette-Core"
         property "sonar.projectKey", "7Facette-Core"
         property "sonar.organization", "munichbughunter"
         property "sonar.host.url", "https://sonarcloud.io"
