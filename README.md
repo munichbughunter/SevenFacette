@@ -4,6 +4,12 @@
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/munichbughunter/Sevenfacette?color=orange&label=latest%20version)
 ![GitHub](https://img.shields.io/github/license/munichbughunter/SevenFacette)
 
+[![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-black.svg)](https://sonarcloud.io/dashboard?id=munichbughunter_SevenFacette)
+[![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=munichbughunter_SevenFacette)](https://sonarcloud.io/dashboard?id=munichbughunter_SevenFacette)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=munichbughunter_SevenFacette&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=munichbughunter_SevenFacette)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=munichbughunter_SevenFacette&metric=alert_status)](https://sonarcloud.io/dashboard?id=munichbughunter_SevenFacette)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=munichbughunter_SevenFacette&metric=security_rating)](https://sonarcloud.io/dashboard?id=munichbughunter_SevenFacette)
+
 7Facette is an open-source multiplatform test automation library written in Kotlin with support for JVM and JS. It is designed to provide a structure
 for developing higher quality automated acceptance and regression tests easier, faster and of course with more fun. So your team can hit the ground running 
 and not have to waste time needlessly building and maintaining their own framework. It`s ideal for agile software delivery teams who want to collaborate
@@ -49,8 +55,8 @@ Actual we provide a JVM implementation of the 7Facette core and web module. The 
 for the next release. 
 
 ```kotlin
-implementation 'de.p7s1.qa.sevenfacette:core-jvm:0.6.5'
-implementation 'de.p7s1.qa.sevenfacette:web-jvm:0.6.5'
+implementation 'de.p7s1.qa.sevenfacette:core-jvm:0.7.5'
+implementation 'de.p7s1.qa.sevenfacette:web-jvm:0.7.5'
 ```
 
 ## Questions or need help?

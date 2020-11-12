@@ -1,9 +1,0 @@
-{
-  "name": "js-app",
-  "version": "0.0.1",
-  "description": "Example of using NodeJS in Kotlin",
-  "publishConfig":{"registry":"https://api.bintray.com/npm/p7s1qa/sevenfacette-js"},
-  "dependencies": {
-    "kotlin": "^1.3.61"
-  }
-}
