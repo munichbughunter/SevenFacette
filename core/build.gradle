@@ -21,6 +21,7 @@ sonarqube {
         property "sonar.organization", "munichbughunter"
         property "sonar.host.url", "https://sonarcloud.io"
         property "sonar.projectVersion", "v1.0.0"
+        property "sonar.sources", "src/**"
     }
 }
 
