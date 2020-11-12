@@ -23,6 +23,7 @@ sonarqube {
         property "sonar.projectVersion", "v1.0.0"
         property "sonar.kotlin.file.suffixes", "kt"
         property "sonar.project.monorepo.enabled", "true"
+        property "sonar.source", "src/"
     }
 }
 
