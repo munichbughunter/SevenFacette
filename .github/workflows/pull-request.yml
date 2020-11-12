@@ -21,7 +21,7 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod 0755 gradlew && git add gradlew
       - name: Build 7Facette core module with gradle
-        run: ./gradlew clean :core:build -x test
+        run: ./gradlew clean :core:build
   build-web:
     needs: build-core
     runs-on: ubuntu-latest
@@ -38,5 +38,5 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod 0755 gradlew && git add gradlew
       - name: Build 7Facette web module with gradle
-        run: ./gradlew clean :web:build -x test
+        run: ./gradlew clean :web:build
 

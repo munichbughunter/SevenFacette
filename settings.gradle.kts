@@ -1,10 +1,6 @@
 include(
         ":core",
-        ":web",
-        ":example-js",
-        ":example-jvm",
-        ":example-spring",
-        ":example-jvm-cucumber"
+        ":web"
 )
 
 enableFeaturePreview("GRADLE_METADATA")
