@@ -25,7 +25,6 @@ sonarqube {
         property "sonar.kotlin.file.suffixes", "kt"
         property "sonar.project.monorepo.enabled", "true"
         property "sonar.sources", "src/"
-        property "sonar.tests", "src/"
         property "sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/test/*"
     }
 }
