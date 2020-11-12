@@ -16,12 +16,14 @@ plugins {
 
 sonarqube {
     properties {
+        property "sonar.projectName", "7Facette-Web"
         property "sonar.projectKey", "7Facette-Web"
         property "sonar.organization", "munichbughunter"
         property "sonar.host.url", "https://sonarcloud.io"
-        property "sonar.force-deprecated-java-version", "true"
-        property "sonar.project.monorepo.enabled", "true"
         property "sonar.projectVersion", "v1.0.0"
+        property "sonar.kotlin.file.suffixes", "kt"
+        property "sonar.project.monorepo.enabled", "true"
+        property "sonar.sources", "src/"
     }
 }
 
