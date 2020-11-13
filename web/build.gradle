@@ -12,6 +12,7 @@ plugins {
     id 'org.jetbrains.dokka' version '0.10.1'
     id 'io.gitlab.arturbosch.detekt' version '1.7.0'
     id ("org.sonarqube") version "3.0"
+    id 'jacoco'
 }
 
 sonarqube {
@@ -24,6 +25,7 @@ sonarqube {
         property "sonar.kotlin.file.suffixes", "kt"
         property "sonar.project.monorepo.enabled", "true"
         property "sonar.sources", "src/"
+        property "sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/test/*"
     }
 }
 
@@ -299,4 +301,21 @@ task detektJSMain(type: io.gitlab.arturbosch.detekt.Detekt) {
     include '**/*.kts'
     exclude 'resources/'
     exclude 'build/'
+}
+
+tasks.jvmTest {
+    apply plugin: "jacoco"
+    apply plugin: "java"
+    testLogging {
+        events("passed", "skipped", "failed")
+    }
+    jacocoTestReport {
+        reports {
+            xml.enabled = true
+            html.enabled = true
+        }
+        classDirectories.setFrom(file("${buildDir}/classes/kotlin/jvm/main"))
+        sourceDirectories.setFrom(files("src/commonMain", "src/jvmMain"))
+        executionData.setFrom(files("${buildDir}/jacoco/jvmTest.exec"))
+    }
 }
