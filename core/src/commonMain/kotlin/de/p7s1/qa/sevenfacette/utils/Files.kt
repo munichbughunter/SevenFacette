@@ -26,5 +26,9 @@ expect class Files {
          * @return string content of file
          */
         fun getAsText(path: String): String
+
+        fun getResource(fileName: String): String?
+
+        fun getRessourceText(fileName: String): String?
     }
 }

@@ -2,7 +2,6 @@ package de.p7s1.qa.sevenfacette.config
 
 import de.p7s1.qa.sevenfacette.utils.Files
 import de.p7s1.qa.sevenfacette.utils.KSystem
-//import mu.KotlinLogging
 
 //private val logger = KotlinLogging.logger {}
 val IMPORT_REGEX = Regex("@[Ii]mport\\([-_\\w]+.(yml|yaml|json)\\)")

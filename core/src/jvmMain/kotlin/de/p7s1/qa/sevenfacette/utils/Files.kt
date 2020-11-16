@@ -46,10 +46,10 @@ actual class Files {
         fun getResourceStream(path: String): List<String> = Files::class.java.getResourceAsStream(path).bufferedReader().readLines()
 
         @JvmStatic
-        fun getResource(fileName: String): String? = this::class.java.classLoader.getResource(fileName)?.toString()
+        actual fun getResource(fileName: String): String? = this::class.java.classLoader.getResource(fileName)?.toString()
 
         @JvmStatic
-        fun getRessourceText(fileName: String): String? = URL(getResource(fileName)).readText()
+        actual fun getRessourceText(fileName: String): String? = URL(getResource(fileName)).readText()
     }
 }
 
