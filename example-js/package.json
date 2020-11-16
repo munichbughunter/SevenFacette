@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "sevenfacette": "file:../build/js"
+    "sevenfacette": "file:../core/build/libs/test"
   },
   "author": "",
   "license": "ISC"

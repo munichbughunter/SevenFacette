@@ -1,12 +1,14 @@
 package de.p7s1.qa.sevenfacette.kafka
 
 import de.p7s1.qa.sevenfacette.config.types.KafkaTopicConfig
-import de.p7s1.qa.sevenfacette.kafka.externals.Kafka
-import de.p7s1.qa.sevenfacette.kafka.externals.KafkaConfig
-import de.p7s1.qa.sevenfacette.kafka.externals.Message
-import de.p7s1.qa.sevenfacette.kafka.externals.ProducerEvents
-import de.p7s1.qa.sevenfacette.kafka.externals.ProducerRecord
-import de.p7s1.qa.sevenfacette.kafka.externals.Sender
+import de.p7s1.qa.sevenfacette.kafka.externals.*
+import de.p7s1.qa.sevenfacette.kafka.externals.CompressionTypes.None
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlin.coroutines.Continuation
 import kotlin.coroutines.EmptyCoroutineContext
 import kotlin.coroutines.resume
@@ -20,10 +22,7 @@ import kotlin.coroutines.suspendCoroutine
  *
  * @author Patrick Döring
  */
-external fun setTimeout(function: () -> Unit, delay: Long)
 class KProducer (
-    // ToDo: Do we need that?
-    private val producerName: String,
     private val topicConfig: KafkaTopicConfig
 ) {
     private var producer: dynamic = ""
@@ -45,23 +44,31 @@ class KProducer (
         producer = Kafka(kafkaOptions).producer()
     }
 
-    @JsName("sendKafkaMessage")
-    fun sendKafkaMessage(key: String, msg: String) {
-        println(" HERE IS THE PRODUCER CLASS")
+    @JsName("sendKeyMessage")
+    fun sendKeyMessage(key: String, msg: String) {
         val message: Message = js("({})")
         message.key = key
         message.value = msg
 
         val record: ProducerRecord = js("({})")
+        record.acks = 0
+        record.timeout = 30000
+        record.compression = None
         record.topic = getTopic()
         record.messages = arrayOf(message)
 
         producer.connect()
 
-        producer.send(record)
-        println("RECORD WAS SENT TO TOPIC!!!")
+        GlobalScope.launch(context = Dispatchers.Default) {
+            delay(1000)
+            producer.send(record)
+        }
     }
-    // ToDo: Validate to send key and message via kotlin...
+
+    @JsName("disconnect")
+    fun disconnect() {
+        producer.disconnect()
+    }
 
     @JsName("getTopic")
     fun getTopic(): String {

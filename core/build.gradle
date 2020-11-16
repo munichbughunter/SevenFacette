@@ -90,11 +90,8 @@ kotlin {
                 implementation 'io.ktor:ktor-client-auth-js:1.3.0'
                 implementation 'org.jetbrains.kotlin:kotlin-reflect:1.3.0'
 
+                //implementation (npm( "kafkajs", "^1.12.0"))
 
-                //implementation 'org.jetbrains.kotlinx:kotlinx-serialization-runtime-js:0.14.0'
-
-                //implementation (npm("is-sorted", "1.0.5"))
-                implementation (npm( "kafkajs", "^1.12.0"))
                 implementation "org.jetbrains.kotlinx:kotlinx-nodejs:0.0.7"
                 //implementation (npm( "kafka-node", "^5.0.0"))
                 //implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime-js:0.14.0")
@@ -109,6 +106,7 @@ kotlin {
     }
 }
 
+
 def GROUP_ID="de.p7s1.qa.sevenfacette" // Your orginization in reverse domain notation. For example:  def GROUP_ID="com.fudge"
 def ARTIFACT_ID="core" // The name you gave your package in bintray. In our example it would be:  def ARTIFACT_ID="kotlin-awesome-printer"
 
@@ -121,9 +119,9 @@ def BINTRAY_REPOSITORY="sevenfacette-jvm" // What you named your repository in b
 
 // Only for local TESTING //
 def LIBRARY_VERSION_NAME=0.6 // The current version of your library. You will need to update this value whenever you upload a new release. For example: 1.0
-//version = "v0.6.0"
+version = "v1.0.0"
 
-version = System.properties['VERSION']
+//version = System.properties['VERSION']
 version = version.toString().substring(1,6)
 LIBRARY_VERSION_NAME=version.toString().substring(0,3)
 

@@ -25,9 +25,9 @@ class ConfigTest {
             "testtopic1 is not available")
         assertEquals(false, testtopic1.useSASLAuthentication,
             "UseSasl of consumer testtopic1 is not correct")
-        assertEquals(null, testtopic1.saslPassword,
+        assertEquals("", testtopic1.saslPassword,
             "Sasl password of consumer testtopic1 is not correct")
-        assertEquals(null, testtopic1.saslUsername,
+        assertEquals("", testtopic1.saslUsername,
             "Sasl username of consumer testtopic1 is not correct")
         assertEquals("latest", testtopic1.autoOffset,
             "Autooffset of consumer testtopic1 is not correct")
@@ -38,9 +38,9 @@ class ConfigTest {
             "topic2 is not available")
         assertEquals(false, topic2.useSASLAuthentication,
             "UseSasl of consumer topic2 is not correct")
-        assertEquals(null, topic2.saslPassword,
+        assertEquals("", topic2.saslPassword,
             "Sasl password of consumer topic2 is not correct")
-        assertEquals(null, topic2.saslUsername,
+        assertEquals("", topic2.saslUsername,
             "Sasl username of consumer topic2 is not correct")
         assertEquals("earliest", topic2.autoOffset,
             "Autooffset of consumer topic2 is not correct")
