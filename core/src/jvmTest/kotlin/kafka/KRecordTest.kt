@@ -11,4 +11,6 @@ import de.p7s1.qa.sevenfacette.kafka.KRecord
  */
 class KRecordTest {
 
+    //actually no functionality in [KRecord]
+
 }

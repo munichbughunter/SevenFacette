@@ -1,6 +1,7 @@
 package config
 
 import de.p7s1.qa.sevenfacette.config.ConfigReader
+import org.junit.Test
 
 /**
  * Testingclass for [ConfigReader].
@@ -11,4 +12,6 @@ import de.p7s1.qa.sevenfacette.config.ConfigReader
  */
 class ConfigReaderTest {
 
+    @Test
+    fun readConfigTest(){}
 }

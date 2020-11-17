@@ -13,5 +13,19 @@ import org.junit.Test
 class GenericHttpClientTest {
 
     @Test
-    fun setClientTest(){}
+    fun setClientTest() {}
+
+    @Test
+    fun postTest() {}
+
+    @Test
+    fun putTest() {}
+
+    @Test
+    fun deleteTest() {}
+
+    @Test
+    fun getTest() {}
+
+
 }

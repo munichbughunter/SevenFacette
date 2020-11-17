@@ -15,7 +15,6 @@ class HttpResponseTest {
 
     @Test
     fun initTest(){
-        //TODO
     }
 
 
