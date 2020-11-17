@@ -20,7 +20,7 @@ import kotlin.test.assertTrue
  */
 class ResourceTest {
     // relative path specifically for the test case
-    private val RESOURCES_TEST_FOLDER_PATH = "\\src\\jvmTest\\resources\\testfiles\\test.txt"
+    private val RESOURCES_TEST_FOLDER_PATH = File.separator + "src"+File.separator +"jvmTest"+File.separator +"resources"+File.separator +"testfiles"+File.separator +"test.txt"
 
     @Test
     fun getResourceTest(){
