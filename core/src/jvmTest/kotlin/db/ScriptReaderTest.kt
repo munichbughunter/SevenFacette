@@ -19,15 +19,15 @@ class ScriptReaderTest {
     fun getStatementsTest(){}
 
     @Test
-    private fun parseScriptTest(){}
+    fun parseScriptTest(){}
 
     @Test
-    private fun trimStatementTest(){}
+    fun trimStatementTest(){}
 
     @Test
-    private fun getValidStringIndexOfTest(){}
+    fun getValidStringIndexOfTest(){}
 
     @Test
-    private fun getValidStringLastIndexOfTest(){}
+    fun getValidStringLastIndexOfTest(){}
 
 }
