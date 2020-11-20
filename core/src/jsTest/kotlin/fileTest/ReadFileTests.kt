@@ -5,7 +5,7 @@ import kotlin.test.Test
 
 class ReadFileTests {
 
-    val path = "/Users/florianp/Projekte/Pro7/git_repos/SevenFacette/core/src/jsTest/resources/testFiles"
+    val path = "[addPathToLocalRepo]/core/src/jsTest/resources/testFiles"
 
     @Test
     fun readFileAsText() {
@@ -23,11 +23,6 @@ class ReadFileTests {
 
     @Test
     fun getPath() {
-        println("TEST = " + FileReader().getPath("resources"))
-    }
-
-    @Test
-    fun asdf() {
-        FileReader()
+        println("TEST = " + FileReader().getPath("resources").matches("SevenFacette-core-test/resources$"))
     }
 }

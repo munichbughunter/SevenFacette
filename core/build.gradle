@@ -90,7 +90,7 @@ kotlin {
                 implementation 'io.ktor:ktor-client-auth-js:1.3.0'
                 implementation 'org.jetbrains.kotlin:kotlin-reflect:1.3.0'
 
-                //implementation (npm( "kafkajs", "^1.12.0"))
+                implementation (npm( "kafkajs", "^1.12.0"))
 
                 implementation "org.jetbrains.kotlinx:kotlinx-nodejs:0.0.7"
                 //implementation (npm( "kafka-node", "^5.0.0"))
