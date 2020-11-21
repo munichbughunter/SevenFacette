@@ -3,10 +3,8 @@
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/munichbughunter/Sevenfacette/7Facette?label=7Facette%20build)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/munichbughunter/Sevenfacette?color=orange&label=latest%20version)
 ![GitHub](https://img.shields.io/github/license/munichbughunter/SevenFacette)
-|[![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-white.svg)](https://sonarcloud.io/dashboard?id=7Facette-Core) |[![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-black.svg)](https://sonarcloud.io/dashboard?id=7Facette-Web)|
+|[![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-white.svg)](https://sonarcloud.io/dashboard?id=7Facette-Core)<br>**7Facette-Core**  [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=7Facette-Core&metric=coverage)](https://sonarcloud.io/dashboard?id=7Facette-Core)|[![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-black.svg)](https://sonarcloud.io/dashboard?id=7Facette-Web)<br>**7Facette-Web**  [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=7Facette-Web&metric=coverage)](https://sonarcloud.io/dashboard?id=7Facette-Web)|
 |---|---|
-|**7Facette-Core** [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=7Facette-Core&metric=coverage)](https://sonarcloud.io/dashboard?id=7Facette-Core)|**7Facette-Web** [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=7Facette-Web&metric=coverage)](https://sonarcloud.io/dashboard?id=7Facette-Web)|
-
 
 7Facette is an open-source multiplatform test automation library written in Kotlin with support for JVM and JS. It is designed to provide a structure
 for developing higher quality automated acceptance and regression tests easier, faster and of course with more fun. So your team can hit the ground running 
