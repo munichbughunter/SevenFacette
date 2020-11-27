@@ -11,12 +11,16 @@ expect class ConfigReader {
     companion object {
         fun readConfig(): SevenFacetteConfig
 
-        fun getHttpConfig(clientName: String): HttpClientConfig?
+        fun getHttpConfig() : HttpConfig?
+
+        fun getHttpClientConfig(clientName: String): HttpClientConfig?
 
         fun getKafkaConsumerConfig(consumerName: String): KafkaTopicConfig?
 
         fun getKafkaProducerConfig(producerName: String): KafkaTopicConfig?
 
         fun getDatabaseConfig(databaseName: String) : DatabaseConfig?
+
+        fun getCustomConfig(key: String) : String?
     }
 }
