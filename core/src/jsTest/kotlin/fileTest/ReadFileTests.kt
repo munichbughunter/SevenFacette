@@ -10,19 +10,18 @@ class ReadFileTests {
     @Test
     fun readFileAsText() {
         val file = "testFile.json"
-        val text = FileReader().readFileAsString("${path}/$file")
-        println(text)
+        //println(FileReader().readFileAsString("${path}/$file"))
     }
 
     @Test
     fun readFileAsByteArray() {
         val file = "testFile.json"
-        val text = FileReader().readFileAsByteArray("${path}/$file")
-        println(text is ByteArray)
+        //val text = FileReader().readFileAsByteArray("${path}/$file")
+        //println(text is ByteArray)
     }
 
     @Test
     fun getPath() {
-        println("TEST = " + FileReader().getPath("resources").matches("SevenFacette-core-test/resources$"))
+       // println("TEST = " + FileReader().getPath("resources").matches("SevenFacette-core-test/resources$"))
     }
 }
