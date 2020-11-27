@@ -1,5 +1,6 @@
 sevenFacette:
   http:
+    connectionTimeout: 5000
     clients:
       restfulBooker:
         connectionTimeout: 5000

@@ -1,7 +1,6 @@
 package config
 
 import de.p7s1.qa.sevenfacette.config.ConfigReader
-import de.p7s1.qa.sevenfacette.config.types.FacetteConfig
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
@@ -90,7 +89,7 @@ class ConfigTest {
         assertEquals(2, config?.clients?.size,
             "Number of http clients is not correct")
 
-        val restfulBookerClient = ConfigReader.getHttpConfig("restfulBooker")
+        val restfulBookerClient = ConfigReader.getHttpClientConfig("restfulBooker")
         assertNotNull(restfulBookerClient,
             "RestfulBookerClient does not exist")
         assertEquals(5000, restfulBookerClient.connectionTimeout,
@@ -112,7 +111,7 @@ class ConfigTest {
         assertEquals(3, restfulBookerClient.authentication?.size ?: 0,
             "Authentication size of restfullBookerClient is not correct")
 
-        val testClient = ConfigReader.getHttpConfig("testClient")
+        val testClient = ConfigReader.getHttpClientConfig("testClient")
         assertNotNull(testClient,
             "TestClient does not exist")
         assertEquals(3000, testClient.connectionTimeout,
