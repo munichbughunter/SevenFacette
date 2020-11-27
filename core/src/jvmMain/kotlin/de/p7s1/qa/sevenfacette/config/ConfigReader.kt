@@ -29,7 +29,11 @@ actual class ConfigReader {
         }
 
         @JvmStatic
-        actual fun getHttpConfig(clientName: String): HttpClientConfig? =
+        actual fun getHttpConfig(): HttpConfig? =
+                FacetteConfig.http
+
+        @JvmStatic
+        actual fun getHttpClientConfig(clientName: String): HttpClientConfig? =
                 FacetteConfig.http?.clients?.get(clientName)
 
         @JvmStatic
@@ -43,5 +47,9 @@ actual class ConfigReader {
         @JvmStatic
         actual fun getDatabaseConfig(databaseName: String) : DatabaseConfig? =
                 FacetteConfig.database?.get(databaseName)
+
+        @JvmStatic
+        actual fun getCustomConfig(key: String) : String? =
+                FacetteConfig.custom?.get(key)
     }
 }

@@ -28,7 +28,7 @@ class HttpClientFactory {
 
         private fun createConfig(clientName: String): HttpClientConfig {
 
-            val config = ConfigReader.getHttpConfig(clientName)
+            val config = ConfigReader.getHttpClientConfig(clientName)
                 ?: throw Exception("Client $clientName not found in configuration")
             if(config.connectionRequestTimeout==null) config.connectionRequestTimeout = FacetteConfig.http?.connectionRequestTimeout
             if(config.connectionTimeout==null) config.connectionTimeout = FacetteConfig.http?.connectionTimeout
