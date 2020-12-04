@@ -19,6 +19,7 @@ actual class ConfigReader {
          *
          * @return FacetteConfigDataClass
          */
+        @JvmStatic
         actual fun readConfig(): SevenFacetteConfig {
             val config = replaceEnvironmentVariables(replaceImports(getConfigFileName().toString()))
             var result = SevenFacetteConfig()
