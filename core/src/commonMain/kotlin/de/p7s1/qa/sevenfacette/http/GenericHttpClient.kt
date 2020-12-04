@@ -1,11 +1,17 @@
 package de.p7s1.qa.sevenfacette.http
 
+import de.p7s1.qa.sevenfacette.config.types.HttpClientConfig
+import de.p7s1.qa.sevenfacette.http.auth.AuthenticationFactory
 import io.ktor.client.HttpClient
-import io.ktor.client.request.*
+import io.ktor.client.engine.*
+import io.ktor.client.features.*
+import io.ktor.client.features.auth.*
+import io.ktor.client.features.cookies.*
+import io.ktor.client.features.json.*
+import io.ktor.client.features.json.serializer.*
 import io.ktor.http.*
 import io.ktor.http.content.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import io.ktor.util.*
 import kotlin.js.JsName
 
 /**
@@ -14,16 +20,39 @@ import kotlin.js.JsName
  *
  * @author Florian Pilz
  */
-class GenericHttpClient() {
+class GenericHttpClient {
 
     private lateinit var client: HttpClient
     private lateinit var url: Url
 
+    @KtorExperimentalAPI
     @JsName("setClient")
-    fun setClient(url: Url, client: HttpClient):GenericHttpClient {
-        //logger.info { "SET CLIENT" }
-        this.client = client
-        this.url = url
+    fun setClient(config: HttpClientConfig, factory: HttpClientEngine):GenericHttpClient {
+        this.client = HttpClient(factory) {
+            expectSuccess = false
+
+            install(HttpCookies) {
+                storage = AcceptAllCookiesStorage()
+            }
+
+            install(JsonFeature) {
+                serializer = KotlinxSerializer()
+            }
+
+            install(HttpSend){
+                maxSendCount = 2
+            }
+
+            if(config.authentication != null) {
+                install(Auth) {
+                    providers.add(AuthenticationFactory(config.authentication!!).getAuthentication())
+                }
+            }
+        }
+        client.engineConfig
+
+        this.url = config.url!!
+
         return this
     }
 
@@ -38,8 +67,8 @@ class GenericHttpClient() {
      * @return HttpResponse - null if no response is received
      */
     @JsName("post")
-    fun post(path: String, content: String, contentType: CONTENTTYPES, headers: HttpHeader): HttpResponse? =
-            this.executeRequest(HttpMethod.Post, path, content, contentType, headers)
+    fun post(path: String, content: String, contentType: CONTENTTYPES, headers: HttpHeader? = null): HttpResponse? =
+        HttpClientExecutor.executeRequest(this.client, HttpMethod.Post, this.url, path, getBody(content, contentType), headers)
 
     /**
      * JS specific implementation of port
@@ -52,8 +81,8 @@ class GenericHttpClient() {
      * @return HttpResponse - null if no response is received
      */
     @JsName("postByteArray")
-    fun post(path: String, content: ByteArray, headers: HttpHeader): HttpResponse? =
-            this.executeRequest(HttpMethod.Post, path, content, useHeaders = headers)
+    fun post(path: String, content: ByteArray, headers: HttpHeader? = null): HttpResponse? =
+        HttpClientExecutor.executeRequest(this.client, HttpMethod.Post, this.url, path, getBody(content), headers)
 
     /**
      * JS specific implementation of port
@@ -67,8 +96,8 @@ class GenericHttpClient() {
      * @return HttpResponse - null if no response is received
      */
     @JsName("postMultipartBody")
-    fun post(path: String, content: MultipartBody, header: HttpHeader): HttpResponse? =
-            this.executeRequest(HttpMethod.Post, path, content, useHeaders = header)
+    fun post(path: String, content: MultipartBody, headers: HttpHeader? = null): HttpResponse? =
+        HttpClientExecutor.executeRequest(this.client, HttpMethod.Post, this.url, path, getBody(content), headers)
 
     /**
      * JS specific implementation of put
@@ -81,8 +110,8 @@ class GenericHttpClient() {
      * @return HttpResponse - null if no response is received
      */
     @JsName("put")
-    fun put(path: String, content: String, contentType: CONTENTTYPES, headers: HttpHeader): HttpResponse? =
-            this.executeRequest(HttpMethod.Put, path, content, contentType, headers)
+    fun put(path: String, content: String, contentType: CONTENTTYPES, headers: HttpHeader? = null): HttpResponse? =
+        HttpClientExecutor.executeRequest(this.client, HttpMethod.Put, this.url, path, getBody(content, contentType), headers)
 
     /**
      * JS specific implementation of put
@@ -95,8 +124,8 @@ class GenericHttpClient() {
      * @return HttpResponse - null if no response is received
      */
     @JsName("putByteArray")
-    fun put(path: String, content: ByteArray, headers: HttpHeader): HttpResponse? =
-            this.executeRequest(HttpMethod.Put, path, content, useHeaders = headers)
+    fun put(path: String, content: ByteArray, headers: HttpHeader? = null): HttpResponse? =
+        HttpClientExecutor.executeRequest(this.client, HttpMethod.Put, this.url, path, getBody(content), headers)
 
     /**
      * JS specific implementation of put
@@ -110,8 +139,8 @@ class GenericHttpClient() {
      * @return HttpResponse - null if no response is received
      */
     @JsName("putMultipartBody")
-    fun put(path: String, content: MultipartBody, headers: HttpHeader): HttpResponse? =
-            this.executeRequest(HttpMethod.Put, path, content, useHeaders = headers)
+    fun put(path: String, content: MultipartBody, headers: HttpHeader? = null): HttpResponse? =
+        HttpClientExecutor.executeRequest(this.client, HttpMethod.Put, this.url, path, getBody(content), headers)
 
     /**
      * JS specific implementation of delete
@@ -123,8 +152,8 @@ class GenericHttpClient() {
      * @return HttpResponse - null if no response is received
      */
     @JsName("delete")
-    fun delete(path: String, headers: HttpHeader): HttpResponse? =
-            this.executeRequest<Unit>(HttpMethod.Delete, path, useHeaders = headers)
+    fun delete(path: String, headers: HttpHeader? = null): HttpResponse? =
+        HttpClientExecutor.executeRequest(this.client, HttpMethod.Delete, this.url, path, null, headers)
 
     /**
      * JS specific implementation of get
@@ -136,66 +165,8 @@ class GenericHttpClient() {
      * @return HttpResponse - null if no response is received
      */
     @JsName("get")
-    fun get(path: String, headers: HttpHeader): HttpResponse? =
-            this.executeRequest<Unit>(HttpMethod.Get, path, useHeaders = headers)
-
-    /**
-     * This function takes method, path, content and header and sends it via the Ktor client to the path.
-     * The function starts a blocking coroutine to send the request.
-     *
-     * @param useMethod this is the provided method (Get, Post, Put, Delete)
-     * @param usePath the path the requests should be sent to
-     * @param useContent the content type to be sent. Can be null, string, byte array or graphQL
-     * @see GraphQlContent
-     * @param useHeaders the headers to be added to the request
-     * @see HttpHeader
-     *
-     * @return null if no request is received, HttpResponse for successful requests
-     * @see HttpResponse
-     */
-    private inline fun <reified T> executeRequest(useMethod: HttpMethod, usePath: String, useContent: T? = null, contentType: CONTENTTYPES? = null, useHeaders: HttpHeader): HttpResponse? {
-        var facetteResponse: HttpResponse? = null
-        val fullPath = this.url .path(usePath).create()
-
-        //logger.info("Sending a ${useMethod.value} request to $fullPath with ${if(useContent == null) "no" else ""} content")
-
-        var usedBody: Any? = null
-        if (useContent != null) {
-            usedBody = getBody(useContent, contentType)
-            //logger.info("Body == $usedBody")
-        } else {
-            //logger.info("With no body")
-        }
-
-        GlobalScope.launch {
-            try {
-
-                facetteResponse = HttpResponse(client.request {
-
-                    url(fullPath)
-
-                    method = useMethod
-
-                    if (usedBody != null) {
-                        body = usedBody
-                    }
-                    userAgent("SevenFacette")
-
-                    useHeaders.header.forEach {
-                        headers.append(it.first, it.second)
-                    }
-                })
-            } catch (e: Exception) {
-                //logger.error(e.message)
-            }
-        }.onJoin
-
-        if(facetteResponse == null) throw Exception("No response received")
-        //logger.info { "Response http status == ${facetteResponse?.status}" }
-        //logger.info { "Response headers == ${facetteResponse?.headers}" }
-        //logger.info { "Response body == ${facetteResponse?.body}" }
-        return facetteResponse
-    }
+    fun get(path: String, headers: HttpHeader? = null): HttpResponse? =
+        HttpClientExecutor.executeRequest(this.client, HttpMethod.Get, this.url, path, null, headers)
 
     /**
      * Simple factory method to create the needed Ktor body type
@@ -206,7 +177,7 @@ class GenericHttpClient() {
      *
      * @return the corresponding Ktpr body type
      */
-    private inline fun <reified T> getBody(content: T, contentType: CONTENTTYPES?): Any {
+    private inline fun <reified T> getBody(content: T, contentType: CONTENTTYPES? = null): Any {
         return when(T::class) {
             String::class, Unit::class -> TextContent(content as String, parseContentType(contentType))
             ByteArray::class -> ByteArrayContent(content as ByteArray)
