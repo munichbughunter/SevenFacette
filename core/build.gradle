@@ -137,6 +137,23 @@ kotlin {
                 kotlinOptions.outputFile = "${projectDir}/build/js/core.js"
             }
         }
+        jsTest {
+            dependencies {
+                implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$serialization_version"
+                implementation kotlin('test')
+                implementation kotlin('test-junit')
+
+                implementation 'io.kotlintest:kotlintest-runner-junit5:3.3.2'
+
+                implementation "org.jetbrains.kotlin:kotlin-reflect:1.3.71"
+                runtimeOnly "org.junit.jupiter:junit-jupiter-engine:5.5.2"
+
+                implementation "org.junit.jupiter:junit-jupiter-api:5.5.2"
+                implementation "org.junit.jupiter:junit-jupiter-params:5.5.2"
+                implementation("org.jacoco:org.jacoco.core:0.7.9")
+            }
+        }
+
     }
 }
 
@@ -340,3 +357,23 @@ tasks.jvmTest {
         executionData.setFrom(files("${buildDir}/jacoco/jvmTest.exec"))
     }
 }
+
+tasks.jsTest {
+    apply plugin: "jacoco"
+    apply plugin: "java"
+/*
+    testLogging {
+        events("passed", "skipped", "failed")
+    }
+*/
+    jacocoTestReport {
+        reports {
+            xml.enabled = true
+            html.enabled = true
+        }
+        classDirectories.setFrom(file("${buildDir}/classes/kotlin/js/main"))
+        sourceDirectories.setFrom(files("src/commonMain", "src/jsMain"))
+        executionData.setFrom(files("${buildDir}/jacoco/jsTest.exec"))
+    }
+}
+
