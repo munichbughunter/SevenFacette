@@ -13,6 +13,14 @@ plugins {
     id 'org.jetbrains.dokka' version '1.4.0'
 }
 
+sonarqube {
+    properties {
+        property "sonar.projectKey", "7Facette"
+        property "sonar.organization", "munichbughunter"
+        property "sonar.host.url", "https://sonarcloud.io"
+    }
+}
+
 repositories {
     mavenCentral()
     jcenter()

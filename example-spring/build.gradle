@@ -16,8 +16,10 @@ repositories {
 
 dependencies {
     compile fileTree(dir: 'lib', include: ['ifxjdbc.jar'])
-    implementation ("de.p7s1.qa.sevenfacette:core-jvm:1.0.0")
-    implementation ("de.p7s1.qa.sevenfacette:web-jvm:1.0.0")
+
+    implementation ("de.p7s1.qa.sevenfacette:core-jvm:0.7.5")
+    implementation ("de.p7s1.qa.sevenfacette:web-jvm:0.7.5")
+
 
     implementation 'org.seleniumhq.selenium:selenium-api:3.141.59'
     implementation 'org.seleniumhq.selenium:selenium-support:3.141.59'
