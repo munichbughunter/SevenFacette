@@ -43,5 +43,9 @@ actual class ConfigReader {
         @JvmStatic
         actual fun getDatabaseConfig(databaseName: String) : DatabaseConfig? =
                 FacetteConfig.database?.get(databaseName)
+
+        @JvmStatic
+        actual fun getSeleniumConfig(seleniumConfig: String): WebConfig? =
+                FacetteConfig.web
     }
 }

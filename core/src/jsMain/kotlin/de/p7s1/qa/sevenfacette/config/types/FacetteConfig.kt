@@ -1,8 +1,5 @@
 package de.p7s1.qa.sevenfacette.config.types
 
-import de.p7s1.qa.sevenfacette.config.types.*
-import kotlinx.serialization.KSerializer
-
 actual object FacetteConfig {
     actual var http: HttpConfig?
         get() = TODO("Not yet implemented")

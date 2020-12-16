@@ -1,14 +1,13 @@
 {
   "name": "sevenfacette-core",
   "version": "1.0.0",
-  "description": "",
+  "description": "The JS implemenation of the 7Facette core module.",
   "main": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "7Facette Team",
   "license": "MIT",
-  //"typings": "index.d.ts",
   "dependencies": {
     "kotlin": "^1.4.0",
     "kotlinx-coroutines-core": "1.4.0",
@@ -20,6 +19,9 @@
     "ktor-ktor-utils": "1.3.2",
     "kotlinx-atomicfu": "0.14.1",
     "ktor-ktor-client-auth": "^1.3.0"
+    "kotlinx-serialization-kotlinx-serialization-runtime": "0.14.0",
+    "kotlinx-serialization-kotlinx-serialization-runtime-jslegacy": "1.0.0-M1-1.4.0-rc-218",
+    "kafkajs": "^1.12.0"
   },
   "repository": "github.com/munichbughunter/SevenFacette"
 }

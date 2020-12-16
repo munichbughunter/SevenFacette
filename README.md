@@ -1,6 +1,8 @@
 # Welcome to 7Facette
 
-![7Facette](https://github.com/p7s1-ctf/SevenFacette/workflows/7Facette/badge.svg?branch=v0.5.3)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/p7s1-ctf/Sevenfacette/7Facette?label=7Facette%20build)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/p7s1-ctf/Sevenfacette?color=orange&label=latest%20version)
+![GitHub](https://img.shields.io/github/license/p7s1-ctf/SevenFacette)
 
 
 7Facette is an open-source multiplatform test automation library written in Kotlin with support for JVM and JS. It is designed to provide a structure
@@ -48,8 +50,8 @@ Actual we provide a JVM implementation of the 7Facette core and web module. The 
 for the next release. 
 
 ```kotlin
-implementation 'de.p7s1.qa.sevenfacette:core-jvm:0.5.3'
-implementation 'de.p7s1.qa.sevenfacette:web-jvm:0.5.3'
+implementation 'de.p7s1.qa.sevenfacette:core-jvm:0.5.4'
+implementation 'de.p7s1.qa.sevenfacette:web-jvm:0.5.4'
 ```
 
 ## Questions or need help?

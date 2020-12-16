@@ -1,9 +1,5 @@
 package de.p7s1.qa.sevenfacette.config.types
 
-import de.p7s1.qa.sevenfacette.config.types.*
-import kotlinx.serialization.Contextual
-import kotlinx.serialization.KSerializer
-
 /**
  * Singelton that holds the configuration data globally for the user.
  * In the actual class

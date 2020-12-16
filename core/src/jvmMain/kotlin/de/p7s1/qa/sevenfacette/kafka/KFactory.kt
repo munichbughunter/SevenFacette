@@ -22,7 +22,7 @@ class KFactory {
         @JvmStatic
         fun createKConsumer(consumerName: String, autoStart: Boolean) : KConsumer {
             val config: KafkaTopicConfig = ConfigReader.getKafkaConsumerConfig(consumerName) ?:
-                throw Exception("Kafka config for consumer $consumerName not found")
+            throw Exception("Kafka config for consumer $consumerName not found")
             if(config.bootstrapServer.isEmpty()) config.bootstrapServer = FacetteConfig.kafka?.bootstrapServer ?: ""
 
             return createKConsumer(config, autoStart)

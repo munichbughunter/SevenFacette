@@ -1,12 +1,11 @@
 package de.p7s1.qa.sevenfacette;
 
-import de.p7s1.qa.sevenfacette.kafka.config.KConfig;
+
 
 
 public class AConfig {
 
   private String name;
-  private String baseUrl;
 
   public String getBootstrapServer() {
     return bootstrapServer;
@@ -33,13 +32,5 @@ public class AConfig {
 
   public void setName(String name) {
     this.name = name;
-  }
-
-  public String getBaseUrl() {
-    return baseUrl;
-  }
-
-  public void setBaseUrl(String baseUrl) {
-    this.baseUrl = baseUrl;
   }
 }

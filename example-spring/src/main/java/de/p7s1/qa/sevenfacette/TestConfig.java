@@ -3,8 +3,6 @@ package de.p7s1.qa.sevenfacette;
 
 import de.p7s1.qa.sevenfacette.config.types.HttpClientConfig;
 import de.p7s1.qa.sevenfacette.config.types.WebConfig;
-import de.p7s1.qa.sevenfacette.kafka.config.KConfig;
-import de.p7s1.qa.sevenfacette.kafka.config.KTableTopicConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -20,7 +18,7 @@ public class TestConfig {
   GenericApplicationContext applicationContext;
 
   @Bean("httprestfulbooker")
-  @ConfigurationProperties("sevenfacette.http.clients.restfulbooker")
+  @ConfigurationProperties("spring.sevenfacette.http.clients.restfulbooker")
   public HttpTestClientConfig httpTestConfig() {
     return new HttpTestClientConfig();
   }
@@ -35,7 +33,7 @@ public class TestConfig {
   }
 
   @Bean("httptestclient")
-  @ConfigurationProperties("sevenfacette.http.clients.testclient")
+  @ConfigurationProperties("spring.sevenfacette.http.clients.testclient")
   public HttpTestClientConfig testClientConfig() {
     return new HttpTestClientConfig();
   }
@@ -50,11 +48,11 @@ public class TestConfig {
   }
 
   @Bean("seleniumConfig")
-  @ConfigurationProperties("sevenfacette.web")
+  @ConfigurationProperties("spring.sevenfacette.web")
   public SeleniumConfig seleniumConfig() { return new SeleniumConfig(); }
 
   @Bean("browserConfiguration")
-  public WebConfig broserConfig(@Qualifier("seleniumConfig") SeleniumConfig seleniumConfig) {
+  public WebConfig browserConfig(@Qualifier("seleniumConfig") SeleniumConfig seleniumConfig) {
     return new WebConfig(seleniumConfig.isAutoClose(), seleniumConfig.getBaseUrl(), seleniumConfig.getBrowserName(),
       seleniumConfig.getCapabilities(), seleniumConfig.getChromeArgs(), seleniumConfig.getChromeBin(),
       seleniumConfig.isHighlightBorder(), seleniumConfig.getHighlightColor(), seleniumConfig.getHighlightSize(),
@@ -69,20 +67,4 @@ public class TestConfig {
     return new KafkaConfig();
   }
 
-  @Bean("ingestConsumer")
-  public KTableTopicConfig ingestConsumer(@Qualifier("kafkaConfig") KafkaConfig kafkaConfig) {
-    KConfig kConfig = new KConfig();
-    kConfig.setBootstrapServer(kafkaConfig.getBootstrapserver());
-    kConfig.setAutoOffset(kafkaConfig.getAutooffset());
-    kConfig.setSaslMechanism(kafkaConfig.getSaslmechanism());
-    kConfig.setKafkaUser(kafkaConfig.getSasluser());
-    kConfig.setKafkaPW(kafkaConfig.getSaslpw());
-    kConfig.setMaxConsumingTime(kafkaConfig.getConsumingtimeout());
-    kConfig.setUseSASL(kafkaConfig.isSasl());
-    kConfig.setKafkaProtocol(kafkaConfig.getSaslprotocol());
-
-    KTableTopicConfig tableTopicConfig = new KTableTopicConfig(kConfig);
-    tableTopicConfig.setKafkaTopic(kafkaConfig.getConsumer().get("ingest"));
-    return tableTopicConfig;
-  }
 }

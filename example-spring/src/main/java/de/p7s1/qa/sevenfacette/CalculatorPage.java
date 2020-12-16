@@ -1,7 +1,6 @@
 package de.p7s1.qa.sevenfacette;
 
 import de.p7s1.qa.sevenfacette.config.types.FacetteConfig;
-import de.p7s1.qa.sevenfacette.core.JsExecutor;
 import de.p7s1.qa.sevenfacette.core.Select;
 import de.p7s1.qa.sevenfacette.driver.Browser;
 import de.p7s1.qa.sevenfacette.driver.FElement;
@@ -13,11 +12,12 @@ import de.p7s1.qa.sevenfacette.driver.Page;
  *
  * @author Patrick Döring
  */
-/*
+
 class CalculatorPage extends Page {
-//  public CalculatorPage(Browser browser) {
-//    super(browser);
-//  }
+
+  public CalculatorPage(Browser browser) {
+    super(browser);
+  }
 
   public String getUrl() {
     //return "http://juliemr.github.io/protractor-demo/";
@@ -25,7 +25,7 @@ class CalculatorPage extends Page {
     return FacetteConfig.INSTANCE.getWeb().getBaseUrl();
   }
 
-//  public FElement first = element("input[ng-model='first']");
+  public FElement first = element("input[ng-model='first']");
   public FElement second = element("input[ng-model='second']");
   public FElement goBtn = element("#gobutton");
   public FElement result = element("h2.ng-binding");
@@ -47,6 +47,9 @@ class CalculatorPage extends Page {
     //jsExecutor.execute(new WebElement[]{goBtn.getWebElement()}, false, () -> "arguments[0].click();");
     return this;
   }
-}
 
- */
+  @Override
+  public boolean isAtPage() {
+    return false;
+  }
+}
