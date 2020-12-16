@@ -4,16 +4,12 @@ package de.p7s1.qa.sevenfacette;
 import static de.p7s1.qa.sevenfacette.conditions.Have.text;
 import static de.p7s1.qa.sevenfacette.driver.FDriver.open;
 
-import de.p7s1.qa.sevenfacette.config.types.FacetteConfig;
-import de.p7s1.qa.sevenfacette.config.types.FacetteConfigDataClass;
 import de.p7s1.qa.sevenfacette.config.types.HttpClientConfig;
 import de.p7s1.qa.sevenfacette.config.types.WebConfig;
 import de.p7s1.qa.sevenfacette.http.GenericHttpClient;
 import de.p7s1.qa.sevenfacette.http.HttpClientFactory;
 import de.p7s1.qa.sevenfacette.http.HttpHeader;
 import de.p7s1.qa.sevenfacette.http.HttpResponse;
-import de.p7s1.qa.sevenfacette.kafka.KConsumer;
-import de.p7s1.qa.sevenfacette.kafka.config.KTableTopicConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
@@ -30,10 +26,6 @@ public class Runner implements CommandLineRunner {
   private HttpClientConfig testClientConfig;
 
   @Autowired
-  @Qualifier("ingestConsumer")
-  private KTableTopicConfig kafkaTableTopicConfiguration;
-
-  @Autowired
   @Qualifier("seleniumConfig")
   private SeleniumConfig seleniumConfiguration;
 
@@ -46,10 +38,10 @@ public class Runner implements CommandLineRunner {
     System.out.println("Loaded beans:");
     System.out.println(restfulBookerConfig.toString());
 
-    //GenericHttpClient httpClient = HttpClientFactory.createClient(restfulBookerConfig);
-    //HttpResponse response = httpClient.get("", new HttpHeader());
-    //System.out.println(response);
-    //System.out.println("--------------");
+    GenericHttpClient httpClient = HttpClientFactory.createClient(restfulBookerConfig);
+    HttpResponse response = httpClient.get("", new HttpHeader());
+    System.out.println(response);
+    System.out.println("--------------");
     //System.out.println(testClientConfig.toString());
     //System.out.println("--------------");
     //System.out.println(kafkaTableTopicConfiguration.getKafkaTopic());
@@ -60,8 +52,9 @@ public class Runner implements CommandLineRunner {
     //System.out.println(myConsumer.getLastKRecord());
     //System.out.println("Finished");
 
-//    open(CalculatorPage::new)
-//      .calculate("10", "/", "2")
-//      .result.shouldHave(text("5"));
+
+    open(CalculatorPage::new)
+      .calculate("10", "/", "2")
+      .result.shouldHave(text("5"));
   }
 }

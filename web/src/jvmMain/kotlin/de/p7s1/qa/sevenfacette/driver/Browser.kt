@@ -3,6 +3,7 @@ package de.p7s1.qa.sevenfacette.driver
 
 import com.assertthat.selenium_shutterbug.core.Shutterbug
 import com.assertthat.selenium_shutterbug.utils.web.ScrollStrategy.WHOLE_PAGE
+import de.p7s1.qa.sevenfacette.config.ConfigReader
 import de.p7s1.qa.sevenfacette.config.types.FacetteConfig
 import de.p7s1.qa.sevenfacette.config.types.WebConfig
 import de.p7s1.qa.sevenfacette.core.*
@@ -25,9 +26,16 @@ class Browser(val driver: WebDriver = getDriver(),
 
     init {
         listener.onStart()
+        createConfig()
     }
 
-    //var config: FConfig = loadConfig(FConfig::class)
+    private fun createConfig(): WebConfig {
+        //config = ConfigReader.getSeleniumConfig("web")!!
+        config = FacetteConfig.web!!
+        return config
+    }
+
+    //var webConfig: WebConfig = loadConfig(WebConfig::class)
     var config: WebConfig = FacetteConfig.web!!
 
     //var baseUrl: String by baseUrl()

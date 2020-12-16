@@ -18,5 +18,7 @@ expect class ConfigReader {
         fun getKafkaProducerConfig(producerName: String): KafkaTopicConfig?
 
         fun getDatabaseConfig(databaseName: String) : DatabaseConfig?
+
+        fun getSeleniumConfig(seleniumConfig: String): WebConfig?
     }
 }

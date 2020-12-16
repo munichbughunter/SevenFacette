@@ -1,23 +1,15 @@
 package de.p7s1.qa.sevenfacette.kafka;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import de.p7s1.qa.sevenfacette.kafka.config.KConfig;
-import de.p7s1.qa.sevenfacette.kafka.config.KTableTopicConfig;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 class JKafkaConsumerTest {
 
-  static KConfig kafkaConfig;
-  static KTableTopicConfig ingestConsumerConfig;
-  static KTableTopicConfig commitConsumerConfig;
-  static KTableTopicConfig replicationConsumerConfig;
-  static KTableTopicConfig persistConsumerConfig;
+//  static KConfig kafkaConfig;
+//  static KTableTopicConfig ingestConsumerConfig;
+//  static KTableTopicConfig commitConsumerConfig;
+//  static KTableTopicConfig replicationConsumerConfig;
+//  static KTableTopicConfig persistConsumerConfig;
 
   private static KConsumer ingestConsumer;
   private static KConsumer persistConsumer;
@@ -26,35 +18,35 @@ class JKafkaConsumerTest {
 
   //@BeforeAll
   static void setUp() {
-    kafkaConfig = new KConfig();
-    kafkaConfig.setAutoOffset("");
-    kafkaConfig.setBootstrapServer("");
-    kafkaConfig.setSaslMechanism("");
-    kafkaConfig.setKafkaUser("");
-    kafkaConfig.setKafkaPW(System.getenv(""));
-    kafkaConfig.setKafkaProtocol("");
-    kafkaConfig.setMaxConsumingTime(45L);
-
-    ingestConsumerConfig = new KTableTopicConfig(kafkaConfig);
-    ingestConsumerConfig.setKafkaTopic("");
-
-    commitConsumerConfig = new KTableTopicConfig(kafkaConfig);
-    commitConsumerConfig.setKafkaTopic("");
-
-    replicationConsumerConfig = new KTableTopicConfig(kafkaConfig);
-    replicationConsumerConfig.setKafkaTopic("");
-
-    persistConsumerConfig = new KTableTopicConfig(kafkaConfig);
-    persistConsumerConfig.setKafkaTopic("");
+//    kafkaConfig = new KConfig();
+//    kafkaConfig.setAutoOffset("");
+//    kafkaConfig.setBootstrapServer("");
+//    kafkaConfig.setSaslMechanism("");
+//    kafkaConfig.setKafkaUser("");
+//    kafkaConfig.setKafkaPW(System.getenv(""));
+//    kafkaConfig.setKafkaProtocol("");
+//    kafkaConfig.setMaxConsumingTime(45L);
+//
+//    ingestConsumerConfig = new KTableTopicConfig(kafkaConfig);
+//    ingestConsumerConfig.setKafkaTopic("");
+//
+//    commitConsumerConfig = new KTableTopicConfig(kafkaConfig);
+//    commitConsumerConfig.setKafkaTopic("");
+//
+//    replicationConsumerConfig = new KTableTopicConfig(kafkaConfig);
+//    replicationConsumerConfig.setKafkaTopic("");
+//
+//    persistConsumerConfig = new KTableTopicConfig(kafkaConfig);
+//    persistConsumerConfig.setKafkaTopic("");
   }
 
   @Test
   @Disabled
   void consumerFactory() {
-    ingestConsumer = ingestConsumerConfig.createKConsumer(true);
-    commitstreamConsumer = commitConsumerConfig.createKConsumer(true);
-    persistConsumer = persistConsumerConfig.createKConsumer(true);
-    replicationConsumer = replicationConsumerConfig.createKConsumer(true);
+//    ingestConsumer = ingestConsumerConfig.createKConsumer(true);
+//    commitstreamConsumer = commitConsumerConfig.createKConsumer(true);
+//    persistConsumer = persistConsumerConfig.createKConsumer(true);
+//    replicationConsumer = replicationConsumerConfig.createKConsumer(true);
 
 //    assertTrue(consumer.waitForKRecords(5000));
 //    System.out.println(consumer.getKRecordsCount());
@@ -108,14 +100,14 @@ class JKafkaConsumerTest {
   @Test
   @Disabled
   void producerFactory() {
-    KProducer autoFlushProducer = ingestConsumerConfig.createKProducer(true);
-    autoFlushProducer.send("Testmessage die automatisch geflushed wird");
-
-    KProducer kFactor = KFactory.createKProducer(ingestConsumerConfig, true);
-    kFactor.send("Testmessage die nicht automatisch geflushed wird");
-
-    KProducer manuellProducer = ingestConsumerConfig.createKProducer(false);
-    manuellProducer.send("Testmessage die nicht automatisch geflushed wird");
-    manuellProducer.flush();
+//    KProducer autoFlushProducer = ingestConsumerConfig.createKProducer(true);
+//    autoFlushProducer.send("Testmessage die automatisch geflushed wird");
+//
+//    KProducer kFactor = KFactory.createKProducer(ingestConsumerConfig, true);
+//    kFactor.send("Testmessage die nicht automatisch geflushed wird");
+//
+//    KProducer manuellProducer = ingestConsumerConfig.createKProducer(false);
+//    manuellProducer.send("Testmessage die nicht automatisch geflushed wird");
+//    manuellProducer.flush();
   }
 }

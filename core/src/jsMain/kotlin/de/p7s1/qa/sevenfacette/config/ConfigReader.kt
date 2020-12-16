@@ -4,6 +4,7 @@ import de.p7s1.qa.sevenfacette.config.types.DatabaseConfig
 import de.p7s1.qa.sevenfacette.config.types.HttpClientConfig
 import de.p7s1.qa.sevenfacette.config.types.KafkaTopicConfig
 import de.p7s1.qa.sevenfacette.config.types.SevenFacetteConfig
+import de.p7s1.qa.sevenfacette.config.types.WebConfig
 
 /**
  * TODO: Add Description
@@ -29,6 +30,10 @@ actual class ConfigReader {
         }
 
         actual fun getDatabaseConfig(databaseName: String): DatabaseConfig? {
+            TODO("Not yet implemented")
+        }
+
+        actual fun getSeleniumConfig(seleniumConfig: String) : WebConfig? {
             TODO("Not yet implemented")
         }
     }
