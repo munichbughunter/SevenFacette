@@ -16,7 +16,6 @@ class ConfigUtilsTest {
         System.clearProperty("world")
         val text = "Hello [[world]]"
         val result = replaceEnvironmentVariables(text)
-        println(result)
         assert(result == "Hello ") // no replacement
     }
 
