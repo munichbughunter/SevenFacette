@@ -97,6 +97,8 @@ class Url {
     fun create(): String {
         //logger.debug { "Create Url" }
 
+        println("CREATE URL")
+
         var url = if (this.baseUrl.takeLast(1) == "/") {
             this.baseUrl.dropLast(1)
         } else {
@@ -120,6 +122,8 @@ class Url {
                 "${url}/${path}"
             }
         }
+
+        println("URL CREATED")
         //logger.debug { "Created URL == $url" }
         return url
     }

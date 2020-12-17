@@ -1,0 +1,10 @@
+sevenFacette:
+  http:
+    clients:
+      realWorld:
+        connectionTimeout: 5000
+        connectionRequestTimeout: 4000
+        socketTimeout: 3000
+        url:
+          baseUrl: www.google.de
+          protocol: https

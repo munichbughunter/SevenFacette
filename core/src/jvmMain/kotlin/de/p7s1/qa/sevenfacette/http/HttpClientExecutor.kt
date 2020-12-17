@@ -35,8 +35,8 @@ actual class HttpClientExecutor {
 
                             method = useMethod
 
-                            if (usedBody != null) {
-                                body = usedBody
+                            if (useBody != null) {
+                                body = useBody
                             }
 
                             userAgent("SevenFacette")

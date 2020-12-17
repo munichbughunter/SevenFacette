@@ -2,8 +2,6 @@ package steps;
 
 import io.cucumber.java8.En;
 
-import static de.p7s1.qa.sevenfacette.driver.FDriver.open;
-
 public class TrelloRegistrationSteps implements En {
 
     //TrelloPage trelloPage = null;
