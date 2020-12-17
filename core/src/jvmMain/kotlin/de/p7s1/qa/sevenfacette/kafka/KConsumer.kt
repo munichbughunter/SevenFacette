@@ -23,7 +23,7 @@ import kotlin.coroutines.CoroutineContext
 /**
  * JVM specific implementation of the Kafka consumer
  *
- * @constructor the constructor receives the [tableTopicConfig]
+ * @constructor the constructor receives the [topicConfig]
  *
  * @author Patrick Döring
  */
