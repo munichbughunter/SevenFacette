@@ -6,7 +6,6 @@ import java.io.File
 import java.nio.file.Paths
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
-import kotlin.test.assertTrue
 
 /**
  * Testingclass for [Resource].
@@ -24,7 +23,6 @@ class ResourceTest {
     @Test
     fun getResourceTest(){
         val resource = Resource.get(RESOURCES_TEST_FOLDER_PATH)
-
         assertNotNull(resource)
     }
 
@@ -38,5 +36,4 @@ class ResourceTest {
         //assert
         assertEquals(expectedPath.substring(dirPathLength),fullPath.substring(dirPathLength))
     }
-
 }
