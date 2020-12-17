@@ -1,6 +1,6 @@
 #!/bin/sh
 
-version="1.0.0"
+version="$VERSION"
 base="core-js-"
 type=".jar"
 echo ${base}${version}${type}
