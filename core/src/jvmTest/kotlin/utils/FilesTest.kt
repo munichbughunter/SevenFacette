@@ -18,35 +18,30 @@ class FilesTest {
     // relative path specifically for the test case
     private val RESOURCES_TEST_FOLDER_PATH = "src/jvmTest/resources/testfiles/"
 
-
-
     @Test
     fun getAsByteArrayNotNullTest(){
-
         val byteArray = Files.getAsByteArray(RESOURCES_TEST_FOLDER_PATH + "test.txt")
-
         assertNotNull(byteArray)
     }
 
     @Test
     fun getAsByteArrayTypeTest(){
-//        val byteArray = Files.getAsByteArray(RESOURCES_TEST_FOLDER_PATH + "testStringFile.txt")
-//        val expectedByteArray = "This is a test string for converted type testing!".toByteArray()
-//        assertEquals(expectedByteArray.contentToString(), byteArray.contentToString())
+        val byteArray = Files.getAsByteArray(RESOURCES_TEST_FOLDER_PATH + "testStringFile.txt")
+        val expectedByteArray = "This is a test string for converted type testing!".toByteArray()
+        assertEquals(expectedByteArray.contentToString(), byteArray.contentToString())
     }
 
     @Test
     fun getAsTextNotNullTest(){
         val textString = Files.getAsText(RESOURCES_TEST_FOLDER_PATH + "test.txt")
-
         assertNotNull(textString)
     }
 
     @Test
     fun getAsTextTypeTest(){
-//        val textString = Files.getAsText(RESOURCES_TEST_FOLDER_PATH + "testStringFile.txt")
-//        val expectedTextString = "This is a test string for converted type testing!"
-//        assertEquals(expectedTextString, textString)
+        val textString = Files.getAsText(RESOURCES_TEST_FOLDER_PATH + "testStringFile.txt")
+        val expectedTextString = "This is a test string for converted type testing!"
+        assertEquals(expectedTextString, textString)
     }
     /*
     @Test // FAILED with java.lang.IllegalStateException
@@ -58,14 +53,12 @@ class FilesTest {
     @Test
     fun getResourceNotNullTest(){
         val resource = Files.getResource( "testfiles/test.txt")
-
         assertNotNull(resource)
     }
 
     @Test
     fun getResourceTextNotNullTest(){
         val resourceText = Files.getRessourceText( "testfiles/test.txt")
-
         assertNotNull(resourceText)
     }
 }
