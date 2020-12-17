@@ -2,9 +2,14 @@ name: Build
 on:
   push:
     branches:
-      - feature/js_kafka_consumer
+      - master
+      - feature/**
+      - release/**
   pull_request:
     types: [opened, synchronize, reopened]
+    paths-ignore:
+      - '*.md'
+      - 'misc/**'
 jobs:
   build:
     name: Build

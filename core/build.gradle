@@ -15,9 +15,17 @@ plugins {
 
 sonarqube {
     properties {
-        property "sonar.projectKey", "7Facette"
+        property "sonar.projectName", "7Facette-Core"
+        property "sonar.projectKey", "7Facette-Core"
         property "sonar.organization", "munichbughunter"
         property "sonar.host.url", "https://sonarcloud.io"
+        property "sonar.projectVersion", "v1.0.0"
+        property "sonar.kotlin.file.suffixes", "kt"
+        property "sonar.project.monorepo.enabled", "true"
+        property "sonar.junit.reportPaths", "build/reports/sonar/test/*"
+        property "sonar.sources", "src/commonMain, src/jvmMain, src/jsMain"
+        property "sonar.tests", "src/commonTest/, src/jvmTest/kotlin/"
+        property "sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/test/*"
     }
 }
 
