@@ -71,6 +71,8 @@ kotlin {
         }
         commonTest {
             dependencies {
+                implementation kotlin('test')
+                implementation kotlin('test-junit')
                 implementation kotlin('test-common')
                 implementation kotlin('test-annotations-common')
             }
@@ -114,7 +116,13 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:1.0-M1-1.4.0-rc")
             }
         }
-        //jsTest
+        jsTest {
+            dependencies {
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:1.0-M1-1.4.0-rc")
+                implementation kotlin('test-js')
+                implementation("org.jacoco:org.jacoco.core:0.7.9")
+            }
+        }
     }
 }
 
