@@ -7,13 +7,9 @@ class ConfigTest {
 
     @Test
     fun checkConfigInMain() {
-//        val cReader = ConfigReader()
-//        val config = cReader.readConfig()
-//
-//        assert(config.sevenFacette?.http?.clients?.size == 2)
-//        { println("Actual client size == ${config.sevenFacette?.http?.clients?.size}") }
-//        assert(config.sevenFacette?.custom != null)
-//        { println("Actual custom size == ${config.sevenFacette?.custom?.size}") }
+        val config = ConfigReader.readConfig().sevenFacette
+        assert(config?.http?.clients?.size == 2)
+        assert(config?.custom != null)
     }
 
     @Test
