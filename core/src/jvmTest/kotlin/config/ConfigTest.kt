@@ -21,6 +21,8 @@ class ConfigTest {
 
         val testtopic1 = ConfigReader.getKafkaConsumerConfig("testtopic1")
 
+        assertEquals("read_committed", testtopic1!!.readIsolationLevel.isolationLevel)
+
         assertNotNull(testtopic1,
             "testtopic1 is not available")
         assertEquals(false, testtopic1.useSASLAuthentication,
@@ -33,6 +35,8 @@ class ConfigTest {
             "Autooffset of consumer testtopic1 is not correct")
 
         val topic2 = ConfigReader.getKafkaConsumerConfig("topic2")
+
+        assertEquals("read_uncommitted", topic2!!.readIsolationLevel.isolationLevel)
 
         assertNotNull(topic2,
             "topic2 is not available")

@@ -29,6 +29,7 @@ sevenFacette:
       testtopic1:
         useSASLAuthentication: false
         autoOffset: latest
+        readIsolationLevel: READ_COMMITTED
       topic2:
         autoOffset: earliest
         bootstrapServer: development-kafka.de:9191
