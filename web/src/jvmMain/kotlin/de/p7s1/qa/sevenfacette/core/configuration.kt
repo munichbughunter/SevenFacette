@@ -1,13 +1,11 @@
 package de.p7s1.qa.sevenfacette.core
 
+import de.p7s1.qa.sevenfacette.config.types.WebConfig
 import de.p7s1.qa.sevenfacette.driver.Browser
 import de.p7s1.qa.sevenfacette.utils.WrongUrlException
+import org.aeonbits.owner.ConfigFactory
+import kotlin.reflect.KClass
 import kotlin.reflect.KProperty
-
-
-//fun <T : FConfig> loadConfig(klazz: KClass<T>): FConfig {
-//    return ConfigFactory.create(klazz.java, System.getProperties())
-//}
 
 class BaseUrlDelegate {
 

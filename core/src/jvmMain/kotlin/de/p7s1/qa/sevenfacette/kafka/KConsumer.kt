@@ -23,7 +23,7 @@ import kotlin.coroutines.CoroutineContext
 /**
  * JVM specific implementation of the Kafka consumer
  *
- * @constructor the constructor receives the [tableTopicConfig]
+ * @constructor the constructor receives the [topicConfig]
  *
  * @author Patrick Döring
  */
@@ -57,9 +57,12 @@ actual class KConsumer actual constructor(
             config[ConsumerConfig.GROUP_ID_CONFIG] = topicConfig.groupID
         }
 
-        if (!topicConfig.isolationLevel.isBlank()) {
-            config[ConsumerConfig.ISOLATION_LEVEL_CONFIG] = topicConfig.isolationLevel
+        if(!topicConfig.readIsolationLevel.isolationLevel.isBlank()) {
+            config[ConsumerConfig.ISOLATION_LEVEL_CONFIG] = topicConfig.readIsolationLevel.isolationLevel
         }
+//        if (!topicConfig.isolationLevel.isBlank()) {
+//            config[ConsumerConfig.ISOLATION_LEVEL_CONFIG] = topicConfig.isolationLevel
+//        }
 
         if (topicConfig.useSASLAuthentication) {
             config = SaslConfig.addSaslProperties(config, topicConfig)

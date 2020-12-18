@@ -75,5 +75,8 @@ actual class ConfigReader {
                 throw Error("No configuration file found")
             }
         }
+
+        fun getSeleniumConfig(seleniumConfig: String): WebConfig? =
+                FacetteConfig.web
     }
 }

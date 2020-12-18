@@ -1,9 +1,13 @@
 package de.p7s1.qa.sevenfacette.config
 
 import de.p7s1.qa.sevenfacette.config.types.*
-import de.p7s1.qa.sevenfacette.utils.FileLoader
 import de.p7s1.qa.sevenfacette.utils.KSystem
 import kotlinx.serialization.json.Json
+import de.p7s1.qa.sevenfacette.config.types.DatabaseConfig
+import de.p7s1.qa.sevenfacette.config.types.HttpClientConfig
+import de.p7s1.qa.sevenfacette.config.types.KafkaTopicConfig
+import de.p7s1.qa.sevenfacette.config.types.SevenFacetteConfig
+import de.p7s1.qa.sevenfacette.config.types.WebConfig
 
 /**
  * TODO: Add Description
