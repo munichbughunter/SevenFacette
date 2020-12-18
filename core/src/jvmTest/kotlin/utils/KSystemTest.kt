@@ -5,6 +5,7 @@ import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
+
 /**
  * Testingclass for [KSystem].
  *
@@ -21,17 +22,14 @@ class KSystemTest {
         val result: String? = KSystem.getEnv("JAVA_HOME")
         assertNotNull(result)
     }
-    /*
-    @Test // FAILED Can't set Env
+
+    @Test
     fun setEnvTest(){
-        //arrange
-        KSystem.setEnv("TEST_ENV","TEST_VAR")
-        //act
+        KSystem.setEnv("TEST_ENV", "TEST_VAR")
         val result: String? = KSystem.getEnv("TEST_ENV")
-        //assert
         assertEquals("TEST_VAR", result)
     }
-    */
+
     @Test
     fun getStandardPropertyTest() {
         val result: String? = KSystem.getProperty("java.vm.specification.name")
@@ -41,7 +39,7 @@ class KSystemTest {
     @Test
     fun setPropertyTest(){
         //arrange
-        KSystem.setProperty("TEST_PROP","TEST_VAR")
+        KSystem.setProperty("TEST_PROP", "TEST_VAR")
         //act
         val result: String? = KSystem.getProperty("TEST_PROP")
         //assert
