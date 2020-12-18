@@ -1,6 +1,5 @@
 package fileTest
 
-import de.p7s1.qa.sevenfacette.utils.FileReader
 import kotlin.test.Test
 
 class ReadFileTests {

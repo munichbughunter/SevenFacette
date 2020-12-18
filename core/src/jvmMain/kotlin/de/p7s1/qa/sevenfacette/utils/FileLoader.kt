@@ -6,7 +6,7 @@ import java.io.InputStream
 import java.nio.file.Files
 import java.util.*
 
-class FileLoader {
+actual class FileLoader {
 
     fun loadFileFromResourceAsString(folder: String, fileName: String): String? {
         val file = getFile(folder, fileName)
@@ -22,7 +22,7 @@ class FileLoader {
             Thread.currentThread().contextClassLoader.getResourceAsStream(resource)
                     ?: resource::class.java.getResourceAsStream(resource)
 
-    private fun getFile(folder: String, fileName: String): File? {
+    fun getFile(folder: String, fileName: String): File {
         return File(Objects.requireNonNull(FileLoader::class.java
                 .classLoader
                 .getResource("$folder/$fileName")).file)

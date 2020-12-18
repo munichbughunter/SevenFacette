@@ -2,7 +2,7 @@ package de.p7s1.qa.sevenfacette.utils
 
 import process
 
-class FileReader {
+actual class FileLoader {
     @JsName("readFileAsString")
     fun readFileAsString(path: String): String =
         Files.getAsText(path)

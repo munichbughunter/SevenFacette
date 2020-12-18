@@ -1,7 +1,7 @@
 package de.p7s1.qa.sevenfacette.config
 
 import de.p7s1.qa.sevenfacette.config.types.*
-import de.p7s1.qa.sevenfacette.utils.FileReader
+import de.p7s1.qa.sevenfacette.utils.FileLoader
 import kotlinx.serialization.json.Json
 
 /**
@@ -20,10 +20,10 @@ actual class ConfigReader {
          */
         @JsName("readConfig")
         actual fun readConfig(): SevenFacetteConfig {
-            val path = FileReader().getPath("/facetteConfig.json")
+            val path = FileLoader().getPath("/facetteConfig.json")
             // FACETTE_CONFIG = ""
             //val config = replaceEnvironmentVariables(replaceImports(getConfigFileName().toString()))
-            val config = FileReader().readFileAsString(path)
+            val config = FileLoader().readFileAsString(path)
             var result = SevenFacetteConfig()
             if(config != "") {
                 result = Json.decodeFromString(SevenFacetteConfig.serializer(), config)
