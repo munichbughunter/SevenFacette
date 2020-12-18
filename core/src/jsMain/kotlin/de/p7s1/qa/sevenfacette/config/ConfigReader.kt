@@ -66,7 +66,7 @@ actual class ConfigReader {
                 println("Use environment variable ${KSystem.getProperty("FACETTE_CONFIG")} for configuration")
                 KSystem.getProperty("FACETTE_CONFIG")
             } else {
-                println("Use facetteConfig.json in root folder")
+                println("Use facetteConfig.json in root folder for configuration")
                 "facetteConfig.json"
             }
         }
