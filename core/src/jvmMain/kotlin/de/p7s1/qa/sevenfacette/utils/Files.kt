@@ -1,7 +1,10 @@
 package de.p7s1.qa.sevenfacette.utils
 
 import java.io.File
+import java.io.InputStream
 import java.net.URL
+import java.util.stream.Stream
+
 
 /**
  * JVM specific implementation of Files
@@ -43,7 +46,7 @@ actual class Files {
          * @return content of file as list of strings
          */
         @JvmStatic
-        fun getResourceStream(path: String): List<String> = Files::class.java.getResourceAsStream(path).bufferedReader().readLines()
+        fun getResourceStream(path: String): InputStream? = this::class.java.classLoader.getResourceAsStream(path)
 
         @JvmStatic
         actual fun getResource(fileName: String): String? = this::class.java.classLoader.getResource(fileName)?.toString()

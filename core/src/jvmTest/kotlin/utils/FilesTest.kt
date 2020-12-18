@@ -1,7 +1,9 @@
 package utils
 
+import de.p7s1.qa.sevenfacette.utils.FileLoader
 import de.p7s1.qa.sevenfacette.utils.Files
 import org.junit.Test
+import java.nio.charset.StandardCharsets
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
@@ -43,22 +45,30 @@ class FilesTest {
         val expectedTextString = "This is a test string for converted type testing!"
         assertEquals(expectedTextString, textString)
     }
-    /*
-    @Test // FAILED with java.lang.IllegalStateException
-    fun getResourceStreamNotNullTest(){
-        val resourceStream = Files.getResourceStream(RESOURCES_TEST_FOLDER_PATH + "test.txt")
+
+    @Test
+    fun getResourceStreamNotNullTest() {
+        val resourceStream = Files.getResourceStream("testfiles/test.txt")
         assertNotNull(resourceStream)
     }
-    */
+
+    @Test
+    fun getResourceStreamAsText() {
+        val expectedTextString = "This is a test string for converted type testing!"
+        val resourceStream = Files.getResourceStream("testfiles/testStringFile.txt")
+        val inputText = resourceStream?.bufferedReader().use { it?.readText() }
+        assertEquals(expectedTextString, inputText)
+    }
+
     @Test
     fun getResourceNotNullTest(){
-        val resource = Files.getResource( "testfiles/test.txt")
+        val resource = Files.getResource("testfiles/test.txt")
         assertNotNull(resource)
     }
 
     @Test
     fun getResourceTextNotNullTest(){
-        val resourceText = Files.getRessourceText( "testfiles/test.txt")
+        val resourceText = Files.getRessourceText("testfiles/test.txt")
         assertNotNull(resourceText)
     }
 }
