@@ -2,6 +2,7 @@ package de.p7s1.qa.sevenfacette.config
 
 import de.p7s1.qa.sevenfacette.config.types.*
 import de.p7s1.qa.sevenfacette.utils.FileLoader
+import de.p7s1.qa.sevenfacette.utils.KSystem
 import kotlinx.serialization.json.Json
 
 /**
@@ -20,10 +21,9 @@ actual class ConfigReader {
          */
         @JsName("readConfig")
         actual fun readConfig(): SevenFacetteConfig {
-            val path = FileLoader().getPath("/facetteConfig.json")
-            // FACETTE_CONFIG = ""
-            //val config = replaceEnvironmentVariables(replaceImports(getConfigFileName().toString()))
-            val config = FileLoader().readFileAsString(path)
+
+            val config = replaceEnvironmentVariables(replaceImports(getConfigFileName().toString()))
+
             var result = SevenFacetteConfig()
             if(config != "") {
                 result = Json.decodeFromString(SevenFacetteConfig.serializer(), config)
@@ -54,5 +54,21 @@ actual class ConfigReader {
         @JsName("getCustomConfig")
         actual fun getCustomConfig(key: String) : String? =
             FacetteConfig.custom?.get(key)
+
+        /**
+         * This function uses the env variable provided by the user for the config file or a default file
+         */
+        private fun getConfigFileName(): String? {
+            return if(!KSystem.getEnv("FACETTE_CONFIG").isNullOrEmpty()) {
+                println("Use environment variable ${KSystem.getEnv("FACETTE_CONFIG")} for configuration")
+                KSystem.getEnv("FACETTE_CONFIG")
+            } else if(!KSystem.getProperty("FACETTE_CONFIG").isNullOrEmpty()) {
+                println("Use environment variable ${KSystem.getProperty("FACETTE_CONFIG")} for configuration")
+                KSystem.getProperty("FACETTE_CONFIG")
+            } else {
+                println("Use facetteConfig.json in root folder")
+                "facetteConfig.json"
+            }
+        }
     }
 }

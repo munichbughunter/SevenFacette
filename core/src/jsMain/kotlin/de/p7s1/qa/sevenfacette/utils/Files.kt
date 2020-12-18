@@ -12,12 +12,10 @@ actual class Files {
             return fs.readFileSync(path, "utf8")
         }
 
-        actual fun getResource(fileName: String): String? {
-            TODO("Not yet implemented")
-        }
+        actual fun getResource(fileName: String): String? =
+                getAsText(fileName)
 
-        actual fun getRessourceText(fileName: String): String? {
-            TODO("Not yet implemented")
-        }
+        actual fun getRessourceText(fileName: String): String? =
+                getAsText(fileName)
     }
 }

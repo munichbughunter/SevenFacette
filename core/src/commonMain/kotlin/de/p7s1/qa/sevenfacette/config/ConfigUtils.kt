@@ -54,41 +54,19 @@ fun extractEnvVarName(text: String): List<String> = text
  * @return String Merged content of all files
  */
 fun replaceImports(fileName: String): String {
-    var ymlContent = Files.getRessourceText(fileName)?.removeTrailingBreak() ?: ""
-    val imports = IMPORT_REGEX.findAll(ymlContent)
-    if(imports.count() == 0) return ymlContent
+    var configContent = Files.getRessourceText(fileName)?.removeTrailingBreak() ?: ""
+    val imports = IMPORT_REGEX.findAll(configContent)
+    if(imports.count() == 0) return configContent
 
     imports.forEach {
         val newFile = extractFileName(it.groupValues[0])
         val newFileContent = Files.getRessourceText(newFile)?.removeTrailingBreak() ?: ""
 
-        ymlContent = if(newFileContent.contains(IMPORT_REGEX)) {
-            ymlContent.replace(it.groupValues[0], replaceImports(newFile), true)
+        configContent = if(newFileContent.contains(IMPORT_REGEX)) {
+            configContent.replace(it.groupValues[0], replaceImports(newFile), true)
         } else {
-            ymlContent.replace(it.groupValues[0], newFileContent, true)
+            configContent.replace(it.groupValues[0], newFileContent, true)
         }
     }
-    return ymlContent
-}
-
-/**
- * This function uses the env variable provided by the user for the config file or a default file
- */
-fun getConfigFileName(): String? {
-    return if(!KSystem.getEnv("FACETTE_CONFIG").isNullOrEmpty()) {
-        //logger.info { "Use environment variable ${KSystem.getEnv("FACETTE_CONFIG")} for configuration" }
-        KSystem.getEnv("FACETTE_CONFIG")
-    } else if(!KSystem.getProperty("FACETTE_CONFIG").isNullOrEmpty()) {
-        //logger.info { "Use system property ${KSystem.getProperty("FACETTE_CONFIG")} for configuration" }
-        KSystem.getProperty("FACETTE_CONFIG")
-    } else if(Files.getResource("facetteConfig.yml") != null) {
-        //logger.info { "Use facetteConfig.yml for configuration" }
-        "facetteConfig.yml"
-    } else if(Files.getResource("facetteConfig.yaml") != null) {
-        //logger.info { "Use facetteConfig.yml for configuration" }
-        "facetteConfig.yaml"
-    } else {
-        //logger.error { "No configuration file found" }
-        null
-    }
+    return configContent
 }
