@@ -2,7 +2,7 @@ package de.p7s1.qa.sevenfacette.http
 
 import de.p7s1.qa.sevenfacette.config.types.HttpClientConfig
 import de.p7s1.qa.sevenfacette.http.auth.AuthenticationFactory
-import io.ktor.client.HttpClient
+import io.ktor.client.*
 import io.ktor.client.engine.*
 import io.ktor.client.features.*
 import io.ktor.client.features.auth.*

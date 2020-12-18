@@ -1,7 +1,6 @@
 package de.p7s1.qa.sevenfacette.http
 
 import io.ktor.client.statement.*
-import io.ktor.client.statement.HttpResponse
 import io.ktor.util.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
