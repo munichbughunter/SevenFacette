@@ -46,7 +46,7 @@ actual class KConsumer actual constructor (
      * Create a KafkaConsumer
      * @return [consumer]
      */
-    private fun createConsumer() {
+    fun createConsumer() {
         val kafkaOptions: KafkaConfig = js("({})")
         kafkaOptions.brokers = arrayOf(topicConfig.bootstrapServer)
         kafkaOptions.clientId = "7Facette-consumer"
