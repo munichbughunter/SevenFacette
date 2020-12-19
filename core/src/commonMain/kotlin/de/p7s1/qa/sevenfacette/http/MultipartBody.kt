@@ -2,6 +2,8 @@ package de.p7s1.qa.sevenfacette.http
 
 import io.ktor.client.request.forms.MultiPartFormDataContent
 import io.ktor.client.request.forms.formData
+import kotlin.js.JsName
+
 //import mu.KotlinLogging
 
 /**
@@ -10,7 +12,6 @@ import io.ktor.client.request.forms.formData
  * @property multipartData list of Multipartdata
  */
 
-//private val logger = KotlinLogging.logger {}
 class MultipartBody {
     val multipartData = mutableListOf<MultiPartData<*>>()
 
@@ -21,8 +22,11 @@ class MultipartBody {
      * @param content string content of multipart body
      * @return this
      */
+    @JsName("addStringPart")
     fun addStringPart(name: String, content: String): MultipartBody {
-  //      logger.debug { "Adding string content with name == $name to multipart body" }
+        println("Adding string content with name == $name to multipart body")
+        if(name == null ||content == null)
+            throw Exception("Multipart body needs key and value") // needed for JS
         multipartData.add(MultiPartData(name, content))
         return this
     }
@@ -36,8 +40,11 @@ class MultipartBody {
      *
      * @author Florian Pilz
      */
+    @JsName("addByteArrayPart")
     fun addByteArrayPart(name: String, content: ByteArray): MultipartBody {
-    //    logger.debug { "Adding byte array content with name == $name to multipart body" }
+        println("Adding byte array content with name == $name to multipart body")
+        if(name == null ||content == null)
+            throw Exception("Multipart body needs key and value") // needed for JS
         multipartData.add(MultiPartData(name, content))
         return this
     }
@@ -47,15 +54,16 @@ class MultipartBody {
      *
      * @return MultiPartFormDataContent by Ktor with multipart body parts of property multipartdata
      */
+    @JsName("create")
     fun create(): MultiPartFormDataContent = MultiPartFormDataContent (
-            formData {
-                multipartData.forEach {
-                    when(it.value!!::class) {
-                        String::class ->  append(it.name, it.value as String)
-                        ByteArray::class -> append(it.name, it.value as ByteArray)
-                        else -> println("Content type ${it.value::class} currently not implemented")//logger.error{"Content type ${it.value::class} currently not implemented"}
-                    }
+        formData {
+            multipartData.forEach {
+                when(it.value!!::class) {
+                    String::class ->  append(it.name, it.value as String)
+                    ByteArray::class -> append(it.name, it.value as ByteArray)
+                    else -> println("Content type ${it.value::class} currently not implemented")//logger.error{"Content type ${it.value::class} currently not implemented"}
                 }
             }
+        }
     )
 }
