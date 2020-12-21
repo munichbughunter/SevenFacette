@@ -7,7 +7,7 @@ import io.ktor.util.*
 
 @KtorExperimentalAPI
 @JsName("createHttpClient")
-fun testCreateHttpClient(clientName: String): GenericHttpClient {
+fun createHttpClient(clientName: String): GenericHttpClient {
     val config = ConfigReader.getHttpClientConfig(clientName)
             ?: throw Exception("Client $clientName not found in configuration")
 
