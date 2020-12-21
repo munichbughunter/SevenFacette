@@ -12,8 +12,4 @@ import io.ktor.client.statement.HttpResponse
  *
  * @author Florian Pilz
  */
-expect class HttpResponse (response: HttpResponse) {
-    val body: String
-    val status: Int
-    val headers: Map<String, List<String>>
-}
+expect class HttpResponse (response: HttpResponse) {}

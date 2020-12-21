@@ -1,7 +1,6 @@
 package de.p7s1.qa.sevenfacette.http
 
 import kotlinx.serialization.Serializable
-//import mu.KotlinLogging
 
 /**
  * URL for use with GenericHttpClient
@@ -17,8 +16,6 @@ import kotlinx.serialization.Serializable
  *
  * @author Florian Pilz
  */
-
-//private val logger = KotlinLogging.logger {}
 @Serializable
 class Url {
     var protocol: String = "http"
@@ -95,7 +92,7 @@ class Url {
      * @return computed URL
      */
     fun create(): String {
-        //logger.debug { "Create Url" }
+        println("CREATE URL")
 
         var url = if (this.baseUrl.takeLast(1) == "/") {
             this.baseUrl.dropLast(1)
@@ -120,6 +117,7 @@ class Url {
                 "${url}/${path}"
             }
         }
+        println("URL CREATED")
         //logger.debug { "Created URL == $url" }
         return url
     }

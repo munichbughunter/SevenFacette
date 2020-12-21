@@ -80,9 +80,9 @@ actual class KConsumer actual constructor (
         }
 
         if (!topicConfig.isolationLevel.isBlank()) {
-            // ToDo: Discuss about...
             consumerOptions.readUncommitted = topicConfig.isolationLevel.toBoolean()
         }
+
         consumerOptions.maxWaitTimeInMs = topicConfig.maxConsumingTime
         consumer = Kafka(kafkaOptions).consumer(consumerOptions)
     }

@@ -1,35 +1,63 @@
 package de.p7s1.qa.sevenfacette.http
 
+import de.p7s1.qa.sevenfacette.config.types.HttpClientConfig
+import de.p7s1.qa.sevenfacette.http.auth.AuthenticationFactory
 import io.ktor.client.*
+import io.ktor.client.engine.*
+import io.ktor.client.features.*
+import io.ktor.client.features.auth.*
+import io.ktor.client.features.cookies.*
+import io.ktor.client.features.json.*
+import io.ktor.client.features.json.serializer.*
 import io.ktor.client.request.*
 import io.ktor.http.*
 import io.ktor.http.content.*
+import io.ktor.util.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-
-//import mu.KotlinLogging
 
 /**
  * JVM specific implementation of the generic rest client
  *
  * @author Florian Pilz
  */
-
-//private val logger = KotlinLogging.logger {}
 actual class GenericHttpClient {
 
     private lateinit var client: HttpClient
     private lateinit var url: Url
 
-    actual fun setClient(url: Url, client: HttpClient):GenericHttpClient {
-        //logger.info { "SET CLIENT" }
-        this.client = client
-        this.url = url
+    @KtorExperimentalAPI
+    fun setClient(config: HttpClientConfig, factory: HttpClientEngine): GenericHttpClient {
+        this.client = HttpClient(factory) {
+            expectSuccess = false
+
+            install(HttpCookies) {
+                storage = AcceptAllCookiesStorage()
+            }
+
+            install(JsonFeature) {
+                serializer = KotlinxSerializer()
+            }
+
+            install(HttpSend){
+                maxSendCount = 2
+            }
+
+            if(config.authentication != null) {
+                install(Auth) {
+                    providers.add(AuthenticationFactory(config.authentication!!).getAuthentication())
+                }
+            }
+        }
+        client.engineConfig
+
+        this.url = config.url!!
+
         return this
     }
 
     /**
-     * JVM specific implementation of port
+     * JS specific implementation of port
      * Sends string content
      *
      * @param path path to be added to base URL
@@ -38,11 +66,11 @@ actual class GenericHttpClient {
      * @see HttpHeader
      * @return HttpResponse - null if no response is received
      */
-    actual fun post(path: String, content: String, contentType: CONTENTTYPES, headers: HttpHeader): HttpResponse? =
-            this.executeRequest(HttpMethod.Post, path, content, contentType, headers)
+    fun post(path: String, content: String, contentType: CONTENTTYPES = CONTENTTYPES.APPLICATION_JSON, headers: HttpHeader? = null): HttpResponse? =
+            executeRequest(this.client, HttpMethod.Post, this.url, path, getBody(content, contentType), headers)
 
     /**
-     * JVM specific implementation of port
+     * JS specific implementation of port
      * Sends byte array content
      *
      * @param path path to be added to base URL
@@ -51,11 +79,11 @@ actual class GenericHttpClient {
      * @see HttpHeader
      * @return HttpResponse - null if no response is received
      */
-    actual fun post(path: String, content: ByteArray, headers: HttpHeader): HttpResponse? =
-            this.executeRequest(HttpMethod.Post, path, content, useHeaders = headers)
+    fun post(path: String, content: ByteArray, headers: HttpHeader? = null): HttpResponse? =
+            executeRequest(this.client, HttpMethod.Post, this.url, path, getBody(content), headers)
 
     /**
-     * JVM specific implementation of port
+     * JS specific implementation of port
      * Sends multipart content
      * @see MultipartBody
      *
@@ -65,11 +93,11 @@ actual class GenericHttpClient {
      * @see HttpHeader
      * @return HttpResponse - null if no response is received
      */
-    actual fun post(path: String, content: MultipartBody, header: HttpHeader): HttpResponse? =
-            this.executeRequest(HttpMethod.Post, path, content, useHeaders = header)
+    fun post(path: String, content: MultipartBody, headers: HttpHeader? = null): HttpResponse? =
+            executeRequest(this.client, HttpMethod.Post, this.url, path, getBody(content), headers)
 
     /**
-     * JVM specific implementation of put
+     * JS specific implementation of put
      * Sends string content
      *
      * @param path path to be added to base URL
@@ -78,11 +106,11 @@ actual class GenericHttpClient {
      * @see HttpHeader
      * @return HttpResponse - null if no response is received
      */
-    actual fun put(path: String, content: String, contentType: CONTENTTYPES, headers: HttpHeader): HttpResponse? =
-            this.executeRequest(HttpMethod.Put, path, content, contentType, headers)
+    fun put(path: String, content: String, contentType: CONTENTTYPES = CONTENTTYPES.APPLICATION_JSON, headers: HttpHeader? = null): HttpResponse? =
+            executeRequest(this.client, HttpMethod.Put, this.url, path, getBody(content, contentType), headers)
 
     /**
-     * JVM specific implementation of put
+     * JS specific implementation of put
      * Sends byte array content
      *
      * @param path path to be added to base URL
@@ -91,11 +119,11 @@ actual class GenericHttpClient {
      * @see HttpHeader
      * @return HttpResponse - null if no response is received
      */
-    actual fun put(path: String, content: ByteArray, headers: HttpHeader): HttpResponse? =
-            this.executeRequest(HttpMethod.Put, path, content, useHeaders = headers)
+    fun put(path: String, content: ByteArray, headers: HttpHeader? = null): HttpResponse? =
+            executeRequest(this.client, HttpMethod.Put, this.url, path, getBody(content), headers)
 
     /**
-     * JVM specific implementation of put
+     * JS specific implementation of put
      * Sends multipart content
      * @see MultipartBody
      *
@@ -105,11 +133,11 @@ actual class GenericHttpClient {
      * @see HttpHeader
      * @return HttpResponse - null if no response is received
      */
-    actual fun put(path: String, content: MultipartBody, headers: HttpHeader): HttpResponse? =
-            this.executeRequest(HttpMethod.Put, path, content, useHeaders = headers)
+    fun put(path: String, content: MultipartBody, headers: HttpHeader? = null): HttpResponse? =
+            executeRequest(this.client, HttpMethod.Put, this.url, path, getBody(content), headers)
 
     /**
-     * JVM specific implementation of delete
+     * JS specific implementation of delete
      * Send delete request
      *
      * @param path path to be added to base URL
@@ -117,11 +145,11 @@ actual class GenericHttpClient {
      * @see HttpHeader
      * @return HttpResponse - null if no response is received
      */
-    actual fun delete(path: String, headers: HttpHeader): HttpResponse? =
-            this.executeRequest<Unit>(HttpMethod.Delete, path, useHeaders = headers)
+    fun delete(path: String, headers: HttpHeader? = null): HttpResponse? =
+            executeRequest(this.client, HttpMethod.Delete, this.url, path, null, headers)
 
     /**
-     * JVM specific implementation of get
+     * JS specific implementation of get
      * Send delete request
      *
      * @param path path to be added to base URL
@@ -129,36 +157,46 @@ actual class GenericHttpClient {
      * @see HttpHeader
      * @return HttpResponse - null if no response is received
      */
-    actual fun get(path: String, headers: HttpHeader): HttpResponse? =
-            this.executeRequest<Unit>(HttpMethod.Get, path, useHeaders = headers)
+    fun get(path: String, headers: HttpHeader? = null): HttpResponse? =
+            executeRequest(this.client, HttpMethod.Get, this.url, path, null, headers)
 
     /**
-     * This function takes method, path, content and header and sends it via the Ktor client to the path.
-     * The function starts a blocking coroutine to send the request.
+     * Simple factory method to create the needed Ktor body type
      *
-     * @param useMethod this is the provided method (Get, Post, Put, Delete)
-     * @param usePath the path the requests should be sent to
-     * @param useContent the content type to be sent. Can be null, string, byte array or graphQL
+     * @param T type of content. Can be null, string, byte array or graphQL
      * @see GraphQlContent
-     * @param useHeaders the headers to be added to the request
-     * @see HttpHeader
+     * @param content the content to be transformed
      *
-     * @return null if no request is received, HttpResponse for successful requests
-     * @see HttpResponse
+     * @return the corresponding Ktpr body type
      */
-    private inline fun <reified T> executeRequest(useMethod: HttpMethod, usePath: String, useContent: T? = null, contentType: CONTENTTYPES? = null, useHeaders: HttpHeader): HttpResponse? {
-        var facetteResponse: HttpResponse? = null
-        val fullPath = this.url .path(usePath).create()
+    private inline fun <reified T> getBody(content: T, contentType: CONTENTTYPES? = null): Any {
+        return when(T::class) {
+            String::class, Unit::class -> TextContent(content as String, parseContentType(contentType))
+            ByteArray::class -> ByteArrayContent(content as ByteArray)
+            MultipartBody::class -> (content as MultipartBody).create()
+            else -> throw Error("Content not supported")
+        }
+    }
 
-        //logger.info("Sending a ${useMethod.value} request to $fullPath with ${if(useContent == null) "no" else ""} content")
+    private fun parseContentType(contentType: CONTENTTYPES?): io.ktor.http.ContentType =
+            io.ktor.http.ContentType(contentType?.contentType?.contentType ?: "application", contentType?.contentType?.contentSubtype ?: "*")
+
+    fun executeRequest(
+            client: HttpClient,
+            useMethod: HttpMethod,
+            useUrl: Url,
+            usePath: String,
+            useBody: Any?,
+            useHeaders: HttpHeader?
+    ): HttpResponse? {
+        var facetteResponse: HttpResponse? = null
+        val fullPath = useUrl.path(usePath).create()
+
+        println("Sending a ${useMethod.value} request to $fullPath with ${if(useBody == null) "no" else ""} content")
 
         var usedBody: Any? = null
-        if (useContent != null) {
-            usedBody = getBody(useContent, contentType)
-            //logger.info("Body == $usedBody")
-        } else {
-            //logger.info("With no body")
-        }
+        usedBody = useBody
+        println("Body == $usedBody")
 
         runBlocking {
             launch {
@@ -170,46 +208,28 @@ actual class GenericHttpClient {
 
                         method = useMethod
 
-                        if (usedBody != null) {
-                            body = usedBody
+                        if (useBody != null) {
+                            body = useBody
                         }
+
                         userAgent("SevenFacette")
 
-                        useHeaders.header.forEach {
-                            headers.append(it.first, it.second)
+                        if(useHeaders != null) {
+                            useHeaders.header.forEach {
+                                headers.append(it.first, it.second)
+                            }
                         }
                     })
                 } catch (e: Exception) {
-                    //logger.error(e.message)
+                    println(e.message)
                 }
             }.join()
         }
 
         if(facetteResponse == null) throw Exception("No response received")
-        //logger.info { "Response http status == ${facetteResponse?.status}" }
-        //logger.info { "Response headers == ${facetteResponse?.headers}" }
-        //logger.info { "Response body == ${facetteResponse?.body}" }
+        println("Response http status == ${facetteResponse?.status}")
+        println("Response headers == ${facetteResponse?.headers}")
+        println("Response body == ${facetteResponse?.body}")
         return facetteResponse
     }
-
-    /**
-     * Simple factory method to create the needed Ktor body type
-     *
-     * @param T type of content. Can be null, string, byte array or graphQL
-     * @see GraphQlContent
-     * @param content the content to be transformed
-     *
-     * @return the corresponding Ktpr body type
-     */
-    private inline fun <reified T> getBody(content: T, contentType: CONTENTTYPES?): Any {
-        return when(T::class) {
-            String::class, Unit::class -> TextContent(content as String, parseContentType(contentType))
-            ByteArray::class -> ByteArrayContent(content as ByteArray)
-            MultipartBody::class -> (content as MultipartBody).create()
-            else -> throw Error("Content not supported")
-        }
-    }
-
-    private fun parseContentType(contentType: CONTENTTYPES?): io.ktor.http.ContentType =
-            io.ktor.http.ContentType(contentType?.contentType?.contentType ?: "application", contentType?.contentType?.contentSubtype ?: "*")
 }

@@ -19,7 +19,7 @@ data class KafkaTopicConfig(
 
         var readIsolationLevel: IsolationLevel = READ_UNCOMMITTED,
 //        @Deprecated("Please use the Enum instead", ReplaceWith("readIsolationLevel"))
-//        var isolationLevel: String = "",
+        var isolationLevel: String = "",
         var autoCommit: Boolean = false,
         var autoCommitInterval: Int = 0,
         var topicName: String = ""
