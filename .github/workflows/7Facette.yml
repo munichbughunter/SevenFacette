@@ -32,7 +32,7 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod 0755 gradlew && git add gradlew
       - name: Build 7Facette core module with gradle
-        run: ./gradlew clean :core:build -x test
+        run: gradle clean :core:build -x test
       - name: Get the version
         id: get_version
         run: echo ::set-env name=VERSION::${GITHUB_REF/refs\/tags\/}
@@ -60,7 +60,7 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod 0755 gradlew && git add gradlew
       - name: Build 7Facette web module with gradle
-        run: ./gradlew clean :web:build -x test
+        run: gradle clean :web:build -x test
       - name: Get the version
         id: get_version
         run: echo ::set-env name=VERSION::${GITHUB_REF/refs\/tags\//}
