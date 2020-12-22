@@ -12,7 +12,7 @@ on:
       - 'misc/**'
 jobs:
   build-core:
-    name: Build Core module
+    name: Build and analyze Core module
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -34,11 +34,23 @@ jobs:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
-      - name: Build and analyze
+      - name: Build module
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: gradle build sonarqube --info
+        run: gradle build
+      - name: Execute Test
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+        run: gradle jvmTest
+      - name: Create Coverage Report
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+        run: gradle jacocoTestReport
+      - name: Analyze core module
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_CORE }}
+        run: gradle sonarqube --info
 #  build-web:
 #    needs: build-core
 #    name: Build Web module
