@@ -30,7 +30,7 @@ jobs:
       - name: print Java version
         run: java -version
       - name: Grant execute permission for gradlew
-        run: chmod 0755 gradlew && git add gradlew
+        run: chmod 0755 gradle && git add gradle
       - name: Build 7Facette core module with gradle
         run: gradle clean :core:build -x test
       - name: Get the version
