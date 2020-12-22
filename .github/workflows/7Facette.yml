@@ -5,7 +5,7 @@ name: 7Facette
 
 on:
   push:
-    #    branches:
+        #    branches:
     #      - master
     tags:
       - 'v*'

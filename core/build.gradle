@@ -1,5 +1,5 @@
 buildscript {
-    ext.ktor_version = '1.4.3'
+    ext.ktor_version = '1.4.0'
     repositories.jcenter()
     dependencies {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.0")
@@ -13,6 +13,7 @@ plugins {
     id("com.jfrog.bintray") version "1.8.4"
     id 'org.jetbrains.dokka' version '1.4.0'
     id("org.sonarqube") version "3.0"
+    id 'jacoco'
 }
 
 sonarqube {
@@ -132,9 +133,9 @@ def BINTRAY_REPOSITORY="sevenfacette-jvm" // What you named your repository in b
 
 // Only for local TESTING //
 def LIBRARY_VERSION_NAME=1.0 // The current version of your library. You will need to update this value whenever you upload a new release. For example: 1.0
-version = "v1.0.0"
+//version = "v1.0.0"
 
-//version = System.properties['VERSION']
+version = System.properties['VERSION']
 version = version.toString().substring(1,6)
 LIBRARY_VERSION_NAME=version.toString().substring(0,3)
 
@@ -194,3 +195,26 @@ bintrayUpload.doFirst {
 //The task of bintrayUpload depends on publishToMavenLocal set in the previous section.
 // This will create maven artifacts when running bintrayUplaod's task.
 bintrayUpload.dependsOn publishJvmPublicationToMavenLocal
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
+tasks.jvmTest {
+    apply plugin: "jacoco"
+    apply plugin: "java"
+    testLogging {
+        events("passed", "skipped", "failed")
+    }
+    jacocoTestReport {
+        reports {
+            xml.enabled = true
+            html.enabled = true
+        }
+        classDirectories.setFrom(file("${buildDir}/classes/kotlin/jvm/main"))
+        sourceDirectories.setFrom(files("src/commonMain", "src/jvmMain"))
+        executionData.setFrom(files("${buildDir}/jacoco/jvmTest.exec"))
+    }
+}
