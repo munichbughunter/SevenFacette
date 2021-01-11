@@ -47,12 +47,19 @@ repositories {
 
 #### JVM
 
-Actual we provide a JVM implementation of the 7Facette core and web module. The JS implementation is planned
-for the next release. 
+To use the JVM implementation of the 7Facette core and web module.
 
 ```kotlin
-implementation 'de.p7s1.qa.sevenfacette:core-jvm:0.7.5'
-implementation 'de.p7s1.qa.sevenfacette:web-jvm:0.7.5'
+implementation 'de.p7s1.qa.sevenfacette:core-jvm:1.0.1'
+implementation 'de.p7s1.qa.sevenfacette:web-jvm:1.0.1'
+```
+
+#### JS
+
+To install the 7Facette core module for JS execute the following command
+
+```kotlin
+npm i --save sevenfacette
 ```
 
 ## Questions or need help?
