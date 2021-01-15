@@ -57,7 +57,6 @@ actual class GenericHttpClient {
     }
 
     /**
-     * JS specific implementation of port
      * Sends string content
      *
      * @param path path to be added to base URL
@@ -70,7 +69,6 @@ actual class GenericHttpClient {
             executeRequest(this.client, HttpMethod.Post, this.url, path, getBody(content, contentType), headers)
 
     /**
-     * JS specific implementation of port
      * Sends byte array content
      *
      * @param path path to be added to base URL
@@ -83,7 +81,6 @@ actual class GenericHttpClient {
             executeRequest(this.client, HttpMethod.Post, this.url, path, getBody(content), headers)
 
     /**
-     * JS specific implementation of port
      * Sends multipart content
      * @see MultipartBody
      *
@@ -97,7 +94,6 @@ actual class GenericHttpClient {
             executeRequest(this.client, HttpMethod.Post, this.url, path, getBody(content), headers)
 
     /**
-     * JS specific implementation of put
      * Sends string content
      *
      * @param path path to be added to base URL
@@ -110,7 +106,6 @@ actual class GenericHttpClient {
             executeRequest(this.client, HttpMethod.Put, this.url, path, getBody(content, contentType), headers)
 
     /**
-     * JS specific implementation of put
      * Sends byte array content
      *
      * @param path path to be added to base URL
@@ -123,7 +118,6 @@ actual class GenericHttpClient {
             executeRequest(this.client, HttpMethod.Put, this.url, path, getBody(content), headers)
 
     /**
-     * JS specific implementation of put
      * Sends multipart content
      * @see MultipartBody
      *
@@ -137,7 +131,6 @@ actual class GenericHttpClient {
             executeRequest(this.client, HttpMethod.Put, this.url, path, getBody(content), headers)
 
     /**
-     * JS specific implementation of delete
      * Send delete request
      *
      * @param path path to be added to base URL
@@ -149,7 +142,6 @@ actual class GenericHttpClient {
             executeRequest(this.client, HttpMethod.Delete, this.url, path, null, headers)
 
     /**
-     * JS specific implementation of get
      * Send delete request
      *
      * @param path path to be added to base URL
@@ -159,6 +151,17 @@ actual class GenericHttpClient {
      */
     fun get(path: String, headers: HttpHeader? = null): HttpResponse? =
             executeRequest(this.client, HttpMethod.Get, this.url, path, null, headers)
+
+    /**
+     * Send head request
+     *
+     * @param path path to be added to base URL
+     * @param headers headers to be added to requests
+     * @see HttpHeader
+     * @return HttpResponse - null if no response is received
+     */
+    fun head(path: String, headers: HttpHeader? = null): HttpResponse? =
+        executeRequest(this.client, HttpMethod.Head, this.url, path, null, headers)
 
     /**
      * Simple factory method to create the needed Ktor body type
