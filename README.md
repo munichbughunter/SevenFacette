@@ -24,7 +24,7 @@ around living documentation.
 
 [userdocs]:https://github.com/munichbughunter/SevenFacette/wiki
 [get-started]:https://github.com/munichbughunter/SevenFacette/wiki/Getting-Started
-[examples]:https://github.com/munichbughunter/SevenFacette/wiki
+[examples]:https://github.com/munichbughunter/SevenFacette/wiki/Examples-for-usage-7Facette
 [contributing]:CONTRIBUTING.md
 
 ## Download
