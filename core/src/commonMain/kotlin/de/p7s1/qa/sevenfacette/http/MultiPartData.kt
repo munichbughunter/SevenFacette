@@ -10,4 +10,4 @@ package de.p7s1.qa.sevenfacette.http
  *
  * @author Florian Pilz
  */
-data class MultiPartData <T>(val name: String, val value: T)
+data class MultiPartData <T>(val name: String, val value: T, val fileName: String?, val contentType: String?)
