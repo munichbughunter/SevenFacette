@@ -48,6 +48,17 @@ class MultipartBody {
         return this
     }
 
+    /**
+     * Adds file item bytearray content to multipart body
+     *
+     * @param name name of multipart body
+     * @param fileName name of the file
+     * @param content bytearray content of multipart body
+     * @param contenttype contenttype of multipart body
+     * @return this
+     *
+     * @author Patrick Döring
+     */
     @JsName("addFileItemPart")
     fun addFileItemPart(name: String, fileName: String, content: ByteArray, contenttype: CONTENTTYPES): MultipartBody {
         println("Adding file item with name == $fileName to multipart body")
