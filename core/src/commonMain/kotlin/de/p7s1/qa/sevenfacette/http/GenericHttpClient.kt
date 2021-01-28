@@ -1,7 +1,5 @@
 package de.p7s1.qa.sevenfacette.http
 
-import io.ktor.client.HttpClient
-
 /**
  * Class for http requests which needs to be implemented in js- and jvm-target
  * Documentation for functions is described in the corresponding target implementations.
