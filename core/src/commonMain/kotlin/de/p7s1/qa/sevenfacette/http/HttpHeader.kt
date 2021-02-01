@@ -1,5 +1,7 @@
 package de.p7s1.qa.sevenfacette.http
 
+import kotlin.js.JsName
+
 //import mu.KotlinLogging
 
 /**
@@ -20,6 +22,7 @@ class HttpHeader {
      * @param key Used key for header
      * @param value Used value for header
      */
+    @JsName("add")
     fun add(key: String, value: String): HttpHeader {
         //logger.debug { "Adding key == ${key}, value == $value to header" }
         header.add(Pair(key, value))
