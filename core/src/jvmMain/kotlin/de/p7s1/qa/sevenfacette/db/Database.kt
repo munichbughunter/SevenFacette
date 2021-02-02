@@ -48,6 +48,7 @@ class Database(
      *
      * @return [result] as List<Map<String, Any>> or an empty list
      */
+    @Deprecated(message = "This function will be deleted in version 2.0.0")
     fun executeStatements(dbStatements: DbStatements) : List<Map<String, Any>>? {
         var result: List<Map<String, Any>> = mutableListOf()
         try {
@@ -81,6 +82,42 @@ class Database(
         return result
     }
 
+    // ToDo: Think about the function name!
+    fun executePrepStatements(preparedDbStatements: DbStatements) : List<Map<String, Any>>? {
+        var result: List<Map<String, Any>> = mutableListOf()
+        try {
+            openConnection().use { conn ->
+                //              logger.info("Iterating over SQL-Statements")
+                val entryCounter = AtomicInteger(1)
+
+                preparedDbStatements.list.forEach(Consumer {
+                    if (it.toLowerCase().startsWith(select)) {
+                        conn.prepareStatement(it).use { preparedStatement ->
+                            val resultSet = preparedStatement.executeQuery()
+                        }
+                        conn.createStatement().use {sqlStatement ->
+                            val resultSet = sqlStatement.executeQuery(it)
+                            if (dbConfig.autoCommit && !conn.autoCommit) {
+                                conn.commit()
+                            }
+                            result = convertResultSetToList(resultSet)
+                        }
+                    } else {
+                        conn.prepareStatement(it).use {sqlStatement ->
+                            sqlStatement.execute(it)
+                            if (dbConfig.autoCommit && !conn.autoCommit) {
+                                conn.commit()
+                            }
+                        }
+                    }
+                })
+            }
+        } catch (ex: SQLException) {
+            //        logger.error("Error on opening database connection. ", ex)
+            throw RuntimeException(ex)
+        }
+        return result
+    }
     /**
      * Convert result set to a list
      *
