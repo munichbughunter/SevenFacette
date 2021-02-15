@@ -1,6 +1,7 @@
 package de.p7s1.qa.sevenfacette.http
 
 import de.p7s1.qa.sevenfacette.config.types.HttpClientConfig
+import de.p7s1.qa.sevenfacette.http.CONTENTTYPES.APPLICATION_JSON
 import de.p7s1.qa.sevenfacette.http.auth.AuthenticationFactory
 import io.ktor.client.*
 import io.ktor.client.engine.*
@@ -130,6 +131,42 @@ actual class GenericHttpClient {
     fun put(path: String, content: MultipartBody, headers: HttpHeader? = null): HttpResponse? =
             executeRequest(this.client, HttpMethod.Put, this.url, path, getBody(content), headers)
 
+    /**
+     * Sends string content
+     *
+     * @param path path to be added to base URL
+     * @param content string content to be sent
+     * @param headers headers to be added to requests
+     * @see HttpHeader
+     * @return HttpResponse - null if no response is received
+     */
+    fun patch(path: String, content: String, contentType: CONTENTTYPES = APPLICATION_JSON, headers: HttpHeader? = null): HttpResponse? =
+            executeRequest(this.client, HttpMethod.Patch, this.url, path, getBody(content, contentType), headers)
+
+    /**
+     * Sends byte array content
+     *
+     * @param path path to be added to base URL
+     * @param content byte array content to be sent
+     * @param headers headers to be added to requests
+     * @see HttpHeader
+     * @return HttpResponse - null if no response is received
+     */
+    fun patch(path: String, content: ByteArray, headers: HttpHeader? = null): HttpResponse? =
+            executeRequest(this.client, HttpMethod.Put, this.url, path, getBody(content), headers)
+
+    /**
+     * Sends multipart content
+     * @see MultipartBody
+     *
+     * @param path path to be added to base URL
+     * @param content multipart content to be sent
+     * @param headers headers to be added to requests
+     * @see HttpHeader
+     * @return HttpResponse - null if no response is received
+     */
+    fun patch(path: String, content: MultipartBody, headers: HttpHeader? = null): HttpResponse? =
+            executeRequest(this.client, HttpMethod.Put, this.url, path, getBody(content), headers)
     /**
      * Send delete request
      *
