@@ -153,7 +153,7 @@ actual class GenericHttpClient {
      * @return HttpResponse - null if no response is received
      */
     fun patch(path: String, content: ByteArray, headers: HttpHeader? = null): HttpResponse? =
-            executeRequest(this.client, HttpMethod.Put, this.url, path, getBody(content), headers)
+            executeRequest(this.client, HttpMethod.Patch, this.url, path, getBody(content), headers)
 
     /**
      * Sends multipart content
@@ -166,7 +166,7 @@ actual class GenericHttpClient {
      * @return HttpResponse - null if no response is received
      */
     fun patch(path: String, content: MultipartBody, headers: HttpHeader? = null): HttpResponse? =
-            executeRequest(this.client, HttpMethod.Put, this.url, path, getBody(content), headers)
+            executeRequest(this.client, HttpMethod.Patch, this.url, path, getBody(content), headers)
     /**
      * Send delete request
      *
