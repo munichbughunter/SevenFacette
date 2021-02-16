@@ -13,7 +13,7 @@ class DbStatement(statement: String, vararg args: Any?) {
     var sqlStatement: String = statement
     var arguments: Any = args
     //var regex = "(?<!^|'|\\r\\n|\\n)\\?(?!'|\$|\\r\\n|\\n)"
-    var regex = "(?<!^|'|\\r\\n|\\n)\\?(?!'|\$\\s|\\r\\n|\\n)"
+    var regex = "(?<!^')\\?(?!.*?')"
 
     init {
         if (args.isNotEmpty()) {

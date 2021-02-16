@@ -7,7 +7,7 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 /**
- * Test class for [DbStatement].
+ * Test class for [DbStatement]
  *
  * Testcases:
  *  Prepared Statement is valid -> false
@@ -18,6 +18,7 @@ import kotlin.test.assertTrue
  *  Prepared Statement with format parameter in basic statement -> no replacement
  *  Prepared Statement without whitespace between format parameter
  *  Prepared Statement without constructor arguments and call replaceAll separately
+ *  Prepared Statement with whitespaces between placeholder
  *
  * @author Patrick Döring
  */
@@ -95,5 +96,18 @@ class DbStatementTest {
 
         assertEquals("SELECT * FROM person WHERE name = 'Peter ?' AND age = 25 AND " +
                 "job = true AND car = null AND address = ''", dbStatement.sqlStatement)
+    }
+
+    @Test
+    fun placeholderWhitespace() {
+        val dbStatement = DbStatement("SELECT * FROM person WHERE name = 'Peter ? Ja ist er' " +
+                "AND age = ' ? ' AND job = '?' AND car = ? AND address = ? ")
+
+        dbStatement.replaceAll(null, "")
+
+        assertTrue(dbStatement.validate())
+
+        assertEquals("SELECT * FROM person WHERE name = 'Peter ? Ja ist er' AND age = ' ? ' AND " +
+                "job = '?' AND car = null AND address = ''", dbStatement.sqlStatement)
     }
 }

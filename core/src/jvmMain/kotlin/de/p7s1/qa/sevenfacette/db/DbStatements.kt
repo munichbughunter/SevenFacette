@@ -2,31 +2,53 @@ package de.p7s1.qa.sevenfacette.db
 
 import java.util.Collections
 
-actual class DbStatements {
+class DbStatements {
+//    private val statements: MutableList<DbStatement> = mutableListOf()
+//
+//    fun add(dbStatement: DbStatement) {
+//        statements.add(dbStatement)
+//    }
+//
+//    val list: List<DbStatement>
+//        get() = Collections.unmodifiableList(statements)
+//
+//    operator fun contains(dbStatement: DbStatement) : Boolean {
+//        return dbStatement in statements
+//    }
+//
+//    operator fun get(index: Int) : DbStatement {
+//        return statements[index]
+//    }
+//
+//    fun size() : Int {
+//        return statements.size
+//    }
 
-    actual val statements: MutableList<String> = mutableListOf()
 
-    actual fun add(statement: String): Boolean {
+
+    val statements: MutableList<String> = mutableListOf()
+
+    fun add(statement: String): Boolean {
         return statements.add(statement)
     }
 
-    actual val list: List<String>
+    val list: List<String>
         get() = Collections.unmodifiableList(statements)
 
 
-    actual operator fun contains(statement: String): Boolean {
+    operator fun contains(statement: String): Boolean {
         return statement in statements
     }
 
-    actual operator fun get(index: Int): String {
+    operator fun get(index: Int): String {
         return statements[index]
     }
 
-    actual fun size(): Int {
+    fun size(): Int {
         return statements.size
     }
 
-    actual fun reformat(index: Int, vararg args: String) {
+    fun reformat(index: Int, vararg args: String) {
         statements[index] = String.format(statements[index], *args)
     }
 }
