@@ -8,11 +8,10 @@ package de.p7s1.qa.sevenfacette.db
  *
  * @author Patrick Döring
  */
-class DbStatement(statement: String, vararg args: Any?) {
+class SqlStatement(statement: String, vararg args: Any?) {
     val origStatement: String = statement
     var sqlStatement: String = statement
     var arguments: Any = args
-    //var regex = "(?<!^|'|\\r\\n|\\n)\\?(?!'|\$|\\r\\n|\\n)"
     var regex = "(?<!^')\\?(?!.*?')"
 
     init {

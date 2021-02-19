@@ -10,7 +10,7 @@ import org.junit.Test
  *
  * @author Stella Bastug
  */
-class DbStatementsTest {
+class SqlStatementsTest {
 
     @Test
     fun addTest() {}

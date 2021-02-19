@@ -1,13 +1,13 @@
 package db
 
-import de.p7s1.qa.sevenfacette.db.DbStatement
+import de.p7s1.qa.sevenfacette.db.SqlStatement
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 /**
- * Test class for [DbStatement]
+ * Test class for [SqlStatement]
  *
  * Testcases:
  *  Prepared Statement is valid -> false
@@ -22,17 +22,17 @@ import kotlin.test.assertTrue
  *
  * @author Patrick Döring
  */
-class DbStatementTest {
+class SqlStatementTest {
 
     @Test
     fun validatePrepStatementFalse() {
-        val dbStatement = DbStatement("SELECT * FROM person WHERE name = ? AND age = ?")
+        val dbStatement = SqlStatement("SELECT * FROM person WHERE name = ? AND age = ?")
         assertFalse(dbStatement.validate())
     }
 
     @Test
     fun validatePrepStatementTrue() {
-        val dbStatement = DbStatement("SELECT * FROM person WHERE name = ? " +
+        val dbStatement = SqlStatement("SELECT * FROM person WHERE name = ? " +
                 "AND age = ? AND job = ? AND car = ? AND address = ?",
                 "TestName", 25, true, null, "")
 
@@ -41,7 +41,7 @@ class DbStatementTest {
 
     @Test
     fun prepStatementWithEmptyCharEnding() {
-        val dbStatement = DbStatement("SELECT * FROM person WHERE name = ? " +
+        val dbStatement = SqlStatement("SELECT * FROM person WHERE name = ? " +
                 "AND age = ? AND job = ? AND car = ? AND address = ? ",
                 "TestName", 25, true, null, "")
 
@@ -51,7 +51,7 @@ class DbStatementTest {
 
     @Test
     fun prepStatementWithoutEmptyCharEnding() {
-        val dbStatement = DbStatement("SELECT * FROM person WHERE name = ? " +
+        val dbStatement = SqlStatement("SELECT * FROM person WHERE name = ? " +
                 "AND age = ? AND job = ? AND car = ? AND address = ?",
                 "TestName", 25, true, null, "")
 
@@ -61,7 +61,7 @@ class DbStatementTest {
 
     @Test
     fun replaceWithFormatParameterValue() {
-        val dbStatement = DbStatement("SELECT * FROM person WHERE name = ? " +
+        val dbStatement = SqlStatement("SELECT * FROM person WHERE name = ? " +
                 "AND age = ? AND job = ? AND car = ? AND address = ?",
                 "Person ?", 25, true, null, "")
 
@@ -70,14 +70,14 @@ class DbStatementTest {
 
     @Test
     fun replaceOnlyFormatParameter() {
-        val statement = DbStatement("SELECT * FROM person WHERE name = 'Peter?' " +
+        val statement = SqlStatement("SELECT * FROM person WHERE name = 'Peter?' " +
                 "AND age = ? AND job = ? AND car = ? AND address = ?", 25, true, null, "")
         assertTrue(statement.validate())
     }
 
     @Test
     fun replaceWithoutEmptyCharacter() {
-        val dbStatement = DbStatement("SELECT * FROM person WHERE name=?" +
+        val dbStatement = SqlStatement("SELECT * FROM person WHERE name=?" +
                 " AND age=? AND job=? AND car=? AND address=?",
                 "Person ?", 25, true, null, "")
 
@@ -87,7 +87,7 @@ class DbStatementTest {
 
     @Test
     fun replaceWithoutArgs() {
-        val dbStatement = DbStatement("SELECT * FROM person WHERE name = 'Peter ?' " +
+        val dbStatement = SqlStatement("SELECT * FROM person WHERE name = 'Peter ?' " +
                 "AND age = ? AND job = ? AND car = ? AND address = ?")
 
         dbStatement.replaceAll(25, true, null, "")
@@ -100,7 +100,7 @@ class DbStatementTest {
 
     @Test
     fun placeholderWhitespace() {
-        val dbStatement = DbStatement("SELECT * FROM person WHERE name = 'Peter ? Ja ist er' " +
+        val dbStatement = SqlStatement("SELECT * FROM person WHERE name = 'Peter ? Ja ist er' " +
                 "AND age = ' ? ' AND job = '?' AND car = ? AND address = ? ")
 
         dbStatement.replaceAll(null, "")

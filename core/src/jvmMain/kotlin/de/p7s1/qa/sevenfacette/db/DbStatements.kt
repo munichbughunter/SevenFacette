@@ -2,55 +2,35 @@ package de.p7s1.qa.sevenfacette.db
 
 import java.util.Collections
 
-class DbStatements {
-    private val statements: MutableList<DbStatement> = mutableListOf()
-    private val statementsAsString: MutableList<String> = mutableListOf()
+actual class DbStatements {
 
-    fun add(dbStatement: DbStatement) {
-        statements.add(dbStatement)
+    actual val statements: MutableList<String> = mutableListOf()
+
+    @Deprecated(message = "This function will be deleted in version 2.0.0. Use SqlStatement instead.")
+    actual fun add(statement: String) : Boolean {
+        return statements.add(statement)
     }
 
-    @Deprecated(message = "This function will be deleted in version 2.0.0. Use DbStatement instead.")
-    fun add(statement: String) {
-        statementsAsString.add(statement)
-    }
-
-    val list: List<DbStatement>
+    @Deprecated(message = "This function will be deleted in version 2.0.0. Use get which returns List<SqlStatement> instead.")
+    actual val list: List<String>
         get() = Collections.unmodifiableList(statements)
 
-    @Deprecated(message = "This function will be deleted in version 2.0.0. Use get which returns List<DbStatement> instead.")
-    val listStringStatements: List<String>
-        get() = Collections.unmodifiableList(statementsAsString)
-
-    operator fun contains(dbStatement: DbStatement) : Boolean {
-        return dbStatement in statements
+    @Deprecated(message = "This function will be deleted in version 2.0.0. Use contains(sqlStatement: SqlStatement) instead.")
+    actual operator fun contains(statement: String): Boolean {
+        return statement in statements
     }
 
-    @Deprecated(message = "This function will be deleted in version 2.0.0. Use contains(dbStatement: DbStatement) instead.")
-    operator fun contains(statement: String): Boolean {
-        return statement in statementsAsString
-    }
-
-    operator fun get(index: Int) : DbStatement {
+    @Deprecated(message = "This function will be deleted in version 2.0.0. Use get() which returns a SqlStatement instead.")
+    actual operator fun get(index: Int): String {
         return statements[index]
     }
 
-    @Deprecated(message = "This function will be deleted in version 2.0.0. Use get() instead.")
-    fun getStatementByIndex(index: Int): String {
-        return statementsAsString[index]
-    }
-
-    fun size() : Int {
+    actual fun size(): Int {
         return statements.size
     }
 
-    @Deprecated(message = "This function will be deleted in version 2.0.0. Use size() instead.")
-    fun getSize(): Int {
-        return statementsAsString.size
-    }
-
     @Deprecated(message = "This function will be deleted in version 2.0.0.")
-    fun reformat(index: Int, vararg args: String) {
-        statementsAsString[index] = String.format(statementsAsString[index], *args)
+    actual fun reformat(index: Int, vararg args: String) {
+        statements[index] = String.format(statements[index], *args)
     }
 }

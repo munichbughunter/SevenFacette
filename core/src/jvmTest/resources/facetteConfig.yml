@@ -41,6 +41,13 @@ sevenFacette:
         saslPassword: myProducerUserPass
         autoOffset: latest
   database:
+    db2:
+      url: jdbc:h2:mem:demo;DB_CLOSE_DELAY=-1
+      driver: org.h2.Driver
+      user: $UserName
+      password: Test User Pass
+      autoCommit: false
+      stopOnError: true
     pvv:
       url: jdbc:sqli://localhost:1529/abc:INFORMIXSERVER=info_server
       driver: com.informix.jdbc.IfxDriver
