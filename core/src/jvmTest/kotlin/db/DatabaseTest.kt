@@ -13,6 +13,8 @@ import kotlin.test.assertTrue
  * Testingclass for [Database].
  *
  * Testcases:
+ * Execute sql statement and return the result as list of entity
+ * Execute sql statement and return the result as JSON
  *
  * @author Stella Bastug
  */
