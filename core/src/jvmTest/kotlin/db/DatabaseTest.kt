@@ -2,6 +2,7 @@ package db
 
 import de.p7s1.qa.sevenfacette.db.DFactory
 import de.p7s1.qa.sevenfacette.db.Database
+import de.p7s1.qa.sevenfacette.db.DbStatements
 import de.p7s1.qa.sevenfacette.db.SqlStatement
 import org.junit.Before
 import org.junit.Test
@@ -52,5 +53,15 @@ class DatabaseTest {
         val selectApple = SqlStatement("select * from fruits where name ='apple'")
         val rs = database.executeSqlStatement(selectApple)
         assertEquals("{\"ID\":1,\"NAME\":\"apple\"}", rs?.get(0).toString())
+    }
+
+    @Test
+    fun executeDbStatements() {
+        database = DFactory.createDatabase("db2")
+        val statements = DbStatements()
+        statements.add("select * from fruits where name = 'apple'")
+        val result = database.executeStatements(statements)
+        assertEquals(1, result?.size)
+        assertEquals("apple", result?.get(0)?.get("NAME"))
     }
 }
