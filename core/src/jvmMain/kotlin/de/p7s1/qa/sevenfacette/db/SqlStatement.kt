@@ -26,7 +26,6 @@ class SqlStatement(statement: String, vararg args: Any?) {
      * @return [true] or [false]
      */
     fun validate() : Boolean{
-       // return !sqlStatement.contains("?")
         return !sqlStatement.contains(Regex(regex))
     }
 
