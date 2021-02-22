@@ -16,6 +16,7 @@ import kotlin.test.assertTrue
  * Testcases:
  * Execute sql statement and return the result as list of entity
  * Execute sql statement and return the result as JSON
+ * Execute db statement and return the result as List<Map<String,Object>>
  *
  * @author Stella Bastug
  */
