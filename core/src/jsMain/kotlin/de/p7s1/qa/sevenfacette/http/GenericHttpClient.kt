@@ -103,6 +103,46 @@ actual class GenericHttpClient {
      * @see HttpHeader
      * @return HttpResponse - null if no response is received
      */
+    @JsName("patch")
+    suspend fun patch(path: String, content: String, contentType: CONTENTTYPES = CONTENTTYPES.APPLICATION_JSON, headers: HttpHeader? = null): Promise<HttpResponse> =
+            executeRequest(this.client, HttpMethod.Patch, this.url, path, getBody(content, contentType), headers)
+
+    /**
+     * Sends byte array content
+     *
+     * @param path path to be added to base URL
+     * @param content byte array content to be sent
+     * @param headers headers to be added to requests
+     * @see HttpHeader
+     * @return HttpResponse - null if no response is received
+     */
+    @JsName("patchByteArray")
+    suspend fun patch(path: String, content: ByteArray, headers: HttpHeader? = null): Promise<HttpResponse> =
+            executeRequest(this.client, HttpMethod.Patch, this.url, path, getBody(content), headers)
+
+    /**
+     * Sends multipart content
+     * @see MultipartBody
+     *
+     * @param path path to be added to base URL
+     * @param content multipart content to be sent
+     * @param headers headers to be added to requests
+     * @see HttpHeader
+     * @return HttpResponse - null if no response is received
+     */
+    @JsName("patchMultipart")
+    suspend fun patch(path: String, content: MultipartBody, headers: HttpHeader? = null): Promise<HttpResponse> =
+            executeRequest(this.client, HttpMethod.Patch, this.url, path, getBody(content), headers)
+
+    /**
+     * Sends string content
+     *
+     * @param path path to be added to base URL
+     * @param content string content to be sent
+     * @param headers headers to be added to requests
+     * @see HttpHeader
+     * @return HttpResponse - null if no response is received
+     */
     @JsName("put")
     suspend fun put(path: String, content: String, contentType: CONTENTTYPES = CONTENTTYPES.APPLICATION_JSON, headers: HttpHeader? = null): Promise<HttpResponse> =
             executeRequest(this.client, HttpMethod.Put, this.url, path, getBody(content, contentType), headers)
