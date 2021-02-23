@@ -105,6 +105,9 @@ class Database(
      */
     private fun execute(preparedDbStatement: SqlStatement) : JSONArray? {
         var json :JSONArray? = JSONArray()
+        if (!preparedDbStatement.validatePreparedStatement()) {
+            throw RuntimeException("This is not a prepared statement: ${preparedDbStatement.sqlStatement}")
+        }
         try {
             openConnection().use { conn ->
                 if (preparedDbStatement.sqlStatement.toLowerCase().startsWith(select)) {
@@ -147,7 +150,7 @@ class Database(
     }
 
     /**
-     * Convert result set to a list
+     * Convert result set to a JSONArray
      *
      * @param [resultSet] result set of the executed statement
      *
@@ -160,15 +163,15 @@ class Database(
             val metadata = resultSet.metaData
             val numColumns = metadata.columnCount
 
-            while (resultSet.next()) //iterate rows
+            while (resultSet.next())
             {
-                val obj = JSONObject() //extends HashMap
-                for (i in 1..numColumns)  //iterate columns
+                val jsonObj = JSONObject()
+                for (i in 1..numColumns)
                 {
                     val columnName = metadata.getColumnName(i)
-                    obj[columnName] = resultSet.getObject(columnName)
+                    jsonObj[columnName] = resultSet.getObject(columnName)
                 }
-                json.add(obj)
+                json.add(jsonObj)
             }
         } catch (ex: SQLException) {
             throw RuntimeException("Error on converting result set to JSON", ex)

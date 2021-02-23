@@ -27,7 +27,7 @@ class SqlStatementTest {
     @Test
     fun validatePrepStatementFalse() {
         val dbStatement = SqlStatement("SELECT * FROM person WHERE name = ? AND age = ?")
-        assertFalse(dbStatement.validate())
+        assertFalse(dbStatement.validatePreparedStatement())
     }
 
     @Test
@@ -36,7 +36,7 @@ class SqlStatementTest {
                 "AND age = ? AND job = ? AND car = ? AND address = ?",
                 "TestName", 25, true, null, "")
 
-        assertTrue(dbStatement.validate())
+        assertTrue(dbStatement.validatePreparedStatement())
     }
 
     @Test
@@ -65,14 +65,14 @@ class SqlStatementTest {
                 "AND age = ? AND job = ? AND car = ? AND address = ?",
                 "Person ?", 25, true, null, "")
 
-        assertTrue(dbStatement.validate())
+        assertTrue(dbStatement.validatePreparedStatement())
     }
 
     @Test
     fun replaceOnlyFormatParameter() {
         val statement = SqlStatement("SELECT * FROM person WHERE name = 'Peter?' " +
                 "AND age = ? AND job = ? AND car = ? AND address = ?", 25, true, null, "")
-        assertTrue(statement.validate())
+        assertTrue(statement.validatePreparedStatement())
     }
 
     @Test
@@ -90,9 +90,9 @@ class SqlStatementTest {
         val dbStatement = SqlStatement("SELECT * FROM person WHERE name = 'Peter ?' " +
                 "AND age = ? AND job = ? AND car = ? AND address = ?")
 
-        dbStatement.replaceAll(25, true, null, "")
+        dbStatement.replaceAllPlaceholder(25, true, null, "")
 
-        assertTrue(dbStatement.validate())
+        assertTrue(dbStatement.validatePreparedStatement())
 
         assertEquals("SELECT * FROM person WHERE name = 'Peter ?' AND age = 25 AND " +
                 "job = true AND car = null AND address = ''", dbStatement.sqlStatement)
@@ -103,9 +103,9 @@ class SqlStatementTest {
         val dbStatement = SqlStatement("SELECT * FROM person WHERE name = 'Peter ? Ja ist er' " +
                 "AND age = ' ? ' AND job = '?' AND car = ? AND address = ? ")
 
-        dbStatement.replaceAll(null, "")
+        dbStatement.replaceAllPlaceholder(null, "")
 
-        assertTrue(dbStatement.validate())
+        assertTrue(dbStatement.validatePreparedStatement())
 
         assertEquals("SELECT * FROM person WHERE name = 'Peter ? Ja ist er' AND age = ' ? ' AND " +
                 "job = '?' AND car = null AND address = ''", dbStatement.sqlStatement)

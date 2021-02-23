@@ -16,7 +16,7 @@ class SqlStatement(statement: String, vararg args: Any?) {
 
     init {
         if (args.isNotEmpty()) {
-            replaceAll(*args as Array<out Any>)
+            replaceAllPlaceholder(*args as Array<out Any>)
         }
     }
 
@@ -25,7 +25,7 @@ class SqlStatement(statement: String, vararg args: Any?) {
      *
      * @return [true] or [false]
      */
-    fun validate() : Boolean{
+    fun validatePreparedStatement() : Boolean{
         return !sqlStatement.contains(Regex(regex))
     }
 
@@ -34,7 +34,7 @@ class SqlStatement(statement: String, vararg args: Any?) {
      *
      * @param [args] are the arguments with the placeholder should be replaced
      */
-    fun replaceAll(vararg args: Any?) {
+    fun replaceAllPlaceholder(vararg args: Any?) {
         arguments = args
         val parts: List<String> = sqlStatement.split(Regex(regex))
 
