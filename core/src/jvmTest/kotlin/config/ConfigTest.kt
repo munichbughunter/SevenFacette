@@ -70,7 +70,7 @@ class ConfigTest {
     fun checkDatabaseConfig() {
         val config = ConfigReader.readConfig().sevenFacette?.database
 
-        assertEquals(2, config?.size,
+        assertEquals(3, config?.size,
                 "Number of databases is not correct")
 
         val pvvDatabase = ConfigReader.getDatabaseConfig("pvv")

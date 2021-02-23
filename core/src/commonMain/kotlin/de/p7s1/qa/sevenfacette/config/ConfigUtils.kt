@@ -69,25 +69,3 @@ fun replaceImports(fileName: String): String {
     }
     return configContent
 }
-
-///**
-// * This function uses the env variable provided by the user for the config file or a default file
-// */
-//fun getConfigFileName(): String? {
-//    return if(!KSystem.getEnv("FACETTE_CONFIG").isNullOrEmpty()) {
-//        //logger.info { "Use environment variable ${KSystem.getEnv("FACETTE_CONFIG")} for configuration" }
-//        KSystem.getEnv("FACETTE_CONFIG")
-//    } else if(!KSystem.getProperty("FACETTE_CONFIG").isNullOrEmpty()) {
-//        //logger.info { "Use system property ${KSystem.getProperty("FACETTE_CONFIG")} for configuration" }
-//        KSystem.getProperty("FACETTE_CONFIG")
-//    } else if(Files.getResource("facetteConfig.yml") != null) {
-//        //logger.info { "Use facetteConfig.yml for configuration" }
-//        "facetteConfig.yml"
-//    } else if(Files.getResource("facetteConfig.yaml") != null) {
-//        //logger.info { "Use facetteConfig.yml for configuration" }
-//        "facetteConfig.yaml"
-//    } else {
-//        //logger.error { "No configuration file found" }
-//        null
-//    }
-//}

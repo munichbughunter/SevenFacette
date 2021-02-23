@@ -1,32 +1,24 @@
 package db
 
-import de.p7s1.qa.sevenfacette.db.DbStatements
 import de.p7s1.qa.sevenfacette.db.ScriptReader
-import de.p7s1.qa.sevenfacette.utils.FileLoader
 import org.junit.Test
-import java.io.BufferedReader
+import kotlin.test.assertEquals
 
 /**
  * Testingclass for [ScriptReader].
- *
- * Testcases:
  *
  * @author Stella Bastug
  */
 class ScriptReaderTest {
 
-    @Test
-    fun getStatementsTest(){}
+    private val RESOURCES_TEST_FOLDER = "testfiles/"
 
     @Test
-    fun parseScriptTest(){}
-
-    @Test
-    fun trimStatementTest(){}
-
-    @Test
-    fun getValidStringIndexOfTest(){}
-
-    @Test
-    fun getValidStringLastIndexOfTest(){}
+    fun getStatementsFromScript(){
+        val statements = ScriptReader().getStatements(RESOURCES_TEST_FOLDER, "testStatements.sql")
+        assertEquals(2, statements?.size())
+        assertEquals("INSERT INTO land( id, name, land_kuerzel) VALUES( get_next_id('land'), 'Deutschland', 'DE');", statements?.get(0))
+        assertEquals("UPDATE table_Test SET tValue = tValue;", statements?.get(1))
+        println("und?")
+    }
 }
