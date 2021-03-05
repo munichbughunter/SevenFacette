@@ -12,22 +12,22 @@ package de.p7s1.qa.sevenfacette.config.types
  * @author Florian Pilz
  */
 expect object FacetteConfig {
-    var http: HttpConfig?
+    var http: DHttpConfig?
         private set
     var custom: Map<String, String>?
         private set
-    var kafka: KafkaConfig?
+    var kafka: DKafkaConfig?
         private set
-    var database: Map<String, DatabaseConfig>?
+    var database: Map<String, DDatabaseConfig>?
         private set
-    var application: ApplicationConfig?
+    var application: DApplicationConfig?
         private set
-    var web: WebConfig?
+    var web: DWebConfig?
         private set
 
     fun update()
 
-    fun set(config: FacetteConfigDataClass)
+    fun set(config: DFacetteConfig)
 
     fun reset()
 }

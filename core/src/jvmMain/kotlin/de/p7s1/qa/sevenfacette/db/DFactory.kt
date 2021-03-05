@@ -1,7 +1,7 @@
 package de.p7s1.qa.sevenfacette.db
 
 import de.p7s1.qa.sevenfacette.config.ConfigReader
-import de.p7s1.qa.sevenfacette.config.types.DatabaseConfig
+import de.p7s1.qa.sevenfacette.config.types.DDatabaseConfig
 
 /**
  * JVM specific implementation of the DFactory to initialise Database connections
@@ -18,7 +18,7 @@ class DFactory {
         }
 
         @JvmStatic
-        fun createDatabase(config: DatabaseConfig) : Database =
+        fun createDatabase(config: DDatabaseConfig) : Database =
                 Database(config)
     }
 }

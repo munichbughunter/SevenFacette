@@ -1,11 +1,10 @@
 package db
 
-import de.p7s1.qa.sevenfacette.config.types.DatabaseConfig
+import de.p7s1.qa.sevenfacette.config.types.DDatabaseConfig
 import de.p7s1.qa.sevenfacette.db.DFactory
 import de.p7s1.qa.sevenfacette.db.Database
 import de.p7s1.qa.sevenfacette.db.DbStatements
 import de.p7s1.qa.sevenfacette.db.SqlStatement
-import org.junit.Before
 import org.junit.Test
 import java.lang.RuntimeException
 import kotlin.test.assertEquals
@@ -71,7 +70,7 @@ class DatabaseTest {
 
     @Test
     fun connectionFailDriver() {
-        val dbConfig = DatabaseConfig("db_url", "db_driver", null, null, true, false)
+        val dbConfig = DDatabaseConfig("db_url", "db_driver", null, null, true, false)
         database = DFactory.createDatabase(dbConfig)
         val selectStatement = SqlStatement("select * from fruits")
         assertFailsWith<RuntimeException> {
@@ -81,7 +80,7 @@ class DatabaseTest {
 
     @Test
     fun connectionFailUrl() {
-        val dbConfig = DatabaseConfig("db_url", "org.h2.Driver", null, null, true, false)
+        val dbConfig = DDatabaseConfig("db_url", "org.h2.Driver", null, null, true, false)
         database = DFactory.createDatabase(dbConfig)
         val selectStatement = SqlStatement("select * from fruits")
         assertFailsWith<RuntimeException> {

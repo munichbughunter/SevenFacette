@@ -15,11 +15,11 @@ import kotlinx.serialization.Serializable
  * @author Florian Pilz
  */
 @Serializable
-data class FacetteConfigDataClass (
-        var http: HttpConfig? = null,
-        var kafka: KafkaConfig? = null,
-        var database: Map<String, DatabaseConfig>? = null,
-        var application: ApplicationConfig? = null,
+data class DFacetteConfig (
+        var http: DHttpConfig? = null,
+        var kafka: DKafkaConfig? = null,
+        var database: Map<String, DDatabaseConfig>? = null,
+        var application: DApplicationConfig? = null,
         var custom: Map<String, String> = mutableMapOf(),
-        var web: WebConfig? = null
+        var web: DWebConfig? = null
 )

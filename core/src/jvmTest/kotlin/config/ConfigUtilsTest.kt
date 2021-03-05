@@ -5,6 +5,9 @@ import de.p7s1.qa.sevenfacette.config.types.FacetteConfig
 import org.junit.Before
 import org.junit.Test
 
+/**
+ * Testing the functions of ConfigUtils from src commonMain
+ */
 class ConfigUtilsTest {
 
     @Before

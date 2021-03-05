@@ -8,13 +8,13 @@ import kotlin.js.JsName
  * Contains map of httpClientConfigs. The configurations can be accessed via name.
  */
 @Serializable
-data class HttpConfig(
+data class DHttpConfig(
         var connectionTimeout: Int = 0,
         var connectionRequestTimeout: Int = 0,
         var socketTimeout: Int = 0,
         var proxy: HttpProxy? = null,
-        val clients: Map<String, HttpClientConfig>
+        val clients: Map<String, DHttpClientConfig>
 ) {
     @JsName("get")
-    fun get(key: String) : HttpClientConfig? = clients[key]
+    fun get(key: String) : DHttpClientConfig? = clients[key]
 }

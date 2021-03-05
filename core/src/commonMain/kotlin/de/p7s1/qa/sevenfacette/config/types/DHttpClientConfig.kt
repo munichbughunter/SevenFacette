@@ -19,7 +19,7 @@ import kotlinx.serialization.Serializable
  */
 
 @Serializable
-data class HttpClientConfig (
+data class DHttpClientConfig (
     var connectionTimeout: Int? = 0,
     var connectionRequestTimeout: Int? = 0,
     var socketTimeout: Int? = 0,

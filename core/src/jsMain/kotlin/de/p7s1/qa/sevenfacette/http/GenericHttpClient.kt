@@ -1,6 +1,6 @@
 package de.p7s1.qa.sevenfacette.http
 
-import de.p7s1.qa.sevenfacette.config.types.HttpClientConfig
+import de.p7s1.qa.sevenfacette.config.types.DHttpClientConfig
 import de.p7s1.qa.sevenfacette.http.auth.AuthenticationFactory
 import io.ktor.client.*
 import io.ktor.client.engine.*
@@ -24,7 +24,7 @@ actual class GenericHttpClient {
 
     @KtorExperimentalAPI
     @JsName("setClient")
-    fun setClient(config: HttpClientConfig, factory: HttpClientEngine): GenericHttpClient {
+    fun setClient(config: DHttpClientConfig, factory: HttpClientEngine): GenericHttpClient {
         println("CREATING CLIENT")
         this.client = HttpClient(factory) {
             expectSuccess = false

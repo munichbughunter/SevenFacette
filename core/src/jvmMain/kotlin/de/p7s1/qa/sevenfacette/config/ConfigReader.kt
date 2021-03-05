@@ -20,20 +20,20 @@ actual class ConfigReader {
          *
          * @return FacetteConfigDataClass
          */
-        actual fun readConfig(): SevenFacetteConfig {
+        actual fun readConfig(): DSevenFacetteConfig {
             val config = replaceEnvironmentVariables(replaceImports(getConfigFileName().toString()))
-            var result = SevenFacetteConfig()
+            var result = DSevenFacetteConfig()
             if(config != "") {
-                result = Yaml.default.decodeFromString(SevenFacetteConfig.serializer(), config)
+                result = Yaml.default.decodeFromString(DSevenFacetteConfig.serializer(), config)
             }
             return result
         }
 
         @JvmStatic
-        actual fun getHttpConfig(): HttpConfig? = FacetteConfig.http
+        actual fun getHttpConfig(): DHttpConfig? = FacetteConfig.http
 
         @JvmStatic
-        actual fun getHttpClientConfig(clientName: String): HttpClientConfig? =
+        actual fun getHttpClientConfig(clientName: String): DHttpClientConfig? =
                 FacetteConfig.http?.clients?.get(clientName)
 
         @JvmStatic
@@ -45,7 +45,7 @@ actual class ConfigReader {
                 FacetteConfig.kafka?.producer?.get(producerName)
 
         @JvmStatic
-        actual fun getDatabaseConfig(databaseName: String) : DatabaseConfig? =
+        actual fun getDatabaseConfig(databaseName: String) : DDatabaseConfig? =
                 FacetteConfig.database?.get(databaseName)
 
         @JvmStatic
@@ -53,7 +53,7 @@ actual class ConfigReader {
                 FacetteConfig.custom?.get(key)
 
         @JvmStatic
-        actual fun getSeleniumConfig(seleniumConfig: String): WebConfig? =
+        actual fun getSeleniumConfig(seleniumConfig: String): DWebConfig? =
                 FacetteConfig.web
 
         /**

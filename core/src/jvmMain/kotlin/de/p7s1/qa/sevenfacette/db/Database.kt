@@ -2,7 +2,7 @@ package de.p7s1.qa.sevenfacette.db
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature.FAIL_ON_EMPTY_BEANS
-import de.p7s1.qa.sevenfacette.config.types.DatabaseConfig
+import de.p7s1.qa.sevenfacette.config.types.DDatabaseConfig
 import org.json.simple.JSONArray
 import org.json.simple.JSONObject
 import java.sql.Connection
@@ -22,7 +22,7 @@ import java.util.function.Consumer
  */
 //private val logger = KotlinLogging.logger {}
 class Database(
-        private val dbConfig: DatabaseConfig
+        private val dbConfig: DDatabaseConfig
 ) {
     private val select = "select"
     private val emptyValue = "NULL"

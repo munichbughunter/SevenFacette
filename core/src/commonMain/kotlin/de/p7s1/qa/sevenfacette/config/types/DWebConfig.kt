@@ -13,7 +13,7 @@ import kotlinx.serialization.Serializable
  * Highlight Element style
  * */
 @Serializable
-data class WebConfig(
+data class DWebConfig(
         var autoClose: Boolean = true,
         var baseUrl: String = "",
         var browserName: String = "chrome",

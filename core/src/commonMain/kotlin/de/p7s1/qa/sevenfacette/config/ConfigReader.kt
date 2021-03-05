@@ -9,19 +9,19 @@ import de.p7s1.qa.sevenfacette.config.types.*
  */
 expect class ConfigReader {
     companion object {
-        fun readConfig(): SevenFacetteConfig
+        fun readConfig(): DSevenFacetteConfig
 
-        fun getHttpConfig() : HttpConfig?
+        fun getHttpConfig() : DHttpConfig?
 
-        fun getHttpClientConfig(clientName: String) : HttpClientConfig?
+        fun getHttpClientConfig(clientName: String) : DHttpClientConfig?
 
         fun getKafkaConsumerConfig(consumerName: String) : KafkaTopicConfig?
 
         fun getKafkaProducerConfig(producerName: String) : KafkaTopicConfig?
 
-        fun getDatabaseConfig(databaseName: String) : DatabaseConfig?
+        fun getDatabaseConfig(databaseName: String) : DDatabaseConfig?
 
-        fun getSeleniumConfig(seleniumConfig: String) : WebConfig?
+        fun getSeleniumConfig(seleniumConfig: String) : DWebConfig?
 
         fun getCustomConfig(key: String) : String?
     }

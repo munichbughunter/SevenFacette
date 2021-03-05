@@ -3,11 +3,11 @@ package de.p7s1.qa.sevenfacette.config
 import de.p7s1.qa.sevenfacette.config.types.*
 import de.p7s1.qa.sevenfacette.utils.KSystem
 import kotlinx.serialization.json.Json
-import de.p7s1.qa.sevenfacette.config.types.DatabaseConfig
-import de.p7s1.qa.sevenfacette.config.types.HttpClientConfig
+import de.p7s1.qa.sevenfacette.config.types.DDatabaseConfig
+import de.p7s1.qa.sevenfacette.config.types.DHttpClientConfig
 import de.p7s1.qa.sevenfacette.config.types.KafkaTopicConfig
-import de.p7s1.qa.sevenfacette.config.types.SevenFacetteConfig
-import de.p7s1.qa.sevenfacette.config.types.WebConfig
+import de.p7s1.qa.sevenfacette.config.types.DSevenFacetteConfig
+import de.p7s1.qa.sevenfacette.config.types.DWebConfig
 
 /**
  * TODO: Add Description
@@ -22,21 +22,21 @@ actual class ConfigReader {
          * @return FacetteConfigDataClass
          */
         @JsName("readConfig")
-        actual fun readConfig(): SevenFacetteConfig {
+        actual fun readConfig(): DSevenFacetteConfig {
             val config = replaceEnvironmentVariables(replaceImports(getConfigFileName().toString()))
-            var result = SevenFacetteConfig()
+            var result = DSevenFacetteConfig()
             if (config != "") {
-                result = Json.decodeFromString(SevenFacetteConfig.serializer(), config)
+                result = Json.decodeFromString(DSevenFacetteConfig.serializer(), config)
             }
             return result
         }
 
         @JsName("getHttpConfig")
-        actual fun getHttpConfig(): HttpConfig? =
+        actual fun getHttpConfig(): DHttpConfig? =
                 FacetteConfig.http
 
         @JsName("getHttpClientConfig")
-        actual fun getHttpClientConfig(clientName: String): HttpClientConfig? =
+        actual fun getHttpClientConfig(clientName: String): DHttpClientConfig? =
                 FacetteConfig.http?.clients?.get(clientName)
 
         @JsName("getKafkaConsumerConfig")
@@ -48,7 +48,7 @@ actual class ConfigReader {
                 FacetteConfig.kafka?.producer?.get(producerName)
 
         @JsName("getDatabaseConfig")
-        actual fun getDatabaseConfig(databaseName: String) : DatabaseConfig? =
+        actual fun getDatabaseConfig(databaseName: String) : DDatabaseConfig? =
                 FacetteConfig.database?.get(databaseName)
 
         @JsName("getCustomConfig")
@@ -56,7 +56,7 @@ actual class ConfigReader {
                 FacetteConfig.custom?.get(key)
 
 
-        actual fun getSeleniumConfig(seleniumConfig: String) : WebConfig? {
+        actual fun getSeleniumConfig(seleniumConfig: String) : DWebConfig? {
             TODO("Not yet implemented")
         }
 

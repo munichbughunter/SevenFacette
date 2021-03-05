@@ -7,4 +7,4 @@ package de.p7s1.qa.sevenfacette.kafka
  *
  * @author Patrick Döring
  */
-data class KRecord(var key: String?, var value: String?, var offset: Long, var partition: Int) {}
+data class DKRecord(var key: String?, var value: String?, var offset: Long, var partition: Int) {}
