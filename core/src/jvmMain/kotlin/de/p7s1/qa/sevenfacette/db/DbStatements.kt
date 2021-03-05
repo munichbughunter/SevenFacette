@@ -26,7 +26,8 @@ actual class DbStatements {
         return statements.size
     }
 
-    actual fun reformat(index: Int, vararg args: String) {
+    actual fun reformat(index: Int, vararg args: String): MutableList<String> {
         statements[index] = String.format(statements[index], *args)
+        return statements
     }
 }
