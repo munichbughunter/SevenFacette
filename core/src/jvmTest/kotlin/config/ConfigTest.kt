@@ -87,6 +87,7 @@ class ConfigTest {
                 "Driver of database 1 is not correct")
     }
 
+    /*
     @Test
     fun checkHttpClientConfig() {
         val config = ConfigReader.readConfig().sevenFacette?.http
@@ -138,4 +139,6 @@ class ConfigTest {
         assertEquals(0, testClient.authentication?.size ?: 0,
                 "Authentication size of testClient is not correct")
     }
+
+     */
 }

@@ -24,6 +24,8 @@ actual object FacetteConfig {
         private set
     actual var web: DWebConfig? = null
         private set
+    var log: LoggingConfig? = null
+        private set
 
     init {
         update()
@@ -41,6 +43,7 @@ actual object FacetteConfig {
         database = config.database
         application = config.application
         web = config.web
+        log = config.log
     }
 
     actual fun reset() {
@@ -50,5 +53,6 @@ actual object FacetteConfig {
         database = null
         application = null
         web = null
+        log = null
     }
 }

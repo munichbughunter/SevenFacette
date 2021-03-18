@@ -16,10 +16,8 @@ import io.ktor.util.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.promise
-import mu.KotlinLogging
 import kotlin.js.Promise
 
-private val logger = KotlinLogging.logger {}
 actual class GenericHttpClient {
     private lateinit var client: HttpClient
     private lateinit var url: Url
@@ -28,7 +26,7 @@ actual class GenericHttpClient {
     @JsName("setClient")
     fun setClient(config: DHttpClientConfig, factory: HttpClientEngine): GenericHttpClient {
         //println("CREATING CLIENT")
-        logger.debug { "CREATING CLIENT" }
+        //logger.debug { "CREATING CLIENT" }
         this.client = HttpClient(factory) {
             expectSuccess = false
 
@@ -245,11 +243,11 @@ actual class GenericHttpClient {
         val fullPath = useUrl.path(usePath).create()
 
         //println("Sending a ${useMethod.value} request to $fullPath with ${if(useBody == null) "no" else ""} content")
-        logger.debug { "Sending a ${useMethod.value} request to $fullPath with ${if(useBody == null) "no" else ""} content" }
+        //logger.debug { "Sending a ${useMethod.value} request to $fullPath with ${if(useBody == null) "no" else ""} content" }
         var usedBody: Any? = null
         usedBody = useBody
         //println("Body == $usedBody")
-        logger.debug { "Body to send: $usedBody" }
+        //logger.debug { "Body to send: $usedBody" }
 
         return GlobalScope.promise(context = Dispatchers.Default) {
             val response = client.request<io.ktor.client.statement.HttpResponse> {

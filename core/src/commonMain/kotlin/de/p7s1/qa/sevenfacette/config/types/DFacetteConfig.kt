@@ -21,5 +21,6 @@ data class DFacetteConfig (
         var database: Map<String, DDatabaseConfig>? = null,
         var application: DApplicationConfig? = null,
         var custom: Map<String, String> = mutableMapOf(),
-        var web: DWebConfig? = null
+        var web: DWebConfig? = null,
+        var log: LoggingConfig? = null
 )
