@@ -16,12 +16,14 @@ import io.ktor.http.content.*
 import io.ktor.util.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import mu.KotlinLogging
 
 /**
  * JVM specific implementation of the generic rest client
  *
  * @author Florian Pilz
  */
+private val logger = KotlinLogging.logger {}
 actual class GenericHttpClient {
 
     private lateinit var client: HttpClient
@@ -232,11 +234,13 @@ actual class GenericHttpClient {
         var facetteResponse: HttpResponse? = null
         val fullPath = useUrl.path(usePath).create()
 
-        println("Sending a ${useMethod.value} request to $fullPath with ${if(useBody == null) "no" else ""} content")
+        //println("Sending a ${useMethod.value} request to $fullPath with ${if(useBody == null) "no" else ""} content")
+        logger.debug { "Sending a ${useMethod.value} request to $fullPath with ${if(useBody == null) "no" else ""} content" }
 
         var usedBody: Any? = null
         usedBody = useBody
-        println("Body == $usedBody")
+        //println("Body == $usedBody")
+        logger.debug { "Used Body: $usedBody" }
 
         runBlocking {
             launch {
@@ -267,9 +271,12 @@ actual class GenericHttpClient {
         }
 
         if(facetteResponse == null) throw Exception("No response received")
-        println("Response http status == ${facetteResponse?.status}")
-        println("Response headers == ${facetteResponse?.headers}")
-        println("Response body == ${facetteResponse?.body}")
+        logger.debug { "Response status: ${facetteResponse?.status}" }
+        logger.debug { "Response headers: ${facetteResponse?.headers}" }
+        logger.debug { "Response body: ${facetteResponse?.body}" }
+        //println("Response http status == ${facetteResponse?.status}")
+        //println("Response headers == ${facetteResponse?.headers}")
+        //println("Response body == ${facetteResponse?.body}")
         return facetteResponse
     }
 }

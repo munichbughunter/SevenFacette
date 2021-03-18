@@ -2,6 +2,9 @@ package de.p7s1.qa.sevenfacette.config
 
 import de.p7s1.qa.sevenfacette.utils.Files
 import de.p7s1.qa.sevenfacette.utils.KSystem
+import mu.KotlinLogging
+
+private val logger = KotlinLogging.logger {}
 
 val IMPORT_REGEX = Regex("@[Ii]mport\\([-_\\w]+.(yml|yaml|json)\\)")
 val SYSTEM_PROP_REGEX = Regex("\\[\\[[-_\\w|\\s]+\\]\\]")
@@ -28,11 +31,13 @@ fun replaceEnvironmentVariables(origin: String): String {
         val envVarName = extractEnvVarName(it.groupValues[0])
         val replace = if(!KSystem.getProperty(envVarName[0]).isNullOrEmpty()) {
             KSystem.getProperty(envVarName[0]) ?: ""
+        } else if (!KSystem.getEnv(envVarName[0]).isNullOrEmpty()) {
+            KSystem.getEnv(envVarName[0]) ?: ""
         } else if(envVarName.size == 2) {
-            //Info "No value found for environment variable ${envVarName[0]}. Using fallback value"
+            logger.info { "No value found for environment variable ${envVarName[0]}. Using fallback value!" }
             envVarName[1]
         } else {
-            // Error "No value found for environment variable ${envVarName[0]}"
+            logger.error { "No value found for environment variable ${envVarName[0]}" }
             ""
         }
         result = result.replace(it.groupValues[0], replace)

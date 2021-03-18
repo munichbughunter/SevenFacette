@@ -8,12 +8,14 @@ import de.p7s1.qa.sevenfacette.config.types.DHttpClientConfig
 import de.p7s1.qa.sevenfacette.config.types.KafkaTopicConfig
 import de.p7s1.qa.sevenfacette.config.types.DSevenFacetteConfig
 import de.p7s1.qa.sevenfacette.config.types.DWebConfig
+import mu.KotlinLogging
 
 /**
  * TODO: Add Description
  *
  * @author Patrick Döring
  */
+private val logger = KotlinLogging.logger {}
 actual class ConfigReader {
     actual companion object {
         /**
@@ -62,13 +64,16 @@ actual class ConfigReader {
 
         private fun getConfigFileName(): String? {
             return if(!KSystem.getEnv("FACETTE_CONFIG").isNullOrEmpty()) {
-                println("Use environment variable ${KSystem.getEnv("FACETTE_CONFIG")} for configuration")
+                logger.info { "Use environment variable ${KSystem.getEnv("FACETTE_CONFIG")} for configuration" }
+                //println("Use environment variable ${KSystem.getEnv("FACETTE_CONFIG")} for configuration")
                 KSystem.getEnv("FACETTE_CONFIG")
             } else if(!KSystem.getProperty("FACETTE_CONFIG").isNullOrEmpty()) {
-                println("Use environment variable ${KSystem.getProperty("FACETTE_CONFIG")} for configuration")
+                //println("Use environment variable ${KSystem.getProperty("FACETTE_CONFIG")} for configuration")
+                logger.info { "Use system property ${KSystem.getProperty("FACETTE_CONFIG")} for configuration" }
                 KSystem.getProperty("FACETTE_CONFIG")
             } else {
-                println("Use facetteConfig.json in root folder for configuration")
+                //println("Use facetteConfig.json in root folder for configuration")
+                logger.info { "Use facetteConfig.json in root folder for configuration" }
                 "facetteConfig.json"
             }
         }

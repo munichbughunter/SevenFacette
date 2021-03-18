@@ -1,5 +1,6 @@
 package de.p7s1.qa.sevenfacette.http
 
+import mu.KotlinLogging
 import kotlin.js.JsName
 
 //import mu.KotlinLogging
@@ -12,7 +13,7 @@ import kotlin.js.JsName
  * @author Florian Pilz
  */
 
-//private val logger = KotlinLogging.logger {}
+private val logger = KotlinLogging.logger {}
 class HttpHeader {
     val header = mutableListOf<Pair<String, String>>()
 
@@ -24,7 +25,7 @@ class HttpHeader {
      */
     @JsName("add")
     fun add(key: String, value: String): HttpHeader {
-        //logger.debug { "Adding key == ${key}, value == $value to header" }
+        logger.debug { "Adding key == ${key}, value == $value to header" }
         header.add(Pair(key, value))
         return this
     }

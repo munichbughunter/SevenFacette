@@ -4,6 +4,7 @@ import com.charleskorn.kaml.Yaml
 import de.p7s1.qa.sevenfacette.config.types.*
 import de.p7s1.qa.sevenfacette.utils.Files
 import de.p7s1.qa.sevenfacette.utils.KSystem
+import mu.KotlinLogging
 
 /**
  * Class to read the config yaml file(s).
@@ -12,6 +13,7 @@ import de.p7s1.qa.sevenfacette.utils.KSystem
  *
  * @author Florian Pilz
  */
+private val logger = KotlinLogging.logger {}
 actual class ConfigReader {
 
     actual companion object {
@@ -61,16 +63,20 @@ actual class ConfigReader {
          */
         private fun getConfigFileName(): String? {
             return if(!KSystem.getEnv("FACETTE_CONFIG").isNullOrEmpty()) {
-                println("Use environment variable ${KSystem.getEnv("FACETTE_CONFIG")} for configuration")
+                //println("Use environment variable ${KSystem.getEnv("FACETTE_CONFIG")} for configuration")
+                logger.info { "Use environment variable ${KSystem.getEnv("FACETTE_CONFIG")} for configuration" }
                 KSystem.getEnv("FACETTE_CONFIG")
             } else if(!KSystem.getProperty("FACETTE_CONFIG").isNullOrEmpty()) {
-                println("Use environment variable ${KSystem.getProperty("FACETTE_CONFIG")} for configuration")
+                logger.info { "Use system property ${KSystem.getProperty("FACETTE_CONFIG")} for configuration" }
+                //println("Use environment variable ${KSystem.getProperty("FACETTE_CONFIG")} for configuration")
                 KSystem.getProperty("FACETTE_CONFIG")
             } else if(Files.getResource("facetteConfig.yml") != null) {
-                println("Use facetteConfig.yml for configuration")
+                //println("Use facetteConfig.yml for configuration")
+                logger.info { "Use facetteConfig.yml from resource for configuration" }
                 "facetteConfig.yml"
             } else if(Files.getResource("facetteConfig.yaml") != null) {
-                println("Use facetteConfig.yaml for configuration")
+                //println("Use facetteConfig.yaml for configuration")
+                logger.info { "Use facetteConfig.yaml from resource for configuration" }
                 "facetteConfig.yaml"
             } else {
                 throw Error("No configuration file found")
