@@ -18,7 +18,7 @@ import de.p7s1.qa.sevenfacette.utils.Logger
 actual class ConfigReader {
 
     actual companion object {
-        private var logger: Logger = Logger()
+
         /**
          * Reads the configuration.
          *
@@ -66,6 +66,7 @@ actual class ConfigReader {
         }
 
         private fun getConfigFileName(): String? {
+            val logger: Logger = Logger()
             return if(!KSystem.getEnv("FACETTE_CONFIG").isNullOrEmpty()) {
                 logger.info("Use environment variable ${KSystem.getEnv("FACETTE_CONFIG")} for configuration")
                 KSystem.getEnv("FACETTE_CONFIG")
