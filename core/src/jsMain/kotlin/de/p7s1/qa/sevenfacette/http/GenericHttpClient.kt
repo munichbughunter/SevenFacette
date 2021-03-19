@@ -27,7 +27,6 @@ actual class GenericHttpClient {
     @KtorExperimentalAPI
     @JsName("setClient")
     fun setClient(config: DHttpClientConfig, factory: HttpClientEngine): GenericHttpClient {
-        //println("CREATING CLIENT")
         logger.debug("CREATING CLIENT")
         this.client = HttpClient(factory) {
             expectSuccess = false

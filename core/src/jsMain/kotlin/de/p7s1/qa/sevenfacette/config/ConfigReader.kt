@@ -66,7 +66,7 @@ actual class ConfigReader {
         }
 
         private fun getConfigFileName(): String? {
-            val logger: Logger = Logger()
+            val logger = Logger()
             return if(!KSystem.getEnv("FACETTE_CONFIG").isNullOrEmpty()) {
                 logger.info("Use environment variable ${KSystem.getEnv("FACETTE_CONFIG")} for configuration")
                 KSystem.getEnv("FACETTE_CONFIG")
