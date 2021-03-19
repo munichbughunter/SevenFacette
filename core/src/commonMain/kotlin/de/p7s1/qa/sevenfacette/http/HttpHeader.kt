@@ -1,8 +1,7 @@
 package de.p7s1.qa.sevenfacette.http
 
+import de.p7s1.qa.sevenfacette.utils.BaseLogger
 import kotlin.js.JsName
-
-//import mu.KotlinLogging
 
 /**
  * Headers to add to http requests
@@ -12,6 +11,7 @@ import kotlin.js.JsName
  * @author Florian Pilz
  */
 class HttpHeader {
+    private var logger: BaseLogger = BaseLogger()
     val header = mutableListOf<Pair<String, String>>()
 
     /**
@@ -22,7 +22,7 @@ class HttpHeader {
      */
     @JsName("add")
     fun add(key: String, value: String): HttpHeader {
-        //logger.debug { "Adding key == ${key}, value == $value to header" }
+        logger.debug("Adding key == ${key}, value == $value to header")
         header.add(Pair(key, value))
         return this
     }
