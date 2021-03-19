@@ -3,7 +3,7 @@ package de.p7s1.qa.sevenfacette.config.types
 import kotlinx.serialization.Serializable
 
 /**
- * Configruation for logging
+ * Configuration for logging
  *
  * @property level loglevel
  *
