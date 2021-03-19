@@ -1,5 +1,6 @@
 package de.p7s1.qa.sevenfacette.http
 
+import de.p7s1.qa.sevenfacette.utils.BaseLogger
 import kotlinx.serialization.Serializable
 /**
  * URL for use with GenericHttpClient
@@ -15,6 +16,8 @@ import kotlinx.serialization.Serializable
  *
  * @author Florian Pilz
  */
+
+private var logger: BaseLogger = BaseLogger()
 @Serializable
 class Url {
     var protocol: String = "http"
@@ -57,7 +60,7 @@ class Url {
      */
     fun port (port: Int) = apply {
         if(port < -1 || port > 65535) throw Exception("Port is outside of range")
-        //logger.debug { "Use port == $port for Url" }
+        logger.debug("Using port: $port for URL")
         this.port = port
     }
 
@@ -91,8 +94,7 @@ class Url {
      * @return computed URL
      */
     fun create(): String {
-        //println("CREATE URL")
-
+        logger.debug("Create URL")
         var url = if (this.baseUrl.takeLast(1) == "/") {
             this.baseUrl.dropLast(1)
         } else {
@@ -102,22 +104,21 @@ class Url {
         url = if (url.contains("://")) {
             url
         } else {
-            //logger.debug { "Adding protocol == ${this.protocol}" }
+            logger.debug("Adding protocol ${this.protocol} to URL")
             "${this.protocol}://${url}"
         }
 
         if (this.port > -1 ) url = "${url}:${this.port}"
 
         if (this.path.isNotEmpty()) {
-            //logger.debug { "Adding path == ${this.path} to Url" }
+            logger.debug("Adding path ${this.path} to URL")
             url = if (this.path.take(1) == "/") {
                 "${url}${path}"
             } else {
                 "${url}/${path}"
             }
         }
-        //println("URL CREATED")
-        //logger.debug { "Created URL == $url" }
+        logger.debug("URL created: $url")
         return url
     }
 }
