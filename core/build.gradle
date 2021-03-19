@@ -96,6 +96,7 @@ kotlin {
             dependencies {
                 implementation kotlin('test')
                 implementation kotlin('test-junit')
+                implementation group: 'org.testcontainers', name: 'kafka', version: '1.15.2'
             }
         }
         jsMain {

@@ -2,7 +2,6 @@ package kafka
 
 import de.p7s1.qa.sevenfacette.config.types.KafkaTopicConfig
 import de.p7s1.qa.sevenfacette.kafka.KFactory
-import kotlin.test.Test
 
 class KafkaTest {
 

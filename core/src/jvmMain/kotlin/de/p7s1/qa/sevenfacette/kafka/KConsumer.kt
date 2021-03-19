@@ -114,6 +114,20 @@ actual class KConsumer actual constructor(
         return filteredList
     }
 
+    fun filterByValueAndCount(pattern: String, count: Int, pollingTime: Duration): List<KRecord> {
+        var filteredList: List<KRecord> = listOf()
+
+        with().pollInterval(500, MILLISECONDS).await().atMost(pollingTime.seconds, SECONDS).until {
+            filteredList = getKRecords().filter { (_, value) -> value!!.contains(pattern) }
+
+            if (filteredList.size == count) {
+                return@until true
+            }
+            false
+        }
+        return filteredList
+    }
+
     fun waitForKRecordsCount(count: Int, pollingTime: Duration): ConcurrentLinkedQueue<KRecord> {
         with().pollInterval(1, SECONDS).await().atMost(pollingTime.seconds, SECONDS).until { getKRecords().size == count}
         return getKRecords()
