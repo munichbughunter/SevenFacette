@@ -2,6 +2,8 @@ package de.p7s1.qa.sevenfacette.utils
 
 import de.p7s1.qa.sevenfacette.config.ConfigReader
 import de.p7s1.qa.sevenfacette.config.types.LogLevel.*
+import de.p7s1.qa.sevenfacette.utils.DateTime.Companion.getCurrentTimeClock
+import de.p7s1.qa.sevenfacette.utils.DateTime.Companion.now
 
 /**
  * Base logger for logging events
@@ -9,6 +11,7 @@ import de.p7s1.qa.sevenfacette.config.types.LogLevel.*
  * @author Patrick Döring
  */
 open class BaseLogger {
+
     private val loglevel = ConfigReader.getLoggingConfig()?.level
     private val TEXT_RED = "\u001B[31m"
     private val TEXT_YELLOW = "\u001B[33m"
@@ -16,7 +19,7 @@ open class BaseLogger {
     private val SEVEN_FACETTE = "[7Facette]"
 
     open fun getCurrentTime() : String {
-        return ""
+        return getCurrentTimeClock()
     }
 
     fun info(message: Any?) {
