@@ -8,6 +8,8 @@ import java.util.*
 
 actual class FileLoader {
 
+    private var logger: Logger = Logger()
+
     fun loadFileFromResourceAsString(folder: String, fileName: String): String? {
         val file = getFile(folder, fileName)
         return getFileContentAsString(file)
@@ -33,6 +35,8 @@ actual class FileLoader {
         fileString = try {
             String(Files.readAllBytes(file!!.toPath()))
         } catch (e: IOException) {
+            logger.error("File not found: ${file!!.toPath()}")
+            logger.error(e)
             throw RuntimeException(e)
         }
         return fileString
