@@ -1,11 +1,15 @@
 package de.p7s1.qa.sevenfacette.config.types
 
 import kotlinx.serialization.Serializable
+
 /**
- * TODO: Add Description
+ * Configruation for logging
+ *
+ * @property level loglevel
  *
  * @author Patrick Döring
  */
+
 @Serializable
 data class LoggingConfig(
         var level: LogLevel = LogLevel.NONE,
