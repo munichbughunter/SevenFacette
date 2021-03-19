@@ -27,7 +27,7 @@ actual object FacetteConfig {
         private set
 
     @JsName("log")
-    var log: LoggingConfig? = null
+    actual var log: LoggingConfig? = null
         private set
 
     init {

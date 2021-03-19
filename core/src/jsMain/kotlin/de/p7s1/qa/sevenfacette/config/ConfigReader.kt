@@ -32,7 +32,7 @@ actual class ConfigReader {
         }
 
         @JsName("getLoggingConfig")
-        fun getLoggingConfig(): LoggingConfig? = FacetteConfig.log
+        actual fun getLoggingConfig(): LoggingConfig? = FacetteConfig.log
 
         @JsName("getHttpConfig")
         actual fun getHttpConfig(): DHttpConfig? =

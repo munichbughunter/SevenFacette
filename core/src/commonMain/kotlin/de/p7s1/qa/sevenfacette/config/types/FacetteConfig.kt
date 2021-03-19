@@ -24,6 +24,8 @@ expect object FacetteConfig {
         private set
     var web: DWebConfig?
         private set
+    var log: LoggingConfig?
+        private set
 
     fun update()
 

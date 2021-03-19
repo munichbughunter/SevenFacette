@@ -24,5 +24,7 @@ expect class ConfigReader {
         fun getSeleniumConfig(seleniumConfig: String) : DWebConfig?
 
         fun getCustomConfig(key: String) : String?
+
+        fun getLoggingConfig() : LoggingConfig?
     }
 }

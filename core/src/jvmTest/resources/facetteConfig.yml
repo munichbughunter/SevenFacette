@@ -1,6 +1,6 @@
 sevenFacette:
   log:
-    level: NONE
+    level: DEBUG
   http:
     clients:
       holidayRestClient:

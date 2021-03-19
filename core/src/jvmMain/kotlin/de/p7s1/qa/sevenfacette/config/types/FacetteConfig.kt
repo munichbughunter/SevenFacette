@@ -24,7 +24,7 @@ actual object FacetteConfig {
         private set
     actual var web: DWebConfig? = null
         private set
-    var log: LoggingConfig? = null
+    actual var log: LoggingConfig? = null
         private set
 
     init {

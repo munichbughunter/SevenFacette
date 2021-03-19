@@ -29,7 +29,7 @@ actual class ConfigReader {
         }
 
         @JvmStatic
-        fun getLoggingConfig(): LoggingConfig? = FacetteConfig.log
+        actual fun getLoggingConfig(): LoggingConfig? = FacetteConfig.log
 
         @JvmStatic
         actual fun getHttpConfig(): DHttpConfig? = FacetteConfig.http
