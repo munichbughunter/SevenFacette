@@ -68,7 +68,7 @@ class FilesTest {
 
     @Test
     fun getResourceTextNotNullTest(){
-        val resourceText = Files.getRessourceText("testfiles/test.txt")
+        val resourceText = Files.getResourceText("testfiles/test.txt")
         assertNotNull(resourceText)
     }
 }

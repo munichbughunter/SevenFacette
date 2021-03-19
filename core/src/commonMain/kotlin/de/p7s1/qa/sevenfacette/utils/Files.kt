@@ -29,6 +29,6 @@ expect class Files {
 
         fun getResource(fileName: String): String?
 
-        fun getRessourceText(fileName: String): String?
+        fun getResourceText(fileName: String): String?
     }
 }
