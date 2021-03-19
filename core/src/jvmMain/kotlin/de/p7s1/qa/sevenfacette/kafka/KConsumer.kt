@@ -2,6 +2,7 @@ package de.p7s1.qa.sevenfacette.kafka
 
 import de.p7s1.qa.sevenfacette.config.types.KafkaTopicConfig
 import de.p7s1.qa.sevenfacette.kafka.config.SaslConfig
+import de.p7s1.qa.sevenfacette.utils.Logger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -30,6 +31,7 @@ import kotlin.coroutines.CoroutineContext
 actual class KConsumer actual constructor(
     private val topicConfig: KafkaTopicConfig
 ) : CoroutineScope by CoroutineScope(Dispatchers.Default) {
+    private var logger: Logger = Logger()
     private val job = Job()
     private val kRecordQueue = ConcurrentLinkedQueue<DKRecord>()
     private var keepGoing = true
@@ -82,7 +84,7 @@ actual class KConsumer actual constructor(
         try {
             consumer.close(Duration.ofMillis(5000L))
         } catch (ex: ConcurrentModificationException) {
-            //logger.warn("Consumer was closed")
+            logger.warn("Consumer was closed")
         }
     }
 
@@ -145,13 +147,13 @@ actual class KConsumer actual constructor(
     @ObsoleteCoroutinesApi
     fun consume() = launch(newSingleThreadContext(topicConfig.topicName)){
         consumer.subscribe(listOf(topicConfig.topicName))
-        //logger.info("Start consuming and processing records")
+        logger.info("Start consuming and processing records")
         while (keepGoing) {
             consumer.poll(Duration.ofSeconds(topicConfig.maxConsumingTime)).forEach {
                 kRecordQueue.add(DKRecord(it.key(), it.value(), it.offset(), it.partition()))
             }
         }
-        //logger.info("Shut down consumer...: {}", topicConfig.kafkaTopic)
+        logger.info("Shut down consumer: ${topicConfig.topicName}")
         shutdown()
     }
 

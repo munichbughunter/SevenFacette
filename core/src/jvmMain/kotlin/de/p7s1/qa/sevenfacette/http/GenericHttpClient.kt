@@ -27,7 +27,7 @@ actual class GenericHttpClient {
 
     private lateinit var client: HttpClient
     private lateinit var url: Url
-    private var unserLogger: Logger = Logger()
+    private var logger: Logger = Logger()
 
     @KtorExperimentalAPI
     fun setClient(config: DHttpClientConfig, factory: HttpClientEngine): GenericHttpClient {
@@ -234,17 +234,11 @@ actual class GenericHttpClient {
         var facetteResponse: HttpResponse? = null
         val fullPath = useUrl.path(usePath).create()
 
-        unserLogger.info("SENDING unser Info LOGGER MESSAGE ${useMethod.value}")
-        unserLogger.error("SENDING unser Error LOGGER MESSAGE ${useMethod.value}")
-        unserLogger.debug("SENDING unser Debug LOGGER MESSAGE ${useMethod.value}")
+        logger.info("Sending a ${useMethod.value} request to $fullPath")
 
-        unserLogger.warn("SENDING unser Warn LOGGER MESSAGE ${useMethod.value}")
-        //println("Sending a ${useMethod.value} request to $fullPath with ${if(useBody == null) "no" else ""} content")
-        //logger.debug { "Sending a ${useMethod.value} request to $fullPath with ${if(useBody == null) "no" else ""} content" }
         var usedBody: Any? = null
         usedBody = useBody
-        //println("Body == $usedBody")
-        //logger.debug { "Used Body: $usedBody" }
+        logger.debug("Body to send: $usedBody")
 
         runBlocking {
             launch {
@@ -275,12 +269,9 @@ actual class GenericHttpClient {
         }
 
         if(facetteResponse == null) throw Exception("No response received")
-        //logger.debug { "Response status: ${facetteResponse?.status}" }
-        //logger.debug { "Response headers: ${facetteResponse?.headers}" }
-        //logger.debug { "Response body: ${facetteResponse?.body}" }
-        //println("Response http status == ${facetteResponse?.status}")
-        //println("Response headers == ${facetteResponse?.headers}")
-        //println("Response body == ${facetteResponse?.body}")
+        logger.debug("Response status: ${facetteResponse?.status}")
+        logger.debug("Response headers: ${facetteResponse?.headers}")
+        logger.debug("Response body: ${facetteResponse?.body}")
         return facetteResponse
     }
 }

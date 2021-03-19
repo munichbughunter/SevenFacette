@@ -3,6 +3,7 @@ package de.p7s1.qa.sevenfacette.db
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature.FAIL_ON_EMPTY_BEANS
 import de.p7s1.qa.sevenfacette.config.types.DDatabaseConfig
+import de.p7s1.qa.sevenfacette.utils.Logger
 import org.json.simple.JSONArray
 import org.json.simple.JSONObject
 import java.sql.Connection
@@ -20,10 +21,10 @@ import java.util.function.Consumer
  *
  * @author Patrick Döring
  */
-//private val logger = KotlinLogging.logger {}
 class Database(
         private val dbConfig: DDatabaseConfig
 ) {
+    private var logger = Logger()
     private val select = "select"
     private val emptyValue = "NULL"
 
@@ -79,7 +80,8 @@ class Database(
                 })
             }
         } catch (ex: SQLException) {
-    //        logger.error("Error on opening database connection. ", ex)
+            logger.error("Error on opening database connection")
+            logger.error(ex)
             throw RuntimeException(ex)
         }
         return result
@@ -124,7 +126,8 @@ class Database(
                 }
             }
         } catch (ex: SQLException) {
-            //        logger.error("Error on opening database connection. ", ex)
+            logger.error("Error on opening database connection")
+            logger.error(ex)
             throw RuntimeException(ex)
         }
         return json
@@ -205,7 +208,9 @@ class Database(
             }
             result
         } catch (ex: SQLException) {
-            throw RuntimeException("Error on converting result set to List", ex)
+            logger.error("Error on converting result set to List")
+            logger.error(ex)
+            throw RuntimeException(ex)
         }
     }
 }

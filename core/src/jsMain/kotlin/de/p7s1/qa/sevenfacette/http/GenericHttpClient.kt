@@ -243,18 +243,11 @@ actual class GenericHttpClient {
     ): Promise<HttpResponse> {
         val fullPath = useUrl.path(usePath).create()
 
+        logger.info("Sending a ${useMethod.value} request to $fullPath")
 
-        logger.info("SENDING unser Info LOGGER MESSAGE ${useMethod.value}")
-        logger.error("SENDING unser Error LOGGER MESSAGE ${useMethod.value}")
-        logger.debug("SENDING unser Debug LOGGER MESSAGE ${useMethod.value}")
-        logger.warn("SENDING unser Warn LOGGER MESSAGE ${useMethod.value}")
-
-        //println("Sending a ${useMethod.value} request to $fullPath with ${if(useBody == null) "no" else ""} content")
-        //logger.debug { "Sending a ${useMethod.value} request to $fullPath with ${if(useBody == null) "no" else ""} content" }
         var usedBody: Any? = null
         usedBody = useBody
-        //println("Body == $usedBody")
-        //logger.debug { "Body to send: $usedBody" }
+        logger.debug("Body to send: $usedBody")
 
         return GlobalScope.promise(context = Dispatchers.Default) {
             val response = client.request<io.ktor.client.statement.HttpResponse> {
