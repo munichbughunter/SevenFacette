@@ -95,6 +95,7 @@ kotlin {
         jvmTest {
             dependencies {
                 implementation kotlin('test')
+                //TODO: Should we change to test-junit5?
                 implementation kotlin('test-junit')
                 implementation 'com.h2database:h2:1.4.197'
                 implementation group: 'org.testcontainers', name: 'kafka', version: '1.15.2'

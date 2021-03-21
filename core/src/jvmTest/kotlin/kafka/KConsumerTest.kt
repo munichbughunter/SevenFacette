@@ -18,7 +18,7 @@ import kotlin.test.assertTrue
 /**
  * Testingclass for [KConsumer].
  *
- * Testcases:
+ * Testcases: //TODO: Add Testcases
  *
  * @author Stella Bastug
  */
@@ -132,7 +132,6 @@ class KConsumerTest {
     private fun sendKeyMessages() {
         producer?.sendKeyMessage("{Key, foo}", "{greeting: Hello}")
         producer?.sendKeyMessage("{Key, foo}", "{greeting: Hello}")
-        producer?.flush()
     }
 
     private fun createProducer() {
