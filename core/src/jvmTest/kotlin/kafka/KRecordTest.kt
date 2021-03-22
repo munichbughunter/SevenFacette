@@ -1,9 +1,9 @@
 package kafka
 
-import de.p7s1.qa.sevenfacette.kafka.DKRecord
+import de.p7s1.qa.sevenfacette.kafka.KRecord
 
 /**
- * Testingclass for [DKRecord].
+ * Testingclass for [KRecord].
  *
  * Testcases:
  *

@@ -5,10 +5,10 @@ import kotlin.js.Date
 actual class DateTime {
     actual companion object {
         actual fun now(): Long {
-            TODO("Not yet implemented")
+            return Date.now().toLong()
         }
 
-        actual fun getTime(): String {
+        actual fun getTimeString(): String {
             return Date().toISOString().substring(11, 23)
         }
     }

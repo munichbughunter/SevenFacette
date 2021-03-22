@@ -33,7 +33,7 @@ actual class KConsumer actual constructor(
 ) : CoroutineScope by CoroutineScope(Dispatchers.Default) {
     private var logger: Logger = Logger()
     private val job = Job()
-    private val kRecordQueue = ConcurrentLinkedQueue<DKRecord>()
+    private val kRecordQueue = ConcurrentLinkedQueue<KRecord>()
     private var keepGoing = true
     private lateinit var consumer: KafkaConsumer<String, String>
 
@@ -88,8 +88,8 @@ actual class KConsumer actual constructor(
         }
     }
 
-    fun filterByValue(pattern: String, pollingTime: Duration): List<DKRecord> {
-        var filteredList: List<DKRecord> = listOf()
+    fun filterByValue(pattern: String, pollingTime: Duration): List<KRecord> {
+        var filteredList: List<KRecord> = listOf()
 
         with().pollInterval(500, MILLISECONDS).await().atMost(pollingTime.seconds, SECONDS).until {
             filteredList = getKRecords().filter { (_, value) -> value!!.contains(pattern) }
@@ -102,8 +102,8 @@ actual class KConsumer actual constructor(
         return filteredList
     }
 
-    fun filterByKey(pattern: String, pollingTime: Duration): List<DKRecord> {
-        var filteredList: List<DKRecord> = listOf()
+    fun filterByKey(pattern: String, pollingTime: Duration): List<KRecord> {
+        var filteredList: List<KRecord> = listOf()
 
         with().pollInterval(500, MILLISECONDS).await().atMost(pollingTime.seconds, SECONDS).until {
             filteredList = getKRecords().filter { (key, _) -> key!!.contains(pattern) }
@@ -116,7 +116,7 @@ actual class KConsumer actual constructor(
         return filteredList
     }
 
-    fun waitForKRecordsCount(count: Int, pollingTime: Duration): ConcurrentLinkedQueue<DKRecord> {
+    fun waitForKRecordsCount(count: Int, pollingTime: Duration): ConcurrentLinkedQueue<KRecord> {
         with().pollInterval(1, SECONDS).await().atMost(pollingTime.seconds, SECONDS).until { getKRecords().size == count}
         return getKRecords()
     }
@@ -150,7 +150,7 @@ actual class KConsumer actual constructor(
         logger.info("Start consuming and processing records")
         while (keepGoing) {
             consumer.poll(Duration.ofSeconds(topicConfig.maxConsumingTime)).forEach {
-                kRecordQueue.add(DKRecord(it.key(), it.value(), it.offset(), it.partition()))
+                kRecordQueue.add(KRecord(it.key(), it.value(), it.offset(), it.partition()))
             }
         }
         logger.info("Shut down consumer: ${topicConfig.topicName}")
@@ -162,7 +162,7 @@ actual class KConsumer actual constructor(
      *
      * @return [kRecordQueue]
      */
-    fun getKRecords(): ConcurrentLinkedQueue<DKRecord> {
+    fun getKRecords(): ConcurrentLinkedQueue<KRecord> {
         return kRecordQueue
     }
 
@@ -180,7 +180,7 @@ actual class KConsumer actual constructor(
      *
      * @return kRecordQueue.elementAt(kRecordQueue.size -1)
      */
-    fun getLastKRecord(): DKRecord? {
+    fun getLastKRecord(): KRecord? {
         return kRecordQueue.elementAt(kRecordQueue.size -1)
     }
 

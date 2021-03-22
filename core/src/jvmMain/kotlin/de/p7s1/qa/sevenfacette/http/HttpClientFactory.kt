@@ -2,15 +2,9 @@ package de.p7s1.qa.sevenfacette.http
 
 import de.p7s1.qa.sevenfacette.config.ConfigReader
 import de.p7s1.qa.sevenfacette.config.types.FacetteConfig
-import de.p7s1.qa.sevenfacette.config.types.DHttpClientConfig
-import io.ktor.client.*
+import de.p7s1.qa.sevenfacette.config.types.HttpClientConfig
 import io.ktor.client.engine.*
 import io.ktor.client.engine.apache.*
-import io.ktor.client.features.*
-import io.ktor.client.features.auth.*
-import io.ktor.client.features.cookies.*
-import io.ktor.client.features.json.*
-import io.ktor.client.features.json.serializer.*
 import io.ktor.util.*
 import org.apache.http.conn.ssl.TrustAllStrategy
 import org.apache.http.ssl.SSLContextBuilder
@@ -25,7 +19,7 @@ class HttpClientFactory {
 
         private var authenticationProvidedByUser: Boolean = false
 
-        private fun createConfig(clientName: String): DHttpClientConfig {
+        private fun createConfig(clientName: String): HttpClientConfig {
 
             val config = ConfigReader.getHttpClientConfig(clientName)
                     ?: throw Exception("Client $clientName not found in configuration")
@@ -57,7 +51,7 @@ class HttpClientFactory {
          */
         @KtorExperimentalAPI
         @JvmStatic
-        fun createClient(configHttp: DHttpClientConfig): GenericHttpClient {
+        fun createClient(configHttp: HttpClientConfig): GenericHttpClient {
             val apache = Apache.create {
                 customizeClient {
                     if(configHttp.proxy != null) {

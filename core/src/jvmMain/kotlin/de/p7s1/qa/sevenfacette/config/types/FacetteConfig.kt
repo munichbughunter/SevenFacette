@@ -12,17 +12,17 @@ import de.p7s1.qa.sevenfacette.config.ConfigReader
  * @author Florian Pilz
  */
 actual object FacetteConfig {
-    actual var http: DHttpConfig? = null
+    actual var http: HttpConfig? = null
         private set
     actual var custom: Map<String, String>? = null
         private set
-    actual var kafka: DKafkaConfig? = null
+    actual var kafka: KafkaConfig? = null
         private set
-    actual var database: Map<String, DDatabaseConfig>? = null
+    actual var database: Map<String, DatabaseConfig>? = null
         private set
-    actual var application: DApplicationConfig? = null
+    actual var application: ApplicationConfig? = null
         private set
-    actual var web: DWebConfig? = null
+    actual var web: WebConfig? = null
         private set
     actual var log: LoggingConfig? = null
         private set
@@ -36,7 +36,7 @@ actual object FacetteConfig {
         set(config!!)
     }
 
-    actual fun set(config: DFacetteConfig) {
+    actual fun set(config: FacetteConfigDataClass) {
         http = config.http
         custom = config.custom
         kafka = config.kafka

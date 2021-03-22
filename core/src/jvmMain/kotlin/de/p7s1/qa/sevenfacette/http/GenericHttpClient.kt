@@ -1,6 +1,6 @@
 package de.p7s1.qa.sevenfacette.http
 
-import de.p7s1.qa.sevenfacette.config.types.DHttpClientConfig
+import de.p7s1.qa.sevenfacette.config.types.HttpClientConfig
 import de.p7s1.qa.sevenfacette.http.CONTENTTYPES.APPLICATION_JSON
 import de.p7s1.qa.sevenfacette.http.auth.AuthenticationFactory
 import de.p7s1.qa.sevenfacette.utils.Logger
@@ -30,7 +30,7 @@ actual class GenericHttpClient {
     private var logger: Logger = Logger()
 
     @KtorExperimentalAPI
-    fun setClient(config: DHttpClientConfig, factory: HttpClientEngine): GenericHttpClient {
+    fun setClient(config: HttpClientConfig, factory: HttpClientEngine): GenericHttpClient {
         this.client = HttpClient(factory) {
             expectSuccess = false
 

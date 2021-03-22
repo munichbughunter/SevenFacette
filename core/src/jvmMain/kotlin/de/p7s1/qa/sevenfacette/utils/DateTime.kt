@@ -13,7 +13,7 @@ actual class DateTime {
         }
 
         @JvmStatic
-        actual fun getTime(): String {
+        actual fun getTimeString(): String {
             val current = LocalDateTime.now()
             return current.format(formatter)
         }

@@ -2,7 +2,7 @@ package de.p7s1.qa.sevenfacette.db
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature.FAIL_ON_EMPTY_BEANS
-import de.p7s1.qa.sevenfacette.config.types.DDatabaseConfig
+import de.p7s1.qa.sevenfacette.config.types.DatabaseConfig
 import de.p7s1.qa.sevenfacette.utils.Logger
 import org.json.simple.JSONArray
 import org.json.simple.JSONObject
@@ -22,7 +22,7 @@ import java.util.function.Consumer
  * @author Patrick Döring
  */
 class Database(
-        private val dbConfig: DDatabaseConfig
+        private val dbConfig: DatabaseConfig
 ) {
     private var logger = Logger()
     private val select = "select"
