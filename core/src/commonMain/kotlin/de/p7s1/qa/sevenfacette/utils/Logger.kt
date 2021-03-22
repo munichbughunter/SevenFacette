@@ -10,7 +10,7 @@ import de.p7s1.qa.sevenfacette.utils.DateTime.Companion.now
  *
  * @author Patrick Döring
  */
-open class BaseLogger {
+open class Logger {
 
     private val loglevel = ConfigReader.getLoggingConfig()?.level
     private val TEXT_RED = "\u001B[31m"

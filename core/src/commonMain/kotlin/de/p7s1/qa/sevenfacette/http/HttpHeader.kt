@@ -1,6 +1,6 @@
 package de.p7s1.qa.sevenfacette.http
 
-import de.p7s1.qa.sevenfacette.utils.BaseLogger
+import de.p7s1.qa.sevenfacette.utils.Logger
 import kotlin.js.JsName
 
 /**
@@ -11,7 +11,7 @@ import kotlin.js.JsName
  * @author Florian Pilz
  */
 class HttpHeader {
-    private var logger: BaseLogger = BaseLogger()
+    private var logger: Logger = Logger()
     val header = mutableListOf<Pair<String, String>>()
 
     /**

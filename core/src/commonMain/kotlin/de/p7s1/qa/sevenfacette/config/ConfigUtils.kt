@@ -1,6 +1,6 @@
 package de.p7s1.qa.sevenfacette.config
 
-import de.p7s1.qa.sevenfacette.utils.BaseLogger
+import de.p7s1.qa.sevenfacette.utils.Logger
 import de.p7s1.qa.sevenfacette.utils.Files
 import de.p7s1.qa.sevenfacette.utils.KSystem
 
@@ -24,7 +24,7 @@ fun extractFileName(text: String) = text.replace("@import(", "", true).replace("
 
 fun replaceEnvironmentVariables(origin: String): String {
     var result = origin
-    val logger: BaseLogger = BaseLogger()
+    val logger: Logger = Logger()
     SYSTEM_PROP_REGEX.findAll(origin).forEach {
         val envVarName = extractEnvVarName(it.groupValues[0])
         val replace = if(!KSystem.getProperty(envVarName[0]).isNullOrEmpty()) {

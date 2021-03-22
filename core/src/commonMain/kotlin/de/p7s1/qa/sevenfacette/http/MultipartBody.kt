@@ -1,6 +1,6 @@
 package de.p7s1.qa.sevenfacette.http
 
-import de.p7s1.qa.sevenfacette.utils.BaseLogger
+import de.p7s1.qa.sevenfacette.utils.Logger
 import io.ktor.client.request.forms.MultiPartFormDataContent
 import io.ktor.client.request.forms.formData
 import io.ktor.http.Headers
@@ -13,7 +13,7 @@ import kotlin.js.JsName
  * @property multipartData list of Multipartdata
  */
 class MultipartBody {
-    private var logger: BaseLogger = BaseLogger()
+    private var logger: Logger = Logger()
     val multipartData = mutableListOf<DMultiPartData<*>>()
 
     /**

@@ -1,6 +1,6 @@
 package de.p7s1.qa.sevenfacette.http
 
-import de.p7s1.qa.sevenfacette.utils.BaseLogger
+import de.p7s1.qa.sevenfacette.utils.Logger
 import kotlinx.serialization.Serializable
 /**
  * URL for use with GenericHttpClient
@@ -17,7 +17,7 @@ import kotlinx.serialization.Serializable
  * @author Florian Pilz
  */
 
-private var logger: BaseLogger = BaseLogger()
+private var logger: Logger = Logger()
 @Serializable
 class Url {
     var protocol: String = "http"

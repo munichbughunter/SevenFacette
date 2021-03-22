@@ -2,9 +2,9 @@ package de.p7s1.qa.sevenfacette.config
 
 import com.charleskorn.kaml.Yaml
 import de.p7s1.qa.sevenfacette.config.types.*
+import de.p7s1.qa.sevenfacette.utils.Logger
 import de.p7s1.qa.sevenfacette.utils.Files
 import de.p7s1.qa.sevenfacette.utils.KSystem
-import de.p7s1.qa.sevenfacette.utils.Logger
 
 /**
  * Class to read the config yaml file(s).
