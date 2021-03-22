@@ -1,12 +1,14 @@
 package de.p7s1.qa.sevenfacette.utils
 
 import de.p7s1.qa.sevenfacette.config.ConfigReader
-import de.p7s1.qa.sevenfacette.config.types.LogLevel.*
-import de.p7s1.qa.sevenfacette.utils.DateTime.Companion.getCurrentTimeClock
-import de.p7s1.qa.sevenfacette.utils.DateTime.Companion.now
+import de.p7s1.qa.sevenfacette.config.types.LogLevel.INFO
+import de.p7s1.qa.sevenfacette.config.types.LogLevel.DEBUG
+import de.p7s1.qa.sevenfacette.config.types.LogLevel.ERROR
+import de.p7s1.qa.sevenfacette.config.types.LogLevel.WARN
+import de.p7s1.qa.sevenfacette.utils.DateTime.Companion.getTime
 
 /**
- * Base logger for logging events
+ * Logger for logging events
  *
  * @author Patrick Döring
  */
@@ -19,7 +21,7 @@ open class Logger {
     private val SEVEN_FACETTE = "[7Facette]"
 
     open fun getCurrentTime() : String {
-        return getCurrentTimeClock()
+        return getTime()
     }
 
     fun info(message: Any?) {

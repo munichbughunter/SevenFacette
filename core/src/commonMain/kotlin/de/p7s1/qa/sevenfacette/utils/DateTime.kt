@@ -4,6 +4,6 @@ expect class DateTime {
     companion object {
         fun now(): Long
 
-        fun getCurrentTimeClock(): String
+        fun getTime(): String
     }
 }

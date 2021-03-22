@@ -8,7 +8,7 @@ actual class DateTime {
             TODO("Not yet implemented")
         }
 
-        actual fun getCurrentTimeClock(): String {
+        actual fun getTime(): String {
             return Date().toISOString().substring(11, 23)
         }
     }
