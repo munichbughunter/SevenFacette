@@ -6,6 +6,7 @@ import de.p7s1.qa.sevenfacette.http.auth.AuthenticationFactory
 import kotlin.test.Test
 import kotlin.test.assertFails
 import kotlin.test.assertFailsWith
+import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 /**
@@ -14,6 +15,7 @@ import kotlin.test.assertTrue
  * @author Patrick Döring
  */
 class AuthenticationTest {
+
     @Test
     fun checkBasicAuthentication() {
         val authMap : MutableMap<String, String> = mutableMapOf()
@@ -23,6 +25,23 @@ class AuthenticationTest {
         authMap["realm"] = "test"
         val authProvider = AuthenticationFactory(authMap).getAuthentication()
         assertTrue(authProvider.sendWithoutRequest)
+    }
+
+    @Test
+    fun checkBasicAuthenticationWithDefaultValues() {
+        val authMap : MutableMap<String, String> = mutableMapOf()
+        authMap["type"] = "basic"
+        val authProvider = AuthenticationFactory(authMap).getAuthentication()
+        assertTrue(authProvider.sendWithoutRequest)
+    }
+
+    @Test
+    fun checkBasicAuthenticationWithoutRequestFalse() {
+        val authMap : MutableMap<String, String> = mutableMapOf()
+        authMap["type"] = "basic"
+        authMap["sendWithoutRequest"] = "false"
+        val authProvider = AuthenticationFactory(authMap).getAuthentication()
+        assertFalse(authProvider.sendWithoutRequest)
     }
 
     @Test
@@ -37,12 +56,46 @@ class AuthenticationTest {
     }
 
     @Test
+    fun checkOauthOneWithDefaultValues() {
+        val authMap : MutableMap<String, String> = mutableMapOf()
+        authMap["type"] = "oauth1"
+        val authProvider = AuthenticationFactory(authMap).getAuthentication()
+        assertTrue(authProvider.sendWithoutRequest)
+    }
+
+    @Test
+    fun checkOauthOneWithoutRequestFalse() {
+        val authMap : MutableMap<String, String> = mutableMapOf()
+        authMap["type"] = "oauth1"
+        authMap["sendWithoutRequest"] = "false"
+        val authProvider = AuthenticationFactory(authMap).getAuthentication()
+        assertFalse(authProvider.sendWithoutRequest)
+    }
+
+    @Test
     fun checkOauthTwo() {
         val authMap : MutableMap<String, String> = mutableMapOf()
         authMap["type"] = "oauth2"
         authMap["bearer"] = "test"
         val authProvider = AuthenticationFactory(authMap).getAuthentication()
         assertTrue(authProvider.sendWithoutRequest)
+    }
+
+    @Test
+    fun checkOauthTwoWithDefaultValues() {
+        val authMap : MutableMap<String, String> = mutableMapOf()
+        authMap["type"] = "oauth2"
+        val authProvider = AuthenticationFactory(authMap).getAuthentication()
+        assertTrue(authProvider.sendWithoutRequest)
+    }
+
+    @Test
+    fun checkOauthTwoWithoutRequestFalse() {
+        val authMap : MutableMap<String, String> = mutableMapOf()
+        authMap["type"] = "oauth2"
+        authMap["sendWithoutRequest"] = "false"
+        val authProvider = AuthenticationFactory(authMap).getAuthentication()
+        assertFalse(authProvider.sendWithoutRequest)
     }
 
     @Test
