@@ -3,7 +3,9 @@ package de.p7s1.qa.sevenfacette.config.types
 import de.p7s1.qa.sevenfacette.config.types.IsolationLevel.READ_UNCOMMITTED
 import kotlinx.serialization.Serializable
 
-// ToDo: Add Enum class for IsolationLevel...
+/**
+ * Contains map of KafkaTopicConfigs. The configurations can be accessed via name.
+ */
 
 @Serializable
 data class KafkaTopicConfig(
