@@ -62,9 +62,6 @@ actual class KConsumer actual constructor(
         if(!topicConfig.readIsolationLevel.isolationLevel.isBlank()) {
             config[ConsumerConfig.ISOLATION_LEVEL_CONFIG] = topicConfig.readIsolationLevel.isolationLevel
         }
-//        if (!topicConfig.isolationLevel.isBlank()) {
-//            config[ConsumerConfig.ISOLATION_LEVEL_CONFIG] = topicConfig.isolationLevel
-//        }
 
         if (topicConfig.useSASLAuthentication) {
             config = SaslConfig.addSaslProperties(config, topicConfig)
@@ -127,7 +124,6 @@ actual class KConsumer actual constructor(
      * @param [waitingTime]
      * @return [hasMessage]
      */
-    // ToDo: Discuss about this method / solution...
     fun waitForKRecords(waitingTime: Int): Boolean {
         var waited : Int = 0
         var hasMessage: Boolean
