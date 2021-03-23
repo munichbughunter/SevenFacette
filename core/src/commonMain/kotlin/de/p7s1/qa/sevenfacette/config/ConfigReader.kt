@@ -3,7 +3,7 @@ package de.p7s1.qa.sevenfacette.config
 import de.p7s1.qa.sevenfacette.config.types.*
 
 /**
- * TODO: Add Description
+ * Expected class to read the config yaml file(s).
  *
  * @author Patrick Döring
  */
