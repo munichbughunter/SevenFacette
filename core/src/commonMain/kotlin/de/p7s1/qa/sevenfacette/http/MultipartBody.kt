@@ -14,6 +14,7 @@ import kotlin.js.JsName
  */
 class MultipartBody {
     private var logger: Logger = Logger()
+    private val MESSAGE = "Multipart body needs key and value"
     val multipartData = mutableListOf<MultiPartData<*>>()
 
     /**
@@ -27,7 +28,7 @@ class MultipartBody {
     fun addStringPart(name: String, content: String): MultipartBody {
         logger.debug("Adding string content with name: $name to multipart body")
         if(name == null ||content == null)
-            throw Exception("Multipart body needs key and value") // needed for JS
+            throw Exception(MESSAGE) // needed for JS
         multipartData.add(MultiPartData(name, content, null, null))
         return this
     }
@@ -45,7 +46,7 @@ class MultipartBody {
     fun addByteArrayPart(name: String, content: ByteArray): MultipartBody {
         logger.debug("Adding byte array content with name: $name to multipart body")
         if(name == null ||content == null)
-            throw Exception("Multipart body needs key and value") // needed for JS
+            throw Exception(MESSAGE) // needed for JS
         multipartData.add(MultiPartData(name, content, null, null))
         return this
     }
@@ -65,7 +66,7 @@ class MultipartBody {
     fun addFileItemPart(name: String, fileName: String, content: ByteArray, contenttype: CONTENTTYPES): MultipartBody {
         logger.debug("Adding file item with name: $fileName to multipart body")
         if(name == null ||content == null)
-            throw Exception("Multipart body needs key and value") // needed for JS
+            throw Exception(MESSAGE) // needed for JS
         multipartData.add(MultiPartData(name, content, fileName, contenttype.name))
         return this
     }
