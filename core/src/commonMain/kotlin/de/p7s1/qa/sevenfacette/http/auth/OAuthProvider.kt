@@ -16,7 +16,7 @@ data class OAuth1Config @OptIn(InternalAPI::class) constructor(
         var oAuthConsumerKey: String,
         var oAuthToken: String,
         var oAuthSignature: String,
-        var OAuthSignatureMethod: OAuthSignatureMethod,
+        var oAuthSignatureMethod: OAuthSignatureMethod,
         var oAuthNonce: String = generateNonce(),
         var oAuthVersion: String = "1.0",
         var oAuthTimestamp: Long = DateTime.now(),
@@ -55,7 +55,7 @@ class OAuthProvider(val config: OAuthConfig): AuthProvider {
                 linkedMapOf<String, String>().apply {
                     this["oauth_consumer_key"] = oConfig.oAuthConsumerKey
                     this["oauth_token"] = oConfig.oAuthToken
-                    this["oauth_signature_method"] = oConfig.OAuthSignatureMethod.toString()
+                    this["oauth_signature_method"] = oConfig.oAuthSignatureMethod.toString()
                     this["oauth_nonce"] = oConfig.oAuthNonce
                     this["oauth_signature"] = oConfig.oAuthSignature
                     this["oauth_version"] = oConfig.oAuthVersion
