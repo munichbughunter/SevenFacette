@@ -58,8 +58,6 @@ class Database(
         var result: List<Map<String, Any>> = mutableListOf()
         try {
             openConnection().use { conn ->
-                val entryCounter = AtomicInteger(1)
-
                 dbStatements.list.forEach(Consumer {
                     if (it.toString().toLowerCase().startsWith(select)) {
                         conn.createStatement().use { sqlStatement ->
