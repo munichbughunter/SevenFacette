@@ -51,7 +51,9 @@ kotlin {
     js('js') {
         useCommonJs()
         binaries.executable()
-        nodejs {}
+        nodejs {
+
+        }
     }
 
     sourceSets {
