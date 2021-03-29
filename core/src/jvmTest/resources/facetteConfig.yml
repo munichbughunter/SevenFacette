@@ -24,7 +24,7 @@ sevenFacette:
         useSASLAuthentication: false
         autoOffset: latest
         readIsolationLevel: READ_COMMITTED
-        saslUsername: '[[Test_User_Pass]]'
+        saslUsername: Test User 123
       topic2:
         autoOffset: earliest
         bootstrapServer: development-kafka.de:9191
