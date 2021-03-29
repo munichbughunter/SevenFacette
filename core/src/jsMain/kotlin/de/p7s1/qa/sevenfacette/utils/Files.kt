@@ -15,7 +15,7 @@ actual class Files {
         actual fun getResource(fileName: String): String? =
                 getAsText(fileName)
 
-        actual fun getRessourceText(fileName: String): String? =
+        actual fun getResourceText(fileName: String): String? =
                 getAsText(fileName)
     }
 }

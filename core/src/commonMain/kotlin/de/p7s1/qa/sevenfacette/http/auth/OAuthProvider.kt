@@ -13,13 +13,13 @@ import io.ktor.util.generateNonce
 
 sealed class OAuthConfig(open var sendWithoutRequest: Boolean = true)
 data class OAuth1Config @OptIn(InternalAPI::class) constructor(
-        var oauth_consumer_key: String,
-        var oauth_token: String,
-        var oauth_signature: String,
-        var OAuthSignatureMethod: OAuthSignatureMethod,
-        var oauth_nonce: String = generateNonce(),
-        var oauth_version: String = "1.0",
-        var oauth_timestamp: Long = DateTime.now(),
+        var oAuthConsumerKey: String,
+        var oAuthToken: String,
+        var oAuthSignature: String,
+        var oAuthSignatureMethod: OAuthSignatureMethod,
+        var oAuthNonce: String = generateNonce(),
+        var oAuthVersion: String = "1.0",
+        var oAuthTimestamp: Long = DateTime.now(),
         override var sendWithoutRequest: Boolean = true
 ): OAuthConfig()
 data class OAuth2Config(
@@ -53,13 +53,13 @@ class OAuthProvider(val config: OAuthConfig): AuthProvider {
         return HttpAuthHeader.Parameterized (
                 AuthScheme.OAuth,
                 linkedMapOf<String, String>().apply {
-                    this["oauth_consumer_key"] = oConfig.oauth_consumer_key
-                    this["oauth_token"] = oConfig.oauth_token
-                    this["oauth_signature_method"] = oConfig.OAuthSignatureMethod.toString()
-                    this["oauth_nonce"] = oConfig.oauth_nonce
-                    this["oauth_signature"] = oConfig.oauth_signature
-                    this["oauth_version"] = oConfig.oauth_version
-                    this["oauth_timestamp"] = oConfig.oauth_timestamp.toString()
+                    this["oauth_consumer_key"] = oConfig.oAuthConsumerKey
+                    this["oauth_token"] = oConfig.oAuthToken
+                    this["oauth_signature_method"] = oConfig.oAuthSignatureMethod.toString()
+                    this["oauth_nonce"] = oConfig.oAuthNonce
+                    this["oauth_signature"] = oConfig.oAuthSignature
+                    this["oauth_version"] = oConfig.oAuthVersion
+                    this["oauth_timestamp"] = oConfig.oAuthTimestamp.toString()
                 },
                 HeaderValueEncoding.QUOTED_ALWAYS
         ).render()

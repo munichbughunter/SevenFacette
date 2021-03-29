@@ -12,4 +12,4 @@ package de.p7s1.qa.sevenfacette.http
  *
  * @author Florian Pilz
  */
-data class DMultiPartData <T>(val name: String, val value: T, val fileName: String?, val contentType: String?)
+data class MultiPartData <T>(val name: String, val value: T, val fileName: String?, val contentType: String?)

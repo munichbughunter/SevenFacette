@@ -52,7 +52,7 @@ actual class Files {
         actual fun getResource(fileName: String): String? = this::class.java.classLoader.getResource(fileName)?.toString()
 
         @JvmStatic
-        actual fun getRessourceText(fileName: String): String? = URL(getResource(fileName)).readText()
+        actual fun getResourceText(fileName: String): String? = URL(getResource(fileName)).readText()
     }
 }
 

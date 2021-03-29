@@ -19,7 +19,7 @@ actual class KConsumer actual constructor (
 ) {
     private var consumer: dynamic = ""
     private var fromBeginning: Boolean = false
-    private var kRecords = mutableListOf<DKRecord>()
+    private var kRecords = mutableListOf<KRecord>()
     private var rejectUnauthorized = false
 
     @JsName("createKConsumer")
@@ -89,11 +89,11 @@ actual class KConsumer actual constructor (
 
     @JsName("addKRecord")
     fun addKRecord(key: String, value: String, offset: Int, partition: Int) {
-        kRecords.add(DKRecord(key, value, offset, partition))
+        kRecords.add(KRecord(key, value, offset, partition))
     }
 
     @JsName("getMessages")
-    fun getMessages(): Array<DKRecord> {
+    fun getMessages(): Array<KRecord> {
         return kRecords.toTypedArray()
     }
 
@@ -103,21 +103,21 @@ actual class KConsumer actual constructor (
     }
 
     @JsName("filterByValue")
-    fun filterByValue(pattern: String): Array<DKRecord> {
-        var valueFilteredList: List<DKRecord> = listOf()
+    fun filterByValue(pattern: String): Array<KRecord> {
+        var valueFilteredList: List<KRecord> = listOf()
         valueFilteredList = kRecords.filter {(_, value) -> value!!.contains(pattern) }
         return valueFilteredList.toTypedArray()
     }
 
     @JsName("filterByKey")
-    fun filterByKey(pattern: String): Array<DKRecord> {
-        var keyFilteredList: List<DKRecord> = listOf()
+    fun filterByKey(pattern: String): Array<KRecord> {
+        var keyFilteredList: List<KRecord> = listOf()
         keyFilteredList = kRecords.filter {(key, _) -> key!!.contains(pattern) }
         return keyFilteredList.toTypedArray()
     }
 
     @JsName("getLastKRecord")
-    fun getLastKRecord(): DKRecord? {
+    fun getLastKRecord(): KRecord? {
         return kRecords.elementAt(kRecords.lastIndex)
     }
 

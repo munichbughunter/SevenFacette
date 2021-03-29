@@ -6,15 +6,17 @@ import java.nio.file.Paths
 typealias FileObj = File
 
 class Resource {
+
     companion object {
+        private val USER_DIR = "user.dir"
+
         fun get(path: String): FileObj {
             val url = this.getFullPath(path)
             return File(url)
         }
 
         fun getFullPath(path: String): String {
-            // TODO: use constant
-            return Paths.get(System.getProperty("user.dir"), path).toString()
+            return Paths.get(System.getProperty(USER_DIR), path).toString()
         }
     }
 }

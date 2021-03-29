@@ -1,6 +1,6 @@
 package db
 
-import de.p7s1.qa.sevenfacette.config.types.DDatabaseConfig
+import de.p7s1.qa.sevenfacette.config.types.DatabaseConfig
 import de.p7s1.qa.sevenfacette.db.DFactory
 import de.p7s1.qa.sevenfacette.db.Database
 import org.junit.Test
@@ -37,7 +37,7 @@ class DFactoryTest {
 
     @Test
     fun createDatabaseByConfig() {
-        val dbConfig = DDatabaseConfig("db_url", "db_driver", null, null, true, false)
+        val dbConfig = DatabaseConfig("db_url", "db_driver", null, null, true, false)
         database = DFactory.createDatabase(dbConfig)
         assertNotNull(database)
     }

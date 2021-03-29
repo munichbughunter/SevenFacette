@@ -2,6 +2,7 @@ package de.p7s1.qa.sevenfacette.kafka
 
 import de.p7s1.qa.sevenfacette.config.types.KafkaTopicConfig
 import de.p7s1.qa.sevenfacette.kafka.config.SaslConfig
+import de.p7s1.qa.sevenfacette.utils.Logger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -30,8 +31,9 @@ import kotlin.coroutines.CoroutineContext
 actual class KConsumer actual constructor(
     private val topicConfig: KafkaTopicConfig
 ) : CoroutineScope by CoroutineScope(Dispatchers.Default) {
+    private var logger: Logger = Logger()
     private val job = Job()
-    private val kRecordQueue = ConcurrentLinkedQueue<DKRecord>()
+    private val kRecordQueue = ConcurrentLinkedQueue<KRecord>()
     private var keepGoing = true
     private lateinit var consumer: KafkaConsumer<String, String>
 
@@ -60,9 +62,6 @@ actual class KConsumer actual constructor(
         if(!topicConfig.readIsolationLevel.isolationLevel.isBlank()) {
             config[ConsumerConfig.ISOLATION_LEVEL_CONFIG] = topicConfig.readIsolationLevel.isolationLevel
         }
-//        if (!topicConfig.isolationLevel.isBlank()) {
-//            config[ConsumerConfig.ISOLATION_LEVEL_CONFIG] = topicConfig.isolationLevel
-//        }
 
         if (topicConfig.useSASLAuthentication) {
             config = SaslConfig.addSaslProperties(config, topicConfig)
@@ -82,12 +81,12 @@ actual class KConsumer actual constructor(
         try {
             consumer.close(Duration.ofMillis(5000L))
         } catch (ex: ConcurrentModificationException) {
-            //logger.warn("Consumer was closed")
+            logger.warn("Consumer was closed")
         }
     }
 
-    fun filterByValue(pattern: String, pollingTime: Duration): List<DKRecord> {
-        var filteredList: List<DKRecord> = listOf()
+    fun filterByValue(pattern: String, pollingTime: Duration): List<KRecord> {
+        var filteredList: List<KRecord> = listOf()
 
         with().pollInterval(500, MILLISECONDS).await().atMost(pollingTime.seconds, SECONDS).until {
             filteredList = getKRecords().filter { (_, value) -> value!!.contains(pattern) }
@@ -100,8 +99,8 @@ actual class KConsumer actual constructor(
         return filteredList
     }
 
-    fun filterByKey(pattern: String, pollingTime: Duration): List<DKRecord> {
-        var filteredList: List<DKRecord> = listOf()
+    fun filterByKey(pattern: String, pollingTime: Duration): List<KRecord> {
+        var filteredList: List<KRecord> = listOf()
 
         with().pollInterval(500, MILLISECONDS).await().atMost(pollingTime.seconds, SECONDS).until {
             filteredList = getKRecords().filter { (key, _) -> key!!.contains(pattern) }
@@ -114,7 +113,7 @@ actual class KConsumer actual constructor(
         return filteredList
     }
 
-    fun waitForKRecordsCount(count: Int, pollingTime: Duration): ConcurrentLinkedQueue<DKRecord> {
+    fun waitForKRecordsCount(count: Int, pollingTime: Duration): ConcurrentLinkedQueue<KRecord> {
         with().pollInterval(1, SECONDS).await().atMost(pollingTime.seconds, SECONDS).until { getKRecords().size == count}
         return getKRecords()
     }
@@ -125,7 +124,6 @@ actual class KConsumer actual constructor(
      * @param [waitingTime]
      * @return [hasMessage]
      */
-    // ToDo: Discuss about this method / solution...
     fun waitForKRecords(waitingTime: Int): Boolean {
         var waited : Int = 0
         var hasMessage: Boolean
@@ -145,13 +143,13 @@ actual class KConsumer actual constructor(
     @ObsoleteCoroutinesApi
     fun consume() = launch(newSingleThreadContext(topicConfig.topicName)){
         consumer.subscribe(listOf(topicConfig.topicName))
-        //logger.info("Start consuming and processing records")
+        logger.info("Start consuming and processing records")
         while (keepGoing) {
             consumer.poll(Duration.ofSeconds(topicConfig.maxConsumingTime)).forEach {
-                kRecordQueue.add(DKRecord(it.key(), it.value(), it.offset(), it.partition()))
+                kRecordQueue.add(KRecord(it.key(), it.value(), it.offset(), it.partition()))
             }
         }
-        //logger.info("Shut down consumer...: {}", topicConfig.kafkaTopic)
+        logger.info("Shut down consumer: ${topicConfig.topicName}")
         shutdown()
     }
 
@@ -160,7 +158,7 @@ actual class KConsumer actual constructor(
      *
      * @return [kRecordQueue]
      */
-    fun getKRecords(): ConcurrentLinkedQueue<DKRecord> {
+    fun getKRecords(): ConcurrentLinkedQueue<KRecord> {
         return kRecordQueue
     }
 
@@ -178,7 +176,7 @@ actual class KConsumer actual constructor(
      *
      * @return kRecordQueue.elementAt(kRecordQueue.size -1)
      */
-    fun getLastKRecord(): DKRecord? {
+    fun getLastKRecord(): KRecord? {
         return kRecordQueue.elementAt(kRecordQueue.size -1)
     }
 

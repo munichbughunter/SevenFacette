@@ -1,8 +1,9 @@
 package de.p7s1.qa.sevenfacette.http
 
-import de.p7s1.qa.sevenfacette.config.types.DHttpClientConfig
+import de.p7s1.qa.sevenfacette.config.types.HttpClientConfig
 import de.p7s1.qa.sevenfacette.http.CONTENTTYPES.APPLICATION_JSON
 import de.p7s1.qa.sevenfacette.http.auth.AuthenticationFactory
+import de.p7s1.qa.sevenfacette.utils.Logger
 import io.ktor.client.*
 import io.ktor.client.engine.*
 import io.ktor.client.features.*
@@ -26,9 +27,10 @@ actual class GenericHttpClient {
 
     private lateinit var client: HttpClient
     private lateinit var url: Url
+    private var logger: Logger = Logger()
 
     @KtorExperimentalAPI
-    fun setClient(config: DHttpClientConfig, factory: HttpClientEngine): GenericHttpClient {
+    fun setClient(config: HttpClientConfig, factory: HttpClientEngine): GenericHttpClient {
         this.client = HttpClient(factory) {
             expectSuccess = false
 
@@ -232,11 +234,11 @@ actual class GenericHttpClient {
         var facetteResponse: HttpResponse? = null
         val fullPath = useUrl.path(usePath).create()
 
-        println("Sending a ${useMethod.value} request to $fullPath with ${if(useBody == null) "no" else ""} content")
+        logger.info("Sending a ${useMethod.value} request to $fullPath")
 
         var usedBody: Any? = null
         usedBody = useBody
-        println("Body == $usedBody")
+        logger.debug("Body to send: $usedBody")
 
         runBlocking {
             launch {
@@ -267,9 +269,9 @@ actual class GenericHttpClient {
         }
 
         if(facetteResponse == null) throw Exception("No response received")
-        println("Response http status == ${facetteResponse?.status}")
-        println("Response headers == ${facetteResponse?.headers}")
-        println("Response body == ${facetteResponse?.body}")
+        logger.debug("Response status: ${facetteResponse?.status}")
+        logger.debug("Response headers: ${facetteResponse?.headers}")
+        logger.debug("Response body: ${facetteResponse?.body}")
         return facetteResponse
     }
 }

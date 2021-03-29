@@ -34,6 +34,7 @@ class DateTimeTest {
     fun isTimeGivenTest(){
         //arrange and act
         val resultTime = DateTime.now()
+        println(resultTime)
         //assert
         assertNotNull(resultTime)
     }

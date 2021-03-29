@@ -1,7 +1,8 @@
 package de.p7s1.qa.sevenfacette.http
 
-import de.p7s1.qa.sevenfacette.config.types.DHttpClientConfig
+import de.p7s1.qa.sevenfacette.config.types.HttpClientConfig
 import de.p7s1.qa.sevenfacette.http.auth.AuthenticationFactory
+import de.p7s1.qa.sevenfacette.utils.Logger
 import io.ktor.client.*
 import io.ktor.client.engine.*
 import io.ktor.client.features.*
@@ -21,11 +22,12 @@ import kotlin.js.Promise
 actual class GenericHttpClient {
     private lateinit var client: HttpClient
     private lateinit var url: Url
+    private var logger: Logger = Logger()
 
     @KtorExperimentalAPI
     @JsName("setClient")
-    fun setClient(config: DHttpClientConfig, factory: HttpClientEngine): GenericHttpClient {
-        println("CREATING CLIENT")
+    fun setClient(config: HttpClientConfig, factory: HttpClientEngine): GenericHttpClient {
+        logger.debug("CREATING CLIENT")
         this.client = HttpClient(factory) {
             expectSuccess = false
 
@@ -241,11 +243,11 @@ actual class GenericHttpClient {
     ): Promise<HttpResponse> {
         val fullPath = useUrl.path(usePath).create()
 
-        println("Sending a ${useMethod.value} request to $fullPath with ${if(useBody == null) "no" else ""} content")
+        logger.info("Sending a ${useMethod.value} request to $fullPath")
 
         var usedBody: Any? = null
         usedBody = useBody
-        println("Body == $usedBody")
+        logger.debug("Body to send: $usedBody")
 
         return GlobalScope.promise(context = Dispatchers.Default) {
             val response = client.request<io.ktor.client.statement.HttpResponse> {

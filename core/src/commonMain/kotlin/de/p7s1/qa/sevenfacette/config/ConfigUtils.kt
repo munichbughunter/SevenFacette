@@ -1,5 +1,6 @@
 package de.p7s1.qa.sevenfacette.config
 
+import de.p7s1.qa.sevenfacette.utils.Logger
 import de.p7s1.qa.sevenfacette.utils.Files
 import de.p7s1.qa.sevenfacette.utils.KSystem
 
@@ -23,16 +24,18 @@ fun extractFileName(text: String) = text.replace("@import(", "", true).replace("
 
 fun replaceEnvironmentVariables(origin: String): String {
     var result = origin
-
+    val logger: Logger = Logger()
     SYSTEM_PROP_REGEX.findAll(origin).forEach {
         val envVarName = extractEnvVarName(it.groupValues[0])
         val replace = if(!KSystem.getProperty(envVarName[0]).isNullOrEmpty()) {
             KSystem.getProperty(envVarName[0]) ?: ""
+        } else if (!KSystem.getEnv(envVarName[0]).isNullOrEmpty()) {
+            KSystem.getEnv(envVarName[0]) ?: ""
         } else if(envVarName.size == 2) {
-            //Info "No value found for environment variable ${envVarName[0]}. Using fallback value"
+            logger.info("No value found for environment variable ${envVarName[0]}. Using fallback value!")
             envVarName[1]
         } else {
-            // Error "No value found for environment variable ${envVarName[0]}"
+            logger.error("No value found for environment variable ${envVarName[0]}")
             ""
         }
         result = result.replace(it.groupValues[0], replace)
@@ -53,13 +56,13 @@ fun extractEnvVarName(text: String): List<String> = text
  * @return String Merged content of all files
  */
 fun replaceImports(fileName: String): String {
-    var configContent = Files.getRessourceText(fileName)?.removeTrailingBreak() ?: ""
+    var configContent = Files.getResourceText(fileName)?.removeTrailingBreak() ?: ""
     val imports = IMPORT_REGEX.findAll(configContent)
     if(imports.count() == 0) return configContent
 
     imports.forEach {
         val newFile = extractFileName(it.groupValues[0])
-        val newFileContent = Files.getRessourceText(newFile)?.removeTrailingBreak() ?: ""
+        val newFileContent = Files.getResourceText(newFile)?.removeTrailingBreak() ?: ""
 
         configContent = if(newFileContent.contains(IMPORT_REGEX)) {
             configContent.replace(it.groupValues[0], replaceImports(newFile), true)

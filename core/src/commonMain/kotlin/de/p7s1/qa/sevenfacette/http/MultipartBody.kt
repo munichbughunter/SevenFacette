@@ -1,5 +1,6 @@
 package de.p7s1.qa.sevenfacette.http
 
+import de.p7s1.qa.sevenfacette.utils.Logger
 import io.ktor.client.request.forms.MultiPartFormDataContent
 import io.ktor.client.request.forms.formData
 import io.ktor.http.Headers
@@ -12,7 +13,9 @@ import kotlin.js.JsName
  * @property multipartData list of Multipartdata
  */
 class MultipartBody {
-    val multipartData = mutableListOf<DMultiPartData<*>>()
+    private var logger: Logger = Logger()
+    private val MESSAGE = "Multipart body needs key and value"
+    val multipartData = mutableListOf<MultiPartData<*>>()
 
     /**
      * Adds string content to multipart body
@@ -23,10 +26,10 @@ class MultipartBody {
      */
     @JsName("addStringPart")
     fun addStringPart(name: String, content: String): MultipartBody {
-        println("Adding string content with name == $name to multipart body")
+        logger.debug("Adding string content with name: $name to multipart body")
         if(name == null ||content == null)
-            throw Exception("Multipart body needs key and value") // needed for JS
-        multipartData.add(DMultiPartData(name, content, null, null))
+            throw Exception(MESSAGE) // needed for JS
+        multipartData.add(MultiPartData(name, content, null, null))
         return this
     }
 
@@ -41,10 +44,10 @@ class MultipartBody {
      */
     @JsName("addByteArrayPart")
     fun addByteArrayPart(name: String, content: ByteArray): MultipartBody {
-        println("Adding byte array content with name == $name to multipart body")
+        logger.debug("Adding byte array content with name: $name to multipart body")
         if(name == null ||content == null)
-            throw Exception("Multipart body needs key and value") // needed for JS
-        multipartData.add(DMultiPartData(name, content, null, null))
+            throw Exception(MESSAGE) // needed for JS
+        multipartData.add(MultiPartData(name, content, null, null))
         return this
     }
 
@@ -61,10 +64,10 @@ class MultipartBody {
      */
     @JsName("addFileItemPart")
     fun addFileItemPart(name: String, fileName: String, content: ByteArray, contenttype: CONTENTTYPES): MultipartBody {
-        println("Adding file item with name == $fileName to multipart body")
+        logger.debug("Adding file item with name: $fileName to multipart body")
         if(name == null ||content == null)
-            throw Exception("Multipart body needs key and value") // needed for JS
-        multipartData.add(DMultiPartData(name, content, fileName, contenttype.name))
+            throw Exception(MESSAGE) // needed for JS
+        multipartData.add(MultiPartData(name, content, fileName, contenttype.name))
         return this
     }
 
@@ -81,7 +84,7 @@ class MultipartBody {
                         when(it.value!!::class) {
                             String::class ->  append(it.name, it.value as String)
                             ByteArray::class -> append(it.name, it.value as ByteArray)
-                            else -> println("Content type ${it.value::class} currently not implemented")//logger.error{"Content type ${it.value::class} currently not implemented"}
+                            else -> logger.error("Content type ${it.value::class} currently not implemented")
                         }
                     } else {
                         append(it.name, it.value as ByteArray, Headers.build {

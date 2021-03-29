@@ -7,4 +7,4 @@ import kotlinx.serialization.Serializable
  * It enables the "sevenFacette"-key  in the config-file.
  */
 @Serializable
-data class DSevenFacetteConfig(val sevenFacette: DFacetteConfig? = null)
+data class SevenFacetteConfig(val sevenFacette: FacetteConfigDataClass? = null)

@@ -2,6 +2,7 @@ package de.p7s1.qa.sevenfacette.kafka
 
 import de.p7s1.qa.sevenfacette.config.types.KafkaTopicConfig
 import de.p7s1.qa.sevenfacette.kafka.config.SaslConfig
+import de.p7s1.qa.sevenfacette.utils.Logger
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerConfig
 import org.apache.kafka.clients.producer.ProducerRecord
@@ -18,6 +19,7 @@ class KProducer (
     private val topicConfig: KafkaTopicConfig,
     private var autoSend: Boolean
 ) {
+    private var logger: Logger = Logger()
     private lateinit var producer : KafkaProducer<String, String>
 
     /**
@@ -34,7 +36,7 @@ class KProducer (
             config = SaslConfig.addSaslProperties(config, topicConfig)
         }
         producer = KafkaProducer<String, String>(config)
-        //logger.info("Create KProducer")
+        logger.info("Create KProducer")
         return producer
     }
 
@@ -47,7 +49,7 @@ class KProducer (
         if (autoSend) {
             flush()
         }
-        //logger.info("Message send to topic: %s", {msg})
+        logger.info("Message send to topic: $msg")
     }
 
     /**
@@ -60,7 +62,7 @@ class KProducer (
         if (autoSend) {
             flush()
         }
-        //logger.info("Message send to topic: %s", {msg})
+        logger.info("Message send to topic: $msg")
     }
 
     /**
