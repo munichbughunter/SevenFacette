@@ -50,8 +50,8 @@ repositories {
 To use the JVM implementation of the 7Facette core and web module.
 
 ```kotlin
-implementation 'de.p7s1.qa.sevenfacette:core-jvm:1.0.2'
-implementation 'de.p7s1.qa.sevenfacette:web-jvm:1.0.2'
+implementation 'de.p7s1.qa.sevenfacette:core-jvm:1.1.2'
+implementation 'de.p7s1.qa.sevenfacette:web-jvm:1.1.2'
 ```
 
 #### JS
