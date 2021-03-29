@@ -23,7 +23,7 @@ around living documentation.
 [contributing-image]:/misc/images/contributing.png
 
 [userdocs]:https://github.com/munichbughunter/SevenFacette/wiki
-[get-started]:https://github.com/munichbughunter/SevenFacette/wiki/Getting-Started
+[get-started]:https://github.com/munichbughunter/SevenFacette/wiki#what-problem-does-7facette-solve
 [examples]:https://github.com/munichbughunter/SevenFacette/wiki/Examples-for-usage-7Facette
 [contributing]:CONTRIBUTING.md
 
