@@ -5,9 +5,10 @@
 */
 
 job("Build and run tests") {
-    container(displayName = "Run gradle build", image = "openjdk:11") {
-        shellScript {
-            content = "gradle clean :core:build -x jsNodeTest"
+    container("displayName = "Run gradle build", image = gradle:jdk11") {
+        kotlinScript { api ->
+            // here can be your complex logic
+            api.gradle(":core:build -x jsNodeTest")
         }
     }
 }
