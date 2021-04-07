@@ -37,14 +37,14 @@ jobs:
       - name: Get the version
         id: get_version
         run: echo ::set-env name=VERSION::${GITHUB_REF/refs\/tags\/}
-      - name: Publish 7Facette core module to JFrog Bintray
+      - name: Publish 7Facette core module to Space
         env:
-          JFROG_ACTOR: ${{ secrets.JFROG_ACTOR }}
-          JFROG_TOKEN: ${{ secrets.JFROG_TOKEN }}
+          JFROG_ACTOR: ${{ secrets.SPACE_ACTOR }}
+          JFROG_TOKEN: ${{ secrets.SPACE_TOKEN }}
         # The GITHUB_REF tag comes in the format 'refs/tags/xxx'.
         # So if we split on '/' and take the 3rd value, we can get the release name.
         run: |
-          gradle -DVERSION=${{ env.VERSION }} :core:bintrayUpload
+          gradle -DVERSION=${{ env.VERSION }} :core:publishJvmPublicationToMavenRepository
   build-web:
     needs: build-core
     runs-on: ubuntu-latest
@@ -66,12 +66,12 @@ jobs:
       - name: Get the version
         id: get_version
         run: echo ::set-env name=VERSION::${GITHUB_REF/refs\/tags\//}
-      - name: Publish 7Facette web module to JFrog Bintray
+      - name: Publish 7Facette web module to Space
         env:
-          JFROG_ACTOR: ${{ secrets.JFROG_ACTOR }}
-          JFROG_TOKEN: ${{ secrets.JFROG_TOKEN }}
+          JFROG_ACTOR: ${{ secrets.SPACE_ACTOR }}
+          JFROG_TOKEN: ${{ secrets.SPACE_TOKEN }}
         run: |
-          gradle -DVERSION=${{ env.VERSION }} :web:bintrayUpload
+          gradle -DVERSION=${{ env.VERSION }} :web:publishJvmPublicationToMavenRepository
       - name: Microsoft Teams Deploy Card
         uses: toko-bifrost/ms-teams-deploy-card@3.1.2
         if: always()
