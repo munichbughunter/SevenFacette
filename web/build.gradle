@@ -100,7 +100,7 @@ kotlin {
                 implementation 'io.github.bonigarcia:webdrivermanager:4.0.0'
                 implementation 'com.assertthat:selenium-shutterbug:0.9.4'
 
-                implementation "de.p7s1.qa.sevenfacette:core-jvm:0.0.2"
+                implementation "de.p7s1.qa.sevenfacette:core-jvm:1.1.2"
             }
         }
         jvmTest {
@@ -139,11 +139,23 @@ def BINTRAY_REPOSITORY="sevenfacette-jvm" // What you named your repository in b
 
 // Only for local TESTING //
 def LIBRARY_VERSION_NAME=1.0 // The current version of your library. You will need to update this value whenever you upload a new release. For example: 1.0
-version = "v1.1.2"
+//version = "v1.1.2"
 
-//version = System.properties['VERSION']
+version = System.properties['VERSION']
 version = version.toString().substring(1,6)
 LIBRARY_VERSION_NAME=version.toString().substring(0,3)
+
+afterEvaluate {
+    project.publishing.publications.all {
+        // rename artifacts
+        groupId = GROUP_ID
+        if (it.name.contains('metadata')) {
+            artifactId = "$ARTIFACT_ID"
+        } else {
+            artifactId = "$ARTIFACT_ID-$name"
+        }
+    }
+}
 
 publishing {
     publications {
@@ -151,7 +163,6 @@ publishing {
             groupId = "de.p7s1.qa.sevenfacette"
             artifactId = "web"
             version = version
-            from components.java
         }
     }
     repositories {
