@@ -20,7 +20,7 @@ actual class DbStatements {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    actual fun reformat(index: Int, vararg args: String): MutableList<String> {
-        TODO("Not yet implemented")
+    actual fun reformat(index: Int, vararg args: String) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

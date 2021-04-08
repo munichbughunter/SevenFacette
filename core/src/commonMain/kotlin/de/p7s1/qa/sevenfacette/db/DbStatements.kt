@@ -12,5 +12,5 @@ expect class DbStatements {
 
     fun size(): Int
 
-    fun reformat(index: Int, vararg args: String): MutableList<String>
+    fun reformat(index: Int, vararg args: String)
 }
