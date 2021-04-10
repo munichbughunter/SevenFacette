@@ -18,9 +18,16 @@ import kotlin.test.assertTrue
 /**
  * Testingclass for [KConsumer].
  *
- * Testcases: //TODO: Add Testcases
+ * Testcases:
+ * - filter messages by value
+ * - filter messages by key
+ * - wait for KRecords count
+ * - filter messages by value and count
+ * - filter messages by key and count test
+ * - get KRecords
+ * - get KRecords count
  *
- * @author Stella Bastug
+ * @author Stella Bastug, Margaretha Obermayr
  */
 class KConsumerTest {
 
@@ -60,11 +67,6 @@ class KConsumerTest {
     }
 
     @Test
-    fun createConsumerTest() {
-        //TODO: how to test this
-    }
-
-    @Test
     fun filterByValueTest() {
         filteredList = consumer?.filterByValue("Hello", Duration.ofSeconds(10))!!
         assertTrue(!filteredList.isNullOrEmpty())
@@ -78,14 +80,8 @@ class KConsumerTest {
 
     @Test
     fun waitForKRecordsCountTest() {
-        //Todo: why does this method return a ConcurrentLinkedQueue
         concurrentLinkedQueue = consumer?.waitForKRecordsCount(count, Duration.ofSeconds(10))!!
         assertEquals(concurrentLinkedQueue!!.size, count)
-    }
-
-    @Test
-    fun waitForKRecordsTest() {
-        //Method for Test is deprecated
     }
 
     @Test
@@ -98,11 +94,6 @@ class KConsumerTest {
     fun filterByKeyAndCountTest() {
         filteredList = consumer?.filterByKeyAndCount("Key", count, Duration.ofSeconds(10))!!
         assertEquals(filteredList?.size, count)
-    }
-
-    @Test
-    fun consumeTest() {
-        //TODO: How to test
     }
 
     @Test

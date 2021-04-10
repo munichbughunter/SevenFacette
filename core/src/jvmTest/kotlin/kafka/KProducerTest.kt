@@ -15,9 +15,12 @@ import java.util.concurrent.ConcurrentLinkedQueue
 /**
  * Testingclass for [KProducer].
  *
- * Testcases: //TODO: Add Testcases
+ * Testcases:
+ * - send simple message
+ * - send key message
+ * - send message after flush
  *
- * @author Stella Bastug
+ * @author Stella Bastug, Margaretha Obermayr
  */
 class KProducerTest {
 
@@ -52,11 +55,6 @@ class KProducerTest {
         createConsumer()
     }
 
-    @Test
-    fun createProducerTest() {
-    }
-
-    //TODO: Change from junit to kotlin Test?
     @Test
     fun sendTest() {
         createProducerWithAutoSend()
