@@ -55,6 +55,7 @@ class KProducerTest {
         createConsumer()
     }
 
+    //TODO: Change from junit to kotlin Test?
     @Test
     fun sendTest() {
         createProducerWithAutoSend()
