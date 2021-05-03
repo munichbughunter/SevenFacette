@@ -3,6 +3,12 @@ sevenFacette:
     level: DEBUG
   http:
     clients:
+      apiClient:
+        connectionTimeout: 5000
+        connectionRequestTimeout: 4000
+        socketTimeout: 3000
+        url:
+          baseUrl: https://mero-app.pts-sales-playground.aws.p7s1.tech
       holidayRestClient:
         connectionTimeout: 5000
         connectionRequestTimeout: 4000

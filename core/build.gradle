@@ -97,6 +97,7 @@ kotlin {
                 implementation 'com.googlecode.json-simple:json-simple:1.1.1'
                 implementation 'com.fasterxml.jackson.core:jackson-core:2.12.1'
                 implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.1'
+                implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.12.1'
                 implementation 'com.microsoft.playwright:playwright:0.180.0'
             }
         }
