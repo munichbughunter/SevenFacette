@@ -123,9 +123,4 @@ class GraphQlTest {
         val query = GraphqlStatement(gql)
         assertFalse(query.validateGraphQlStatement())
     }
-
-    @Test
-    fun kotlinXSerialization() {
-
-    }
 }
