@@ -65,7 +65,6 @@ class GraphQlTest {
         users.add(User("alonso", D))
 
         mutationQuery.addParameter("Abschlussklasse", "2009").addObjectParameter("users", users)
-
         val expectedGql = "{\"query\":\"mutation{addUser(Abschlussklasse:\\\"2009\\\",users:[{name:\\\"tim\\\",genderEnum:M},{name:\\\"tanja\\\",genderEnum:F},{name:\\\"alonso\\\",genderEnum:D}])}\"}"
         assertEquals(expectedGql, mutationQuery.toString())
     }
@@ -123,5 +122,10 @@ class GraphQlTest {
         val gql = "mutation{person(name: ?, age: ?)}"
         val query = GraphqlStatement(gql)
         assertFalse(query.validateGraphQlStatement())
+    }
+
+    @Test
+    fun kotlinXSerialization() {
+
     }
 }

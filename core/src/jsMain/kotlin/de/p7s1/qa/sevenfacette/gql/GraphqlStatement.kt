@@ -1,19 +1,22 @@
 package de.p7s1.qa.sevenfacette.gql
 
 /**
- * Represents a prepared GraphQL statement
- *
- * @param [gql] is the original GraphQL statement with placeholder
- * @param [args] are the arguments with the placeholder should be replaced
+ * TODO: Add Description
  *
  * @author Patrick Döring
  */
+@ExperimentalJsExport
+@JsName("GraphqlStatement")
+@JsExport
 class GraphqlStatement(var gql: String, vararg args: Any?) {
-    private var regex = "(?<!^')\\?(?!.*?')"
 
+    private var regex = "(?<!^')\\?(?!.*?')"
+    private var argumentList = mutableListOf<Any>()
     init {
+
         if (args.isNotEmpty()) {
-            replaceGqlPlaceholder(*args as Array<out Any>)
+            val arguments = (listOf<Any?>() + args).toTypedArray()
+            replaceGqlPlaceholder(arguments)
         }
     }
 
@@ -30,23 +33,25 @@ class GraphqlStatement(var gql: String, vararg args: Any?) {
      * Replaces placeholder with specific parameters
      *
      * @param [args] are the arguments with the placeholder should be replaced
-    */
-    fun replaceGqlPlaceholder(vararg args: Any?) {
+     */
+    fun replaceGqlPlaceholder(argument: Array<Any?>) {
+
         val parts: List<String> = gql.split(Regex(regex))
         val newList: MutableList<String> = mutableListOf()
 
         newList.add("{\"query\":\"")
+
         for (i in parts.indices) {
             newList.add(parts[i])
             if (i < parts.size - 1) {
-                newList.add(formatParameter(args[i]))
+                newList.add(formatParameter(argument[i]))
             }
         }
         newList.add("\"}")
         gql = newList.joinToString(separator = "")
     }
 
-   /**
+    /**
      * If the argument is a String we use single quotes if not we use double quotes
      *
      * @param [arg] is the argument with the placeholder should be replaced
