@@ -3,23 +3,22 @@ package de.p7s1.qa.sevenfacette.kafka
 import de.p7s1.qa.sevenfacette.config.types.KafkaTopicConfig
 import de.p7s1.qa.sevenfacette.kafka.config.SaslConfig
 import de.p7s1.qa.sevenfacette.utils.Logger
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.ObsoleteCoroutinesApi
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.newSingleThreadContext
+import kotlinx.coroutines.*
 import org.apache.kafka.clients.consumer.Consumer
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.consumer.KafkaConsumer
+import org.apache.kafka.common.TopicPartition
 import org.apache.kafka.common.serialization.StringDeserializer
 import org.awaitility.Awaitility.with
+import org.awaitility.kotlin.await
 import java.time.Duration
 import java.util.UUID
 import java.util.concurrent.ConcurrentLinkedQueue
+import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit.MILLISECONDS
 import java.util.concurrent.TimeUnit.SECONDS
 import kotlin.coroutines.CoroutineContext
+
 
 /**
  * JVM specific implementation of the Kafka consumer
@@ -36,6 +35,7 @@ actual class KConsumer actual constructor(
     private val kRecordQueue = ConcurrentLinkedQueue<KRecord>()
     private var keepGoing = true
     private lateinit var consumer: KafkaConsumer<String, String>
+    private val startupLatch = CountDownLatch(1)
 
     /**
      * Create a KafkaConsumer

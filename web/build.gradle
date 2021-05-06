@@ -1,4 +1,11 @@
 buildscript {
+    repositories.maven {
+        url "https://maven.pkg.jetbrains.space/sevenfacette/p/sevenfacette/sevenfacette"
+        credentials {
+            username = "85dcdf4c-d6cd-486f-85d3-654904e1cf22"
+            password = "365171aab3c77e6aa2016b73c29ba738280dd96e94dddfc15e45ef65ffbcec5b"
+        }
+    }
     repositories.jcenter()
     dependencies {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.0")
@@ -31,13 +38,18 @@ sonarqube {
 }
 
 repositories {
-    mavenLocal()
-    maven { url "https://dl.bintray.com/p7s1qa/sevenfacette-jvm" }
+    maven {
+        url "https://maven.pkg.jetbrains.space/sevenfacette/p/sevenfacette/sevenfacette"
+        credentials {
+            username = "85dcdf4c-d6cd-486f-85d3-654904e1cf22"
+            password = "365171aab3c77e6aa2016b73c29ba738280dd96e94dddfc15e45ef65ffbcec5b"
+        }
+    }
     mavenCentral()
-    jcenter()
     maven { url "https://dl.bintray.com/aakira/maven" }
     maven { url "https://jitpack.io" }
     maven { url "https://kotlin.bintray.com/kotlinx" }
+
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
@@ -50,9 +62,7 @@ kotlin {
     jvm()
     js('js') {
         useCommonJs()
-        binaries.executable()
         nodejs {
-
         }
     }
 
@@ -82,7 +92,6 @@ kotlin {
 
         jvmMain {
             dependencies {
-                implementation 'de.p7s1.qa.sevenfacette:core-jvm:+'
                 implementation 'org.aeonbits.owner:owner-java8:1.0.9'
                 implementation 'org.seleniumhq.selenium:selenium-api:3.141.59'
                 implementation 'org.seleniumhq.selenium:selenium-support:3.141.59'
@@ -90,6 +99,8 @@ kotlin {
                 implementation 'org.seleniumhq.selenium:selenium-firefox-driver:3.141.59'
                 implementation 'io.github.bonigarcia:webdrivermanager:4.0.0'
                 implementation 'com.assertthat:selenium-shutterbug:0.9.4'
+
+                implementation "de.p7s1.qa.sevenfacette:core-jvm:1.1.2"
             }
         }
         jvmTest {
@@ -100,19 +111,19 @@ kotlin {
 
         }
 
-        jsMain {
-            dependencies {
-                implementation 'org.jetbrains.kotlin:kotlin-stdlib-js'
-                implementation 'io.ktor:ktor-client-js:1.3.0'
-                implementation 'io.ktor:ktor-client-core-js:1.3.0'
-                implementation 'io.ktor:ktor-client-json-js:1.3.0'
-                implementation 'io.ktor:ktor-client-auth-js:1.3.0'
-
-                implementation 'org.jetbrains.kotlin:kotlin-reflect:1.3.0'
-                implementation 'org.jetbrains.kotlinx:kotlinx-serialization-runtime-js:0.14.0'
-                implementation "org.jetbrains.kotlinx:kotlinx-nodejs:0.0.7"
-            }
-        }
+//        jsMain {
+//            dependencies {
+//                implementation 'org.jetbrains.kotlin:kotlin-stdlib-js'
+//                implementation 'io.ktor:ktor-client-js:1.3.0'
+//                implementation 'io.ktor:ktor-client-core-js:1.3.0'
+//                implementation 'io.ktor:ktor-client-json-js:1.3.0'
+//                implementation 'io.ktor:ktor-client-auth-js:1.3.0'
+//
+//                implementation 'org.jetbrains.kotlin:kotlin-reflect:1.3.0'
+//                implementation 'org.jetbrains.kotlinx:kotlinx-serialization-runtime-js:0.14.0'
+//                implementation "org.jetbrains.kotlinx:kotlinx-nodejs:0.0.7"
+//            }
+//        }
     }
 }
 
@@ -128,7 +139,7 @@ def BINTRAY_REPOSITORY="sevenfacette-jvm" // What you named your repository in b
 
 // Only for local TESTING //
 def LIBRARY_VERSION_NAME=1.0 // The current version of your library. You will need to update this value whenever you upload a new release. For example: 1.0
-//version = "v1.2.0"
+//version = "v1.1.2"
 
 version = System.properties['VERSION']
 version = version.toString().substring(1,6)
@@ -146,47 +157,21 @@ afterEvaluate {
     }
 }
 
-bintray {
-    // A user name of bintray to A, and API key of Bintray to B.I do not want to include API Key in git,
-    // so I am gradle.properties writing locally.
-    // Gradle's property file is read in the order of gradle in the home directory> gradle in the project directory,
-    // so if it is written in property in the home directory, it will be useful for other projects as well.
-    user = System.getenv("JFROG_ACTOR")
-    key = System.getenv("JFROG_TOKEN")
-
-    //If you set publish to true, the new version will be published the moment you upload to bintray. If false, it will not be published unless you press the publish button on the bintray web.
-    // It is recommended that you make it false because it can prevent an accident that you accidentally release the latest version.
-    publish = true
-
-    pkg {
-        repo = BINTRAY_REPOSITORY
-        name = ARTIFACT_ID
-        licenses = ['MIT']
-        //vcsUrl = VCS_URL
-        //websiteUrl = SITE_URL
-        //issueTrackerUrl = ISSUE_URL
-
-        version {
-            name = LIBRARY_VERSION_NAME
-            vcsTag = version
-            released = new Date()
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = "de.p7s1.qa.sevenfacette"
+            artifactId = "web"
+            version = version
+        }
+    }
+    repositories {
+        maven {
+            url "https://maven.pkg.jetbrains.space/sevenfacette/p/sevenfacette/sevenfacette"
+            credentials {
+                username = System.getenv("SPACE_ACTOR")
+                password = System.getenv("SPACE_TOKEN")
+            }
         }
     }
 }
-
-// This specifies the publications to upload to bintray before doing the bintrayUpload gradle task.
-// In the mpp configuration of one module after 1.3,
-// it is not uploaded unless you explicitly specify artifacts in publications like this.
-// It is not necessary to have the findAll part,
-// [project name]-kotlinMultiplatformbut a directory containing only pom files will be uploaded, so it is better to exclude it.
-bintrayUpload.doFirst {
-    publications = publishing.publications.collect {
-        it.name
-    }.findAll {
-        it != "sevenfacette-jvm"
-    }
-}
-
-//The task of bintrayUpload depends on publishToMavenLocal set in the previous section.
-// This will create maven artifacts when running bintrayUplaod's task.
-bintrayUpload.dependsOn publishJvmPublicationToMavenLocal

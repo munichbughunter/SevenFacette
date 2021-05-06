@@ -37,7 +37,15 @@ jobs:
       - name: Build module
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-        run: gradle build
+        uses: eskatos/gradle-command-action@v1
+        with:
+            arguments: build -x jsNodeTest
+            gradle-version: 6.7
+
+      #- name: Build module
+      #  env:
+      #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+      #  run: gradle build -x jsNodeTest
       - name: Execute Test
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
