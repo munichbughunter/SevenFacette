@@ -43,8 +43,8 @@ jobs:
         run: echo ::set-env name=VERSION::${GITHUB_REF/refs\/tags\/}
       - name: Publish 7Facette core module to Space
         env:
-          JFROG_ACTOR: ${{ secrets.SPACE_ACTOR }}
-          JFROG_TOKEN: ${{ secrets.SPACE_TOKEN }}
+          SPACE_ACTOR: ${{ secrets.SPACE_ACTOR }}
+          SPACE_TOKEN: ${{ secrets.SPACE_TOKEN }}
         # The GITHUB_REF tag comes in the format 'refs/tags/xxx'.
         # So if we split on '/' and take the 3rd value, we can get the release name.
         run: |
@@ -76,8 +76,8 @@ jobs:
         run: echo ::set-env name=VERSION::${GITHUB_REF/refs\/tags\//}
       - name: Publish 7Facette web module to Space
         env:
-          JFROG_ACTOR: ${{ secrets.SPACE_ACTOR }}
-          JFROG_TOKEN: ${{ secrets.SPACE_TOKEN }}
+          SPACE_ACTOR: ${{ secrets.SPACE_ACTOR }}
+          SPACE_TOKEN: ${{ secrets.SPACE_TOKEN }}
         run: |
           gradle -DVERSION=${{ env.VERSION }} :web:publishJvmPublicationToMavenRepository
       - name: Microsoft Teams Deploy Card
