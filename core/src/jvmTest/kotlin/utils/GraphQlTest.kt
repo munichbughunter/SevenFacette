@@ -3,8 +3,8 @@ package utils
 import de.p7s1.qa.sevenfacette.gql.GraphqlMutation
 import de.p7s1.qa.sevenfacette.gql.GraphqlQuery
 import de.p7s1.qa.sevenfacette.gql.GraphqlStatement
-import de.p7s1.qa.sevenfacette.gql.InlineFragmentAttributes
-import de.p7s1.qa.sevenfacette.gql.ResultAttributes
+import de.p7s1.qa.sevenfacette.gql.InlineFragment
+import de.p7s1.qa.sevenfacette.gql.Field
 import org.junit.Test
 import utils.GenderEnum.*
 import kotlin.test.assertEquals
@@ -17,7 +17,7 @@ class GraphQlTest {
     @Test
     fun graphqlQuery() {
         val query = GraphqlQuery("findUser")
-        query.addResultAttributes("name","adress","age")
+        query.addFields("name","adress","age")
 
         val expectedGql = "{\"query\":\"{findUser{name adress age}}\"}"
 
@@ -27,7 +27,10 @@ class GraphQlTest {
     @Test
     fun graphqlMutation() {
         val mutationQuery = GraphqlMutation("person")
-        mutationQuery.getRequestParameter()?.addParameter("age", "25")?.addParameter("name", "Bob")
+        mutationQuery
+            .getArgument()
+            ?.addArgument("age", "25")
+            ?.addArgument("name", "Bob")
 
         val expectedGql = "{\"query\":\"mutation{person(name:\\\"Bob\\\",age:\\\"25\\\")}\"}"
         assertEquals(expectedGql, mutationQuery.toString())
@@ -39,7 +42,7 @@ class GraphQlTest {
         queryParams["age"] = "25"
         queryParams["name"] = "Bob"
         val mutationQuery = GraphqlMutation("person")
-        mutationQuery.addParameters(queryParams)
+        mutationQuery.addArguments(queryParams)
 
         val expectedGql = "{\"query\":\"mutation{person(name:\\\"Bob\\\",age:\\\"25\\\")}\"}"
         assertEquals(expectedGql, mutationQuery.toString())
@@ -48,8 +51,10 @@ class GraphQlTest {
     @Test
     fun graphqlMutationWithResultParams() {
         val mutationQuery = GraphqlMutation("person")
-        mutationQuery.addParameter("age", "25").addParameter("name", "Bob")
-        mutationQuery.addResultAttributes("data")
+        mutationQuery
+            .addArgument("age", "25")
+            .addArgument("name", "Bob")
+        mutationQuery.addField("data")
 
 
         val expectedGql = "{\"query\":\"mutation{person(name:\\\"Bob\\\",age:\\\"25\\\"){data}}\"}"
@@ -64,7 +69,9 @@ class GraphQlTest {
         users.add(User("tanja", F))
         users.add(User("alonso", D))
 
-        mutationQuery.addParameter("Abschlussklasse", "2009").addObjectParameter("users", users)
+        mutationQuery
+            .addArgument("Abschlussklasse", "2009")
+            .addArgumentObject("users", users)
         val expectedGql = "{\"query\":\"mutation{addUser(Abschlussklasse:\\\"2009\\\",users:[{name:\\\"tim\\\",genderEnum:M},{name:\\\"tanja\\\",genderEnum:F},{name:\\\"alonso\\\",genderEnum:D}])}\"}"
         assertEquals(expectedGql, mutationQuery.toString())
     }
@@ -72,29 +79,29 @@ class GraphQlTest {
     @Test
     fun graphqlContentCC() {
         val gqlQuery = GraphqlQuery("contents")
-        gqlQuery.addParameter("promamsId", "123456")
-        gqlQuery.addResultAttributes("actualAssemblage")
-        val audioAttribute = ResultAttributes("audio")
+        gqlQuery.addArgument("id", "123456")
+        gqlQuery.addField("actualAssemblage")
+        val audioAttribute = Field("audio")
         audioAttribute
-            .addResultAttributes("id")
-            .addResultAttributes("name")
-            .addResultAttributes("shortName")
+            .addField("id")
+            .addField("name")
+            .addField("shortName")
 
-        gqlQuery.addResultAttributes(audioAttribute)
+        gqlQuery.addField(audioAttribute)
 
-        val expectedGql = "{\"query\":\"{contents(promamsId:\\\"123456\\\"){actualAssemblage audio{ id name shortName }}}\"}"
+        val expectedGql = "{\"query\":\"{contents(id:\\\"123456\\\"){actualAssemblage audio{ id name shortName }}}\"}"
         assertEquals(expectedGql, gqlQuery.toString())
     }
 
     @Test
     fun graphqlWithInlineFragment() {
         val query = GraphqlQuery("country")
-        query.addParameter("code", "BF")
-        query.addResultAttributes("name", "native", "phone")
+        query.addArgument("code", "BF")
+        query.addFields("name", "native", "phone")
 
-        val inlineFragment = InlineFragmentAttributes("Country")
+        val inlineFragment = InlineFragment("Country")
         inlineFragment
-            .addInlineAttributes("code", "capital")
+            .addInlineField("code", "capital")
 
         query.addInlineFragment(inlineFragment)
         val expectedGql = "{\"query\":\"{country(code:\\\"BF\\\"){name native phone}...on Country{ code capital }}\"}"

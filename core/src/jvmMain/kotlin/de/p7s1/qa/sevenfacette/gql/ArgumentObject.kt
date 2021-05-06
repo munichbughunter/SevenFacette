@@ -6,18 +6,13 @@ import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.module.SimpleModule
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.modules.SerializersModule
-import kotlinx.serialization.modules.polymorphic
-import kotlinx.serialization.modules.subclass
 
 /**
  * Represents request object parameter.
  *
  * @author Patrick Döring
  */
-class RequestObjectParameter(data: Any) {
+class ArgumentObject(data: Any) {
 
     private val objectMapper: ObjectMapper = ObjectMapper()
     private var data: Any

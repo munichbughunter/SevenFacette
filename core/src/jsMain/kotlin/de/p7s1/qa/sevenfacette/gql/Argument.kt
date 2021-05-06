@@ -6,11 +6,11 @@ package de.p7s1.qa.sevenfacette.gql
  * @author Patrick Döring
  */
 @ExperimentalJsExport
-@JsName("RequestParameter")
+@JsName("Argument")
 @JsExport
-class RequestParameter private constructor() : HashMap<String?, Any?>() {
+class Argument private constructor() : HashMap<String?, Any?>() {
 
-    fun addParameter(key: String?, obj: Any?): RequestParameter {
+    fun addArgument(key: String?, obj: Any?): Argument {
         put(key, obj)
         return this
     }
@@ -51,16 +51,15 @@ class RequestParameter private constructor() : HashMap<String?, Any?>() {
     }
 
     companion object {
-
-        fun buildByMap(map: Map<*, *>): RequestParameter {
+        fun buildByMap(map: Map<*, *>): Argument {
             val requestParameter = build()
             map.forEach { (any, any2) -> requestParameter[any as String?] = any2 }
 
             return requestParameter
         }
 
-        fun build(): RequestParameter {
-            return RequestParameter()
+        fun build(): Argument {
+            return Argument()
         }
     }
 }

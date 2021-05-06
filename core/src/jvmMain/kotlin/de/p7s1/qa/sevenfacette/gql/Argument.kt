@@ -7,17 +7,17 @@ import java.util.HashMap
  *
  * @author Patrick Döring
  */
-class RequestParameter private constructor() : HashMap<String?, Any?>() {
+class Argument private constructor() : HashMap<String?, Any?>() {
 
-    fun addParameter(key: String?, obj: Any?): RequestParameter {
+    fun addArgument(key: String?, obj: Any?): Argument {
         put(key, obj)
         return this
     }
 
-    fun addObjectParameter(key: String?, obj: Any?): RequestParameter {
-        (obj as? RequestObjectParameter)?.let { put(key, it) } ?: put(
+    fun addArgumentObject(key: String?, obj: Any?): Argument {
+        (obj as? ArgumentObject)?.let { put(key, it) } ?: put(
             key,
-            RequestObjectParameter(obj!!)
+            ArgumentObject(obj!!)
         )
         return this
     }
@@ -54,21 +54,19 @@ class RequestParameter private constructor() : HashMap<String?, Any?>() {
         if (`val` is Enum<*>) {
             return `val`.name
         }
-        return (`val` as? RequestObjectParameter)?.toString() ?: "\\\"" + `val`.toString() + "\\\""
+        return (`val` as? ArgumentObject)?.toString() ?: "\\\"" + `val`.toString() + "\\\""
     }
 
     companion object {
 
-        fun buildByMap(map: Map<*, *>): RequestParameter {
+        fun buildByMap(map: Map<*, *>): Argument {
             val requestParameter = build()
             map.forEach { (any, any2) -> requestParameter[any as String?] = any2 }
-
-            //requestParameter.putAll(map)
             return requestParameter
         }
 
-        fun build(): RequestParameter {
-            return RequestParameter()
+        fun build(): Argument {
+            return Argument()
         }
     }
 }

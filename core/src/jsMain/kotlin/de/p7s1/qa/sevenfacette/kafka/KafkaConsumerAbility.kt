@@ -1,4 +1,4 @@
-package de.p7s1.qa.sevenfacette.http
+package de.p7s1.qa.sevenfacette.kafka
 
 import io.ktor.util.KtorExperimentalAPI
 
@@ -9,5 +9,5 @@ import io.ktor.util.KtorExperimentalAPI
  */
 @KtorExperimentalAPI
 @ExperimentalJsExport
-@JsName("Abilities")
-data class Abilities (var key: String?, var value: GenericHttpClient) {}
+@JsName("KafkaConsumerAbility")
+data class KafkaConsumerAbility (var key: String?, var value: KConsumer) {}

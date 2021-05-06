@@ -5,58 +5,66 @@ package de.p7s1.qa.sevenfacette.gql
  *
  * @author Patrick Döring
  */
-abstract class GraphqlRequest constructor(private var requestName: String) {
+abstract class GraphqlRequest constructor(private var operationName: String) {
 
-    private var resultAttributes: MutableList<ResultAttributes> = mutableListOf()
-    private var inlineFragmentAttributes: MutableList<InlineFragmentAttributes> = mutableListOf()
-    private var requestParam: RequestParameter? = null
+    private var fields: MutableList<Field> = mutableListOf()
+    private var inlineFragmentFields: MutableList<InlineFragment> = mutableListOf()
+    private var argument: Argument? = null
 
-    fun addParameter(key: String?, `val`: Any?): RequestParameter {
-        return getRequestParameter()!!.addParameter(key, `val`)
+    fun addArgument(key: String?, `val`: Any?): GraphqlRequest {
+        getArgument()!!.addArgument(key, `val`)
+        return this
     }
 
-    fun addParameters(params: Map<String, Any>) {
-        params.forEach { (t, u) ->  getRequestParameter()!!.addParameter(t, u)}
+    fun addArgumentObject(key: String?, obj: Any?): GraphqlRequest {
+        getArgument()!!.addArgumentObject(key, obj)
+        return this
     }
 
-    fun getRequestParameter(): RequestParameter? {
-        if (this.requestParam == null) {
-            this.requestParam = RequestParameter.build()
-        }
-        return this.requestParam
-    }
-
-    fun addInlineFragment(vararg inlineAttribute: InlineFragmentAttributes): GraphqlRequest {
-        if (inlineAttribute.isNotEmpty()) {
-            inlineAttribute.forEach { inlineFragmentAttributes.add(it) }
+    fun addArguments(arguments: Map<String, Any>): GraphqlRequest {
+        arguments.forEach {
+            (key, argValue) -> getArgument()!!.addArgument(key, argValue)
         }
         return this
     }
 
-    fun addResultAttributes(vararg resultAttr: String) : GraphqlRequest {
-        if (resultAttr.isNotEmpty()) {
-            resultAttr.forEach { resultAttribute ->
-                resultAttributes.add(ResultAttributes(resultAttribute))
+    fun getArgument(): Argument? {
+        if (this.argument == null) {
+            this.argument = Argument.build()
+        }
+        return this.argument
+    }
+
+    fun addInlineFragment(vararg inlineField: InlineFragment): GraphqlRequest {
+        if (inlineField.isNotEmpty()) {
+            inlineField.forEach { inlineFragmentFields.add(it) }
+        }
+        return this
+    }
+
+    fun addField(field: String) : GraphqlRequest {
+        if (field.isNotEmpty()) {
+            fields.add(Field(field))
+        }
+        return this
+    }
+
+    fun addFields(vararg field: String) : GraphqlRequest {
+        if (field.isNotEmpty()) {
+            field.forEach { fieldAttribute ->
+                fields.add(Field(fieldAttribute))
             }
         }
         return this
     }
 
-    fun addResultAttributes(vararg resultAttr: ResultAttributes): GraphqlRequest {
-        if (resultAttr.isNotEmpty()) {
-            resultAttr.forEach { resultAttribute ->
-                resultAttributes.add(resultAttribute)
+    fun addField(vararg field: Field): GraphqlRequest {
+        if (field.isNotEmpty()) {
+            field.forEach { fieldAttribute ->
+                fields.add(fieldAttribute)
             }
         }
         return this
-    }
-
-    fun getRequestName(): String {
-        return requestName
-    }
-
-    fun setRequestName(requestName: String) {
-        this.requestName = requestName
     }
 
     /*override fun toString(): String {
@@ -95,13 +103,13 @@ abstract class GraphqlRequest constructor(private var requestName: String) {
     }*/
 
     override fun toString() : String {
-        var gql = requestName
-        gql = gql.plus(getRequestParameter().toString())
-        if (resultAttributes.size > 0) {
-            gql = addResultAttr(gql)
+        var gql = operationName
+        gql = gql.plus(getArgument().toString())
+        if (fields.size > 0) {
+            gql = addFieldAttr(gql)
         }
 
-        if (inlineFragmentAttributes.size > 0) {
+        if (inlineFragmentFields.size > 0) {
             gql = addInlineAttr(gql)
         }
 
@@ -110,17 +118,17 @@ abstract class GraphqlRequest constructor(private var requestName: String) {
 
     private fun addInlineAttr(_gql: String) : String {
         var gql = _gql
-        inlineFragmentAttributes.forEach {
+        inlineFragmentFields.forEach {
             gql = gql.plus(it.toString())
         }
         return gql
     }
 
-    private fun addResultAttr(_gql: String) : String {
+    private fun addFieldAttr(_gql: String) : String {
         var gql = _gql
         var resultAttr = ""
         var first = true
-        resultAttributes.forEach {
+        fields.forEach {
             if (first) first = false
             else {
                 resultAttr = resultAttr.plus(" ")

@@ -1,9 +1,11 @@
 package de.p7s1.qa.sevenfacette.screenplay
 
-import de.p7s1.qa.sevenfacette.http.Abilities
+import de.p7s1.qa.sevenfacette.http.HttpAbility
 import de.p7s1.qa.sevenfacette.http.GenericHttpClient
-import de.p7s1.qa.sevenfacette.http.HttpClientAbility
-import de.p7s1.qa.sevenfacette.http.createHttpClient
+import de.p7s1.qa.sevenfacette.kafka.KConsumer
+import de.p7s1.qa.sevenfacette.kafka.KProducer
+import de.p7s1.qa.sevenfacette.kafka.KafkaConsumerAbility
+import de.p7s1.qa.sevenfacette.kafka.KafkaProducerAbility
 import io.ktor.util.KtorExperimentalAPI
 
 /**
@@ -11,12 +13,15 @@ import io.ktor.util.KtorExperimentalAPI
  *
  * @author Patrick Döring
  */
+@KtorExperimentalAPI
 @ExperimentalJsExport
 @JsName("Actor")
 @JsExport
 open class Actor(protected val name: String?) {
 
-    private var abilities: MutableMap<String, GenericHttpClient> = mutableMapOf()
+    private var httpAbilities : MutableMap<String, GenericHttpClient> = mutableMapOf()
+    private var kafkaConsumerAbilities : MutableMap<String, KConsumer> = mutableMapOf()
+    private var kafkaProducerAbilities : MutableMap<String, KProducer> = mutableMapOf()
     private var properties: MutableMap<String, Any> = mutableMapOf()
 
     companion object {
@@ -29,57 +34,76 @@ open class Actor(protected val name: String?) {
         return name
     }
 
-    @JsName("withAbility")
-    fun withAbility(ability: Array<Abilities>): Actor {
+    fun withHttpAbility(ability: Array<HttpAbility>): Actor {
         ability.forEach {
-            abilities.put(it.key!!, it.value)
+            httpAbilities.put(it.key!!, it.value)
         }
         return this
     }
 
-    @JsName("hasAbility")
-    fun hasAbility(abilityName: String): Boolean {
-        return abilities.containsKey(abilityName)
+    fun hasHttpAbility(abilityName: String): Boolean {
+        return httpAbilities.containsKey(abilityName)
     }
 
-    @JsName("getAbility")
-    fun getAbility(abilityName: String): GenericHttpClient? {
-        println(abilities[abilityName])
-        return abilities[abilityName]
+    fun getHttpAbility(abilityName: String): GenericHttpClient? {
+        return httpAbilities[abilityName]
     }
 
-    @JsName("putProperty")
+    fun withConsumerAbility(ability: Array<KafkaConsumerAbility>): Actor {
+        ability.forEach {
+            kafkaConsumerAbilities.put(it.key!!, it.value)
+        }
+        return this
+    }
+
+    fun hasConsumerAbility(abilityName: String) : Boolean {
+        return kafkaConsumerAbilities.containsKey(abilityName)
+    }
+
+    fun getConsumerAbility(abilityName: String) : KConsumer? {
+        return kafkaConsumerAbilities[abilityName]
+    }
+
+    fun withProducerAbility(ability: Array<KafkaProducerAbility>): Actor {
+        ability.forEach {
+            kafkaProducerAbilities.put(it.key!!, it.value)
+        }
+        return this
+    }
+
+    fun hasProducerAbility(abilityName: String) : Boolean {
+        return kafkaProducerAbilities.containsKey(abilityName)
+    }
+
+    fun getProducerAbility(abilityName: String) : KProducer? {
+        return kafkaProducerAbilities[abilityName]
+    }
+
     fun putProperty(key: String, value: Any): Actor {
         properties[key] = value
         return this
     }
 
-    @JsName("getProperty")
     fun getProperty(key: String): Any {
         return properties[key]!!
     }
 
-    @JsName("executeTask")
     fun executeTask(task: Task) {
         task.executeWith(this)
     }
 
-    @JsName("executeTasks")
     fun executeTasks(vararg tasks: Task) {
         tasks.forEach { it.executeWith(this) }
     }
 
-    @JsName("execute")
     fun execute(vararg actions: Action) {
         actions.forEach { it.executeWith(this) }
     }
 
-    @JsName("askQuestions")
     fun askQuestions(vararg questions: Question) {
         questions.forEach { it.askWith(this) }
     }
 
-    @JsName("askQuestion")
     fun askQuestion(question: Question) {
         question.askWith(this)
     }

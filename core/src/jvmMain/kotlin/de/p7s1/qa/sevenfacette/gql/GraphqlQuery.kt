@@ -6,7 +6,7 @@ package de.p7s1.qa.sevenfacette.gql
  *
  * @author Patrick Döring
  */
-class GraphqlQuery(requestName: String) : GraphqlRequest(requestName) {
+class GraphqlQuery(operationName: String) : GraphqlRequest(operationName) {
 
     override fun toString(): String {
         val superStr = super.toString()

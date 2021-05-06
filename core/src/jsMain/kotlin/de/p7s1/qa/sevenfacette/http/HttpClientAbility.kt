@@ -1,7 +1,5 @@
 package de.p7s1.qa.sevenfacette.http
 
-import de.p7s1.qa.sevenfacette.kafka.KRecord
-import de.p7s1.qa.sevenfacette.screenplay.Ability
 import io.ktor.util.KtorExperimentalAPI
 import kotlin.js.Promise
 
@@ -15,7 +13,7 @@ import kotlin.js.Promise
 @JsName("HttpClientAbility")
 open class HttpClientAbility(private val client: GenericHttpClient) {
 
-    private var abilities = mutableListOf<Abilities>()
+    private var abilities = mutableListOf<HttpAbility>()
     private var httpAbility = client
         get() {
             return field
@@ -25,9 +23,9 @@ open class HttpClientAbility(private val client: GenericHttpClient) {
         }
 
     @JsName("withConfiguration")
-    fun withConfiguration(name: String) : Array<Abilities> {
+    fun withConfiguration(name: String) : Array<HttpAbility> {
         httpAbility = createHttpClient(name)
-        abilities.add(Abilities(name, httpAbility))
+        abilities.add(HttpAbility(name, httpAbility))
         return abilities.toTypedArray()
     }
 

@@ -8,7 +8,7 @@ package de.p7s1.qa.sevenfacette.gql
 @ExperimentalJsExport
 @JsName("GraphqlMutation")
 @JsExport
-class GraphqlMutation (requestName: String) : GraphqlRequest(requestName) {
+class GraphqlMutation (operationName: String) : GraphqlRequest(operationName) {
 
     override fun toString(): String {
         val superStr = super.toString()
