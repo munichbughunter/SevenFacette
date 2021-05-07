@@ -31,15 +31,17 @@ around living documentation.
 
 ### Repository
 
-You can download 7Facette packages from JFRog Bintray
+You can download 7Facette packages from Jetbrains Space
 
-#### JFrog Bintray
+#### Jetbrains Space
 
 ```kotlin
-repositories {
-    maven {
-	  url "https://dl.bintray.com/p7s1qa/sevenfacette-jvm"
-	}
+maven {
+        url "https://maven.pkg.jetbrains.space/sevenfacette/p/sevenfacette/sevenfacette"
+        credentials {
+            username = "85dcdf4c-d6cd-486f-85d3-654904e1cf22"
+            password = "365171aab3c77e6aa2016b73c29ba738280dd96e94dddfc15e45ef65ffbcec5b"
+        }
 }
 ```
 
