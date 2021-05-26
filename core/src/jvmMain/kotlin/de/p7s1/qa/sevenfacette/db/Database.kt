@@ -94,8 +94,8 @@ class Database(
      *
      * @return [JSONArray]
      */
-    fun waitUntilExistsOrUpdated(preparedDbStatement: SqlStatement, pollingTime: Duration) : JSONArray? {
-        with().pollInterval(1, SECONDS).await().atMost(pollingTime.seconds, SECONDS).until {
+    fun waitUntilExistsOrUpdated(preparedDbStatement: SqlStatement, timeout: Duration = Duration.ofSeconds(5), pollInterval: Duration = Duration.ofSeconds(1)) : JSONArray? {
+        with().pollInterval(pollInterval.seconds, SECONDS).await().atMost(timeout.seconds, SECONDS).until {
             executeSqlStatement(preparedDbStatement)?.size!! > 0
         }
         return executeSqlStatement(preparedDbStatement)
@@ -108,8 +108,8 @@ class Database(
      *
      * @return [JSONArray]
      */
-    fun waitUntilDeleted(preparedDbStatement: SqlStatement, pollingTime: Duration) : JSONArray? {
-        with().pollInterval(1, SECONDS).await().atMost(pollingTime.seconds, SECONDS).until {
+    fun waitUntilDeleted(preparedDbStatement: SqlStatement, timeout: Duration = Duration.ofSeconds(5), pollInterval: Duration = Duration.ofSeconds(1)) : JSONArray? {
+        with().pollInterval(pollInterval.seconds, SECONDS).await().atMost(timeout.seconds, SECONDS).until {
             executeSqlStatement(preparedDbStatement)?.size!! == 0
         }
         return executeSqlStatement(preparedDbStatement)
@@ -169,8 +169,8 @@ class Database(
      *
      * @return [T] Type
      */
-    fun <T> waitUntilExistsOrUpdated(preparedDbStatement: SqlStatement, clazz: Class<T>, pollingTime: Duration) : List<T> {
-        with().pollInterval(1, SECONDS).await().atMost(pollingTime.seconds, SECONDS).until {
+    fun <T> waitUntilExistsOrUpdated(preparedDbStatement: SqlStatement, clazz: Class<T>, timeout: Duration = Duration.ofSeconds(5), pollInterval: Duration = Duration.ofSeconds(1)) : List<T> {
+        with().pollInterval(pollInterval.seconds, SECONDS).await().atMost(timeout.seconds, SECONDS).until {
             executeSqlStatement(preparedDbStatement, clazz).isNotEmpty()
         }
         return executeSqlStatement(preparedDbStatement, clazz)
