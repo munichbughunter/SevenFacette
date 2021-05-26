@@ -162,6 +162,11 @@ actual class KConsumer actual constructor(
         return kRecordQueue
     }
 
+    // fun <T> sendKeyMessage(key: T, msg: T)
+    fun <T> getKRecords(recordType: T) : List<T> {
+
+    }
+
     /**
      * Returns the consumed record count
      *
