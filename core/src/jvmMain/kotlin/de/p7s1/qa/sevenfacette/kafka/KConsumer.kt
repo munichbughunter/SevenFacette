@@ -1,5 +1,7 @@
 package de.p7s1.qa.sevenfacette.kafka
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.SerializationFeature.FAIL_ON_EMPTY_BEANS
 import de.p7s1.qa.sevenfacette.config.types.KafkaTopicConfig
 import de.p7s1.qa.sevenfacette.kafka.config.SaslConfig
 import de.p7s1.qa.sevenfacette.utils.Logger
@@ -7,10 +9,8 @@ import kotlinx.coroutines.*
 import org.apache.kafka.clients.consumer.Consumer
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.consumer.KafkaConsumer
-import org.apache.kafka.common.TopicPartition
 import org.apache.kafka.common.serialization.StringDeserializer
 import org.awaitility.Awaitility.with
-import org.awaitility.kotlin.await
 import java.time.Duration
 import java.util.UUID
 import java.util.concurrent.ConcurrentLinkedQueue
@@ -162,9 +162,19 @@ actual class KConsumer actual constructor(
         return kRecordQueue
     }
 
-    // fun <T> sendKeyMessage(key: T, msg: T)
-    fun <T> getKRecords(recordType: T) : List<T> {
-
+    /**
+     * Returns the consumed KRecords as Type list
+     *
+     * @return [kRecordQueue]
+     */
+    fun <T> getKRecords(clazz: Class<T>) : MutableList<T> {
+        val objectMapper = ObjectMapper()
+        objectMapper.configure(FAIL_ON_EMPTY_BEANS, false)
+        val mappedList : MutableList<T> = mutableListOf()
+        getKRecords().forEach {
+            mappedList.add(objectMapper.readValue(it.value, Class.forName(clazz.name)) as T)
+        }
+        return mappedList
     }
 
     /**
