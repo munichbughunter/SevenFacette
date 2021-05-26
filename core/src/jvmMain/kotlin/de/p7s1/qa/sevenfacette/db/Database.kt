@@ -88,15 +88,29 @@ class Database(
     }
 
     /**
-     * Executes a prepared statement until time out duration is reached and returns a JSONArray.
+     * Executes a prepared statement until time duration is reached and returns a JSONArray.
      *
      * @param [preparedDbStatement] statement to execute
      *
      * @return [JSONArray]
      */
-    fun waitUnitExists(preparedDbStatement: SqlStatement, pollingTime: Duration) : JSONArray? {
+    fun waitUntilExistsOrUpdated(preparedDbStatement: SqlStatement, pollingTime: Duration) : JSONArray? {
         with().pollInterval(1, SECONDS).await().atMost(pollingTime.seconds, SECONDS).until {
             executeSqlStatement(preparedDbStatement)?.size!! > 0
+        }
+        return executeSqlStatement(preparedDbStatement)
+    }
+
+    /**
+     * Executes a prepared statement until time duration is reached and returns a JSONArray.
+     *
+     * @param [preparedDbStatement] statement to execute
+     *
+     * @return [JSONArray]
+     */
+    fun waitUntilDeleted(preparedDbStatement: SqlStatement, pollingTime: Duration) : JSONArray? {
+        with().pollInterval(1, SECONDS).await().atMost(pollingTime.seconds, SECONDS).until {
+            executeSqlStatement(preparedDbStatement)?.size!! == 0
         }
         return executeSqlStatement(preparedDbStatement)
     }
@@ -148,14 +162,14 @@ class Database(
     }
 
     /**
-     * Executes a prepared statement until time out duration is reached and returns a mapped List<T>.
+     * Executes a prepared statement until time duration is reached and returns a mapped List<T>.
      *
      * @param [preparedDbStatement] statement to execute
      * @param [clazz] Entity class to map
      *
      * @return [T] Type
      */
-    fun <T> waitUnitExists(preparedDbStatement: SqlStatement, clazz: Class<T>, pollingTime: Duration) : List<T> {
+    fun <T> waitUntilExistsOrUpdated(preparedDbStatement: SqlStatement, clazz: Class<T>, pollingTime: Duration) : List<T> {
         with().pollInterval(1, SECONDS).await().atMost(pollingTime.seconds, SECONDS).until {
             executeSqlStatement(preparedDbStatement, clazz).isNotEmpty()
         }
