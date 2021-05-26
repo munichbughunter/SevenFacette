@@ -6,6 +6,7 @@ import de.p7s1.qa.sevenfacette.config.types.HttpClientConfig
 import io.ktor.client.engine.*
 import io.ktor.client.engine.apache.*
 import io.ktor.util.*
+import org.apache.http.HttpHost
 import org.apache.http.conn.ssl.TrustAllStrategy
 import org.apache.http.ssl.SSLContextBuilder
 
@@ -55,7 +56,7 @@ class HttpClientFactory {
             val apache = Apache.create {
                 customizeClient {
                     if(configHttp.proxy != null) {
-                        proxy =  ProxyBuilder.socks(configHttp.proxy!!.host!!, configHttp.proxy!!.port)
+                        setProxy(HttpHost(configHttp.proxy!!.host, configHttp.proxy!!.port))
                     }
                     socketTimeout = configHttp.socketTimeout!!
                     connectTimeout = configHttp.connectionTimeout!!
