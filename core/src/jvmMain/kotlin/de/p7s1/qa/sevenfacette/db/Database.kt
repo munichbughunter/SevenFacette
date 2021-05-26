@@ -4,13 +4,15 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature.FAIL_ON_EMPTY_BEANS
 import de.p7s1.qa.sevenfacette.config.types.DatabaseConfig
 import de.p7s1.qa.sevenfacette.utils.Logger
+import org.awaitility.Awaitility.with
 import org.json.simple.JSONArray
 import org.json.simple.JSONObject
 import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.ResultSet
 import java.sql.SQLException
-import java.util.concurrent.atomic.AtomicInteger
+import java.time.Duration
+import java.util.concurrent.TimeUnit.SECONDS
 import java.util.function.Consumer
 
 
@@ -86,6 +88,20 @@ class Database(
     }
 
     /**
+     * Executes a prepared statement until time out duration is reached and returns a JSONArray.
+     *
+     * @param [preparedDbStatement] statement to execute
+     *
+     * @return [JSONArray]
+     */
+    fun waitUnitExists(preparedDbStatement: SqlStatement, pollingTime: Duration) : JSONArray? {
+        with().pollInterval(1, SECONDS).await().atMost(pollingTime.seconds, SECONDS).until {
+            executeSqlStatement(preparedDbStatement)?.size!! > 0
+        }
+        return executeSqlStatement(preparedDbStatement)
+    }
+
+    /**
      * Executes a prepared statement and returns a JSONArray
      *
      * @param [preparedDbStatement] statement to execute
@@ -129,6 +145,21 @@ class Database(
             throw RuntimeException(ex)
         }
         return json
+    }
+
+    /**
+     * Executes a prepared statement until time out duration is reached and returns a mapped List<T>.
+     *
+     * @param [preparedDbStatement] statement to execute
+     * @param [clazz] Entity class to map
+     *
+     * @return [T] Type
+     */
+    fun <T> waitUnitExists(preparedDbStatement: SqlStatement, clazz: Class<T>, pollingTime: Duration) : List<T> {
+        with().pollInterval(1, SECONDS).await().atMost(pollingTime.seconds, SECONDS).until {
+            executeSqlStatement(preparedDbStatement, clazz).isNotEmpty()
+        }
+        return executeSqlStatement(preparedDbStatement, clazz)
     }
 
     /**
