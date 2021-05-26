@@ -1,5 +1,7 @@
 package de.p7s1.qa.sevenfacette.kafka
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.jsonschema.JsonSerializableSchema
 import de.p7s1.qa.sevenfacette.config.types.KafkaTopicConfig
 import de.p7s1.qa.sevenfacette.kafka.config.SaslConfig
 import de.p7s1.qa.sevenfacette.utils.Logger
@@ -15,7 +17,7 @@ import org.apache.kafka.common.serialization.StringSerializer
  *
  * @author Patrick Döring
  */
-class KProducer (
+class KProducer(
     private val topicConfig: KafkaTopicConfig,
     private var autoSend: Boolean
 ) {
@@ -41,6 +43,15 @@ class KProducer (
     }
 
     /**
+     * Serialize object to String and sends as Kafka message to a configured table topic.
+     * @param [msg]
+     */
+    fun <T> send(msg: T) {
+        val objectMapper = ObjectMapper()
+        send(objectMapper.writeValueAsString(msg))
+    }
+
+    /**
      * Sends a Kafka message to a configured table topic
      * @param [msg]
      */
@@ -50,6 +61,15 @@ class KProducer (
             flush()
         }
         logger.info("Message send to topic: $msg")
+    }
+
+    /**
+     * Serialize key and message to String and sends as Kafka key message to a table topic.
+     * @param [msg]
+     */
+    fun <T> sendKeyMessage(key: T, msg: T) {
+        val objectMapper = ObjectMapper()
+        sendKeyMessage(objectMapper.writeValueAsString(key), objectMapper.writeValueAsString(msg))
     }
 
     /**
