@@ -85,10 +85,10 @@ actual class KConsumer actual constructor(
         }
     }
 
-    fun filterByValue(pattern: String, pollingTime: Duration): List<KRecord> {
+    fun filterByValue(pattern: String, timeout: Duration = Duration.ofSeconds(5)): List<KRecord> {
         var filteredList: List<KRecord> = listOf()
 
-        with().pollInterval(500, MILLISECONDS).await().atMost(pollingTime.seconds, SECONDS).until {
+        with().pollInterval(500, MILLISECONDS).await().atMost(timeout.seconds, SECONDS).until {
             filteredList = getKRecords().filter { (_, value) -> value!!.contains(pattern) }
 
             if (filteredList.size > 0) {
@@ -99,10 +99,32 @@ actual class KConsumer actual constructor(
         return filteredList
     }
 
-    fun filterByKey(pattern: String, pollingTime: Duration): List<KRecord> {
+    fun <T> filterByValue(pattern: String, timeout: Duration = Duration.ofSeconds(5), clazz: Class<T>) : MutableList<T> {
+        val objectMapper = ObjectMapper()
+        objectMapper.configure(FAIL_ON_EMPTY_BEANS, false)
+        val mappedList : MutableList<T> = mutableListOf()
+
+        filterByValue(pattern, timeout).forEach {
+            mappedList.add(objectMapper.readValue(it.value, Class.forName(clazz.name)) as T)
+        }
+        return mappedList
+    }
+
+    fun <T> filterByKey(pattern: String, timeout: Duration = Duration.ofSeconds(5), clazz: Class<T>) : MutableList<T> {
+        val objectMapper = ObjectMapper()
+        objectMapper.configure(FAIL_ON_EMPTY_BEANS, false)
+        val mappedList : MutableList<T> = mutableListOf()
+
+        filterByKey(pattern, timeout).forEach {
+            mappedList.add(objectMapper.readValue(it.value, Class.forName(clazz.name)) as T)
+        }
+        return mappedList
+    }
+
+    fun filterByKey(pattern: String, timeout: Duration = Duration.ofSeconds(5)): List<KRecord> {
         var filteredList: List<KRecord> = listOf()
 
-        with().pollInterval(500, MILLISECONDS).await().atMost(pollingTime.seconds, SECONDS).until {
+        with().pollInterval(500, MILLISECONDS).await().atMost(timeout.seconds, SECONDS).until {
             filteredList = getKRecords().filter { (key, _) -> key!!.contains(pattern) }
 
             if (filteredList.size > 0) {
@@ -113,8 +135,8 @@ actual class KConsumer actual constructor(
         return filteredList
     }
 
-    fun waitForKRecordsCount(count: Int, pollingTime: Duration): ConcurrentLinkedQueue<KRecord> {
-        with().pollInterval(1, SECONDS).await().atMost(pollingTime.seconds, SECONDS).until { getKRecords().size == count}
+    fun waitForKRecordsCount(count: Int, timeout: Duration): ConcurrentLinkedQueue<KRecord> {
+        with().pollInterval(1, SECONDS).await().atMost(timeout.seconds, SECONDS).until { getKRecords().size == count}
         return getKRecords()
     }
 
