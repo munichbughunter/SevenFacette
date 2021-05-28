@@ -47,7 +47,7 @@ class Argument private constructor() : HashMap<String?, Any?>() {
         if (`val` is Enum<*>) {
             return `val`.name
         }
-        return (`val` as? String)?.toString() ?: "\\\"" + `val`.toString() + "\\\""
+        return "\\\"" + `val`.toString() + "\\\""
     }
 
     companion object {
