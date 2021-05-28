@@ -34,6 +34,7 @@ class KFactory {
                 true -> KConsumer(config).apply {
                     createConsumer()
                     consume()
+                    Thread.sleep(500)
                 }
                 false -> KConsumer(config).apply {
                     createConsumer()
