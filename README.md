@@ -52,8 +52,8 @@ maven {
 To use the JVM implementation of the 7Facette core and web module.
 
 ```kotlin
-implementation 'de.p7s1.qa.sevenfacette:core-jvm:1.2.0'
-implementation 'de.p7s1.qa.sevenfacette:web-jvm:1.2.0'
+implementation 'de.p7s1.qa.sevenfacette:core-jvm:1.2.1'
+implementation 'de.p7s1.qa.sevenfacette:web-jvm:1.2.1'
 ```
 
 #### JS
