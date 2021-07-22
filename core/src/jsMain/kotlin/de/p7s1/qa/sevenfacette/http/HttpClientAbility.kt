@@ -69,6 +69,10 @@ open class HttpClientAbility(private val client: GenericHttpClient) {
     suspend fun delete(path: String, headers: HttpHeader? = null): Promise<HttpResponse> =
         client.delete(path, headers)
 
+    @JsName("deleteString")
+    suspend fun delete(path: String, content: String, contentType: CONTENTTYPES = CONTENTTYPES.APPLICATION_JSON, headers: HttpHeader? = null): Promise<HttpResponse> =
+        client.delete(path, content, contentType, headers)
+
     @JsName("get")
     suspend fun get(path: String, headers: HttpHeader? = null): Promise<HttpResponse> =
         client.get(path, headers)

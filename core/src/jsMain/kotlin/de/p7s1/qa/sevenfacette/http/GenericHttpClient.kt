@@ -189,6 +189,21 @@ actual class GenericHttpClient {
             executeRequest(this.client, HttpMethod.Delete, this.url, path, null, headers)
 
     /**
+     * Send delete request with string content
+     *
+     * @param path path to be added to base URL
+     * @param content string content to be sent
+     * @param contentType content type of the request
+     * @param headers headers to be added to requests
+     * @see HttpHeader
+     * @return HttpResponse - null if no response is received
+     */
+    @JsName("deleteString")
+    suspend fun delete(path: String, content: String, contentType: CONTENTTYPES = CONTENTTYPES.APPLICATION_JSON, headers: HttpHeader? = null): Promise<HttpResponse> {
+        return executeRequest(this.client, HttpMethod.Delete, this.url, path, getBody(content, contentType), headers)
+    }
+
+    /**
      * Send delete request
      *
      * @param path path to be added to base URL
