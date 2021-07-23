@@ -30,8 +30,8 @@ class GenericHttpClientTest {
     @Test
     fun getTest() {
         System.setProperty("FACETTE_CONFIG", "facetteConfig.yml")
-        val httpClient = HttpClientFactory.createClient("holidayRestClient")
-        val response = httpClient.get("namedays?country=de&month=1&day=9", null)
+        val httpClient = HttpClientFactory.createClient("apiClient")
+        val response = httpClient.get("/us/90210", null)
         assertEquals(200, response?.status)
     }
 }
