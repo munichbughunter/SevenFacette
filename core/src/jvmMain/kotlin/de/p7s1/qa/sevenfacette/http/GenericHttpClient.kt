@@ -68,7 +68,7 @@ actual class GenericHttpClient {
      * @see HttpHeader
      * @return HttpResponse - null if no response is received
      */
-    fun post(path: String, content: String, contentType: CONTENTTYPES = CONTENTTYPES.APPLICATION_JSON, headers: HttpHeader? = null): HttpResponse? =
+    fun post(path: String, content: String, contentType: CONTENTTYPES = APPLICATION_JSON, headers: HttpHeader? = null): HttpResponse? =
             executeRequest(this.client, HttpMethod.Post, this.url, path, getBody(content, contentType), headers)
 
     /**
@@ -105,7 +105,7 @@ actual class GenericHttpClient {
      * @see HttpHeader
      * @return HttpResponse - null if no response is received
      */
-    fun put(path: String, content: String, contentType: CONTENTTYPES = CONTENTTYPES.APPLICATION_JSON, headers: HttpHeader? = null): HttpResponse? =
+    fun put(path: String, content: String, contentType: CONTENTTYPES = APPLICATION_JSON, headers: HttpHeader? = null): HttpResponse? =
             executeRequest(this.client, HttpMethod.Put, this.url, path, getBody(content, contentType), headers)
 
     /**
@@ -169,6 +169,7 @@ actual class GenericHttpClient {
      */
     fun patch(path: String, content: MultipartBody, headers: HttpHeader? = null): HttpResponse? =
             executeRequest(this.client, HttpMethod.Patch, this.url, path, getBody(content), headers)
+
     /**
      * Send delete request
      *
@@ -179,6 +180,20 @@ actual class GenericHttpClient {
      */
     fun delete(path: String, headers: HttpHeader? = null): HttpResponse? =
             executeRequest(this.client, HttpMethod.Delete, this.url, path, null, headers)
+
+    /**
+     * Send delete request with string content
+     *
+     * @param path path to be added to base URL
+     * @param content string content to be sent
+     * @param contentType content type of the request
+     * @param headers headers to be added to requests
+     * @see HttpHeader
+     * @return HttpResponse - null if no response is received
+     */
+    fun delete(path: String, content: String, contentType: CONTENTTYPES = APPLICATION_JSON, headers: HttpHeader? = null): HttpResponse? {
+        return executeRequest(this.client, HttpMethod.Delete, this.url, path, getBody(content, contentType) , headers)
+    }
 
     /**
      * Send delete request

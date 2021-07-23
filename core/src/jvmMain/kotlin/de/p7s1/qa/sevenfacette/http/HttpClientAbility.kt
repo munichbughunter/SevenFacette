@@ -104,6 +104,15 @@ class HttpClientAbility(private val client: GenericHttpClient) : Ability {
         return client.delete(path, headers)
     }
 
+    fun delete(
+        path: String,
+        content: String,
+        contentType: CONTENTTYPES = APPLICATION_JSON,
+        headers: HttpHeader? = null
+    ) : HttpResponse? {
+        return client.delete(path, content, contentType, headers)
+    }
+
     fun get(
         path: String,
         headers: HttpHeader? = null

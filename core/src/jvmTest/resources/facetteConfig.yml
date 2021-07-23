@@ -1,6 +1,6 @@
 sevenFacette:
   log:
-    level: DEBUG
+    level: INFO
   http:
     clients:
       apiClient:
@@ -8,14 +8,8 @@ sevenFacette:
         connectionRequestTimeout: 4000
         socketTimeout: 3000
         url:
-          baseUrl: https://mero-app.pts-sales-playground.aws.p7s1.tech
-      holidayRestClient:
-        connectionTimeout: 5000
-        connectionRequestTimeout: 4000
-        socketTimeout: 3000
-        url:
-          baseUrl: api.abalin.net/
-          protocol: https
+          baseUrl: zippopotam.us
+          protocol: http
       testClient:
         connectionTimeout: 3000
         connectionRequestTimeout: 5000
