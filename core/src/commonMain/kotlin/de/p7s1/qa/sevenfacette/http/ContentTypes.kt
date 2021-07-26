@@ -52,5 +52,7 @@ enum class CONTENTTYPES(val contentType: ContentType) {
     VIDEO_MPEG (ContentType("video", "mpeg")),
     VIDEO_MP4 (ContentType("video", "mp4")),
     VIDEO_OGG (ContentType("video", "ogg")),
-    VIDEO_QUICKTIME (ContentType("video", "quicktime"))
+    VIDEO_QUICKTIME (ContentType("video", "quicktime"));
+
+    fun formattedMediaType() = contentType.contentType + '/' + contentType.contentSubtype
 }

@@ -25,11 +25,11 @@ class MultipartBody {
      * @return this
      */
     @JsName("addStringPart")
-    fun addStringPart(name: String, content: String): MultipartBody {
+    fun addStringPart(name: String, content: String, contentType: CONTENTTYPES): MultipartBody {
         logger.debug("Adding string content with name: $name to multipart body")
         if(name == null ||content == null)
             throw Exception(MESSAGE) // needed for JS
-        multipartData.add(MultiPartData(name, content, null, null))
+        multipartData.add(MultiPartData(name, content, null, contentType.formattedMediaType()))
         return this
     }
 
@@ -63,11 +63,11 @@ class MultipartBody {
      * @author Patrick Döring
      */
     @JsName("addFileItemPart")
-    fun addFileItemPart(name: String, fileName: String, content: ByteArray, contenttype: CONTENTTYPES): MultipartBody {
+    fun addFileItemPart(name: String, fileName: String, content: ByteArray, contentType: CONTENTTYPES): MultipartBody {
         logger.debug("Adding file item with name: $fileName to multipart body")
         if(name == null ||content == null)
             throw Exception(MESSAGE) // needed for JS
-        multipartData.add(MultiPartData(name, content, fileName, contenttype.name))
+        multipartData.add(MultiPartData(name, content, fileName, contentType.formattedMediaType()))
         return this
     }
 
@@ -82,17 +82,20 @@ class MultipartBody {
                 multipartData.forEach {
                     if (it.fileName.isNullOrEmpty()) {
                         when(it.value!!::class) {
-                            String::class ->  append(it.name, it.value as String)
+                            String::class -> append(it.name, it.value as String, buildHeaders(it.contentType))
                             ByteArray::class -> append(it.name, it.value as ByteArray)
                             else -> logger.error("Content type ${it.value::class} currently not implemented")
                         }
                     } else {
-                        append(it.name, it.value as ByteArray, Headers.build {
-                            append(HttpHeaders.ContentType, it.contentType.toString())
-                            append(HttpHeaders.ContentDisposition, " filename=${it.fileName}")
-                        })
+                        append(it.name, it.value as ByteArray, buildHeaders(it.contentType, it.fileName))
                     }
                 }
             }
     )
+
+    private fun buildHeaders(contentType: String?, fileName: String? = null) =
+        Headers.build {
+            contentType?.let { append(HttpHeaders.ContentType, it) }
+            fileName?.let { append(HttpHeaders.ContentDisposition, " filename=${it}") }
+        }
 }
