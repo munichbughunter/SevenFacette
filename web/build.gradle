@@ -1,3 +1,4 @@
+
 buildscript {
     repositories.maven {
         url "https://maven.pkg.jetbrains.space/sevenfacette/p/sevenfacette/sevenfacette"
@@ -13,7 +14,7 @@ buildscript {
 }
 
 plugins {
-    id 'org.jetbrains.kotlin.multiplatform' version '1.4.0'
+    id 'org.jetbrains.kotlin.multiplatform' version '1.4.32'
     id 'org.jetbrains.kotlin.plugin.serialization' version '1.4.0'
     id("maven-publish")
     id("com.jfrog.bintray") version "1.8.4"
@@ -60,10 +61,10 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
 
 kotlin {
     jvm()
-    js('js') {
+    js(IR) {
         useCommonJs()
-        nodejs {
-        }
+        nodejs()
+        //binaries.executable()
     }
 
     sourceSets {
@@ -100,7 +101,7 @@ kotlin {
                 implementation 'io.github.bonigarcia:webdrivermanager:4.0.0'
                 implementation 'com.assertthat:selenium-shutterbug:0.9.4'
 
-                implementation "de.p7s1.qa.sevenfacette:core-jvm:1.1.2"
+                implementation "de.p7s1.qa.sevenfacette:core-jvm:1.4.0"
             }
         }
         jvmTest {
