@@ -1,13 +1,15 @@
 package de.p7s1.qa.sevenfacette.utils
 
+@ExperimentalJsExport
+@JsExport
 actual class Files {
     actual companion object {
-        @JsName("getAsByteArray")
+        //@JsName("getAsByteArray")
         actual fun getAsByteArray(path: String): ByteArray {
             return fs.readFileSync(path, "utf8").encodeToByteArray()
         }
 
-        @JsName("getAsText")
+        //@JsName("getAsText")
         actual fun getAsText(path: String): String {
             return fs.readFileSync(path, "utf8")
         }

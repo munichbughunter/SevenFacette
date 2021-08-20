@@ -2,24 +2,26 @@ package de.p7s1.qa.sevenfacette.utils
 
 import process
 
+@ExperimentalJsExport
+@JsExport
 actual class FileLoader {
-    @JsName("readFileAsString")
+    //@JsName("readFileAsString")
     fun readFileAsString(path: String): String =
             Files.getAsText(path)
 
-    @JsName("readFileAsByteArray")
+    //@JsName("readFileAsByteArray")
     fun readFileAsByteArray(path: String): ByteArray =
             Files.getAsByteArray(path)
 
-    @JsName("readRelativeFileAsString")
+    //@JsName("readRelativeFileAsString")
     fun readRelativeAsString(relativePath: String): String =
             readFileAsString(getPath(relativePath))
 
-    @JsName("readRelativeAsByteArray")
+    //@JsName("readRelativeAsByteArray")
     fun readRelativeAsByteArray(relativePath: String): ByteArray =
             readFileAsByteArray(getPath(relativePath))
 
-    @JsName("getPath")
+    //@JsName("getPath")
     fun getPath(folder: String): String =
             if (folder[0] == '/') process.cwd() + folder else process.cwd() + "/" + folder
 }

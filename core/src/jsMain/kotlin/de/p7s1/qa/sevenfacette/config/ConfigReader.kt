@@ -25,7 +25,7 @@ actual class ConfigReader {
          *
          * @return FacetteConfigDataClass
          */
-        @JsName("readConfig")
+        //@JsName("readConfig")
         actual fun readConfig(): SevenFacetteConfig {
             val config = replaceEnvironmentVariables(replaceImports(getConfigFileName().toString()))
             var result = SevenFacetteConfig()
@@ -35,30 +35,30 @@ actual class ConfigReader {
             return result
         }
 
-        @JsName("getLoggingConfig")
+        //@JsName("getLoggingConfig")
         actual fun getLoggingConfig(): LoggingConfig? = FacetteConfig.log
 
-        @JsName("getHttpConfig")
+        //@JsName("getHttpConfig")
         actual fun getHttpConfig(): HttpConfig? =
                 FacetteConfig.http
 
-        @JsName("getHttpClientConfig")
+       // @JsName("getHttpClientConfig")
         actual fun getHttpClientConfig(clientName: String): HttpClientConfig? =
                 FacetteConfig.http?.clients?.get(clientName)
 
-        @JsName("getKafkaConsumerConfig")
+        //@JsName("getKafkaConsumerConfig")
         actual fun getKafkaConsumerConfig(consumerName: String): KafkaTopicConfig? =
                 FacetteConfig.kafka?.consumer?.get(consumerName)
 
-        @JsName("getKafkaProducerConfig")
+        //@JsName("getKafkaProducerConfig")
         actual fun getKafkaProducerConfig(producerName: String): KafkaTopicConfig? =
                 FacetteConfig.kafka?.producer?.get(producerName)
 
-        @JsName("getDatabaseConfig")
+        //@JsName("getDatabaseConfig")
         actual fun getDatabaseConfig(databaseName: String) : DatabaseConfig? =
                 FacetteConfig.database?.get(databaseName)
 
-        @JsName("getCustomConfig")
+        //@JsName("getCustomConfig")
         actual fun getCustomConfig(key: String) : String? =
                 FacetteConfig.custom?.get(key)
 

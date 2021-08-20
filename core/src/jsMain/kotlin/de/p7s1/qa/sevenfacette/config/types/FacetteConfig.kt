@@ -1,7 +1,10 @@
 package de.p7s1.qa.sevenfacette.config.types
 
 import de.p7s1.qa.sevenfacette.config.ConfigReader
+import kotlin.js.Promise
 
+@ExperimentalJsExport
+@JsExport
 actual object FacetteConfig {
     @JsName("http")
     actual var http: HttpConfig? = null
