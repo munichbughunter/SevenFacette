@@ -42,8 +42,10 @@ repositories {
     maven {
         url "https://maven.pkg.jetbrains.space/sevenfacette/p/sevenfacette/sevenfacette"
         credentials {
-            username = System.getenv("SPACE_ACTOR")
-            password = System.getenv("SPACE_TOKEN")
+            username = "85dcdf4c-d6cd-486f-85d3-654904e1cf22"
+            password = "365171aab3c77e6aa2016b73c29ba738280dd96e94dddfc15e45ef65ffbcec5b"
+            //username = System.getenv("SPACE_ACTOR")
+            //password = System.getenv("SPACE_TOKEN")
         }
     }
 }

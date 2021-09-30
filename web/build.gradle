@@ -100,7 +100,7 @@ kotlin {
                 implementation 'io.github.bonigarcia:webdrivermanager:4.0.0'
                 implementation 'com.assertthat:selenium-shutterbug:0.9.4'
 
-                implementation "de.p7s1.qa.sevenfacette:core-jvm:1.1.2"
+                implementation "de.p7s1.qa.sevenfacette:core-jvm:1.4.0"
             }
         }
         jvmTest {
