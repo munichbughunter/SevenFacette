@@ -6,7 +6,9 @@ import de.p7s1.qa.sevenfacette.utils.Logger
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerConfig
 import org.apache.kafka.clients.producer.ProducerRecord
+import org.apache.kafka.common.header.internals.RecordHeader
 import org.apache.kafka.common.serialization.StringSerializer
+
 
 /**
  * JVM specific implementation of the Kafka producer
@@ -49,6 +51,26 @@ class KProducer (
         if (autoSend) {
             flush()
         }
+        logger.info("Message send to topic: $msg")
+    }
+
+    /**
+     * Sends a Kafka message with Header(s) to a configured table topic
+     * @param [msg]
+     */
+    fun sendMessageWithHeader(msg: String, headers: List<RecordHeader>) {
+        val record = ProducerRecord<String?, String?>(topicConfig.topicName, msg)
+
+        headers.forEach { header ->
+            record.headers().add(header)
+        }
+
+        producer.send(record)
+
+        if (autoSend) {
+            flush()
+        }
+
         logger.info("Message send to topic: $msg")
     }
 
