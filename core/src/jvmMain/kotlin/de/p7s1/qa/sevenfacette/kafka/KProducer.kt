@@ -58,8 +58,8 @@ class KProducer (
      * Sends a Kafka message with Header(s) to a configured table topic
      * @param [msg]
      */
-    fun sendMessageWithHeader(msg: String, headers: List<RecordHeader>) {
-        val record = ProducerRecord<String?, String?>(topicConfig.topicName, msg)
+    fun sendMessageWithHeader(key: String, msg: String, headers: List<RecordHeader>) {
+        val record = ProducerRecord(topicConfig.topicName, key, msg)
 
         headers.forEach { header ->
             record.headers().add(header)

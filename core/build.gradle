@@ -73,7 +73,7 @@ kotlin {
                 implementation "io.ktor:ktor-client-auth:$ktor_version"
                 implementation 'org.jetbrains.kotlin:kotlin-reflect:1.3.0'
                 implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.1'
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:1.0-M1-1.4.0-rc-218")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:1.0-M1-1.4.0-rc")
             }
         }
         commonTest {
@@ -93,7 +93,7 @@ kotlin {
                 implementation 'org.apache.avro:avro:1.9.2'
                 implementation "io.ktor:ktor-client-apache:$ktor_version"
                 implementation 'org.awaitility:awaitility-kotlin:4.0.3'
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:1.0-M1-1.4.0-rc-218")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:1.0-M1-1.4.0-rc")
                 implementation 'com.googlecode.json-simple:json-simple:1.1.1'
                 implementation 'com.fasterxml.jackson.core:jackson-core:2.12.1'
                 implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.1'
