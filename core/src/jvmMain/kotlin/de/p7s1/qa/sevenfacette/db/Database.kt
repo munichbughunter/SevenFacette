@@ -56,8 +56,8 @@ class Database(
      * @return [result] as List<Map<String, Any>> or an empty list
      */
     @Deprecated(message = "This function will be deleted in version 2.0.0")
-    fun executeStatements(dbStatements: DbStatements) : List<Map<String, Any>>? {
-        var result: List<Map<String, Any>> = mutableListOf()
+    fun executeStatements(dbStatements: DbStatements) : List<Map<String, Any?>>? {
+        var result: List<Map<String, Any?>> = mutableListOf()
         try {
             openConnection().use { conn ->
                 dbStatements.list.forEach(Consumer {
@@ -233,19 +233,15 @@ class Database(
      * @return [result]
      */
     @Deprecated(message = "This function will be deleted in version 2.0.0")
-    private fun convertResultSetToList(rs: ResultSet) : List<Map<String, Any>> {
+    private fun convertResultSetToList(rs: ResultSet) : List<Map<String, Any?>> {
         return try {
-            val result: MutableList<Map<String, Any>> = mutableListOf()
+            val result: MutableList<Map<String, Any?>> = mutableListOf()
             val md = rs.metaData
             val columns = md.columnCount
             while (rs.next()) {
-                val row: MutableMap<String, Any> = HashMap(columns)
+                val row: MutableMap<String, Any?> = HashMap(columns)
                 for (i in 1..columns) {
-                    if (rs.getObject(i) == null) {
-                        row[md.getColumnName(i)] = emptyValue
-                    } else {
-                        row[md.getColumnName(i)] = rs.getObject(i)
-                    }
+                    row[md.getColumnName(i)] = rs.getObject(i)
                 }
                 result.add(row)
             }
