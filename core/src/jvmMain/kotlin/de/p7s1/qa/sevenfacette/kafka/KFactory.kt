@@ -3,6 +3,7 @@ package de.p7s1.qa.sevenfacette.kafka
 import de.p7s1.qa.sevenfacette.config.ConfigReader
 import de.p7s1.qa.sevenfacette.config.types.FacetteConfig
 import de.p7s1.qa.sevenfacette.config.types.KafkaTopicConfig
+import de.p7s1.qa.sevenfacette.utils.Logger
 
 /**
  * JVM specific implementation of the KFactory to create consumer and producer objects
@@ -11,6 +12,7 @@ import de.p7s1.qa.sevenfacette.config.types.KafkaTopicConfig
  */
 class KFactory {
     companion object {
+        private var logger: Logger = Logger()
         /**
          * Creates a KConsumer object based on the autoStart flag
          * true -> start consuming and returns the created object
@@ -32,8 +34,10 @@ class KFactory {
         fun createKConsumer(config: KafkaTopicConfig, autoStart: Boolean) : KConsumer {
             return when (autoStart) {
                 true -> KConsumer(config).apply {
+                    logger.info("Subscribing to topic ${config.topicName}")
                     createConsumer()
                     consume()
+                    Thread.sleep(3500)
                 }
                 false -> KConsumer(config).apply {
                     createConsumer()
