@@ -59,7 +59,7 @@ actual class KConsumer actual constructor(
             config[ConsumerConfig.GROUP_ID_CONFIG] = topicConfig.groupID
         }
 
-        if(!topicConfig.readIsolationLevel.isolationLevel.isBlank()) {
+        if(topicConfig.readIsolationLevel.isolationLevel.isNotBlank()) {
             config[ConsumerConfig.ISOLATION_LEVEL_CONFIG] = topicConfig.readIsolationLevel.isolationLevel
         }
 
@@ -113,11 +113,41 @@ actual class KConsumer actual constructor(
         return filteredList
     }
 
+    fun filterByValueAndCount(pattern: String, count: Int, pollingTime: Duration): List<KRecord> {
+        var filteredList: List<KRecord> = listOf()
+
+        with().pollInterval(500, MILLISECONDS).await().atMost(pollingTime.seconds, SECONDS).until {
+            filteredList = getKRecords().filter { (_, value) -> value!!.contains(pattern) }
+
+            if (filteredList.size == count) {
+                return@until true
+            }
+            false
+        }
+        return filteredList
+    }
+
+    fun filterByKeyAndCount(pattern: String, count: Int, pollingTime: Duration): List<KRecord> {
+        var filteredList: List<KRecord> = listOf()
+
+        with().pollInterval(500, MILLISECONDS).await().atMost(pollingTime.seconds, SECONDS).until {
+            filteredList = getKRecords().filter { (key, _) -> key!!.contains(pattern) }
+
+            if (filteredList.size == count) {
+                return@until true
+            }
+            false
+        }
+        return filteredList
+    }
+
     fun waitForKRecordsCount(count: Int, pollingTime: Duration): ConcurrentLinkedQueue<KRecord> {
         with().pollInterval(1, SECONDS).await().atMost(pollingTime.seconds, SECONDS).until { getKRecords().size == count}
         return getKRecords()
     }
 
+    @Deprecated
+        ("Replaced with methods filterByValue and filterByKey")
     /**
      * Wait for consumed KRecords within a given timespan
      *

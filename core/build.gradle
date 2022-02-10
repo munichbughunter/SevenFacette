@@ -103,9 +103,9 @@ kotlin {
         }
         jvmTest {
             dependencies {
-                implementation kotlin('test')
                 implementation kotlin('test-junit')
                 implementation 'com.h2database:h2:1.4.197'
+                implementation group: 'org.testcontainers', name: 'kafka', version: '1.15.2'
             }
         }
         jsMain {
