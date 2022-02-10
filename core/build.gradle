@@ -89,7 +89,8 @@ kotlin {
                 api 'com.charleskorn.kaml:kaml:0.21.0'
                 implementation 'com.jayway.jsonpath:json-path:2.4.0'
                 implementation 'org.skyscreamer:jsonassert:1.5.0'
-                implementation 'org.apache.kafka:kafka-clients:2.0.0'
+                //implementation 'org.apache.kafka:kafka-clients:2.0.0'
+                implementation 'org.apache.kafka:kafka-clients:2.8.0'
                 implementation 'org.apache.avro:avro:1.9.2'
                 implementation "io.ktor:ktor-client-apache:$ktor_version"
                 implementation 'org.awaitility:awaitility-kotlin:4.0.3'
@@ -136,9 +137,9 @@ def ARTIFACT_ID="core" // The name you gave your package in bintray. In our exam
 
 // Only for local TESTING //
 def LIBRARY_VERSION_NAME=1.0 // The current version of your library. You will need to update this value whenever you upload a new release. For example: 1.0
-//version = "v1.3.0"
+version = "v1.3.0"
 
-version = System.properties['VERSION']
+//version = System.properties['VERSION']
 version = version.toString().substring(1,6)
 LIBRARY_VERSION_NAME=version.toString().substring(0,3)
 
