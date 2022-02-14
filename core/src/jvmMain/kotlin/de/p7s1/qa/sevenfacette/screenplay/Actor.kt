@@ -1,5 +1,10 @@
 package de.p7s1.qa.sevenfacette.screenplay
 
+import java.util.*
+import java.util.function.Function.identity
+import java.util.stream.Collectors.toMap
+
+
 /**
  * Actor
  *
@@ -9,12 +14,25 @@ open class Actor(protected val name: String?) {
 
     private val abilities: MutableMap<String, Ability> = mutableMapOf()
     private val properties: MutableMap<String, Any> = mutableMapOf()
+    private val myAbilities: MutableMap<Class<out Ability>, Ability> = mutableMapOf()
 
     companion object {
 
         fun withName(name: String?): Actor {
             return Actor(name)
         }
+    }
+
+    fun can(vararg abilities: Ability): Actor {
+        this.myAbilities.putAll(Arrays.stream(abilities).collect(toMap(Ability::javaClass, identity())))
+        return this
+    }
+
+
+    fun <A : Ability?> uses(abilityClass: java.lang.Class<A>): A {
+        return Optional.ofNullable(myAbilities[abilityClass])
+            .map { obj: Any? -> abilityClass.cast(obj) }
+            .orElseThrow { MissingAbilityException(this, abilityClass) }
     }
 
     fun withAbility(ability: Ability): Actor {
