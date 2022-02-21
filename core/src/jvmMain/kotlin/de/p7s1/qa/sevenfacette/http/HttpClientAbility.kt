@@ -8,18 +8,23 @@ import de.p7s1.qa.sevenfacette.screenplay.Ability
  *
  * @author Patrick Döring
  */
-class HttpClientAbility(private val client: GenericHttpClient) : Ability {
+class HttpClientAbility(private val client: GenericHttpClient? = null) : Ability {
 
     override fun name() : String {
         return abilityName
     }
 
+    override fun <T> withConfiguration(name: String): HttpClientAbility {
+        abilityName = name
+        return HttpClientAbility(HttpClientFactory.createClient(name))
+    }
+
     companion object {
         var abilityName : String = ""
-        fun withConfiguration(name: String) : HttpClientAbility {
+        /*fun withConfiguration(name: String) : HttpClientAbility {
             abilityName = name
             return HttpClientAbility(HttpClientFactory.createClient(name))
-        }
+        }*/
     }
 
     fun post(
@@ -28,7 +33,7 @@ class HttpClientAbility(private val client: GenericHttpClient) : Ability {
         contentType: CONTENTTYPES = CONTENTTYPES.APPLICATION_JSON,
         headers: HttpHeader? = null
     ): HttpResponse? {
-        return client.post(path, content, contentType, headers)
+        return client?.post(path, content, contentType, headers)
     }
 
     fun post(
@@ -36,7 +41,7 @@ class HttpClientAbility(private val client: GenericHttpClient) : Ability {
         content: ByteArray,
         headers: HttpHeader? = null
     ) : HttpResponse? {
-        return client.post(path, content, headers)
+        return client?.post(path, content, headers)
     }
 
     fun post(
@@ -44,7 +49,7 @@ class HttpClientAbility(private val client: GenericHttpClient) : Ability {
         content: MultipartBody,
         headers: HttpHeader? = null
     ) : HttpResponse? {
-        return client.post(path, content, headers)
+        return client?.post(path, content, headers)
     }
 
     fun put(
@@ -53,7 +58,7 @@ class HttpClientAbility(private val client: GenericHttpClient) : Ability {
         contentType: CONTENTTYPES = CONTENTTYPES.APPLICATION_JSON,
         headers: HttpHeader? = null
     ) : HttpResponse? {
-        return client.put(path, content, contentType, headers)
+        return client?.put(path, content, contentType, headers)
     }
 
     fun put(
@@ -61,7 +66,7 @@ class HttpClientAbility(private val client: GenericHttpClient) : Ability {
         content: ByteArray,
         headers: HttpHeader? = null
     ) : HttpResponse? {
-        return client.put(path, content, headers)
+        return client?.put(path, content, headers)
     }
 
     fun put(
@@ -69,7 +74,7 @@ class HttpClientAbility(private val client: GenericHttpClient) : Ability {
         content: MultipartBody,
         headers: HttpHeader? = null
     ) : HttpResponse? {
-        return client.put(path, content, headers)
+        return client?.put(path, content, headers)
     }
 
     fun patch(
@@ -78,7 +83,7 @@ class HttpClientAbility(private val client: GenericHttpClient) : Ability {
         contentType: CONTENTTYPES = APPLICATION_JSON,
         headers: HttpHeader? = null
     ) : HttpResponse? {
-        return client.patch(path, content, contentType, headers)
+        return client?.patch(path, content, contentType, headers)
     }
 
     fun patch(
@@ -86,7 +91,7 @@ class HttpClientAbility(private val client: GenericHttpClient) : Ability {
         content: ByteArray,
         headers: HttpHeader? = null
     ) : HttpResponse? {
-        return client.patch(path, content, headers)
+        return client?.patch(path, content, headers)
     }
 
     fun patch(
@@ -94,14 +99,14 @@ class HttpClientAbility(private val client: GenericHttpClient) : Ability {
         content: MultipartBody,
         headers: HttpHeader? = null
     ) : HttpResponse? {
-        return client.patch(path, content, headers)
+        return client?.patch(path, content, headers)
     }
 
     fun delete(
         path: String,
         headers: HttpHeader? = null
     ) : HttpResponse? {
-        return client.delete(path, headers)
+        return client?.delete(path, headers)
     }
 
     fun delete(
@@ -110,20 +115,20 @@ class HttpClientAbility(private val client: GenericHttpClient) : Ability {
         contentType: CONTENTTYPES = APPLICATION_JSON,
         headers: HttpHeader? = null
     ) : HttpResponse? {
-        return client.delete(path, content, contentType, headers)
+        return client?.delete(path, content, contentType, headers)
     }
 
     fun get(
         path: String,
         headers: HttpHeader? = null
     ) : HttpResponse? {
-        return client.get(path, headers)
+        return client?.get(path, headers)
     }
 
     fun head(
         path: String,
         headers: HttpHeader? = null
     ) : HttpResponse? {
-        return client.head(path, headers)
+        return client?.head(path, headers)
     }
 }

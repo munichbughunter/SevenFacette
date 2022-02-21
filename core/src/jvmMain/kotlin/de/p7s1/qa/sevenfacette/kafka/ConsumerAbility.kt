@@ -16,12 +16,17 @@ class ConsumerAbility (private val consumer: KConsumer) : Ability {
         return abilityName
     }
 
+    override fun <T> withConfiguration(name: String): ConsumerAbility {
+        abilityName = name
+        return ConsumerAbility(KFactory.createKConsumer(name, true))
+    }
+
     companion object {
         var abilityName : String = ""
-        fun withConfiguration(name: String, autoStart: Boolean) : ConsumerAbility {
+       /* fun withConfiguration(name: String, autoStart: Boolean) : ConsumerAbility {
             abilityName = name
             return ConsumerAbility(KFactory.createKConsumer(name, autoStart))
-        }
+        }*/
     }
 
     fun filterByValue(pattern: String, pollingTime: Duration): List<KRecord> {
@@ -55,5 +60,9 @@ class ConsumerAbility (private val consumer: KConsumer) : Ability {
 
     fun getLastKRecord(): KRecord? {
         return consumer.getLastKRecord()
+    }
+
+    fun stopConsumer() {
+        consumer.stopConsumer()
     }
 }

@@ -14,12 +14,17 @@ class DbAbility (private val database: Database) : Ability {
         return abilityName
     }
 
+    override fun <T> withConfiguration(name: String): DbAbility {
+        abilityName = name
+        return DbAbility(DFactory.createDatabase(name))
+    }
+
     companion object {
         var abilityName : String = ""
-        fun withConfiguration(name: String) : DbAbility {
+        /*fun withConfiguration(name: String) : DbAbility {
             abilityName = name
             return DbAbility(DFactory.createDatabase(name))
-        }
+        }*/
     }
 
     fun executeSqlStatement(preparedDbStatement: SqlStatement) : JSONArray? {
