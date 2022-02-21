@@ -192,7 +192,7 @@ actual class KConsumer actual constructor(
     /**
      * Sets the keepGoing flag to false and stops consumer
      */
-    private fun stopConsumer() {
+    fun stopConsumer() {
         keepGoing = false
         shutdown()
     }
