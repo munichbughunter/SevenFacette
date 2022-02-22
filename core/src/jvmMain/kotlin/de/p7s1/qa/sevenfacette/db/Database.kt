@@ -78,6 +78,7 @@ class Database(
                         }
                     }
                 })
+                conn.close()
             }
         } catch (ex: SQLException) {
             logger.error("Error on opening database connection")
@@ -152,6 +153,7 @@ class Database(
                         conn.commit()
                     }
                 }
+                conn.close()
             }
         } catch (ex: SQLException) {
             logger.error("Error on opening database connection")

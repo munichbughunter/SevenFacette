@@ -1,5 +1,6 @@
 package de.p7s1.qa.sevenfacette.screenplay
 
+import org.apache.http.util.Args
 import java.util.*
 import java.util.function.Function.identity
 import java.util.stream.Collectors.toMap
@@ -37,6 +38,13 @@ open class Actor(protected val name: String?) {
 
     fun withAbility(ability: Ability): Actor {
         abilities[ability.name()] = ability
+        return this
+    }
+
+    fun withAbilities(vararg abilities: Ability): Actor {
+        abilities.forEach {
+            withAbility(it)
+        }
         return this
     }
 
