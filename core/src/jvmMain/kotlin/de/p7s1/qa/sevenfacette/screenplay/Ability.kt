@@ -7,5 +7,4 @@ package de.p7s1.qa.sevenfacette.screenplay
  */
 interface Ability {
     fun name() : String
-    fun <T> withConfiguration(name: String): Any
 }

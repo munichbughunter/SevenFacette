@@ -14,6 +14,7 @@ class KConsumerTest {
 
     @Test
     fun createConsumerTest() {
+        
     }
 
     @Test
