@@ -14,11 +14,6 @@ class HttpClientAbility(private val client: GenericHttpClient? = null) : Ability
         return abilityName
     }
 
-    override fun <T> withConfiguration(name: String): HttpClientAbility {
-        abilityName = name
-        return HttpClientAbility(HttpClientFactory.createClient(name))
-    }
-
     companion object {
         var abilityName : String = ""
         /*fun withConfiguration(name: String) : HttpClientAbility {

@@ -13,11 +13,6 @@ class ProducerAbility (private val producer: KProducer) : Ability {
         return abilityName
     }
 
-    override fun <T> withConfiguration(name: String): ProducerAbility {
-        abilityName = name
-        return ProducerAbility(KFactory.createKProducer(name, true))
-    }
-
     companion object {
         var abilityName : String = ""
        /* fun withConfiguration(name: String, autoSend: Boolean) : ProducerAbility {
