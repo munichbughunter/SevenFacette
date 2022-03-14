@@ -16,11 +16,6 @@ class ConsumerAbility (private val consumer: KConsumer) : Ability {
         return abilityName
     }
 
-    override fun <T> withConfiguration(name: String): ConsumerAbility {
-        abilityName = name
-        return ConsumerAbility(KFactory.createKConsumer(name, true))
-    }
-
     companion object {
         var abilityName : String = ""
        /* fun withConfiguration(name: String, autoStart: Boolean) : ConsumerAbility {
