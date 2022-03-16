@@ -32,12 +32,9 @@ class KFactory {
         fun createKConsumer(config: KafkaTopicConfig, autoStart: Boolean) : KConsumer {
             return when (autoStart) {
                 true -> KConsumer(config).apply {
-                    createConsumer()
                     consume()
                 }
-                false -> KConsumer(config).apply {
-                    createConsumer()
-                }
+                false -> KConsumer(config)
             }
         }
 
