@@ -89,10 +89,10 @@ kotlin {
                 api 'com.charleskorn.kaml:kaml:0.21.0'
                 implementation 'com.jayway.jsonpath:json-path:2.4.0'
                 implementation 'org.skyscreamer:jsonassert:1.5.0'
-                implementation 'org.apache.kafka:kafka-clients:2.0.0'
+                implementation 'org.apache.kafka:kafka-clients:3.1.0'
                 implementation 'org.apache.avro:avro:1.9.2'
                 implementation "io.ktor:ktor-client-apache:$ktor_version"
-                implementation 'org.awaitility:awaitility-kotlin:4.0.3'
+                implementation 'org.awaitility:awaitility-kotlin:4.1.1'
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:1.0-M1-1.4.0-rc")
                 implementation 'com.googlecode.json-simple:json-simple:1.1.1'
                 implementation 'com.fasterxml.jackson.core:jackson-core:2.12.1'
