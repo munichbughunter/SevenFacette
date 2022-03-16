@@ -24,40 +24,35 @@ class ConsumerAbility (private val consumer: KConsumer) : Ability {
         }*/
     }
 
-    fun filterByValue(pattern: String, pollingTime: Duration): List<KRecord> {
+    fun filterByValue(pattern: String, pollingTime: Int): List<KRecord> {
         return consumer.filterByValue(pattern, pollingTime)
     }
 
-    fun filterByKey(pattern: String, pollingTime: Duration): List<KRecord> {
+    fun filterByKey(pattern: String, pollingTime: Int): List<KRecord> {
         return consumer.filterByKey(pattern, pollingTime)
     }
 
-    fun waitForKRecordsCount(count: Int, pollingTime: Duration): ConcurrentLinkedQueue<KRecord> {
-        return consumer.waitForKRecordsCount(count, pollingTime)
+    fun waitForKRecordsCount(count: Int, pollingTime: Int): MutableList<KRecord>? {
+        return consumer.waitForRecords(count, pollingTime)
     }
 
-    fun waitForKRecords(waitingTime: Int): Boolean {
-        return consumer.waitForKRecords(waitingTime)
-    }
-
-    @ObsoleteCoroutinesApi
     fun consume() {
         consumer.consume()
     }
 
-    fun getKRecords(): ConcurrentLinkedQueue<KRecord> {
-        return consumer.getKRecords()
+    fun getKRecords(): MutableList<KRecord>? {
+        return consumer.getRecords()
     }
 
     fun getKRecordsCount() : Int {
-        return consumer.getKRecordsCount()
+        return consumer.recordsCount
     }
 
     fun getLastKRecord(): KRecord? {
-        return consumer.getLastKRecord()
+        return consumer.lastRecord
     }
 
     fun stopConsumer() {
-        consumer.stopConsumer()
+        consumer.stop()
     }
 }

@@ -5,7 +5,7 @@ import de.p7s1.qa.sevenfacette.kafka.KFactory
 import kotlin.test.Test
 
 class KafkaTest {
-
+/*
     fun getConsumerWithConfigFromYaml() {
         val consumer = KFactory.createKConsumer("testtopic1", true)
         consumer.consume()
@@ -46,5 +46,5 @@ class KafkaTest {
         val producer = KFactory.createKProducer(config,false)
         producer.send("Hello world")
         producer.flush()
-    }
+    }*/
 }
