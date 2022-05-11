@@ -119,6 +119,11 @@ public class KConsumer implements Runnable {
         }
     }
 
+    public void seekToEnd(){
+        Set<TopicPartition> partitions = consumer.assignment();
+        consumer.seekToEnd(partitions);
+    }
+
     public List<KRecord> waitForRecords(int timeout, int pollInterval) {
         printTimeOutWarning(timeout);
         with().pollInterval(Duration.ofMillis(pollInterval)).await().atMost(Duration.ofMillis(timeout))
