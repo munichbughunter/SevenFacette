@@ -18,10 +18,6 @@ class KConsumerTest {
     }
 
     @Test
-    fun seekToEndTest(){
-    }
-
-    @Test
     fun filterByValueTest() {
     }
 
