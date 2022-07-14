@@ -40,7 +40,7 @@ sevenFacette:
       driver: org.h2.Driver
       user: $UserName
       password: Test User Pass
-      autoCommit: false
+      autoCommit: true
       stopOnError: true
     pvv:
       url: jdbc:sqli://localhost:1529/abc:INFORMIXSERVER=info_server

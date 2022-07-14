@@ -8,6 +8,7 @@ data class DatabaseConfig(
         val driver: String,
         val user: String? = null,
         val password: String? = null,
+        @Deprecated(message = "This property will be deleted in version 2.0.0")
         var autoCommit: Boolean = true,
         var stopOnError: Boolean = false
 )
