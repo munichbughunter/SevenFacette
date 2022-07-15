@@ -60,7 +60,7 @@ actual class KConsumer actual constructor(topicConfig: KafkaTopicConfig) :  Runn
             kafkaConfig[ConsumerConfig.GROUP_ID_CONFIG] = topicConfig.groupID
         }
         if (topicConfig.readIsolationLevel.isolationLevel.isNotBlank()) {
-            kafkaConfig[ConsumerConfig.ISOLATION_LEVEL_CONFIG] = topicConfig.readIsolationLevel
+            kafkaConfig[ConsumerConfig.ISOLATION_LEVEL_CONFIG] = topicConfig.readIsolationLevel.toString().toLowerCase()
         }
         if (topicConfig.useSASLAuthentication) {
             kafkaConfig = SaslConfig.addSaslProperties(kafkaConfig, topicConfig)

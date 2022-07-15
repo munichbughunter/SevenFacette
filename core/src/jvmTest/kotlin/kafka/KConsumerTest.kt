@@ -1,6 +1,8 @@
 package kafka
 
-//import de.p7s1.qa.sevenfacette.kafka.KConsumer
+
+import de.p7s1.qa.sevenfacette.config.types.KafkaTopicConfig
+import de.p7s1.qa.sevenfacette.kafka.KConsumer
 import org.junit.Test
 
 /**
@@ -11,6 +13,9 @@ import org.junit.Test
  * @author Stella Bastug
  */
 class KConsumerTest {
+
+
+
 
     @Test
     fun createConsumerTest() {
