@@ -29,7 +29,6 @@ sonarqube {
         property "sonar.sources", "src/commonMain, src/jvmMain"
         property "sonar.tests", "src/commonTest/, src/jvmTest/kotlin/"
         property "sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/test/*"
-        property "sonar.exclusions", "*.java"
     }
 }
 
