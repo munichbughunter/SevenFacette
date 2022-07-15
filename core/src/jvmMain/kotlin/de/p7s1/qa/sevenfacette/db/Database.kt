@@ -123,11 +123,8 @@ class Database(
                 this.conn.commit()
             } else if (preparedDbStatement.sqlStatement.toLowerCase().startsWith(insert)){
                 val stmt = this.conn.prepareStatement(preparedDbStatement.sqlStatement, Statement.RETURN_GENERATED_KEYS)
-                val insertedRows = stmt.executeUpdate()
-                if (insertedRows == 0) {
-                    logger.error("Execution of SQL-Statement: ${preparedDbStatement.sqlStatement} failed!")
-                    throw SQLException("SQL insertion failed")
-                }
+                stmt.executeUpdate()
+
                 this.conn.commit()
                 json = extractInsertedValues(stmt)
             } else {
@@ -173,11 +170,11 @@ class Database(
      *
      * @return [JSONArray]
      */
-    fun waitUntilExistsOrUpdated(preparedDbStatement: SqlStatement, timeout: Duration = Duration.ofSeconds(5), pollInterval: Duration = Duration.ofSeconds(1)) : JSONArray? {
+    fun waitUntilExistsOrUpdated(preparedDbStatement: SqlStatement, conn: Connection? = null, autoClose: Boolean? = false, timeout: Duration = Duration.ofSeconds(5), pollInterval: Duration = Duration.ofSeconds(1)) : JSONArray? {
         with().pollInterval(pollInterval.seconds, SECONDS).await().atMost(timeout.seconds, SECONDS).until {
-            executeSqlStatement(preparedDbStatement)?.size!! > 0
+            executeSqlStatement(preparedDbStatement, conn, autoClose)?.size!! > 0
         }
-        return executeSqlStatement(preparedDbStatement)
+        return executeSqlStatement(preparedDbStatement, conn, autoClose)
     }
 
     /**
@@ -187,11 +184,11 @@ class Database(
      *
      * @return [JSONArray]
      */
-    fun waitUntilDeleted(preparedDbStatement: SqlStatement, timeout: Duration = Duration.ofSeconds(5), pollInterval: Duration = Duration.ofSeconds(1)) : JSONArray? {
+    fun waitUntilDeleted(preparedDbStatement: SqlStatement, conn: Connection? = null, autoClose: Boolean? = false, timeout: Duration = Duration.ofSeconds(5), pollInterval: Duration = Duration.ofSeconds(1)) : JSONArray? {
         with().pollInterval(pollInterval.seconds, SECONDS).await().atMost(timeout.seconds, SECONDS).until {
-            executeSqlStatement(preparedDbStatement)?.size!! == 0
+            executeSqlStatement(preparedDbStatement, conn, autoClose)?.size!! == 0
         }
-        return executeSqlStatement(preparedDbStatement)
+        return executeSqlStatement(preparedDbStatement, conn, autoClose)
     }
 
     /**
@@ -202,11 +199,11 @@ class Database(
      *
      * @return [T] Type
      */
-    fun <T> waitUntilExistsOrUpdated(preparedDbStatement: SqlStatement, clazz: Class<T>, timeout: Duration = Duration.ofSeconds(5), pollInterval: Duration = Duration.ofSeconds(1)) : List<T> {
+    fun <T> waitUntilExistsOrUpdated(preparedDbStatement: SqlStatement, clazz: Class<T>, conn: Connection? = null, autoClose: Boolean? = false, timeout: Duration = Duration.ofSeconds(5), pollInterval: Duration = Duration.ofSeconds(1)) : List<T> {
         with().pollInterval(pollInterval.seconds, SECONDS).await().atMost(timeout.seconds, SECONDS).until {
-            executeSqlStatement(preparedDbStatement, clazz).isNotEmpty()
+            executeSqlStatement(preparedDbStatement, clazz, conn, autoClose).isNotEmpty()
         }
-        return executeSqlStatement(preparedDbStatement, clazz)
+        return executeSqlStatement(preparedDbStatement, clazz, conn, autoClose)
     }
 
     /**
