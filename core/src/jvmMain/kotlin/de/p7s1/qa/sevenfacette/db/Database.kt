@@ -7,10 +7,7 @@ import de.p7s1.qa.sevenfacette.utils.Logger
 import org.awaitility.Awaitility.with
 import org.json.simple.JSONArray
 import org.json.simple.JSONObject
-import java.sql.Connection
-import java.sql.DriverManager
-import java.sql.ResultSet
-import java.sql.SQLException
+import java.sql.*
 import java.time.Duration
 import java.util.concurrent.TimeUnit.SECONDS
 import java.util.function.Consumer
@@ -28,8 +25,14 @@ class Database(
 ) {
     private var logger = Logger()
     private val select = "select"
+    private val update = "update"
+    private val insert = "insert"
     private val emptyValue = "NULL"
+    private lateinit var conn: Connection
 
+    fun getConn(): Connection {
+        return this.conn
+    }
     /**
      * Create connection for the specified jdbc driver, url and credentials
      *
@@ -37,7 +40,7 @@ class Database(
      *
      * @return [Connection]
      */
-    private fun openConnection(): Connection {
+    private fun initConnection(): Connection {
         return try {
             Class.forName(dbConfig.driver)
             DriverManager.getConnection(dbConfig.url, dbConfig.user, dbConfig.password)
@@ -49,71 +52,36 @@ class Database(
     }
 
     /**
-     * Executes database statements
+     * Open database connection
      *
-     * @parameter [dbStatements] statements to execute
-     *
-     * @return [result] as List<Map<String, Any>> or an empty list
+     * @return [Connection]
      */
-    @Deprecated(message = "This function will be deleted in version 2.0.0")
-    fun executeStatements(dbStatements: DbStatements) : List<Map<String, Any?>>? {
-        var result: List<Map<String, Any?>> = mutableListOf()
-        try {
-            openConnection().use { conn ->
-                dbStatements.list.forEach(Consumer {
-                    if (it.toString().toLowerCase().startsWith(select)) {
-                        conn.createStatement().use { sqlStatement ->
-                            val resultSet = sqlStatement.executeQuery(it)
-                            if (dbConfig.autoCommit && !conn.autoCommit) {
-                                conn.commit()
-                            }
-                            result = convertResultSetToList(resultSet)
-                        }
-                    } else {
-                        conn.createStatement().use { sqlStatement ->
-                            sqlStatement.execute(it)
-                            if (dbConfig.autoCommit && !conn.autoCommit) {
-                                conn.commit()
-                            }
-                        }
-                    }
-                })
-                conn.close()
-            }
-        } catch (ex: SQLException) {
-            logger.error("Error on opening database connection")
-            logger.error(ex)
-            throw RuntimeException(ex)
-        }
-        return result
+    fun openConnection(): Connection {
+        conn = initConnection()
+        conn.autoCommit = true
+        return conn
     }
 
     /**
-     * Executes a prepared statement until time duration is reached and returns a JSONArray.
+     * Close database connection
      *
-     * @param [preparedDbStatement] statement to execute
-     *
-     * @return [JSONArray]
+     * @return [Connection]
      */
-    fun waitUntilExistsOrUpdated(preparedDbStatement: SqlStatement, timeout: Duration = Duration.ofSeconds(5), pollInterval: Duration = Duration.ofSeconds(1)) : JSONArray? {
-        with().pollInterval(pollInterval.seconds, SECONDS).await().atMost(timeout.seconds, SECONDS).until {
-            executeSqlStatement(preparedDbStatement)?.size!! > 0
-        }
-        return executeSqlStatement(preparedDbStatement)
+    fun closeConnection() {
+        conn.close()
     }
 
     /**
-     * Executes a prepared statement until time duration is reached and returns a JSONArray.
+     * Validates the sql statement
      *
-     * @param [preparedDbStatement] statement to execute
-     *
-     * @return [JSONArray]
+     * @parameter [preparedDbStatement]
+     * @return [Boolean]
      */
-    fun waitUntilDeleted(preparedDbStatement: SqlStatement, timeout: Duration = Duration.ofSeconds(5), pollInterval: Duration = Duration.ofSeconds(1)) : JSONArray? {
-        with().pollInterval(pollInterval.seconds, SECONDS).await().atMost(timeout.seconds, SECONDS).until {
-            executeSqlStatement(preparedDbStatement)?.size!! == 0
+    private fun validateStatement(preparedDbStatement: SqlStatement): Boolean {
+        if (!preparedDbStatement.validatePreparedStatement()) {
+            throw RuntimeException("This is not a prepared statement: ${preparedDbStatement.sqlStatement}")
         }
-        return executeSqlStatement(preparedDbStatement)
+        return true
     }
 
     /**
@@ -123,44 +91,104 @@ class Database(
      *
      * @return [JSONArray]
      */
-    fun executeSqlStatement(preparedDbStatement: SqlStatement) : JSONArray? {
-        return execute(preparedDbStatement)
+    fun executeSqlStatement(preparedDbStatement: SqlStatement, conn: Connection? = null, autoClose: Boolean? = false) : JSONArray? {
+        validateStatement(preparedDbStatement)
+        if (conn == null || conn.isClosed) {
+            openConnection()
+        }
+        return execute(preparedDbStatement, this.conn, autoClose!!)
     }
 
     /**
-     * Executes the sql statement and returns a JSONArray
+     * Executes the sql s tatement and returns a JSONArray
      *
      * @param [preparedDbStatement] statement to execute
      *
      * @return [JSONArray]
      */
-    private fun execute(preparedDbStatement: SqlStatement) : JSONArray? {
-        var json :JSONArray? = JSONArray()
-        if (!preparedDbStatement.validatePreparedStatement()) {
-            throw RuntimeException("This is not a prepared statement: ${preparedDbStatement.sqlStatement}")
-        }
+    private fun execute(preparedDbStatement: SqlStatement, conn: Connection, autoClose: Boolean): JSONArray? {
+        var json: JSONArray? = JSONArray()
         try {
-            openConnection().use { conn ->
-                if (preparedDbStatement.sqlStatement.toLowerCase().startsWith(select)) {
-                    val resultSet = conn.prepareStatement(preparedDbStatement.sqlStatement).executeQuery()
-                    json = convertResultSetToJson(resultSet)
-                    if (dbConfig.autoCommit && !conn.autoCommit) {
-                        conn.commit()
-                    }
-                } else {
-                    conn.prepareStatement(preparedDbStatement.sqlStatement).execute()
-                    if (dbConfig.autoCommit && !conn.autoCommit) {
-                        conn.commit()
-                    }
+            if (preparedDbStatement.sqlStatement.toLowerCase().startsWith(select)) {
+                val resultSet = this.conn.prepareStatement(preparedDbStatement.sqlStatement).executeQuery()
+                json = convertResultSetToJson(resultSet)
+                this.conn.commit()
+            } else if (preparedDbStatement.sqlStatement.toLowerCase().startsWith(update)) {
+                val stmt = this.conn.prepareStatement(preparedDbStatement.sqlStatement, Statement.RETURN_GENERATED_KEYS)
+                val updatedRows = stmt.executeUpdate()
+                if (updatedRows == 0) {
+                    logger.error("NO ROWS UPDATED - PLEASE CHECK YOUR STATEMENT: ${preparedDbStatement.sqlStatement}")
+                    throw SQLException("SQL Update failed!")
                 }
-                conn.close()
+                this.conn.commit()
+            } else if (preparedDbStatement.sqlStatement.toLowerCase().startsWith(insert)){
+                val stmt = this.conn.prepareStatement(preparedDbStatement.sqlStatement, Statement.RETURN_GENERATED_KEYS)
+                stmt.executeUpdate()
+
+                this.conn.commit()
+                json = extractInsertedValues(stmt)
+            } else {
+                this.conn.prepareStatement(preparedDbStatement.sqlStatement).execute()
+                this.conn.commit()
             }
-        } catch (ex: SQLException) {
-            logger.error("Error on opening database connection")
-            logger.error(ex)
-            throw RuntimeException(ex)
+
+            if (autoClose) {
+                closeConnection()
+            }
+        } catch (sqlEx: SQLException) {
+            logger.error("Error on executing database statement")
+            logger.error(sqlEx)
+            throw RuntimeException(sqlEx)
         }
         return json
+    }
+
+    private fun extractInsertedValues(stmt: PreparedStatement): JSONArray? {
+        var json: JSONArray? = JSONArray()
+        var tableName = ""
+        var columnLabel = ""
+        stmt.generatedKeys.use { generatedKey ->
+            if (generatedKey.next()) {
+                val numColumns = generatedKey.metaData.columnCount
+                for (i in 1..numColumns) {
+                    columnLabel = generatedKey.metaData.getColumnLabel(i)
+                    tableName = generatedKey.metaData.getTableName(i)
+                    logger.debug("Table name: $tableName")
+                    logger.debug("Table $tableName is autoincrement: ${generatedKey.metaData.isAutoIncrement(numColumns)}")
+                    logger.debug("Column label: $columnLabel")
+                }
+                json = execute(SqlStatement("select * from $tableName where $columnLabel = ${generatedKey.getLong(columnLabel)}"), this.conn, false)
+            }
+        }
+        return json
+    }
+
+    /**
+     * Executes a prepared statement until time duration is reached and returns a JSONArray.
+     *
+     * @param [preparedDbStatement] statement to execute
+     *
+     * @return [JSONArray]
+     */
+    fun waitUntilExistsOrUpdated(preparedDbStatement: SqlStatement, conn: Connection? = null, autoClose: Boolean? = false, timeout: Duration = Duration.ofSeconds(5), pollInterval: Duration = Duration.ofSeconds(1)) : JSONArray? {
+        with().pollInterval(pollInterval.seconds, SECONDS).await().atMost(timeout.seconds, SECONDS).until {
+            executeSqlStatement(preparedDbStatement, conn, autoClose)?.size!! > 0
+        }
+        return executeSqlStatement(preparedDbStatement, conn, autoClose)
+    }
+
+    /**
+     * Executes a prepared statement until time duration is reached and returns a JSONArray.
+     *
+     * @param [preparedDbStatement] statement to execute
+     *
+     * @return [JSONArray]
+     */
+    fun waitUntilDeleted(preparedDbStatement: SqlStatement, conn: Connection? = null, autoClose: Boolean? = false, timeout: Duration = Duration.ofSeconds(5), pollInterval: Duration = Duration.ofSeconds(1)) : JSONArray? {
+        with().pollInterval(pollInterval.seconds, SECONDS).await().atMost(timeout.seconds, SECONDS).until {
+            executeSqlStatement(preparedDbStatement, conn, autoClose)?.size!! == 0
+        }
+        return executeSqlStatement(preparedDbStatement, conn, autoClose)
     }
 
     /**
@@ -171,11 +199,11 @@ class Database(
      *
      * @return [T] Type
      */
-    fun <T> waitUntilExistsOrUpdated(preparedDbStatement: SqlStatement, clazz: Class<T>, timeout: Duration = Duration.ofSeconds(5), pollInterval: Duration = Duration.ofSeconds(1)) : List<T> {
+    fun <T> waitUntilExistsOrUpdated(preparedDbStatement: SqlStatement, clazz: Class<T>, conn: Connection? = null, autoClose: Boolean? = false, timeout: Duration = Duration.ofSeconds(5), pollInterval: Duration = Duration.ofSeconds(1)) : List<T> {
         with().pollInterval(pollInterval.seconds, SECONDS).await().atMost(timeout.seconds, SECONDS).until {
-            executeSqlStatement(preparedDbStatement, clazz).isNotEmpty()
+            executeSqlStatement(preparedDbStatement, clazz, conn, autoClose).isNotEmpty()
         }
-        return executeSqlStatement(preparedDbStatement, clazz)
+        return executeSqlStatement(preparedDbStatement, clazz, conn, autoClose)
     }
 
     /**
@@ -186,8 +214,11 @@ class Database(
      *
      * @return [T] Type
      */
-    fun <T> executeSqlStatement(preparedDbStatement: SqlStatement, clazz: Class<T>) : List<T> {
-        val result = execute(preparedDbStatement)
+    fun <T> executeSqlStatement(preparedDbStatement: SqlStatement, clazz: Class<T>, conn: Connection? = null, autoClose: Boolean? = false) : List<T> {
+        if (conn == null) {
+            openConnection()
+        }
+        val result = execute(preparedDbStatement, this.conn, autoClose!!)
         val objectMapper = ObjectMapper()
         objectMapper.configure(FAIL_ON_EMPTY_BEANS, false)
 
@@ -217,6 +248,7 @@ class Database(
                 for (i in 1..numColumns)
                 {
                     val columnName = metadata.getColumnName(i)
+                    // val boolAutoIncrement = metadata.isAutoIncrement(i)
                     jsonObj[columnName] = resultSet.getObject(columnName)
                 }
                 json.add(jsonObj)
@@ -253,5 +285,45 @@ class Database(
             logger.error(ex)
             throw RuntimeException(ex)
         }
+    }
+
+    /**
+     * Executes database statements
+     *
+     * @parameter [dbStatements] statements to execute
+     *
+     * @return [result] as List<Map<String, Any>> or an empty list
+     */
+    @Deprecated(message = "This function will be deleted in version 2.0.0")
+    fun executeStatements(dbStatements: DbStatements) : List<Map<String, Any?>>? {
+        var result: List<Map<String, Any?>> = mutableListOf()
+        try {
+            initConnection().use { conn ->
+                dbStatements.list.forEach(Consumer {
+                    if (it.toString().toLowerCase().startsWith(select)) {
+                        conn.createStatement().use { sqlStatement ->
+                            val resultSet = sqlStatement.executeQuery(it)
+                            if (dbConfig.autoCommit && !conn.autoCommit) {
+                                conn.commit()
+                            }
+                            result = convertResultSetToList(resultSet)
+                        }
+                    } else {
+                        conn.createStatement().use { sqlStatement ->
+                            sqlStatement.execute(it)
+                            if (dbConfig.autoCommit && !conn.autoCommit) {
+                                conn.commit()
+                            }
+                        }
+                    }
+                })
+                conn.close()
+            }
+        } catch (ex: SQLException) {
+            logger.error("Error on opening database connection")
+            logger.error(ex)
+            throw RuntimeException(ex)
+        }
+        return result
     }
 }

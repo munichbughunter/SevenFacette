@@ -32,7 +32,7 @@ class ConsumerAbility (private val consumer: KConsumer) : Ability {
         return consumer.filterByKey(pattern, pollingTime)
     }
 
-    fun waitForKRecordsCount(count: Int, pollingTime: Int): MutableList<KRecord>? {
+    fun waitForKRecordsCount(count: Int, pollingTime: Int): List<KRecord> {
         return consumer.waitForRecords(count, pollingTime)
     }
 
@@ -40,16 +40,16 @@ class ConsumerAbility (private val consumer: KConsumer) : Ability {
         consumer.consume()
     }
 
-    fun getKRecords(): MutableList<KRecord>? {
+    fun getKRecords(): List<KRecord> {
         return consumer.getRecords()
     }
 
     fun getKRecordsCount() : Int {
-        return consumer.recordsCount
+        return consumer.getRecordsCount()
     }
 
-    fun getLastKRecord(): KRecord? {
-        return consumer.lastRecord
+    fun getLastKRecord(): KRecord {
+        return consumer.getLastRecord()
     }
 
     fun stopConsumer() {
