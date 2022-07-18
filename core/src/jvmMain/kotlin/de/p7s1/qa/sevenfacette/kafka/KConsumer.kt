@@ -2,6 +2,7 @@ package de.p7s1.qa.sevenfacette.kafka
 
 import de.p7s1.qa.sevenfacette.config.types.KafkaTopicConfig
 import de.p7s1.qa.sevenfacette.kafka.config.SaslConfig
+import de.p7s1.qa.sevenfacette.utils.Logger
 import org.apache.kafka.clients.consumer.*
 import org.apache.kafka.clients.consumer.KafkaConsumer
 import org.apache.kafka.common.*
@@ -24,6 +25,8 @@ import kotlin.collections.HashMap
 actual class KConsumer actual constructor(topicConfig: KafkaTopicConfig) :  Runnable {
     // the KafkaConsumer. (from org.apache.kafka)
     private val consumer: KafkaConsumer<String, String>
+
+    private var logger = Logger()
 
     // map of offsets.
     private val currentOffsets: MutableMap<TopicPartition, OffsetAndMetadata> = HashMap()
@@ -69,7 +72,6 @@ actual class KConsumer actual constructor(topicConfig: KafkaTopicConfig) :  Runn
         consumer.subscribe(listOf(topicConfig.topicName), HandleRebalance())
         maxConsumingTime = topicConfig.maxConsumingTime
         topicName = topicConfig.topicName
-        //this.config = config;
     }
 
     /**
@@ -90,9 +92,9 @@ actual class KConsumer actual constructor(topicConfig: KafkaTopicConfig) :  Runn
             // looping until stop() is called on main thread, the shutdown hook will clean up on exit
             while (keepGoing) {
                 val records = consumer.poll(Duration.ofMillis(maxConsumingTime))
-                println("$currentTimeStamp  --  waiting for data...")
+                logger.debug("$currentTimeStamp -- waiting for data...")
                 for (myRecord in records) {
-                    println("offset = " + myRecord.offset() + ", value = " + myRecord.value())
+                    logger.debug("Offset: " + myRecord.offset() + ", value: " + myRecord.value())
                     // add consumed record to record list
                     kafkaRecordQueue.add(
                         KRecord(
@@ -106,12 +108,13 @@ actual class KConsumer actual constructor(topicConfig: KafkaTopicConfig) :  Runn
                         OffsetAndMetadata(myRecord.offset() + 1, "no metadata")
                 }
                 // commit offsets
-                for (tp in consumer.assignment()) println("Committing offset at position:$currentOffsets")
+                for (tp in consumer.assignment()) logger.debug("Committing offset at position: $currentOffsets")
                 consumer.commitAsync(
                     currentOffsets
                 ) { offsets: Map<TopicPartition?, OffsetAndMetadata?>, exception: Exception? ->
                     if (exception != null) {
-                        System.err.println("Failed to commit offsets: " + offsets + "; " + exception.message)
+                        logger.error("Failed to commit offsets: " + offsets + "; " + exception.message)
+                        // System.err.println("Failed to commit offsets: " + offsets + "; " + exception.message)
                     }
                 }
             }
@@ -122,7 +125,7 @@ actual class KConsumer actual constructor(topicConfig: KafkaTopicConfig) :  Runn
                 consumer.commitSync(currentOffsets)
             } finally {
                 consumer.close()
-                println("Closed consumer and we are done")
+                logger.info("Closed consumer - we are done")
             }
         }
     }
@@ -131,12 +134,12 @@ actual class KConsumer actual constructor(topicConfig: KafkaTopicConfig) :  Runn
      * Stop the KafkaConsumer from consuming.
      */
     fun stop() {
-        println("stop() was called. closing consumer...")
+        logger.info("Stop() was called. Closing consumer")
         keepGoing = false
         try {
             consumerThread.join()
         } catch (ex: InterruptedException) {
-            println("Joining Thread failed!")
+            logger.error("Joining thread failed!")
             Thread.currentThread().interrupt()
         }
     }
