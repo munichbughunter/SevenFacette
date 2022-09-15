@@ -2,6 +2,7 @@
 
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/munichbughunter/Sevenfacette/7Facette?label=7Facette%20build)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/munichbughunter/Sevenfacette?color=orange&label=latest%20version)
+[![](https://jitpack.io/v/munichbughunter/SevenFacette.svg)](https://jitpack.io/#munichbughunter/SevenFacette)
 ![GitHub](https://img.shields.io/github/license/munichbughunter/SevenFacette)
 |[![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-white.svg)](https://sonarcloud.io/dashboard?id=7Facette-Core)<br>**7Facette-Core**  [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=7Facette-Core&metric=coverage)](https://sonarcloud.io/dashboard?id=7Facette-Core)|[![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-black.svg)](https://sonarcloud.io/dashboard?id=7Facette-Web)<br>**7Facette-Web**  [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=7Facette-Web&metric=coverage)](https://sonarcloud.io/dashboard?id=7Facette-Web)|
 |---|---|
@@ -31,19 +32,9 @@ around living documentation.
 
 ### Repository
 
-You can download 7Facette packages from Jetbrains Space
+You can download 7Facette packages from Jitpack
 
-#### Jetbrains Space
-
-```kotlin
-maven {
-        url "https://maven.pkg.jetbrains.space/sevenfacette/p/sevenfacette/sevenfacette"
-        credentials {
-            username = "85dcdf4c-d6cd-486f-85d3-654904e1cf22"
-            password = "365171aab3c77e6aa2016b73c29ba738280dd96e94dddfc15e45ef65ffbcec5b"
-        }
-}
-```
+[![](https://jitpack.io/v/munichbughunter/SevenFacette.svg)](https://jitpack.io/#munichbughunter/SevenFacette)
 
 ### Packages
 
