@@ -35,11 +35,11 @@ You can download 7Facette packages from Jitpack
 
 ```
 allprojects {
-		repositories {
-			...
-			maven { url 'https://jitpack.io' }
-		}
-	}
+    repositories {
+        ...
+	maven { url 'https://jitpack.io' }
+    }
+}
   
 dependencies {
     implementation 'com.github.munichbughunter:SevenFacette:Tag'
