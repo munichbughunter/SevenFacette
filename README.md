@@ -2,7 +2,6 @@
 
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/munichbughunter/Sevenfacette/7Facette?label=7Facette%20build)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/munichbughunter/Sevenfacette?color=orange&label=latest%20version)
-[![](https://jitpack.io/v/munichbughunter/SevenFacette.svg)](https://jitpack.io/#munichbughunter/SevenFacette)
 ![GitHub](https://img.shields.io/github/license/munichbughunter/SevenFacette)
 |[![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-white.svg)](https://sonarcloud.io/dashboard?id=7Facette-Core)<br>**7Facette-Core**  [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=7Facette-Core&metric=coverage)](https://sonarcloud.io/dashboard?id=7Facette-Core)|[![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-black.svg)](https://sonarcloud.io/dashboard?id=7Facette-Web)<br>**7Facette-Web**  [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=7Facette-Web&metric=coverage)](https://sonarcloud.io/dashboard?id=7Facette-Web)|
 |---|---|
@@ -34,7 +33,18 @@ around living documentation.
 
 You can download 7Facette packages from Jitpack
 
-[![](https://jitpack.io/v/munichbughunter/SevenFacette.svg)](https://jitpack.io/#munichbughunter/SevenFacette)
+```
+allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+  
+dependencies {
+    implementation 'com.github.munichbughunter:SevenFacette:Tag'
+}
+```
 
 ### Packages
 
@@ -43,8 +53,8 @@ You can download 7Facette packages from Jitpack
 To use the JVM implementation of the 7Facette core and web module.
 
 ```kotlin
-implementation 'de.p7s1.qa.sevenfacette:core-jvm:1.4.0'
-implementation 'de.p7s1.qa.sevenfacette:web-jvm:1.4.0'
+implementation 'de.p7s1.qa.sevenfacette:core-jvm:1.10.0'
+implementation 'de.p7s1.qa.sevenfacette:web-jvm:1.10.0'
 ```
 
 #### JS
