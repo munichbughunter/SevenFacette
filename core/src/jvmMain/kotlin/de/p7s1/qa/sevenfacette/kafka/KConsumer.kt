@@ -147,9 +147,13 @@ actual class KConsumer actual constructor(topicConfig: KafkaTopicConfig) :  Runn
     /**
      * Seek to the last offset for each of the given partitions.
      */
-    fun seekToEnd() {
-        val partitions = consumer.assignment()
-        consumer.seekToEnd(partitions)
+    fun seekToEnd(partitions: Collection<TopicPartition>? = null) {
+        if (partitions == null) {
+            val partitionSet = consumer.assignment()
+            consumer.seekToEnd(partitionSet)
+        } else {
+            consumer.seekToEnd(partitions)
+        }
     }
 
     /**

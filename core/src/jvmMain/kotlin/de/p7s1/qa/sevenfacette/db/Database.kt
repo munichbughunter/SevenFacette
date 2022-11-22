@@ -151,13 +151,14 @@ class Database(
             if (generatedKey.next()) {
                 val numColumns = generatedKey.metaData.columnCount
                 for (i in 1..numColumns) {
+
                     columnLabel = generatedKey.metaData.getColumnLabel(i)
                     tableName = generatedKey.metaData.getTableName(i)
                     logger.debug("Table name: $tableName")
                     logger.debug("Table $tableName is autoincrement: ${generatedKey.metaData.isAutoIncrement(numColumns)}")
                     logger.debug("Column label: $columnLabel")
                 }
-                json = execute(SqlStatement("select * from $tableName where $columnLabel = ${generatedKey.getLong(columnLabel)}"), this.conn, false)
+                json = execute(SqlStatement("select * from $tableName where $columnLabel = ${generatedKey.getObject(columnLabel)}"), this.conn, false)
             }
         }
         return json
