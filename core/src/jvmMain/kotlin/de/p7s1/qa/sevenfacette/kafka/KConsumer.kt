@@ -1,10 +1,10 @@
 package de.p7s1.qa.sevenfacette.kafka
 
+import de.p7s1.qa.sevenfacette.config.types.FacetteConfig.log
 import de.p7s1.qa.sevenfacette.config.types.KafkaTopicConfig
 import de.p7s1.qa.sevenfacette.kafka.config.SaslConfig
 import de.p7s1.qa.sevenfacette.utils.Logger
 import org.apache.kafka.clients.consumer.*
-import org.apache.kafka.clients.consumer.KafkaConsumer
 import org.apache.kafka.common.*
 import org.apache.kafka.common.errors.WakeupException
 import org.apache.kafka.common.serialization.StringDeserializer
@@ -15,7 +15,7 @@ import java.util.*
 import java.util.concurrent.ConcurrentLinkedQueue
 import java.util.regex.Pattern
 import java.util.stream.Collectors
-import kotlin.collections.HashMap
+
 
 /**
  * TODO: Add Description
@@ -147,6 +147,7 @@ actual class KConsumer actual constructor(topicConfig: KafkaTopicConfig) :  Runn
     /**
      * Seek to the last offset for each of the given partitions.
      */
+    /*
     fun seekToEnd(partitions: Collection<TopicPartition>? = null) {
         if (partitions == null) {
             val partitionSet = consumer.assignment()
@@ -156,7 +157,32 @@ actual class KConsumer actual constructor(topicConfig: KafkaTopicConfig) :  Runn
         }
     }
 
-    /**
+     */
+
+    fun seekToEnd(topicName: String, timeout: Int, pollInterval: Int) {
+        try {
+            consumer.subscribe(listOf(topicName))
+            consumer.poll(Duration.ofMillis(timeout.toLong()))
+            waitUntilOffsetPresent(timeout, pollInterval)
+            consumer.seekToEnd(consumer.assignment())
+            consumer.commitSync()
+        } catch (ex: NoSuchFieldException) {
+            logger.error("Seeking to end failed for consumer!")
+        } catch (ex: IllegalAccessException) {
+            logger.error("Seeking to end failed for consumer!")
+        }
+    }
+
+    private fun waitUntilOffsetPresent(timeout: Int, pollInterval: Int) {
+        with()
+            .pollInterval(Duration.ofMillis(pollInterval.toLong()))
+            .await().atMost(Duration.ofMillis(timeout.toLong()))
+            .until {
+                consumer.committed(consumer.assignment()).isNotEmpty()
+            }
+    }
+
+    /*
      * Wait for the KafkaConsumer to consume records and return them as a List.
      * If no records were consumed, this function will cause an exception.
      *

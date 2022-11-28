@@ -215,6 +215,23 @@ class DatabaseTest {
     }
 
     @Test
+    fun executeStatementAutoCommitFalse() {
+        database = DFactory.createDatabase("db3")
+        database.executeSqlStatement(createDbStatement)
+        database.executeSqlStatement(insertApple)
+        database.executeSqlStatement(updateApple)
+        val selectStatement = SqlStatement("select * from fruits")
+        val rs = database.waitUntilExistsOrUpdated(selectStatement, Fruit::class.java)
+        rs.forEach { fruit ->
+            assertNotNull(fruit.getId())
+            assertTrue(fruit.getId()!! > 0)
+            assertNotNull(fruit.getName())
+            assertEquals("cherry", fruit.getName())
+        }
+        database.executeSqlStatement(dropTableFruits)
+    }
+
+    @Test
     fun connectionFailDriver() {
         val dbConfig = DatabaseConfig("db_url", "db_driver", null, null, true, false)
         database = DFactory.createDatabase(dbConfig)

@@ -58,7 +58,7 @@ class Database(
      */
     fun openConnection(): Connection {
         conn = initConnection()
-        conn.autoCommit = true
+        conn.autoCommit = dbConfig.autoCommit
         return conn
     }
 
