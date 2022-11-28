@@ -58,7 +58,7 @@ class Database(
      */
     fun openConnection(): Connection {
         conn = initConnection()
-        conn.autoCommit = true
+        conn.autoCommit = dbConfig.autoCommit
         return conn
     }
 
@@ -82,6 +82,16 @@ class Database(
             throw RuntimeException("This is not a prepared statement: ${preparedDbStatement.sqlStatement}")
         }
         return true
+    }
+
+    /**
+     * Safe commit
+     *
+     */
+    private fun safeCommit() {
+        if (!dbConfig.autoCommit && !conn.autoCommit) {
+            this.conn.commit()
+        }
     }
 
     /**
@@ -112,7 +122,7 @@ class Database(
             if (preparedDbStatement.sqlStatement.toLowerCase().startsWith(select)) {
                 val resultSet = this.conn.prepareStatement(preparedDbStatement.sqlStatement).executeQuery()
                 json = convertResultSetToJson(resultSet)
-                this.conn.commit()
+                this.safeCommit()
             } else if (preparedDbStatement.sqlStatement.toLowerCase().startsWith(update)) {
                 val stmt = this.conn.prepareStatement(preparedDbStatement.sqlStatement, Statement.RETURN_GENERATED_KEYS)
                 val updatedRows = stmt.executeUpdate()
@@ -120,16 +130,16 @@ class Database(
                     logger.error("NO ROWS UPDATED - PLEASE CHECK YOUR STATEMENT: ${preparedDbStatement.sqlStatement}")
                     throw SQLException("SQL Update failed!")
                 }
-                this.conn.commit()
+                this.safeCommit()
             } else if (preparedDbStatement.sqlStatement.toLowerCase().startsWith(insert)){
                 val stmt = this.conn.prepareStatement(preparedDbStatement.sqlStatement, Statement.RETURN_GENERATED_KEYS)
                 stmt.executeUpdate()
 
-                this.conn.commit()
+                this.safeCommit()
                 json = extractInsertedValues(stmt)
             } else {
                 this.conn.prepareStatement(preparedDbStatement.sqlStatement).execute()
-                this.conn.commit()
+                this.safeCommit()
             }
 
             if (autoClose) {
@@ -151,13 +161,14 @@ class Database(
             if (generatedKey.next()) {
                 val numColumns = generatedKey.metaData.columnCount
                 for (i in 1..numColumns) {
+
                     columnLabel = generatedKey.metaData.getColumnLabel(i)
                     tableName = generatedKey.metaData.getTableName(i)
                     logger.debug("Table name: $tableName")
                     logger.debug("Table $tableName is autoincrement: ${generatedKey.metaData.isAutoIncrement(numColumns)}")
                     logger.debug("Column label: $columnLabel")
                 }
-                json = execute(SqlStatement("select * from $tableName where $columnLabel = ${generatedKey.getLong(columnLabel)}"), this.conn, false)
+                json = execute(SqlStatement("select * from $tableName where $columnLabel = ${generatedKey.getObject(columnLabel)}"), this.conn, false)
             }
         }
         return json
@@ -303,17 +314,13 @@ class Database(
                     if (it.toString().toLowerCase().startsWith(select)) {
                         conn.createStatement().use { sqlStatement ->
                             val resultSet = sqlStatement.executeQuery(it)
-                            if (dbConfig.autoCommit && !conn.autoCommit) {
-                                conn.commit()
-                            }
+                            this.safeCommit()
                             result = convertResultSetToList(resultSet)
                         }
                     } else {
                         conn.createStatement().use { sqlStatement ->
                             sqlStatement.execute(it)
-                            if (dbConfig.autoCommit && !conn.autoCommit) {
-                                conn.commit()
-                            }
+                            this.safeCommit()
                         }
                     }
                 })
